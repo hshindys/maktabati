@@ -24,8 +24,11 @@ from __future__ import annotations
 import json
 import sys
 
-from gen_design import ACCENTS, AR, LIGHT, Script, UI
+from gen_design import ACCENTS, AR, LIGHT, SEMANTIC, Script, UI
 from icons import paths
+
+# name → (foreground, soft background), e.g. SEM["danger"].
+SEM = {name: (fg, soft) for name, fg, soft in SEMANTIC}
 
 # ── Shell constants (src/lib/components/*.svelte, tauri.conf.json) ───────────
 WIN_W, WIN_H = 1320, 880
@@ -121,8 +124,9 @@ def fill_text(parent, text: str, **kw) -> int:
 
 
 def icon(parent, name: str, *, size=18, color=LIGHT["text-2"],
-         stroke=ICON_STROKE) -> int:
-    """A Lucide glyph as a single stroked vector layer."""
+         stroke=ICON_STROKE, fill=None) -> int:
+    """A Lucide glyph as a single stroked vector layer. `fill` paints it solid
+    (the rating stars) instead of leaving the outline hollow."""
     return s.add("node.create", {
         "type": "vector",
         "name": name,
@@ -131,7 +135,7 @@ def icon(parent, name: str, *, size=18, color=LIGHT["text-2"],
         "props": {
             "width": size,
             "height": size,
-            "fills": [],
+            "fills": [fill] if fill else [],
             "stroke": color,
             "strokeWeight": stroke,
             "strokeCap": "round",
@@ -610,6 +614,331 @@ def book_page(main: int) -> None:
           align="right")
 
 
+# ── Add-book wizard (M3) ─────────────────────────────────────────────────────
+# A modal the shell renders over whatever route is open. The other three judged
+# screens show the shell unobstructed, so these frames dim a flat stand-in
+# instead of duplicating a page behind the card — what is judged here is the
+# modal itself: the step rail, the field styles, the cover drop-zone, the
+# review. Every string and value below is shipped copy (i18n keys, seeded
+# taxonomy) or the flow's own example from docs/04 §4.5.
+
+# 760 = tall enough for the longest step (2 · البيانات: six 67px rows plus the
+# chrome, with ~20px of slack) without leaving the shorter steps hollow.
+WIZ_W, WIZ_H = 860, 760
+WIZ_X = (WIN_W - WIZ_W) // 2
+WIZ_Y = (WIN_H - WIZ_H) // 2
+
+# Logical order — the wizard walks them 1→4. Horizontal rows inside are written
+# visual left→right, the same rule as `kpis` and the library toolbar: the code
+# reads as the mirrored screen.
+WIZARD_STEPS = [("1", "المصدر"), ("2", "البيانات"),
+                ("3", "التصنيفات"), ("4", "المراجعة")]
+
+
+def wiz_root(frame_name: str, x: int) -> int:
+    root = plain(None, name=frame_name, x=x, width=WIN_W, height=WIN_H,
+                 fill=LIGHT["surface-0"], sizing_h="fixed", sizing_v="fixed",
+                 clip=True)
+    # Dimmed stand-in for the route behind the modal (see above).
+    s.rect(root, width=WIN_W, height=WIN_H, fill="#2a2621", opacity=0.5)
+    return root
+
+
+def wiz_label(parent, label: str, *, required: bool = False) -> int:
+    g = h(parent, gap=3, sizing_h="hug", sizing_v="hug", cross_align="center")
+    # Visual: the label hugs the right edge, the required mark trails it left.
+    if required:
+        t("*", g, size=13.5, style="SemiBold", color=SEM["danger"][0], font=AR)
+    t(label, g, size=13.5, color=LIGHT["text-2"], font=AR)
+    return g
+
+
+def wiz_input(parent, *, value=None, placeholder=None, ltr=False,
+              invalid=False) -> int:
+    box = h(parent, height=36, padding=[0, 12, 0, 12], fill=LIGHT["surface-1"],
+            radius=10, stroke=SEM["danger"][0] if invalid else LIGHT["border-2"],
+            sizing_h="fill", sizing_v="fixed", cross_align="center", gap=8)
+    if value is not None:
+        if ltr:
+            # `bidi-ltr` in the shell: identifiers start at the field's visual
+            # left edge and never mirror (ISBN stays Western digits, like the
+            # Gallery's input story).
+            t(value, box, size=15, font=UI, color=LIGHT["text-1"])
+        else:
+            fill_text(box, value, size=15, font=AR, color=LIGHT["text-1"])
+    elif placeholder:
+        fill_text(box, placeholder, size=15, font=AR, color=LIGHT["text-3"])
+    return box
+
+
+def wiz_field(parent, label, *, required=False, value=None, placeholder=None,
+              ltr=False, invalid=False, error=None, hint=None,
+              width=None) -> int:
+    f = v(parent, width=width, gap=5,
+          sizing_h="fixed" if width else "fill", sizing_v="hug",
+          cross_align="max")
+    wiz_label(f, label, required=required)
+    wiz_input(f, value=value, placeholder=placeholder, ltr=ltr, invalid=invalid)
+    if error:
+        t(error, f, size=12.5, font=AR, color=SEM["danger"][0])
+    if hint:
+        t(hint, f, size=12.5, font=AR, color=LIGHT["text-3"])
+    return f
+
+
+def wiz_select(parent, value: str) -> int:
+    box = h(parent, height=36, padding=[0, 12, 0, 12], fill=LIGHT["surface-1"],
+            radius=10, stroke=LIGHT["border-2"], sizing_h="fill",
+            sizing_v="fixed", cross_align="center", main_align="spaceBetween")
+    # Visual: the chevron sits at the field's end (left in RTL), the value at
+    # its start — `spaceBetween` is what puts the label first in reading order.
+    icon(box, "chevron-down", size=16, color=LIGHT["text-3"])
+    t(value, box, size=15, font=AR, color=LIGHT["text-1"])
+    return box
+
+
+def wiz_select_field(parent, label, value, *, required=False) -> int:
+    f = v(parent, gap=5, sizing_h="fill", sizing_v="hug", cross_align="max")
+    wiz_label(f, label, required=required)
+    wiz_select(f, value)
+    return f
+
+
+def wiz_combobox(parent, label, *, required=False, value=None, placeholder=None,
+                 add=None) -> int:
+    """Label + text field with the inline-create button at the field's end
+    (`[أحمد فكري ] [+ إضافة مؤلف]` in docs/04 §4.5)."""
+    f = v(parent, gap=5, sizing_h="fill", sizing_v="hug", cross_align="max")
+    wiz_label(f, label, required=required)
+    row = h(f, gap=8, sizing_h="fill", sizing_v="hug", cross_align="max")
+    if add:
+        button(row, add, size="sm", ico="plus")
+    wiz_input(row, value=value, placeholder=placeholder)
+    return f
+
+
+def wiz_tag_pill(parent, label: str) -> int:
+    p = h(parent, gap=6, padding=[5, 10, 5, 10], fill=GREEN[1], radius=999,
+          sizing_h="hug", sizing_v="hug", cross_align="center")
+    # Visual: × at the pill's end (left in RTL), the name at its start.
+    icon(p, "x", size=12, color=GREEN[2])
+    t(label, p, size=13, color=GREEN[2], font=AR)
+    return p
+
+
+def wiz_tags(parent, label, chips) -> int:
+    f = v(parent, gap=5, sizing_h="fill", sizing_v="hug", cross_align="max")
+    wiz_label(f, label)
+    box = h(f, height=36, padding=[0, 12, 0, 12], fill=LIGHT["surface-1"],
+            radius=10, stroke=LIGHT["border-2"], sizing_h="fill",
+            sizing_v="fixed", cross_align="center", gap=8, main_align="max")
+    # Chips pack to the field's end (the right): the first typed reads rightmost.
+    for name in reversed(chips):
+        wiz_tag_pill(box, name)
+    return box
+
+
+def wiz_textarea(parent, label, *, placeholder, height=220) -> int:
+    f = v(parent, gap=5, sizing_h="fill", sizing_v="hug", cross_align="max")
+    wiz_label(f, label)
+    box = v(f, height=height, padding=[10, 12, 10, 12], fill=LIGHT["surface-1"],
+            radius=10, stroke=LIGHT["border-2"], sizing_h="fill",
+            sizing_v="fixed", cross_align="max")
+    t(placeholder, box, size=15, font=AR, color=LIGHT["text-3"])
+    return f
+
+
+def wiz_rating(parent) -> int:
+    f = v(parent, gap=5, sizing_h="fill", sizing_v="hug", cross_align="max")
+    wiz_label(f, "التقييم")
+    row = h(f, gap=6, sizing_h="hug", sizing_v="hug", cross_align="center")
+    # Visual: RTL counts from the right — the first star leads, three filled.
+    for i in range(5, 0, -1):
+        if i <= 3:
+            icon(row, "star", size=17, color=STAR, fill=STAR)
+        else:
+            icon(row, "star", size=17, color=LIGHT["star-empty"])
+    return f
+
+
+def wiz_cover_zone(parent) -> int:
+    zone = v(parent, gap=9, padding=[20, 20, 16, 20], fill=LIGHT["surface-2"],
+             radius=14, stroke=GREEN[0], stroke_weight=1.5, stroke_dash=[7, 6],
+             sizing_h="fill", sizing_v="fixed", height=250,
+             main_align="center", cross_align="center")
+    icon(zone, "upload", size=26, color=GREEN[0])
+    t("اسحب صورة الغلاف هنا", zone, size=15, style="SemiBold",
+      color=LIGHT["text-1"], font=AR)
+    button(zone, "رفع صورة", size="sm")
+    t("JPEG · PNG · WebP — حتى 4096 بكسل", zone, size=12.5,
+      color=LIGHT["text-3"], font=AR)
+    return zone
+
+
+def wiz_card(root, *, active: int, primary: str, primary_ico) -> tuple[int, int]:
+    """The modal chrome: header, step rail, body, footer. Returns (body, foot)."""
+    card = v(root, x=WIZ_X, y=WIZ_Y, width=WIZ_W, height=WIZ_H,
+             sizing_h="fixed", sizing_v="fixed", fill=LIGHT["surface-1"],
+             radius=20, clip=True, stroke=LIGHT["border-1"], gap=0)
+    # Visual: the close affordance left, the title hugging the right.
+    head = h(card, padding=[18, 24, 14, 24], sizing_h="fill", sizing_v="hug",
+             main_align="spaceBetween", cross_align="center")
+    close = h(head, width=32, height=32, sizing_h="fixed", sizing_v="fixed",
+              fill=LIGHT["surface-2"], radius=999, main_align="center",
+              cross_align="center")
+    icon(close, "x", size=16, color=LIGHT["text-2"])
+    t("إضافة كتاب", head, size=19, style="SemiBold", color=LIGHT["text-1"],
+      font=AR)
+    rule(card)
+    # Visual: step 4 leftmost, step 1 leading at the right (reads 1→4 RTL).
+    rail = h(card, padding=[12, 24, 12, 24], sizing_h="fill", sizing_v="hug",
+             gap=8, cross_align="center")
+    for i in range(len(WIZARD_STEPS), 0, -1):
+        num, label = WIZARD_STEPS[i - 1]
+        state = "done" if i < active else ("now" if i == active else "next")
+        fg = {"now": GREEN[2], "done": LIGHT["text-2"],
+              "next": LIGHT["text-3"]}[state]
+        pill = h(rail, gap=8, padding=[7, 14, 7, 14], radius=999,
+                 fill=GREEN[1] if state == "now" else None,
+                 sizing_h="hug", sizing_v="hug", cross_align="center")
+        t(label, pill, size=14, font=AR,
+          style="SemiBold" if state == "now" else "Regular", color=fg)
+        badge_fill = {"now": GREEN[0], "done": GREEN[1],
+                      "next": LIGHT["surface-3"]}[state]
+        badge = h(pill, width=20, height=20, sizing_h="fixed",
+                  sizing_v="fixed", radius=999, main_align="center",
+                  cross_align="center", fill=badge_fill)
+        if state == "done":
+            icon(badge, "check", size=12, color=GREEN[0])
+        else:
+            t(num, badge, size=12, style="SemiBold", font=UI,
+              color=GREEN[1] if state == "now" else LIGHT["text-3"])
+    rule(card)
+    body = v(card, padding=[20, 24, 18, 24], gap=14, sizing_h="fill",
+             sizing_v="fill", cross_align="max")
+    rule(card)
+    # Visual: primary action at the left edge, إلغاء alone at the right — the
+    # mirror of a [Cancel][Back][Next] footer (docs/04 §5's button rows).
+    foot = h(card, padding=[14, 24, 16, 24], sizing_h="fill", sizing_v="hug",
+             main_align="spaceBetween", cross_align="center")
+    group = h(foot, gap=10, sizing_h="hug", sizing_v="hug",
+              cross_align="center")
+    button(group, primary, variant="primary", size="md", ico=primary_ico)
+    if active > 1:
+        button(group, "رجوع", size="md", ico="arrow-right")
+    button(foot, "إلغاء", size="md")
+    return body, foot
+
+
+def wiz_kv(parent, label, value, *, ltr=False) -> None:
+    r = h(parent, padding=[3, 0, 3, 0], sizing_h="fill", sizing_v="hug",
+          main_align="spaceBetween", cross_align="center")
+    # Visual: the value at the left, the term hugging the right — the meta
+    # table's [value, term] order from the book page.
+    t(value, r, size=15, font=UI if ltr else AR, color=LIGHT["text-1"])
+    t(label, r, size=13.5, font=AR, color=LIGHT["text-3"])
+
+
+def wiz_chips_row(parent, label, chips) -> None:
+    r = h(parent, padding=[3, 0, 3, 0], sizing_h="fill", sizing_v="hug",
+          main_align="spaceBetween", cross_align="center")
+    vals = h(r, gap=6, sizing_h="hug", sizing_v="hug", cross_align="center")
+    for name in reversed(chips):           # first picked reads rightmost
+        chip(vals, name, fill=LIGHT["surface-2"], fg=LIGHT["text-2"],
+             border=LIGHT["border-1"])
+    t(label, r, size=13.5, font=AR, color=LIGHT["text-3"])
+
+
+def wiz_step1(body) -> None:
+    # The checksum rejecting the last digit — the localized error state.
+    wiz_field(body, "ISBN", value="978-0-306-40615-8", ltr=True, invalid=True,
+              error="رقم ISBN غير صالح — تحقّق من الأرقام ورمز التحقّق.")
+    src = v(body, gap=5, sizing_h="fill", sizing_v="hug", cross_align="max")
+    wiz_label(src, "المصدر")
+    row = h(src, gap=10, padding=[4, 0, 0, 0], sizing_h="fill",
+            sizing_v="hug", cross_align="center", main_align="spaceBetween")
+    t("يُطابق الرقم مع السجل عند الحفظ.", row, size=13, color=LIGHT["text-3"],
+      font=AR)
+    chip(row, "يدوي", fill=LIGHT["surface-2"], fg=LIGHT["text-2"],
+         border=LIGHT["border-1"])
+    wiz_cover_zone(body)
+
+
+def wiz_step2(body) -> None:
+    wiz_field(body, "العنوان", required=True, value="مقدمة في الحضارة الإسلامية")
+    wiz_field(body, "العنوان الفرعي", placeholder="اختياري")
+    # Visual: publisher left, author right (DOM: author, publisher).
+    r = h(body, gap=16, sizing_h="fill", sizing_v="hug", cross_align="max")
+    wiz_combobox(r, "الناشر", value="دار المعارف", add="إضافة ناشر")
+    wiz_combobox(r, "المؤلف", required=True, value="أحمد فكري",
+                 add="إضافة مؤلف")
+    # Visual: series order left (narrow), series combobox right.
+    r = h(body, gap=16, sizing_h="fill", sizing_v="hug", cross_align="max")
+    wiz_field(r, "رقم السلسلة", placeholder="اختياري", width=150)
+    wiz_combobox(r, "السلسلة", placeholder="اختياري", add="إضافة سلسلة")
+    # Visual: language, pages, year — mirrored from the flow of docs/04 §4.5.
+    r = h(body, gap=16, sizing_h="fill", sizing_v="hug", cross_align="max")
+    wiz_select_field(r, "اللغة", "العربية")
+    wiz_field(r, "الصفحات", value="٤٢٤")
+    wiz_field(r, "سنة النشر", value="١٩٧٨")
+    # Visual: edition left, format right (DOM: format, edition).
+    r = h(body, gap=16, sizing_h="fill", sizing_v="hug", cross_align="max")
+    wiz_field(r, "الطبعة", value="طبعة أولى")
+    wiz_select_field(r, "التنسيق", "ورقي")
+
+
+def wiz_step3(body) -> None:
+    # Visual: tag input left, category combobox right (DOM: category, tags).
+    r = h(body, gap=16, sizing_h="fill", sizing_v="hug", cross_align="max")
+    wiz_tags(r, "الوسوم", ["تاريخ", "حضارة"])
+    wiz_combobox(r, "التصنيف", value="تاريخ العرب", add="تصنيف فرعي")
+    # Visual: rating left, reading status right.
+    r = h(body, gap=16, sizing_h="fill", sizing_v="hug", cross_align="max")
+    wiz_rating(r)
+    wiz_select_field(r, "الحالة", "لم أبدأها")
+    wiz_textarea(body, "الوصف", placeholder="وصف مختصر أو ملاحظاتك عن الكتاب…")
+
+
+def wiz_step4(body) -> None:
+    # Visual: the cover thumb left, the summary filling the rest.
+    top = h(body, gap=22, sizing_h="fill", sizing_v="hug", cross_align="min")
+    cover(top, 116, "مقدمة في الحضارة الإسلامية", "أحمد فكري", 0)
+    summary = v(top, gap=0, sizing_h="fill", sizing_v="hug",
+                cross_align="max")
+    wiz_kv(summary, "العنوان", "مقدمة في الحضارة الإسلامية")
+    wiz_kv(summary, "المؤلف", "أحمد فكري")
+    wiz_kv(summary, "الناشر", "دار المعارف")
+    wiz_kv(summary, "ISBN", "978-0-306-40615-7", ltr=True)
+    wiz_kv(summary, "السنة · الصفحات", "١٩٧٨ · ٤٢٤")
+    wiz_kv(summary, "اللغة · التنسيق", "العربية · ورقي")
+    wiz_chips_row(summary, "التصنيفات", ["التاريخ", "تاريخ العرب"])
+    wiz_chips_row(summary, "الوسوم", ["تاريخ", "حضارة"])
+    wiz_kv(summary, "الحالة", "لم أبدأها")
+    # The save-time duplicate warning: warns, and offers the override.
+    p = v(body, gap=10, padding=[14, 16, 14, 16], radius=12,
+          fill=SEM["warning"][1], stroke=SEM["warning"][0],
+          sizing_h="fill", sizing_v="hug", cross_align="max")
+    head = h(p, gap=8, sizing_h="hug", sizing_v="hug", cross_align="center")
+    t("قد يوجد كتاب متطابق", head, size=14, style="SemiBold",
+      color=SEM["warning"][0], font=AR)
+    icon(head, "triangle-alert", size=16, color=SEM["warning"][0])
+    t("«مقدمة في الحضارة الإسلامية» لـ أحمد فكري — طابق ISBN والعناوان والمؤلف.",
+      p, size=13.5, color=LIGHT["text-2"], font=AR)
+    acts = h(p, gap=8, sizing_h="hug", sizing_v="hug", cross_align="center")
+    # Visual: override left, "view match" leads right — the mirror of
+    # docs/04 §4.5's `[عرض التطابق] [حفظ رغم ذلك]`.
+    button(acts, "حفظ رغم ذلك", variant="primary", size="sm")
+    button(acts, "عرض التطابق", size="sm")
+
+
+def wizard(frame_name: str, x: int, step: int) -> None:
+    root = wiz_root(frame_name, x)
+    body, _ = wiz_card(root, active=step,
+                       primary="حفظ" if step == 4 else "التالي",
+                       primary_ico="check" if step == 4 else "arrow-left")
+    {1: wiz_step1, 2: wiz_step2, 3: wiz_step3, 4: wiz_step4}[step](body)
+
+
 # ── Build ────────────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
@@ -620,6 +949,11 @@ if __name__ == "__main__":
         library(shell("2 · المكتبة · Library", "library", x=3000))
     if want in ("all", "book"):
         book_page(shell("3 · صفحة الكتاب · Book page", "book-open", x=4400))
+    if want in ("all", "wizard"):
+        wizard("4 · إضافة كتاب — المصدر · Wizard", 5800, 1)
+        wizard("5 · إضافة كتاب — البيانات · Wizard", 7200, 2)
+        wizard("6 · إضافة كتاب — التصنيفات · Wizard", 8600, 3)
+        wizard("7 · إضافة كتاب — المراجعة · Wizard", 10000, 4)
 
     json.dump(s.steps, sys.stdout, ensure_ascii=False, indent=1)
     print()

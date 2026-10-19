@@ -129,7 +129,7 @@
    "parent": {
     "$step": 5
    },
-   "path": "M18 6 6 18 M6 6 12 12",
+   "path": "M18 6 6 18 M6 6L18 18",
    "props": {
     "width": 16,
     "height": 16,
@@ -319,7 +319,7 @@
    "parent": {
     "$step": 15
    },
-   "path": "M8 12A4 4 0 1 0 16 12A4 4 0 1 0 8 12Z M12 2v2 M12 20v2 M4.93 4.93 1.41 1.41 M17.66 17.66 1.41 1.41 M2 12h2 M20 12h2 M6.34 17.66-1.41 1.41 M19.07 4.93-1.41 1.41",
+   "path": "M8 12A4 4 0 1 0 16 12A4 4 0 1 0 8 12Z M12 2v2 M12 20v2 M4.93 4.93L6.34 6.34 M17.66 17.66L19.07 19.07 M2 12h2 M20 12h2 M6.34 17.66L4.93 19.07 M19.07 4.93L17.66 6.34",
    "props": {
     "width": 16,
     "height": 16,
@@ -358,7 +358,7 @@
    "parent": {
     "$step": 17
    },
-   "path": "M5 8 6 6 M4 14 6-6 2-3 M2 5h12 M7 2h1 M22 22-5-10-5 10 M14 18h6",
+   "path": "M5 8L11 14 M4 14L10 8L12 5 M2 5h12 M7 2h1 M22 22L17 12L12 22 M14 18h6",
    "props": {
     "width": 16,
     "height": 16,
@@ -522,7 +522,7 @@
    "parent": {
     "$step": 20
    },
-   "path": "M21 21-4.34-4.34 M3 11A8 8 0 1 0 19 11A8 8 0 1 0 3 11Z",
+   "path": "M21 21L16.66 16.66 M3 11A8 8 0 1 0 19 11A8 8 0 1 0 3 11Z",
    "props": {
     "width": 14,
     "height": 14,
@@ -865,7 +865,7 @@
    "parent": {
     "$step": 40
    },
-   "path": "M16 6 4 14 M12 6v14 M8 8v12 M4 4v16",
+   "path": "M16 6L20 20 M12 6v14 M8 8v12 M4 4v16",
    "props": {
     "width": 18,
     "height": 18,
@@ -1339,7 +1339,7 @@
    "parent": {
     "$step": 62
    },
-   "path": "M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17 M7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9 M2 16 6 6 M13.1 9A2.9 2.9 0 1 0 18.9 9A2.9 2.9 0 1 0 13.1 9Z M3 5A3 3 0 1 0 9 5A3 3 0 1 0 3 5Z",
+   "path": "M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17 M7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9 M2 16L8 22 M13.1 9A2.9 2.9 0 1 0 18.9 9A2.9 2.9 0 1 0 13.1 9Z M3 5A3 3 0 1 0 9 5A3 3 0 1 0 3 5Z",
    "props": {
     "width": 18,
     "height": 18,
@@ -1469,7 +1469,7 @@
    "parent": {
     "$step": 68
    },
-   "path": "M8 3 4 7l4 4 M4 7h16 M16 21 4-4-4-4 M20 17H4",
+   "path": "M8 3 4 7l4 4 M4 7h16 M16 21L20 17L16 13 M20 17H4",
    "props": {
     "width": 18,
     "height": 18,
@@ -1706,7 +1706,7 @@
    "parent": {
     "$step": 79
    },
-   "path": "M5 3H19A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3Z M9 3v18 M16 15-3-3 3-3",
+   "path": "M5 3H19A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3Z M9 3v18 M16 15L13 12L16 9",
    "props": {
     "width": 18,
     "height": 18,
@@ -2444,7 +2444,7 @@
    "parent": {
     "$step": 116
    },
-   "path": "M16 6 4 14 M12 6v14 M8 8v12 M4 4v16",
+   "path": "M16 6L20 20 M12 6v14 M8 8v12 M4 4v16",
    "props": {
     "width": 18,
     "height": 18,
@@ -4112,7 +4112,7 @@
    "parent": {
     "$step": 197
    },
-   "path": "M18 6 6 18 M6 6 12 12",
+   "path": "M18 6 6 18 M6 6L18 18",
    "props": {
     "width": 16,
     "height": 16,
@@ -4302,7 +4302,7 @@
    "parent": {
     "$step": 207
    },
-   "path": "M8 12A4 4 0 1 0 16 12A4 4 0 1 0 8 12Z M12 2v2 M12 20v2 M4.93 4.93 1.41 1.41 M17.66 17.66 1.41 1.41 M2 12h2 M20 12h2 M6.34 17.66-1.41 1.41 M19.07 4.93-1.41 1.41",
+   "path": "M8 12A4 4 0 1 0 16 12A4 4 0 1 0 8 12Z M12 2v2 M12 20v2 M4.93 4.93L6.34 6.34 M17.66 17.66L19.07 19.07 M2 12h2 M20 12h2 M6.34 17.66L4.93 19.07 M19.07 4.93L17.66 6.34",
    "props": {
     "width": 16,
     "height": 16,
@@ -4341,7 +4341,7 @@
    "parent": {
     "$step": 209
    },
-   "path": "M5 8 6 6 M4 14 6-6 2-3 M2 5h12 M7 2h1 M22 22-5-10-5 10 M14 18h6",
+   "path": "M5 8L11 14 M4 14L10 8L12 5 M2 5h12 M7 2h1 M22 22L17 12L12 22 M14 18h6",
    "props": {
     "width": 16,
     "height": 16,
@@ -4505,7 +4505,7 @@
    "parent": {
     "$step": 212
    },
-   "path": "M21 21-4.34-4.34 M3 11A8 8 0 1 0 19 11A8 8 0 1 0 3 11Z",
+   "path": "M21 21L16.66 16.66 M3 11A8 8 0 1 0 19 11A8 8 0 1 0 3 11Z",
    "props": {
     "width": 14,
     "height": 14,
@@ -4848,7 +4848,7 @@
    "parent": {
     "$step": 232
    },
-   "path": "M16 6 4 14 M12 6v14 M8 8v12 M4 4v16",
+   "path": "M16 6L20 20 M12 6v14 M8 8v12 M4 4v16",
    "props": {
     "width": 18,
     "height": 18,
@@ -5322,7 +5322,7 @@
    "parent": {
     "$step": 254
    },
-   "path": "M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17 M7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9 M2 16 6 6 M13.1 9A2.9 2.9 0 1 0 18.9 9A2.9 2.9 0 1 0 13.1 9Z M3 5A3 3 0 1 0 9 5A3 3 0 1 0 3 5Z",
+   "path": "M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17 M7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9 M2 16L8 22 M13.1 9A2.9 2.9 0 1 0 18.9 9A2.9 2.9 0 1 0 13.1 9Z M3 5A3 3 0 1 0 9 5A3 3 0 1 0 3 5Z",
    "props": {
     "width": 18,
     "height": 18,
@@ -5452,7 +5452,7 @@
    "parent": {
     "$step": 260
    },
-   "path": "M8 3 4 7l4 4 M4 7h16 M16 21 4-4-4-4 M20 17H4",
+   "path": "M8 3 4 7l4 4 M4 7h16 M16 21L20 17L16 13 M20 17H4",
    "props": {
     "width": 18,
     "height": 18,
@@ -5689,7 +5689,7 @@
    "parent": {
     "$step": 271
    },
-   "path": "M5 3H19A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3Z M9 3v18 M16 15-3-3 3-3",
+   "path": "M5 3H19A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3Z M9 3v18 M16 15L13 12L16 9",
    "props": {
     "width": 18,
     "height": 18,
@@ -6037,7 +6037,7 @@
    "parent": {
     "$step": 288
    },
-   "path": "M6 9 6 6 6-6",
+   "path": "M6 9L12 15L18 9",
    "props": {
     "width": 14,
     "height": 14,
@@ -6227,7 +6227,7 @@
    "parent": {
     "$step": 296
    },
-   "path": "M6 9 6 6 6-6",
+   "path": "M6 9L12 15L18 9",
    "props": {
     "width": 14,
     "height": 14,
@@ -9180,7 +9180,7 @@
    "parent": {
     "$step": 439
    },
-   "path": "M18 6 6 18 M6 6 12 12",
+   "path": "M18 6 6 18 M6 6L18 18",
    "props": {
     "width": 16,
     "height": 16,
@@ -9370,7 +9370,7 @@
    "parent": {
     "$step": 449
    },
-   "path": "M8 12A4 4 0 1 0 16 12A4 4 0 1 0 8 12Z M12 2v2 M12 20v2 M4.93 4.93 1.41 1.41 M17.66 17.66 1.41 1.41 M2 12h2 M20 12h2 M6.34 17.66-1.41 1.41 M19.07 4.93-1.41 1.41",
+   "path": "M8 12A4 4 0 1 0 16 12A4 4 0 1 0 8 12Z M12 2v2 M12 20v2 M4.93 4.93L6.34 6.34 M17.66 17.66L19.07 19.07 M2 12h2 M20 12h2 M6.34 17.66L4.93 19.07 M19.07 4.93L17.66 6.34",
    "props": {
     "width": 16,
     "height": 16,
@@ -9409,7 +9409,7 @@
    "parent": {
     "$step": 451
    },
-   "path": "M5 8 6 6 M4 14 6-6 2-3 M2 5h12 M7 2h1 M22 22-5-10-5 10 M14 18h6",
+   "path": "M5 8L11 14 M4 14L10 8L12 5 M2 5h12 M7 2h1 M22 22L17 12L12 22 M14 18h6",
    "props": {
     "width": 16,
     "height": 16,
@@ -9573,7 +9573,7 @@
    "parent": {
     "$step": 454
    },
-   "path": "M21 21-4.34-4.34 M3 11A8 8 0 1 0 19 11A8 8 0 1 0 3 11Z",
+   "path": "M21 21L16.66 16.66 M3 11A8 8 0 1 0 19 11A8 8 0 1 0 3 11Z",
    "props": {
     "width": 14,
     "height": 14,
@@ -9913,7 +9913,7 @@
    "parent": {
     "$step": 474
    },
-   "path": "M16 6 4 14 M12 6v14 M8 8v12 M4 4v16",
+   "path": "M16 6L20 20 M12 6v14 M8 8v12 M4 4v16",
    "props": {
     "width": 18,
     "height": 18,
@@ -10390,7 +10390,7 @@
    "parent": {
     "$step": 496
    },
-   "path": "M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17 M7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9 M2 16 6 6 M13.1 9A2.9 2.9 0 1 0 18.9 9A2.9 2.9 0 1 0 13.1 9Z M3 5A3 3 0 1 0 9 5A3 3 0 1 0 3 5Z",
+   "path": "M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17 M7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9 M2 16L8 22 M13.1 9A2.9 2.9 0 1 0 18.9 9A2.9 2.9 0 1 0 13.1 9Z M3 5A3 3 0 1 0 9 5A3 3 0 1 0 3 5Z",
    "props": {
     "width": 18,
     "height": 18,
@@ -10520,7 +10520,7 @@
    "parent": {
     "$step": 502
    },
-   "path": "M8 3 4 7l4 4 M4 7h16 M16 21 4-4-4-4 M20 17H4",
+   "path": "M8 3 4 7l4 4 M4 7h16 M16 21L20 17L16 13 M20 17H4",
    "props": {
     "width": 18,
     "height": 18,
@@ -10757,7 +10757,7 @@
    "parent": {
     "$step": 513
    },
-   "path": "M5 3H19A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3Z M9 3v18 M16 15-3-3 3-3",
+   "path": "M5 3H19A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3Z M9 3v18 M16 15L13 12L16 9",
    "props": {
     "width": 18,
     "height": 18,
@@ -10839,7 +10839,7 @@
    "parent": {
     "$step": 517
    },
-   "path": "M5 12h14 M12 5 7 7-7 7",
+   "path": "M5 12h14 M12 5L19 12L12 19",
    "props": {
     "width": 16,
     "height": 16,
@@ -13206,6 +13206,7588 @@
    },
    "width": 140,
    "textAlign": "right"
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "4 · إضافة كتاب — المصدر · Wizard",
+   "select": false,
+   "x": 5800,
+   "width": 1320,
+   "height": 880,
+   "props": {
+    "fills": [
+     "#fbf8f1"
+    ],
+    "sizingH": "fixed",
+    "sizingV": "fixed",
+    "clip": true
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 634
+   },
+   "width": 1320,
+   "height": 880,
+   "props": {
+    "fills": [
+     "#2a2621"
+    ],
+    "opacity": 0.5
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 634
+   },
+   "x": 230,
+   "y": 60,
+   "width": 860,
+   "height": 760,
+   "props": {
+    "layout": "vertical",
+    "gap": 0,
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 20,
+    "stroke": "#e3dbcb",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fixed",
+    "sizingV": "fixed",
+    "clip": true
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 636
+   },
+   "props": {
+    "layout": "horizontal",
+    "padding": [
+     18,
+     24,
+     14,
+     24
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "mainAlign": "spaceBetween",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 637
+   },
+   "width": 32,
+   "height": 32,
+   "props": {
+    "layout": "horizontal",
+    "fills": [
+     "#f4efe4"
+    ],
+    "cornerRadius": 999,
+    "sizingH": "fixed",
+    "sizingV": "fixed",
+    "mainAlign": "center",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "vector",
+   "name": "x",
+   "parent": {
+    "$step": 638
+   },
+   "path": "M18 6 6 18 M6 6L18 18",
+   "props": {
+    "width": 16,
+    "height": 16,
+    "fills": [],
+    "stroke": "#6b6153",
+    "strokeWeight": 1.35,
+    "strokeCap": "round",
+    "strokeJoin": "round"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "إضافة كتاب",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 19,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 637
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 636
+   },
+   "width": 100,
+   "height": 1,
+   "props": {
+    "fills": [
+     "#e3dbcb"
+    ],
+    "sizingH": "fill"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 636
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     12,
+     24,
+     12,
+     24
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 642
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     7,
+     14,
+     7,
+     14
+    ],
+    "cornerRadius": 999,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "المراجعة",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 14,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 643
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 643
+   },
+   "width": 20,
+   "height": 20,
+   "props": {
+    "layout": "horizontal",
+    "fills": [
+     "#eae3d5"
+    ],
+    "cornerRadius": 999,
+    "sizingH": "fixed",
+    "sizingV": "fixed",
+    "mainAlign": "center",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "4",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 645
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 642
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     7,
+     14,
+     7,
+     14
+    ],
+    "cornerRadius": 999,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "التصنيفات",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 14,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 647
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 647
+   },
+   "width": 20,
+   "height": 20,
+   "props": {
+    "layout": "horizontal",
+    "fills": [
+     "#eae3d5"
+    ],
+    "cornerRadius": 999,
+    "sizingH": "fixed",
+    "sizingV": "fixed",
+    "mainAlign": "center",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "3",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 649
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 642
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     7,
+     14,
+     7,
+     14
+    ],
+    "cornerRadius": 999,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "البيانات",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 14,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 651
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 651
+   },
+   "width": 20,
+   "height": 20,
+   "props": {
+    "layout": "horizontal",
+    "fills": [
+     "#eae3d5"
+    ],
+    "cornerRadius": 999,
+    "sizingH": "fixed",
+    "sizingV": "fixed",
+    "mainAlign": "center",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "2",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 653
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 642
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     7,
+     14,
+     7,
+     14
+    ],
+    "fills": [
+     "#e3efe8"
+    ],
+    "cornerRadius": 999,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "المصدر",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 14,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#24523c"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 655
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 655
+   },
+   "width": 20,
+   "height": 20,
+   "props": {
+    "layout": "horizontal",
+    "fills": [
+     "#2f6b4f"
+    ],
+    "cornerRadius": 999,
+    "sizingH": "fixed",
+    "sizingV": "fixed",
+    "mainAlign": "center",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "1",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#e3efe8"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 657
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 636
+   },
+   "width": 100,
+   "height": 1,
+   "props": {
+    "fills": [
+     "#e3dbcb"
+    ],
+    "sizingH": "fill"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 636
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 14,
+    "padding": [
+     20,
+     24,
+     18,
+     24
+    ],
+    "sizingH": "fill",
+    "sizingV": "fill",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 636
+   },
+   "width": 100,
+   "height": 1,
+   "props": {
+    "fills": [
+     "#e3dbcb"
+    ],
+    "sizingH": "fill"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 636
+   },
+   "props": {
+    "layout": "horizontal",
+    "padding": [
+     14,
+     24,
+     16,
+     24
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "mainAlign": "spaceBetween",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 662
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 10,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 663
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     10,
+     18,
+     10,
+     18
+    ],
+    "fills": [
+     "#2f6b4f"
+    ],
+    "cornerRadius": 8,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "التالي",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#e3efe8"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 664
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "vector",
+   "name": "arrow-left",
+   "parent": {
+    "$step": 664
+   },
+   "path": "M12 19L5 12L12 5 M19 12H5",
+   "props": {
+    "width": 16,
+    "height": 16,
+    "fills": [],
+    "stroke": "#e3efe8",
+    "strokeWeight": 1.35,
+    "strokeCap": "round",
+    "strokeJoin": "round"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 662
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     10,
+     18,
+     10,
+     18
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 8,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "إلغاء",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 667
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 660
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 5,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 669
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 3,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "ISBN",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 670
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 669
+   },
+   "height": 36,
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     0,
+     12,
+     0,
+     12
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 10,
+    "stroke": "#a93226",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "fixed",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "978-0-306-40615-8",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 15,
+    "fontStyle": "Regular",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 672
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "رقم ISBN غير صالح — تحقّق من الأرقام ورمز التحقّق.",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 12.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#a93226"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 669
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 660
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 5,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 675
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 3,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "المصدر",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 676
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 675
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 10,
+    "padding": [
+     4,
+     0,
+     0,
+     0
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "mainAlign": "spaceBetween",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "يُطابق الرقم مع السجل عند الحفظ.",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 678
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 678
+   },
+   "props": {
+    "layout": "horizontal",
+    "padding": [
+     5,
+     11,
+     5,
+     11
+    ],
+    "fills": [
+     "#f4efe4"
+    ],
+    "cornerRadius": 999,
+    "stroke": "#e3dbcb",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "يدوي",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 680
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 660
+   },
+   "height": 250,
+   "props": {
+    "layout": "vertical",
+    "gap": 9,
+    "padding": [
+     20,
+     20,
+     16,
+     20
+    ],
+    "fills": [
+     "#f4efe4"
+    ],
+    "cornerRadius": 14,
+    "stroke": "#2f6b4f",
+    "strokeWeight": 1.5,
+    "strokeAlign": "inside",
+    "dashes": [
+     7,
+     6
+    ],
+    "sizingH": "fill",
+    "sizingV": "fixed",
+    "mainAlign": "center",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "vector",
+   "name": "upload",
+   "parent": {
+    "$step": 682
+   },
+   "path": "M12 3v12 M17 8L12 3L7 8 M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4",
+   "props": {
+    "width": 26,
+    "height": 26,
+    "fills": [],
+    "stroke": "#2f6b4f",
+    "strokeWeight": 1.35,
+    "strokeCap": "round",
+    "strokeJoin": "round"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "اسحب صورة الغلاف هنا",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 682
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 682
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     6,
+     12,
+     6,
+     12
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 8,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "رفع صورة",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 685
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "JPEG · PNG · WebP — حتى 4096 بكسل",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 12.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 682
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "5 · إضافة كتاب — البيانات · Wizard",
+   "select": false,
+   "x": 7200,
+   "width": 1320,
+   "height": 880,
+   "props": {
+    "fills": [
+     "#fbf8f1"
+    ],
+    "sizingH": "fixed",
+    "sizingV": "fixed",
+    "clip": true
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 688
+   },
+   "width": 1320,
+   "height": 880,
+   "props": {
+    "fills": [
+     "#2a2621"
+    ],
+    "opacity": 0.5
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 688
+   },
+   "x": 230,
+   "y": 60,
+   "width": 860,
+   "height": 760,
+   "props": {
+    "layout": "vertical",
+    "gap": 0,
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 20,
+    "stroke": "#e3dbcb",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fixed",
+    "sizingV": "fixed",
+    "clip": true
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 690
+   },
+   "props": {
+    "layout": "horizontal",
+    "padding": [
+     18,
+     24,
+     14,
+     24
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "mainAlign": "spaceBetween",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 691
+   },
+   "width": 32,
+   "height": 32,
+   "props": {
+    "layout": "horizontal",
+    "fills": [
+     "#f4efe4"
+    ],
+    "cornerRadius": 999,
+    "sizingH": "fixed",
+    "sizingV": "fixed",
+    "mainAlign": "center",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "vector",
+   "name": "x",
+   "parent": {
+    "$step": 692
+   },
+   "path": "M18 6 6 18 M6 6L18 18",
+   "props": {
+    "width": 16,
+    "height": 16,
+    "fills": [],
+    "stroke": "#6b6153",
+    "strokeWeight": 1.35,
+    "strokeCap": "round",
+    "strokeJoin": "round"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "إضافة كتاب",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 19,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 691
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 690
+   },
+   "width": 100,
+   "height": 1,
+   "props": {
+    "fills": [
+     "#e3dbcb"
+    ],
+    "sizingH": "fill"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 690
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     12,
+     24,
+     12,
+     24
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 696
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     7,
+     14,
+     7,
+     14
+    ],
+    "cornerRadius": 999,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "المراجعة",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 14,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 697
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 697
+   },
+   "width": 20,
+   "height": 20,
+   "props": {
+    "layout": "horizontal",
+    "fills": [
+     "#eae3d5"
+    ],
+    "cornerRadius": 999,
+    "sizingH": "fixed",
+    "sizingV": "fixed",
+    "mainAlign": "center",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "4",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 699
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 696
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     7,
+     14,
+     7,
+     14
+    ],
+    "cornerRadius": 999,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "التصنيفات",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 14,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 701
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 701
+   },
+   "width": 20,
+   "height": 20,
+   "props": {
+    "layout": "horizontal",
+    "fills": [
+     "#eae3d5"
+    ],
+    "cornerRadius": 999,
+    "sizingH": "fixed",
+    "sizingV": "fixed",
+    "mainAlign": "center",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "3",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 703
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 696
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     7,
+     14,
+     7,
+     14
+    ],
+    "fills": [
+     "#e3efe8"
+    ],
+    "cornerRadius": 999,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "البيانات",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 14,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#24523c"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 705
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 705
+   },
+   "width": 20,
+   "height": 20,
+   "props": {
+    "layout": "horizontal",
+    "fills": [
+     "#2f6b4f"
+    ],
+    "cornerRadius": 999,
+    "sizingH": "fixed",
+    "sizingV": "fixed",
+    "mainAlign": "center",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "2",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#e3efe8"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 707
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 696
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     7,
+     14,
+     7,
+     14
+    ],
+    "cornerRadius": 999,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "المصدر",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 14,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 709
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 709
+   },
+   "width": 20,
+   "height": 20,
+   "props": {
+    "layout": "horizontal",
+    "fills": [
+     "#e3efe8"
+    ],
+    "cornerRadius": 999,
+    "sizingH": "fixed",
+    "sizingV": "fixed",
+    "mainAlign": "center",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "vector",
+   "name": "check",
+   "parent": {
+    "$step": 711
+   },
+   "path": "M20 6 9 17l-5-5",
+   "props": {
+    "width": 12,
+    "height": 12,
+    "fills": [],
+    "stroke": "#2f6b4f",
+    "strokeWeight": 1.35,
+    "strokeCap": "round",
+    "strokeJoin": "round"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 690
+   },
+   "width": 100,
+   "height": 1,
+   "props": {
+    "fills": [
+     "#e3dbcb"
+    ],
+    "sizingH": "fill"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 690
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 14,
+    "padding": [
+     20,
+     24,
+     18,
+     24
+    ],
+    "sizingH": "fill",
+    "sizingV": "fill",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 690
+   },
+   "width": 100,
+   "height": 1,
+   "props": {
+    "fills": [
+     "#e3dbcb"
+    ],
+    "sizingH": "fill"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 690
+   },
+   "props": {
+    "layout": "horizontal",
+    "padding": [
+     14,
+     24,
+     16,
+     24
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "mainAlign": "spaceBetween",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 716
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 10,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 717
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     10,
+     18,
+     10,
+     18
+    ],
+    "fills": [
+     "#2f6b4f"
+    ],
+    "cornerRadius": 8,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "التالي",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#e3efe8"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 718
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "vector",
+   "name": "arrow-left",
+   "parent": {
+    "$step": 718
+   },
+   "path": "M12 19L5 12L12 5 M19 12H5",
+   "props": {
+    "width": 16,
+    "height": 16,
+    "fills": [],
+    "stroke": "#e3efe8",
+    "strokeWeight": 1.35,
+    "strokeCap": "round",
+    "strokeJoin": "round"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 717
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     10,
+     18,
+     10,
+     18
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 8,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "رجوع",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 721
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "vector",
+   "name": "arrow-right",
+   "parent": {
+    "$step": 721
+   },
+   "path": "M5 12h14 M12 5L19 12L12 19",
+   "props": {
+    "width": 16,
+    "height": 16,
+    "fills": [],
+    "stroke": "#2a2621",
+    "strokeWeight": 1.35,
+    "strokeCap": "round",
+    "strokeJoin": "round"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 716
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     10,
+     18,
+     10,
+     18
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 8,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "إلغاء",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 724
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 714
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 5,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 726
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 3,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "*",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#a93226"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 727
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "العنوان",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 727
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 726
+   },
+   "height": 36,
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     0,
+     12,
+     0,
+     12
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 10,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "fixed",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 730
+   },
+   "props": {
+    "layout": "horizontal",
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "mainAlign": "max",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "مقدمة في الحضارة الإسلامية",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "Regular",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 731
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 714
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 5,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 733
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 3,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "العنوان الفرعي",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 734
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 733
+   },
+   "height": 36,
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     0,
+     12,
+     0,
+     12
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 10,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "fixed",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 736
+   },
+   "props": {
+    "layout": "horizontal",
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "mainAlign": "max",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "اختياري",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 737
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 714
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 16,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 739
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 5,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 740
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 3,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "الناشر",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 741
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 740
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 743
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     6,
+     12,
+     6,
+     12
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 8,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "إضافة ناشر",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 744
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "vector",
+   "name": "plus",
+   "parent": {
+    "$step": 744
+   },
+   "path": "M5 12h14 M12 5v14",
+   "props": {
+    "width": 16,
+    "height": 16,
+    "fills": [],
+    "stroke": "#2a2621",
+    "strokeWeight": 1.35,
+    "strokeCap": "round",
+    "strokeJoin": "round"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 743
+   },
+   "height": 36,
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     0,
+     12,
+     0,
+     12
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 10,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "fixed",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 747
+   },
+   "props": {
+    "layout": "horizontal",
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "mainAlign": "max",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "دار المعارف",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "Regular",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 748
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 739
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 5,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 750
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 3,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "*",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#a93226"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 751
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "المؤلف",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 751
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 750
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 754
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     6,
+     12,
+     6,
+     12
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 8,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "إضافة مؤلف",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 755
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "vector",
+   "name": "plus",
+   "parent": {
+    "$step": 755
+   },
+   "path": "M5 12h14 M12 5v14",
+   "props": {
+    "width": 16,
+    "height": 16,
+    "fills": [],
+    "stroke": "#2a2621",
+    "strokeWeight": 1.35,
+    "strokeCap": "round",
+    "strokeJoin": "round"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 754
+   },
+   "height": 36,
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     0,
+     12,
+     0,
+     12
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 10,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "fixed",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 758
+   },
+   "props": {
+    "layout": "horizontal",
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "mainAlign": "max",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "أحمد فكري",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "Regular",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 759
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 714
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 16,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 761
+   },
+   "width": 150,
+   "props": {
+    "layout": "vertical",
+    "gap": 5,
+    "sizingH": "fixed",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 762
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 3,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "رقم السلسلة",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 763
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 762
+   },
+   "height": 36,
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     0,
+     12,
+     0,
+     12
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 10,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "fixed",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 765
+   },
+   "props": {
+    "layout": "horizontal",
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "mainAlign": "max",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "اختياري",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 766
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 761
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 5,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 768
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 3,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "السلسلة",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 769
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 768
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 771
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     6,
+     12,
+     6,
+     12
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 8,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "إضافة سلسلة",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 772
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "vector",
+   "name": "plus",
+   "parent": {
+    "$step": 772
+   },
+   "path": "M5 12h14 M12 5v14",
+   "props": {
+    "width": 16,
+    "height": 16,
+    "fills": [],
+    "stroke": "#2a2621",
+    "strokeWeight": 1.35,
+    "strokeCap": "round",
+    "strokeJoin": "round"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 771
+   },
+   "height": 36,
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     0,
+     12,
+     0,
+     12
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 10,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "fixed",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 775
+   },
+   "props": {
+    "layout": "horizontal",
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "mainAlign": "max",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "اختياري",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 776
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 714
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 16,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 778
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 5,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 779
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 3,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "اللغة",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 780
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 779
+   },
+   "height": 36,
+   "props": {
+    "layout": "horizontal",
+    "padding": [
+     0,
+     12,
+     0,
+     12
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 10,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "fixed",
+    "mainAlign": "spaceBetween",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "vector",
+   "name": "chevron-down",
+   "parent": {
+    "$step": 782
+   },
+   "path": "M6 9L12 15L18 9",
+   "props": {
+    "width": 16,
+    "height": 16,
+    "fills": [],
+    "stroke": "#948a79",
+    "strokeWeight": 1.35,
+    "strokeCap": "round",
+    "strokeJoin": "round"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "العربية",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "Regular",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 782
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 778
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 5,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 785
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 3,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "الصفحات",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 786
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 785
+   },
+   "height": 36,
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     0,
+     12,
+     0,
+     12
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 10,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "fixed",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 788
+   },
+   "props": {
+    "layout": "horizontal",
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "mainAlign": "max",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "٤٢٤",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "Regular",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 789
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 778
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 5,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 791
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 3,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "سنة النشر",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 792
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 791
+   },
+   "height": 36,
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     0,
+     12,
+     0,
+     12
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 10,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "fixed",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 794
+   },
+   "props": {
+    "layout": "horizontal",
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "mainAlign": "max",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "١٩٧٨",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "Regular",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 795
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 714
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 16,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 797
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 5,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 798
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 3,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "الطبعة",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 799
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 798
+   },
+   "height": 36,
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     0,
+     12,
+     0,
+     12
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 10,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "fixed",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 801
+   },
+   "props": {
+    "layout": "horizontal",
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "mainAlign": "max",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "طبعة أولى",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "Regular",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 802
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 797
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 5,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 804
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 3,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "التنسيق",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 805
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 804
+   },
+   "height": 36,
+   "props": {
+    "layout": "horizontal",
+    "padding": [
+     0,
+     12,
+     0,
+     12
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 10,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "fixed",
+    "mainAlign": "spaceBetween",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "vector",
+   "name": "chevron-down",
+   "parent": {
+    "$step": 807
+   },
+   "path": "M6 9L12 15L18 9",
+   "props": {
+    "width": 16,
+    "height": 16,
+    "fills": [],
+    "stroke": "#948a79",
+    "strokeWeight": 1.35,
+    "strokeCap": "round",
+    "strokeJoin": "round"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "ورقي",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "Regular",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 807
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "6 · إضافة كتاب — التصنيفات · Wizard",
+   "select": false,
+   "x": 8600,
+   "width": 1320,
+   "height": 880,
+   "props": {
+    "fills": [
+     "#fbf8f1"
+    ],
+    "sizingH": "fixed",
+    "sizingV": "fixed",
+    "clip": true
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 810
+   },
+   "width": 1320,
+   "height": 880,
+   "props": {
+    "fills": [
+     "#2a2621"
+    ],
+    "opacity": 0.5
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 810
+   },
+   "x": 230,
+   "y": 60,
+   "width": 860,
+   "height": 760,
+   "props": {
+    "layout": "vertical",
+    "gap": 0,
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 20,
+    "stroke": "#e3dbcb",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fixed",
+    "sizingV": "fixed",
+    "clip": true
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 812
+   },
+   "props": {
+    "layout": "horizontal",
+    "padding": [
+     18,
+     24,
+     14,
+     24
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "mainAlign": "spaceBetween",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 813
+   },
+   "width": 32,
+   "height": 32,
+   "props": {
+    "layout": "horizontal",
+    "fills": [
+     "#f4efe4"
+    ],
+    "cornerRadius": 999,
+    "sizingH": "fixed",
+    "sizingV": "fixed",
+    "mainAlign": "center",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "vector",
+   "name": "x",
+   "parent": {
+    "$step": 814
+   },
+   "path": "M18 6 6 18 M6 6L18 18",
+   "props": {
+    "width": 16,
+    "height": 16,
+    "fills": [],
+    "stroke": "#6b6153",
+    "strokeWeight": 1.35,
+    "strokeCap": "round",
+    "strokeJoin": "round"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "إضافة كتاب",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 19,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 813
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 812
+   },
+   "width": 100,
+   "height": 1,
+   "props": {
+    "fills": [
+     "#e3dbcb"
+    ],
+    "sizingH": "fill"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 812
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     12,
+     24,
+     12,
+     24
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 818
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     7,
+     14,
+     7,
+     14
+    ],
+    "cornerRadius": 999,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "المراجعة",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 14,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 819
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 819
+   },
+   "width": 20,
+   "height": 20,
+   "props": {
+    "layout": "horizontal",
+    "fills": [
+     "#eae3d5"
+    ],
+    "cornerRadius": 999,
+    "sizingH": "fixed",
+    "sizingV": "fixed",
+    "mainAlign": "center",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "4",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 821
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 818
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     7,
+     14,
+     7,
+     14
+    ],
+    "fills": [
+     "#e3efe8"
+    ],
+    "cornerRadius": 999,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "التصنيفات",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 14,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#24523c"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 823
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 823
+   },
+   "width": 20,
+   "height": 20,
+   "props": {
+    "layout": "horizontal",
+    "fills": [
+     "#2f6b4f"
+    ],
+    "cornerRadius": 999,
+    "sizingH": "fixed",
+    "sizingV": "fixed",
+    "mainAlign": "center",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "3",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#e3efe8"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 825
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 818
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     7,
+     14,
+     7,
+     14
+    ],
+    "cornerRadius": 999,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "البيانات",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 14,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 827
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 827
+   },
+   "width": 20,
+   "height": 20,
+   "props": {
+    "layout": "horizontal",
+    "fills": [
+     "#e3efe8"
+    ],
+    "cornerRadius": 999,
+    "sizingH": "fixed",
+    "sizingV": "fixed",
+    "mainAlign": "center",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "vector",
+   "name": "check",
+   "parent": {
+    "$step": 829
+   },
+   "path": "M20 6 9 17l-5-5",
+   "props": {
+    "width": 12,
+    "height": 12,
+    "fills": [],
+    "stroke": "#2f6b4f",
+    "strokeWeight": 1.35,
+    "strokeCap": "round",
+    "strokeJoin": "round"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 818
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     7,
+     14,
+     7,
+     14
+    ],
+    "cornerRadius": 999,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "المصدر",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 14,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 831
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 831
+   },
+   "width": 20,
+   "height": 20,
+   "props": {
+    "layout": "horizontal",
+    "fills": [
+     "#e3efe8"
+    ],
+    "cornerRadius": 999,
+    "sizingH": "fixed",
+    "sizingV": "fixed",
+    "mainAlign": "center",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "vector",
+   "name": "check",
+   "parent": {
+    "$step": 833
+   },
+   "path": "M20 6 9 17l-5-5",
+   "props": {
+    "width": 12,
+    "height": 12,
+    "fills": [],
+    "stroke": "#2f6b4f",
+    "strokeWeight": 1.35,
+    "strokeCap": "round",
+    "strokeJoin": "round"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 812
+   },
+   "width": 100,
+   "height": 1,
+   "props": {
+    "fills": [
+     "#e3dbcb"
+    ],
+    "sizingH": "fill"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 812
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 14,
+    "padding": [
+     20,
+     24,
+     18,
+     24
+    ],
+    "sizingH": "fill",
+    "sizingV": "fill",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 812
+   },
+   "width": 100,
+   "height": 1,
+   "props": {
+    "fills": [
+     "#e3dbcb"
+    ],
+    "sizingH": "fill"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 812
+   },
+   "props": {
+    "layout": "horizontal",
+    "padding": [
+     14,
+     24,
+     16,
+     24
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "mainAlign": "spaceBetween",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 838
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 10,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 839
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     10,
+     18,
+     10,
+     18
+    ],
+    "fills": [
+     "#2f6b4f"
+    ],
+    "cornerRadius": 8,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "التالي",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#e3efe8"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 840
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "vector",
+   "name": "arrow-left",
+   "parent": {
+    "$step": 840
+   },
+   "path": "M12 19L5 12L12 5 M19 12H5",
+   "props": {
+    "width": 16,
+    "height": 16,
+    "fills": [],
+    "stroke": "#e3efe8",
+    "strokeWeight": 1.35,
+    "strokeCap": "round",
+    "strokeJoin": "round"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 839
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     10,
+     18,
+     10,
+     18
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 8,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "رجوع",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 843
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "vector",
+   "name": "arrow-right",
+   "parent": {
+    "$step": 843
+   },
+   "path": "M5 12h14 M12 5L19 12L12 19",
+   "props": {
+    "width": 16,
+    "height": 16,
+    "fills": [],
+    "stroke": "#2a2621",
+    "strokeWeight": 1.35,
+    "strokeCap": "round",
+    "strokeJoin": "round"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 838
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     10,
+     18,
+     10,
+     18
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 8,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "إلغاء",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 846
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 836
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 16,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 848
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 5,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 849
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 3,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "الوسوم",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 850
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 849
+   },
+   "height": 36,
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     0,
+     12,
+     0,
+     12
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 10,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "fixed",
+    "mainAlign": "max",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 852
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 6,
+    "padding": [
+     5,
+     10,
+     5,
+     10
+    ],
+    "fills": [
+     "#e3efe8"
+    ],
+    "cornerRadius": 999,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "vector",
+   "name": "x",
+   "parent": {
+    "$step": 853
+   },
+   "path": "M18 6 6 18 M6 6L18 18",
+   "props": {
+    "width": 12,
+    "height": 12,
+    "fills": [],
+    "stroke": "#24523c",
+    "strokeWeight": 1.35,
+    "strokeCap": "round",
+    "strokeJoin": "round"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "حضارة",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13,
+    "fontStyle": "Regular",
+    "fills": [
+     "#24523c"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 853
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 852
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 6,
+    "padding": [
+     5,
+     10,
+     5,
+     10
+    ],
+    "fills": [
+     "#e3efe8"
+    ],
+    "cornerRadius": 999,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "vector",
+   "name": "x",
+   "parent": {
+    "$step": 856
+   },
+   "path": "M18 6 6 18 M6 6L18 18",
+   "props": {
+    "width": 12,
+    "height": 12,
+    "fills": [],
+    "stroke": "#24523c",
+    "strokeWeight": 1.35,
+    "strokeCap": "round",
+    "strokeJoin": "round"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "تاريخ",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13,
+    "fontStyle": "Regular",
+    "fills": [
+     "#24523c"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 856
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 848
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 5,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 859
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 3,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "التصنيف",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 860
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 859
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 862
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     6,
+     12,
+     6,
+     12
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 8,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "تصنيف فرعي",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 863
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "vector",
+   "name": "plus",
+   "parent": {
+    "$step": 863
+   },
+   "path": "M5 12h14 M12 5v14",
+   "props": {
+    "width": 16,
+    "height": 16,
+    "fills": [],
+    "stroke": "#2a2621",
+    "strokeWeight": 1.35,
+    "strokeCap": "round",
+    "strokeJoin": "round"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 862
+   },
+   "height": 36,
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     0,
+     12,
+     0,
+     12
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 10,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "fixed",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 866
+   },
+   "props": {
+    "layout": "horizontal",
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "mainAlign": "max",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "تاريخ العرب",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "Regular",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 867
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 836
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 16,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 869
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 5,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 870
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 3,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "التقييم",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 871
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 870
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 6,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "vector",
+   "name": "star",
+   "parent": {
+    "$step": 873
+   },
+   "path": "M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z",
+   "props": {
+    "width": 17,
+    "height": 17,
+    "fills": [],
+    "stroke": "#d8d0be",
+    "strokeWeight": 1.35,
+    "strokeCap": "round",
+    "strokeJoin": "round"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "vector",
+   "name": "star",
+   "parent": {
+    "$step": 873
+   },
+   "path": "M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z",
+   "props": {
+    "width": 17,
+    "height": 17,
+    "fills": [],
+    "stroke": "#d8d0be",
+    "strokeWeight": 1.35,
+    "strokeCap": "round",
+    "strokeJoin": "round"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "vector",
+   "name": "star",
+   "parent": {
+    "$step": 873
+   },
+   "path": "M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z",
+   "props": {
+    "width": 17,
+    "height": 17,
+    "fills": [
+     "#c99a17"
+    ],
+    "stroke": "#c99a17",
+    "strokeWeight": 1.35,
+    "strokeCap": "round",
+    "strokeJoin": "round"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "vector",
+   "name": "star",
+   "parent": {
+    "$step": 873
+   },
+   "path": "M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z",
+   "props": {
+    "width": 17,
+    "height": 17,
+    "fills": [
+     "#c99a17"
+    ],
+    "stroke": "#c99a17",
+    "strokeWeight": 1.35,
+    "strokeCap": "round",
+    "strokeJoin": "round"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "vector",
+   "name": "star",
+   "parent": {
+    "$step": 873
+   },
+   "path": "M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z",
+   "props": {
+    "width": 17,
+    "height": 17,
+    "fills": [
+     "#c99a17"
+    ],
+    "stroke": "#c99a17",
+    "strokeWeight": 1.35,
+    "strokeCap": "round",
+    "strokeJoin": "round"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 869
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 5,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 879
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 3,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "الحالة",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 880
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 879
+   },
+   "height": 36,
+   "props": {
+    "layout": "horizontal",
+    "padding": [
+     0,
+     12,
+     0,
+     12
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 10,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "fixed",
+    "mainAlign": "spaceBetween",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "vector",
+   "name": "chevron-down",
+   "parent": {
+    "$step": 882
+   },
+   "path": "M6 9L12 15L18 9",
+   "props": {
+    "width": 16,
+    "height": 16,
+    "fills": [],
+    "stroke": "#948a79",
+    "strokeWeight": 1.35,
+    "strokeCap": "round",
+    "strokeJoin": "round"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "لم أبدأها",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "Regular",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 882
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 836
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 5,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 885
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 3,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "الوصف",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 886
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 885
+   },
+   "height": 220,
+   "props": {
+    "layout": "vertical",
+    "padding": [
+     10,
+     12,
+     10,
+     12
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 10,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "fixed",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "وصف مختصر أو ملاحظاتك عن الكتاب…",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 888
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "7 · إضافة كتاب — المراجعة · Wizard",
+   "select": false,
+   "x": 10000,
+   "width": 1320,
+   "height": 880,
+   "props": {
+    "fills": [
+     "#fbf8f1"
+    ],
+    "sizingH": "fixed",
+    "sizingV": "fixed",
+    "clip": true
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 890
+   },
+   "width": 1320,
+   "height": 880,
+   "props": {
+    "fills": [
+     "#2a2621"
+    ],
+    "opacity": 0.5
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 890
+   },
+   "x": 230,
+   "y": 60,
+   "width": 860,
+   "height": 760,
+   "props": {
+    "layout": "vertical",
+    "gap": 0,
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 20,
+    "stroke": "#e3dbcb",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fixed",
+    "sizingV": "fixed",
+    "clip": true
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 892
+   },
+   "props": {
+    "layout": "horizontal",
+    "padding": [
+     18,
+     24,
+     14,
+     24
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "mainAlign": "spaceBetween",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 893
+   },
+   "width": 32,
+   "height": 32,
+   "props": {
+    "layout": "horizontal",
+    "fills": [
+     "#f4efe4"
+    ],
+    "cornerRadius": 999,
+    "sizingH": "fixed",
+    "sizingV": "fixed",
+    "mainAlign": "center",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "vector",
+   "name": "x",
+   "parent": {
+    "$step": 894
+   },
+   "path": "M18 6 6 18 M6 6L18 18",
+   "props": {
+    "width": 16,
+    "height": 16,
+    "fills": [],
+    "stroke": "#6b6153",
+    "strokeWeight": 1.35,
+    "strokeCap": "round",
+    "strokeJoin": "round"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "إضافة كتاب",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 19,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 893
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 892
+   },
+   "width": 100,
+   "height": 1,
+   "props": {
+    "fills": [
+     "#e3dbcb"
+    ],
+    "sizingH": "fill"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 892
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     12,
+     24,
+     12,
+     24
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 898
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     7,
+     14,
+     7,
+     14
+    ],
+    "fills": [
+     "#e3efe8"
+    ],
+    "cornerRadius": 999,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "المراجعة",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 14,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#24523c"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 899
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 899
+   },
+   "width": 20,
+   "height": 20,
+   "props": {
+    "layout": "horizontal",
+    "fills": [
+     "#2f6b4f"
+    ],
+    "cornerRadius": 999,
+    "sizingH": "fixed",
+    "sizingV": "fixed",
+    "mainAlign": "center",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "4",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#e3efe8"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 901
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 898
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     7,
+     14,
+     7,
+     14
+    ],
+    "cornerRadius": 999,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "التصنيفات",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 14,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 903
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 903
+   },
+   "width": 20,
+   "height": 20,
+   "props": {
+    "layout": "horizontal",
+    "fills": [
+     "#e3efe8"
+    ],
+    "cornerRadius": 999,
+    "sizingH": "fixed",
+    "sizingV": "fixed",
+    "mainAlign": "center",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "vector",
+   "name": "check",
+   "parent": {
+    "$step": 905
+   },
+   "path": "M20 6 9 17l-5-5",
+   "props": {
+    "width": 12,
+    "height": 12,
+    "fills": [],
+    "stroke": "#2f6b4f",
+    "strokeWeight": 1.35,
+    "strokeCap": "round",
+    "strokeJoin": "round"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 898
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     7,
+     14,
+     7,
+     14
+    ],
+    "cornerRadius": 999,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "البيانات",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 14,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 907
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 907
+   },
+   "width": 20,
+   "height": 20,
+   "props": {
+    "layout": "horizontal",
+    "fills": [
+     "#e3efe8"
+    ],
+    "cornerRadius": 999,
+    "sizingH": "fixed",
+    "sizingV": "fixed",
+    "mainAlign": "center",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "vector",
+   "name": "check",
+   "parent": {
+    "$step": 909
+   },
+   "path": "M20 6 9 17l-5-5",
+   "props": {
+    "width": 12,
+    "height": 12,
+    "fills": [],
+    "stroke": "#2f6b4f",
+    "strokeWeight": 1.35,
+    "strokeCap": "round",
+    "strokeJoin": "round"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 898
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     7,
+     14,
+     7,
+     14
+    ],
+    "cornerRadius": 999,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "المصدر",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 14,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 911
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 911
+   },
+   "width": 20,
+   "height": 20,
+   "props": {
+    "layout": "horizontal",
+    "fills": [
+     "#e3efe8"
+    ],
+    "cornerRadius": 999,
+    "sizingH": "fixed",
+    "sizingV": "fixed",
+    "mainAlign": "center",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "vector",
+   "name": "check",
+   "parent": {
+    "$step": 913
+   },
+   "path": "M20 6 9 17l-5-5",
+   "props": {
+    "width": 12,
+    "height": 12,
+    "fills": [],
+    "stroke": "#2f6b4f",
+    "strokeWeight": 1.35,
+    "strokeCap": "round",
+    "strokeJoin": "round"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 892
+   },
+   "width": 100,
+   "height": 1,
+   "props": {
+    "fills": [
+     "#e3dbcb"
+    ],
+    "sizingH": "fill"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 892
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 14,
+    "padding": [
+     20,
+     24,
+     18,
+     24
+    ],
+    "sizingH": "fill",
+    "sizingV": "fill",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 892
+   },
+   "width": 100,
+   "height": 1,
+   "props": {
+    "fills": [
+     "#e3dbcb"
+    ],
+    "sizingH": "fill"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 892
+   },
+   "props": {
+    "layout": "horizontal",
+    "padding": [
+     14,
+     24,
+     16,
+     24
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "mainAlign": "spaceBetween",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 918
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 10,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 919
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     10,
+     18,
+     10,
+     18
+    ],
+    "fills": [
+     "#2f6b4f"
+    ],
+    "cornerRadius": 8,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "حفظ",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#e3efe8"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 920
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "vector",
+   "name": "check",
+   "parent": {
+    "$step": 920
+   },
+   "path": "M20 6 9 17l-5-5",
+   "props": {
+    "width": 16,
+    "height": 16,
+    "fills": [],
+    "stroke": "#e3efe8",
+    "strokeWeight": 1.35,
+    "strokeCap": "round",
+    "strokeJoin": "round"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 919
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     10,
+     18,
+     10,
+     18
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 8,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "رجوع",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 923
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "vector",
+   "name": "arrow-right",
+   "parent": {
+    "$step": 923
+   },
+   "path": "M5 12h14 M12 5L19 12L12 19",
+   "props": {
+    "width": 16,
+    "height": 16,
+    "fills": [],
+    "stroke": "#2a2621",
+    "strokeWeight": 1.35,
+    "strokeCap": "round",
+    "strokeJoin": "round"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 918
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     10,
+     18,
+     10,
+     18
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 8,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "إلغاء",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 926
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 916
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 22,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "min"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 928
+   },
+   "width": 116,
+   "height": 174,
+   "props": {
+    "fills": [
+     "#F2EDE1"
+    ],
+    "cornerRadius": 6,
+    "sizingH": "fixed",
+    "sizingV": "fixed",
+    "clip": true
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 929
+   },
+   "x": 106,
+   "y": 0,
+   "width": 10,
+   "height": 174,
+   "props": {
+    "fills": [
+     "#2F6B4F"
+    ]
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 929
+   },
+   "x": 105,
+   "y": 0,
+   "width": 1,
+   "height": 174,
+   "props": {
+    "fills": [
+     "#2F6B4F"
+    ]
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 929
+   },
+   "x": 21,
+   "y": 45,
+   "width": 74,
+   "height": 1,
+   "props": {
+    "fills": [
+     "#2F6B4F"
+    ]
+   }
+  }
+ },
+ {
+  "command": "text.create",
+  "params": {
+   "parent": {
+    "$step": 929
+   },
+   "x": 21,
+   "y": 59,
+   "width": 74,
+   "text": "مقدمة في الحضارة الإسلامية",
+   "props": {
+    "fontFamily": "Cairo",
+    "fontStyle": "SemiBold",
+    "fontSize": 13,
+    "lineHeight": "145%",
+    "textAlign": "center",
+    "textAutoResize": "height",
+    "fills": [
+     "#1D4231"
+    ]
+   }
+  }
+ },
+ {
+  "command": "text.create",
+  "params": {
+   "parent": {
+    "$step": 929
+   },
+   "x": 21,
+   "y": 124,
+   "width": 74,
+   "text": "أحمد فكري",
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 9,
+    "textAlign": "center",
+    "textAutoResize": "height",
+    "fills": [
+     "#1D4231"
+    ],
+    "opacity": 0.75
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 928
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 0,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 935
+   },
+   "props": {
+    "layout": "horizontal",
+    "padding": [
+     3,
+     0,
+     3,
+     0
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "mainAlign": "spaceBetween",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "مقدمة في الحضارة الإسلامية",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "Regular",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 936
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "العنوان",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 936
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 935
+   },
+   "props": {
+    "layout": "horizontal",
+    "padding": [
+     3,
+     0,
+     3,
+     0
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "mainAlign": "spaceBetween",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "أحمد فكري",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "Regular",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 939
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "المؤلف",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 939
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 935
+   },
+   "props": {
+    "layout": "horizontal",
+    "padding": [
+     3,
+     0,
+     3,
+     0
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "mainAlign": "spaceBetween",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "دار المعارف",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "Regular",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 942
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "الناشر",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 942
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 935
+   },
+   "props": {
+    "layout": "horizontal",
+    "padding": [
+     3,
+     0,
+     3,
+     0
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "mainAlign": "spaceBetween",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "978-0-306-40615-7",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 15,
+    "fontStyle": "Regular",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 945
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "ISBN",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 945
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 935
+   },
+   "props": {
+    "layout": "horizontal",
+    "padding": [
+     3,
+     0,
+     3,
+     0
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "mainAlign": "spaceBetween",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "١٩٧٨ · ٤٢٤",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "Regular",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 948
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "السنة · الصفحات",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 948
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 935
+   },
+   "props": {
+    "layout": "horizontal",
+    "padding": [
+     3,
+     0,
+     3,
+     0
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "mainAlign": "spaceBetween",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "العربية · ورقي",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "Regular",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 951
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "اللغة · التنسيق",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 951
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 935
+   },
+   "props": {
+    "layout": "horizontal",
+    "padding": [
+     3,
+     0,
+     3,
+     0
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "mainAlign": "spaceBetween",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 954
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 6,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 955
+   },
+   "props": {
+    "layout": "horizontal",
+    "padding": [
+     5,
+     11,
+     5,
+     11
+    ],
+    "fills": [
+     "#f4efe4"
+    ],
+    "cornerRadius": 999,
+    "stroke": "#e3dbcb",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "تاريخ العرب",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 956
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 955
+   },
+   "props": {
+    "layout": "horizontal",
+    "padding": [
+     5,
+     11,
+     5,
+     11
+    ],
+    "fills": [
+     "#f4efe4"
+    ],
+    "cornerRadius": 999,
+    "stroke": "#e3dbcb",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "التاريخ",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 958
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "التصنيفات",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 954
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 935
+   },
+   "props": {
+    "layout": "horizontal",
+    "padding": [
+     3,
+     0,
+     3,
+     0
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "mainAlign": "spaceBetween",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 961
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 6,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 962
+   },
+   "props": {
+    "layout": "horizontal",
+    "padding": [
+     5,
+     11,
+     5,
+     11
+    ],
+    "fills": [
+     "#f4efe4"
+    ],
+    "cornerRadius": 999,
+    "stroke": "#e3dbcb",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "حضارة",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 963
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 962
+   },
+   "props": {
+    "layout": "horizontal",
+    "padding": [
+     5,
+     11,
+     5,
+     11
+    ],
+    "fills": [
+     "#f4efe4"
+    ],
+    "cornerRadius": 999,
+    "stroke": "#e3dbcb",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "تاريخ",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 965
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "الوسوم",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 961
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 935
+   },
+   "props": {
+    "layout": "horizontal",
+    "padding": [
+     3,
+     0,
+     3,
+     0
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "mainAlign": "spaceBetween",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "لم أبدأها",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "Regular",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 968
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "الحالة",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 968
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 916
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 10,
+    "padding": [
+     14,
+     16,
+     14,
+     16
+    ],
+    "fills": [
+     "#fbf0d8"
+    ],
+    "cornerRadius": 12,
+    "stroke": "#9a6b12",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 971
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "قد يوجد كتاب متطابق",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 14,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#9a6b12"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 972
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "vector",
+   "name": "triangle-alert",
+   "parent": {
+    "$step": 972
+   },
+   "path": "M21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3 M12 9v4 M12 17h.01",
+   "props": {
+    "width": 16,
+    "height": 16,
+    "fills": [],
+    "stroke": "#9a6b12",
+    "strokeWeight": 1.35,
+    "strokeCap": "round",
+    "strokeJoin": "round"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "«مقدمة في الحضارة الإسلامية» لـ أحمد فكري — طابق ISBN والعناوان والمؤلف.",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 971
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 971
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 976
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     6,
+     12,
+     6,
+     12
+    ],
+    "fills": [
+     "#2f6b4f"
+    ],
+    "cornerRadius": 8,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "حفظ رغم ذلك",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#e3efe8"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 977
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 976
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     6,
+     12,
+     6,
+     12
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 8,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "عرض التطابق",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 979
+   }
   }
  }
 ]

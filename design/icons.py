@@ -25,6 +25,9 @@ WANTED = [
     "arrow-left-right", "settings", "panel-left-close", "search", "languages",
     "sun", "moon", "lock", "minus", "square", "x", "grid-3x3", "list",
     "rows-3", "flame", "plus", "chevron-down", "arrow-left", "arrow-right", "star",
+    # Add-book wizard (M3): step-done mark, duplicate warning, cover drop-zone,
+    # removable tag chips, validation summary.
+    "check", "triangle-alert", "upload", "tag", "circle-alert",
 ]
 
 
@@ -79,6 +82,34 @@ def _points(raw: str) -> str:
     return f"M{_n(head[0])} {_n(head[1])}{body}"
 
 
+def _promote_leading_m(d: str) -> str:
+    """Promote a leading relative `m` without changing what follows it.
+
+    A moveto from the origin is positionally identical either way, but the
+    *pairs after* a moveto are implicit `L`s in the current coordinate space:
+    `m6 6 12 12` means "line to (18,18)" (relative), while `M6 6 12 12` means
+    "line to (12,12)" (absolute). Naively uppercasing would silently redraw
+    every icon written in Lucide's implicit-pair style — `chevron-down`'s
+    `m6 9 6 6 6-6` would collapse to a vertical line, `x`'s second stroke would
+    stop half-way — so the implicit pairs are re-emitted as accumulated
+    absolute lines instead. Explicit commands after the moveto keep their own
+    (correct) relative semantics; none of the bundled icons mix them into a
+    multi-pair moveto, so those fall back to the plain promotion.
+    """
+    rest = d[1:]
+    if re.search(r"[A-Za-z]", rest):
+        return "M" + rest
+    nums = [float(v) for v in re.findall(r"-?\d*\.?\d+(?:e[-+]?\d+)?", rest, re.I)]
+    if len(nums) <= 2:
+        return "M" + rest
+    x, y = nums[0], nums[1]
+    out = [f"M{_n(x)} {_n(y)}"]
+    for dx, dy in zip(nums[2::2], nums[3::2]):
+        x, y = x + dx, y + dy
+        out.append(f"L{_n(x)} {_n(y)}")
+    return "".join(out)
+
+
 def _shape(tag: str, a: dict) -> str:
     if tag == "rect":
         return _rounded_rect(a)
@@ -111,10 +142,12 @@ def _read(name: str) -> list[str]:
             continue
         # Every primitive is authored against its own (0, 0) origin. The shell
         # draws them as *separate* paths, but FigCraft takes one `d` — so a
-        # relative leading command (`m6 6 12 12` in `x`) would otherwise be
-        # measured from the previous primitive's end point. At the origin the
-        # relative and absolute forms are identical, so promoting it is exact.
-        if d[0].islower():
+        # relative leading command would otherwise be measured from the previous
+        # primitive's end point. At the origin a relative moveto lands where the
+        # absolute one does; the helper then keeps its implicit pairs relative.
+        if d[0] == "m":
+            d = _promote_leading_m(d)
+        elif d[0].islower():
             d = d[0].upper() + d[1:]
         out.append(d)
     return out

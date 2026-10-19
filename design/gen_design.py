@@ -108,6 +108,7 @@ class Script:
 
     def _props(self, *, layout=None, gap=None, cross_gap=None, padding=None,
                fill=None, radius=None, stroke=None, stroke_weight=1,
+               stroke_dash=None,
                sizing_h=None, sizing_v=None, main_align=None, cross_align=None,
                clip=None) -> dict:
         props: dict = {}
@@ -127,6 +128,9 @@ class Script:
             props["stroke"] = stroke
             props["strokeWeight"] = stroke_weight
             props["strokeAlign"] = "inside"
+            if stroke_dash is not None:
+                # `node.create`'s dash pattern prop (see `figcraft-cli commands`).
+                props["dashes"] = list(stroke_dash)
         if sizing_h is not None:
             props["sizingH"] = sizing_h
         if sizing_v is not None:
@@ -140,7 +144,8 @@ class Script:
         return props
 
     def frame(self, parent=None, *, name="", layout=None, gap=None, padding=None,
-              fill=None, radius=None, stroke=None, stroke_weight=1, width=None,
+              fill=None, radius=None, stroke=None, stroke_weight=1,
+              stroke_dash=None, width=None,
               height=None, sizing_h=None, sizing_v=None, main_align=None,
               cross_align=None, clip=None, cross_gap=None,
               x=None, y=None) -> int:
@@ -160,6 +165,7 @@ class Script:
         props = self._props(layout=layout, gap=gap, cross_gap=cross_gap,
                             padding=padding, fill=fill, radius=radius,
                             stroke=stroke, stroke_weight=stroke_weight,
+                            stroke_dash=stroke_dash,
                             sizing_h=sizing_h, sizing_v=sizing_v,
                             main_align=main_align, cross_align=cross_align,
                             clip=clip)
