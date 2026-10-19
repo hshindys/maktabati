@@ -134,7 +134,7 @@
     <div class="grid gap-[var(--sp-4)] lg:grid-cols-2">
       <Card>
         <h2 class="mb-[var(--sp-4)] text-[var(--fs-md)] font-semibold">
-          {t("status.to_read")}
+          {t("dashboard.inYourLibrary")}
         </h2>
         <dl class="grid grid-cols-2 gap-[var(--sp-4)]">
           <div>

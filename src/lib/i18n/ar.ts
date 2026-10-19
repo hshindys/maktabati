@@ -54,6 +54,7 @@ export const ar = {
   "dashboard.recentlyAdded": "أضيف مؤخراً",
   "dashboard.finishedThisMonth": "أنهيت هذا الشهر",
   "dashboard.topRated": "الأعلى تقييماً",
+  "dashboard.inYourLibrary": "في مكتبتك",
   "dashboard.continueReading": "متابعة القراءة",
   "dashboard.empty.title": "مكتبتك فارغة",
   "dashboard.empty.body": "أضف كتابك الأول خلال أقل من دقيقة.",

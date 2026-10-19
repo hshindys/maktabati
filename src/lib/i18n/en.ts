@@ -54,6 +54,7 @@ export const en: Record<MessageKey, string> = {
   "dashboard.recentlyAdded": "Recently added",
   "dashboard.finishedThisMonth": "Finished this month",
   "dashboard.topRated": "Top rated",
+  "dashboard.inYourLibrary": "In your library",
   "dashboard.continueReading": "Continue reading",
   "dashboard.empty.title": "Your library is empty",
   "dashboard.empty.body": "Add your first book — it takes under a minute.",
