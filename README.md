@@ -8,7 +8,7 @@
 
 ## Status
 
-In active development. Milestones `M0`–`M2` are complete (research, specs, domain + storage + shell); the screens and importers are landing milestone by milestone. See [`docs/05-roadmap.md`](docs/05-roadmap.md) for what is done and what is next.
+In active development. Milestones `M0`–`M3` are complete: research and specs, the domain/storage/search core, the Tauri shell, and the catalogue — 44 backend commands plus the four-step add-book wizard (live ISBN validation, duplicate warning, draft persistence). The remaining screens and importers are landing milestone by milestone. See [`docs/05-roadmap.md`](docs/05-roadmap.md) for what is done and what is next.
 
 ## Why
 
