@@ -213,14 +213,19 @@ pub fn run() -> anyhow::Result<()> {
             // The guard must outlive every log statement; `std::mem::forget` is the documented
             // pattern for an app-lifetime writer.
             std::mem::forget(_guard);
-            tracing_subscriber::fmt()
+            // `.try_init()`, not `.init()`: `tauri_plugin_log` has already claimed the `log`
+            // global logger, so registering the tracing→log bridge reports an error — after
+            // the tracing subscriber itself is installed. Ignoring it keeps `tracing` events
+            // flowing to the file appender while the plugin keeps handling `log`; `.init()`
+            // would panic the app on every launch.
+            let _ = tracing_subscriber::fmt()
                 .with_writer(non_blocking)
                 .with_ansi(false)
                 .with_env_filter(
                     tracing_subscriber::EnvFilter::try_from_default_env()
                         .unwrap_or_else(|_| tracing_subscriber::EnvFilter::new("info")),
                 )
-                .init();
+                .try_init();
 
             let db = open_database(&data_dir)?;
             tracing::info!(data_dir = %data_dir.display(), "database ready");
