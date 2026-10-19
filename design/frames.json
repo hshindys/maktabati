@@ -1875,7 +1875,7 @@
    "parent": {
     "$step": 82
    },
-   "height": 200,
+   "height": 170,
    "props": {
     "layout": "horizontal",
     "gap": 16,
@@ -1971,6 +1971,45 @@
  {
   "command": "node.create",
   "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 90
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 6,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "mainAlign": "max",
+    "crossAlign": "baseline"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "من 30",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 94
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
    "type": "text",
    "text": "12",
    "select": false,
@@ -1984,7 +2023,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 90
+    "$step": 94
    }
   }
  },
@@ -2039,7 +2078,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 96
+    "$step": 98
    },
    "width": 114,
    "height": 6,
@@ -2055,7 +2094,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 96
+    "$step": 98
    },
    "width": 76,
    "height": 6,
@@ -2064,26 +2103,6 @@
      "#2f6b4f"
     ],
     "cornerRadius": 999
-   }
-  }
- },
- {
-  "command": "node.create",
-  "params": {
-   "type": "text",
-   "text": "12 من 30",
-   "select": false,
-   "props": {
-    "fontFamily": "Cairo",
-    "fontSize": 12,
-    "fontStyle": "Regular",
-    "fills": [
-     "#948a79"
-    ],
-    "textAutoResize": "widthAndHeight"
-   },
-   "parent": {
-    "$step": 90
    }
   }
  },
@@ -2120,7 +2139,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 100
+    "$step": 101
    },
    "props": {
     "layout": "horizontal",
@@ -2137,7 +2156,7 @@
    "type": "vector",
    "name": "target",
    "parent": {
-    "$step": 101
+    "$step": 102
    },
    "path": "M2 12A10 10 0 1 0 22 12A10 10 0 1 0 2 12Z M6 12A6 6 0 1 0 18 12A6 6 0 1 0 6 12Z M10 12A2 2 0 1 0 14 12A2 2 0 1 0 10 12Z",
    "props": {
@@ -2167,7 +2186,26 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
+    "$step": 102
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
     "$step": 101
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 6,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "mainAlign": "max",
+    "crossAlign": "baseline"
    }
   }
  },
@@ -2187,7 +2225,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 100
+    "$step": 105
    }
   }
  },
@@ -2207,7 +2245,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 100
+    "$step": 101
    }
   }
  },
@@ -2244,7 +2282,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 106
+    "$step": 108
    },
    "props": {
     "layout": "horizontal",
@@ -2261,7 +2299,7 @@
    "type": "vector",
    "name": "book-open",
    "parent": {
-    "$step": 107
+    "$step": 109
    },
    "path": "M12 5v16 M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z",
    "props": {
@@ -2291,7 +2329,26 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 107
+    "$step": 109
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 108
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 6,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "mainAlign": "max",
+    "crossAlign": "baseline"
    }
   }
  },
@@ -2311,7 +2368,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 106
+    "$step": 112
    }
   }
  },
@@ -2331,7 +2388,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 106
+    "$step": 108
    }
   }
  },
@@ -2368,7 +2425,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 112
+    "$step": 115
    },
    "props": {
     "layout": "horizontal",
@@ -2385,7 +2442,7 @@
    "type": "vector",
    "name": "library",
    "parent": {
-    "$step": 113
+    "$step": 116
    },
    "path": "M16 6 4 14 M12 6v14 M8 8v12 M4 4v16",
    "props": {
@@ -2415,7 +2472,26 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 113
+    "$step": 116
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 115
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 6,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "mainAlign": "max",
+    "crossAlign": "baseline"
    }
   }
  },
@@ -2435,7 +2511,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 112
+    "$step": 119
    }
   }
  },
@@ -2455,7 +2531,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 112
+    "$step": 115
    }
   }
  },
@@ -2468,7 +2544,7 @@
    "parent": {
     "$step": 82
    },
-   "height": 225,
+   "height": 216,
    "props": {
     "layout": "horizontal",
     "gap": 16,
@@ -2484,7 +2560,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 118
+    "$step": 122
    },
    "props": {
     "layout": "vertical",
@@ -2499,6 +2575,7 @@
     "strokeAlign": "inside",
     "sizingH": "fill",
     "sizingV": "fill",
+    "mainAlign": "spaceBetween",
     "crossAlign": "max"
    }
   }
@@ -2519,7 +2596,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 119
+    "$step": 123
    }
   }
  },
@@ -2530,7 +2607,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 119
+    "$step": 123
    },
    "props": {
     "layout": "horizontal",
@@ -2557,7 +2634,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 121
+    "$step": 125
    }
   }
  },
@@ -2568,7 +2645,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 121
+    "$step": 125
    },
    "props": {
     "layout": "horizontal",
@@ -2603,7 +2680,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 123
+    "$step": 127
    }
   }
  },
@@ -2614,7 +2691,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 119
+    "$step": 123
    },
    "props": {
     "layout": "horizontal",
@@ -2641,7 +2718,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 125
+    "$step": 129
    }
   }
  },
@@ -2652,7 +2729,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 125
+    "$step": 129
    },
    "props": {
     "layout": "horizontal",
@@ -2687,7 +2764,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 127
+    "$step": 131
    }
   }
  },
@@ -2698,7 +2775,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 119
+    "$step": 123
    },
    "props": {
     "layout": "horizontal",
@@ -2725,7 +2802,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 129
+    "$step": 133
    }
   }
  },
@@ -2736,7 +2813,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 129
+    "$step": 133
    },
    "props": {
     "layout": "horizontal",
@@ -2771,7 +2848,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 131
+    "$step": 135
    }
   }
  },
@@ -2782,7 +2859,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 118
+    "$step": 122
    },
    "props": {
     "layout": "vertical",
@@ -2817,7 +2894,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 133
+    "$step": 137
    }
   }
  },
@@ -2828,7 +2905,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 133
+    "$step": 137
    },
    "props": {
     "layout": "horizontal",
@@ -2845,7 +2922,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 135
+    "$step": 139
    },
    "props": {
     "layout": "vertical",
@@ -2872,7 +2949,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 136
+    "$step": 140
    }
   }
  },
@@ -2892,7 +2969,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 136
+    "$step": 140
    }
   }
  },
@@ -2903,7 +2980,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 135
+    "$step": 139
    },
    "props": {
     "layout": "vertical",
@@ -2930,7 +3007,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 139
+    "$step": 143
    }
   }
  },
@@ -2950,7 +3027,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 139
+    "$step": 143
    }
   }
  },
@@ -2961,7 +3038,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 133
+    "$step": 137
    },
    "props": {
     "layout": "horizontal",
@@ -2978,7 +3055,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 142
+    "$step": 146
    },
    "props": {
     "layout": "vertical",
@@ -3005,7 +3082,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 143
+    "$step": 147
    }
   }
  },
@@ -3025,7 +3102,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 143
+    "$step": 147
    }
   }
  },
@@ -3036,7 +3113,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 142
+    "$step": 146
    },
    "props": {
     "layout": "vertical",
@@ -3063,7 +3140,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 146
+    "$step": 150
    }
   }
  },
@@ -3083,7 +3160,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 146
+    "$step": 150
    }
   }
  },
@@ -3121,7 +3198,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 149
+    "$step": 153
    }
   }
  },
@@ -3132,7 +3209,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 149
+    "$step": 153
    },
    "props": {
     "layout": "horizontal",
@@ -3150,7 +3227,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 151
+    "$step": 155
    },
    "width": 120,
    "height": 180,
@@ -3172,7 +3249,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 152
+    "$step": 156
    },
    "x": 109,
    "y": 0,
@@ -3192,7 +3269,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 152
+    "$step": 156
    },
    "x": 108,
    "y": 0,
@@ -3212,7 +3289,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 152
+    "$step": 156
    },
    "x": 22,
    "y": 47,
@@ -3229,7 +3306,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 152
+    "$step": 156
    },
    "x": 22,
    "y": 61,
@@ -3252,7 +3329,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 152
+    "$step": 156
    },
    "x": 22,
    "y": 126,
@@ -3277,7 +3354,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 151
+    "$step": 155
    },
    "width": 120,
    "height": 180,
@@ -3299,7 +3376,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 158
+    "$step": 162
    },
    "x": 109,
    "y": 0,
@@ -3319,7 +3396,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 158
+    "$step": 162
    },
    "x": 108,
    "y": 0,
@@ -3339,7 +3416,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 158
+    "$step": 162
    },
    "x": 22,
    "y": 47,
@@ -3356,7 +3433,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 158
+    "$step": 162
    },
    "x": 22,
    "y": 61,
@@ -3379,7 +3456,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 158
+    "$step": 162
    },
    "x": 22,
    "y": 126,
@@ -3404,7 +3481,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 151
+    "$step": 155
    },
    "width": 120,
    "height": 180,
@@ -3426,7 +3503,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 164
+    "$step": 168
    },
    "x": 109,
    "y": 0,
@@ -3446,7 +3523,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 164
+    "$step": 168
    },
    "x": 108,
    "y": 0,
@@ -3466,7 +3543,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 164
+    "$step": 168
    },
    "x": 22,
    "y": 47,
@@ -3483,7 +3560,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 164
+    "$step": 168
    },
    "x": 22,
    "y": 61,
@@ -3506,7 +3583,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 164
+    "$step": 168
    },
    "x": 22,
    "y": 126,
@@ -3531,7 +3608,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 151
+    "$step": 155
    },
    "width": 120,
    "height": 180,
@@ -3553,7 +3630,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 170
+    "$step": 174
    },
    "x": 109,
    "y": 0,
@@ -3573,7 +3650,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 170
+    "$step": 174
    },
    "x": 108,
    "y": 0,
@@ -3593,7 +3670,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 170
+    "$step": 174
    },
    "x": 22,
    "y": 47,
@@ -3610,7 +3687,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 170
+    "$step": 174
    },
    "x": 22,
    "y": 61,
@@ -3633,7 +3710,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 170
+    "$step": 174
    },
    "x": 22,
    "y": 126,
@@ -3658,7 +3735,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 151
+    "$step": 155
    },
    "width": 120,
    "height": 180,
@@ -3680,7 +3757,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 176
+    "$step": 180
    },
    "x": 109,
    "y": 0,
@@ -3700,7 +3777,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 176
+    "$step": 180
    },
    "x": 108,
    "y": 0,
@@ -3720,7 +3797,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 176
+    "$step": 180
    },
    "x": 22,
    "y": 47,
@@ -3737,7 +3814,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 176
+    "$step": 180
    },
    "x": 22,
    "y": 61,
@@ -3760,7 +3837,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 176
+    "$step": 180
    },
    "x": 22,
    "y": 126,
@@ -3785,7 +3862,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 151
+    "$step": 155
    },
    "width": 120,
    "height": 180,
@@ -3807,7 +3884,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 182
+    "$step": 186
    },
    "x": 109,
    "y": 0,
@@ -3827,7 +3904,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 182
+    "$step": 186
    },
    "x": 108,
    "y": 0,
@@ -3847,7 +3924,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 182
+    "$step": 186
    },
    "x": 22,
    "y": 47,
@@ -3864,7 +3941,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 182
+    "$step": 186
    },
    "x": 22,
    "y": 61,
@@ -3887,7 +3964,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 182
+    "$step": 186
    },
    "x": 22,
    "y": 126,
@@ -3933,7 +4010,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 188
+    "$step": 192
    },
    "height": 44,
    "props": {
@@ -3954,7 +4031,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 189
+    "$step": 193
    },
    "height": 43,
    "props": {
@@ -3979,7 +4056,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 190
+    "$step": 194
    },
    "props": {
     "layout": "horizontal",
@@ -3997,7 +4074,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 191
+    "$step": 195
    },
    "props": {
     "layout": "horizontal",
@@ -4015,7 +4092,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 192
+    "$step": 196
    },
    "width": 44,
    "height": 32,
@@ -4033,7 +4110,7 @@
    "type": "vector",
    "name": "x",
    "parent": {
-    "$step": 193
+    "$step": 197
    },
    "path": "M18 6 6 18 M6 6 12 12",
    "props": {
@@ -4054,7 +4131,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 192
+    "$step": 196
    },
    "width": 44,
    "height": 32,
@@ -4072,7 +4149,7 @@
    "type": "vector",
    "name": "square",
    "parent": {
-    "$step": 195
+    "$step": 199
    },
    "path": "M5 3H19A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3Z",
    "props": {
@@ -4093,7 +4170,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 192
+    "$step": 196
    },
    "width": 44,
    "height": 32,
@@ -4111,7 +4188,7 @@
    "type": "vector",
    "name": "minus",
    "parent": {
-    "$step": 197
+    "$step": 201
    },
    "path": "M5 12h14",
    "props": {
@@ -4132,7 +4209,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 191
+    "$step": 195
    },
    "width": 8,
    "props": {
@@ -4148,7 +4225,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 191
+    "$step": 195
    },
    "props": {
     "layout": "horizontal",
@@ -4166,7 +4243,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 200
+    "$step": 204
    },
    "width": 32,
    "height": 32,
@@ -4184,7 +4261,7 @@
    "type": "vector",
    "name": "lock",
    "parent": {
-    "$step": 201
+    "$step": 205
    },
    "path": "M5 11H19A2 2 0 0 1 21 13V20A2 2 0 0 1 19 22H5A2 2 0 0 1 3 20V13A2 2 0 0 1 5 11Z M7 11V7a5 5 0 0 1 10 0v4",
    "props": {
@@ -4205,7 +4282,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 200
+    "$step": 204
    },
    "width": 32,
    "height": 32,
@@ -4223,7 +4300,7 @@
    "type": "vector",
    "name": "sun",
    "parent": {
-    "$step": 203
+    "$step": 207
    },
    "path": "M8 12A4 4 0 1 0 16 12A4 4 0 1 0 8 12Z M12 2v2 M12 20v2 M4.93 4.93 1.41 1.41 M17.66 17.66 1.41 1.41 M2 12h2 M20 12h2 M6.34 17.66-1.41 1.41 M19.07 4.93-1.41 1.41",
    "props": {
@@ -4244,7 +4321,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 200
+    "$step": 204
    },
    "width": 32,
    "height": 32,
@@ -4262,7 +4339,7 @@
    "type": "vector",
    "name": "languages",
    "parent": {
-    "$step": 205
+    "$step": 209
    },
    "path": "M5 8 6 6 M4 14 6-6 2-3 M2 5h12 M7 2h1 M22 22-5-10-5 10 M14 18h6",
    "props": {
@@ -4283,7 +4360,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 190
+    "$step": 194
    },
    "width": 544,
    "height": 40,
@@ -4308,7 +4385,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 207
+    "$step": 211
    },
    "height": 28,
    "props": {
@@ -4340,7 +4417,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 208
+    "$step": 212
    },
    "props": {
     "layout": "horizontal",
@@ -4378,7 +4455,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 209
+    "$step": 213
    }
   }
  },
@@ -4389,7 +4466,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 208
+    "$step": 212
    },
    "props": {
     "layout": "horizontal",
@@ -4416,7 +4493,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 211
+    "$step": 215
    }
   }
  },
@@ -4426,7 +4503,7 @@
    "type": "vector",
    "name": "search",
    "parent": {
-    "$step": 208
+    "$step": 212
    },
    "path": "M21 21-4.34-4.34 M3 11A8 8 0 1 0 19 11A8 8 0 1 0 3 11Z",
    "props": {
@@ -4447,7 +4524,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 190
+    "$step": 194
    },
    "props": {
     "layout": "horizontal",
@@ -4474,7 +4551,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 214
+    "$step": 218
    }
   }
  },
@@ -4485,7 +4562,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 214
+    "$step": 218
    },
    "width": 24,
    "height": 24,
@@ -4518,7 +4595,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 216
+    "$step": 220
    }
   }
  },
@@ -4529,7 +4606,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 189
+    "$step": 193
    },
    "width": 100,
    "height": 1,
@@ -4548,7 +4625,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 188
+    "$step": 192
    },
    "props": {
     "layout": "horizontal",
@@ -4565,7 +4642,7 @@
    "name": "main",
    "select": false,
    "parent": {
-    "$step": 219
+    "$step": 223
    },
    "props": {
     "layout": "vertical",
@@ -4582,7 +4659,7 @@
    "name": "sidebar",
    "select": false,
    "parent": {
-    "$step": 219
+    "$step": 223
    },
    "width": 240,
    "props": {
@@ -4603,7 +4680,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 221
+    "$step": 225
    },
    "width": 1,
    "height": 100,
@@ -4622,7 +4699,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 221
+    "$step": 225
    },
    "props": {
     "layout": "vertical",
@@ -4640,7 +4717,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 223
+    "$step": 227
    },
    "props": {
     "layout": "vertical",
@@ -4657,7 +4734,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 224
+    "$step": 228
    },
    "props": {
     "layout": "horizontal",
@@ -4691,7 +4768,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 225
+    "$step": 229
    }
   }
  },
@@ -4701,7 +4778,7 @@
    "type": "vector",
    "name": "layout-dashboard",
    "parent": {
-    "$step": 225
+    "$step": 229
    },
    "path": "M4 3H9A1 1 0 0 1 10 4V11A1 1 0 0 1 9 12H4A1 1 0 0 1 3 11V4A1 1 0 0 1 4 3Z M15 3H20A1 1 0 0 1 21 4V7A1 1 0 0 1 20 8H15A1 1 0 0 1 14 7V4A1 1 0 0 1 15 3Z M15 12H20A1 1 0 0 1 21 13V20A1 1 0 0 1 20 21H15A1 1 0 0 1 14 20V13A1 1 0 0 1 15 12Z M4 16H9A1 1 0 0 1 10 17V20A1 1 0 0 1 9 21H4A1 1 0 0 1 3 20V17A1 1 0 0 1 4 16Z",
    "props": {
@@ -4722,7 +4799,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 224
+    "$step": 228
    },
    "props": {
     "layout": "horizontal",
@@ -4759,7 +4836,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 228
+    "$step": 232
    }
   }
  },
@@ -4769,7 +4846,7 @@
    "type": "vector",
    "name": "library",
    "parent": {
-    "$step": 228
+    "$step": 232
    },
    "path": "M16 6 4 14 M12 6v14 M8 8v12 M4 4v16",
    "props": {
@@ -4790,7 +4867,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 224
+    "$step": 228
    },
    "props": {
     "layout": "horizontal",
@@ -4824,7 +4901,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 231
+    "$step": 235
    }
   }
  },
@@ -4834,7 +4911,7 @@
    "type": "vector",
    "name": "book-open",
    "parent": {
-    "$step": 231
+    "$step": 235
    },
    "path": "M12 5v16 M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z",
    "props": {
@@ -4855,7 +4932,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 224
+    "$step": 228
    },
    "width": 100,
    "height": 1,
@@ -4874,7 +4951,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 224
+    "$step": 228
    },
    "props": {
     "layout": "horizontal",
@@ -4908,7 +4985,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 235
+    "$step": 239
    }
   }
  },
@@ -4918,7 +4995,7 @@
    "type": "vector",
    "name": "sticky-note",
    "parent": {
-    "$step": 235
+    "$step": 239
    },
    "path": "M21 9a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 15 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z M15 3v5a1 1 0 0 0 1 1h5",
    "props": {
@@ -4939,7 +5016,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 224
+    "$step": 228
    },
    "props": {
     "layout": "horizontal",
@@ -4973,7 +5050,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 238
+    "$step": 242
    }
   }
  },
@@ -4983,7 +5060,7 @@
    "type": "vector",
    "name": "quote",
    "parent": {
-    "$step": 238
+    "$step": 242
    },
    "path": "M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z",
    "props": {
@@ -5004,7 +5081,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 224
+    "$step": 228
    },
    "props": {
     "layout": "horizontal",
@@ -5038,7 +5115,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 241
+    "$step": 245
    }
   }
  },
@@ -5048,7 +5125,7 @@
    "type": "vector",
    "name": "users",
    "parent": {
-    "$step": 241
+    "$step": 245
    },
    "path": "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M16 3.128a4 4 0 0 1 0 7.744 M22 21v-2a4 4 0 0 0-3-3.87 M5 7A4 4 0 1 0 13 7A4 4 0 1 0 5 7Z",
    "props": {
@@ -5069,7 +5146,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 224
+    "$step": 228
    },
    "props": {
     "layout": "horizontal",
@@ -5103,7 +5180,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 244
+    "$step": 248
    }
   }
  },
@@ -5113,7 +5190,7 @@
    "type": "vector",
    "name": "store",
    "parent": {
-    "$step": 244
+    "$step": 248
    },
    "path": "M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5 M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244 M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05",
    "props": {
@@ -5134,7 +5211,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 224
+    "$step": 228
    },
    "props": {
     "layout": "horizontal",
@@ -5168,7 +5245,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 247
+    "$step": 251
    }
   }
  },
@@ -5178,7 +5255,7 @@
    "type": "vector",
    "name": "folder-tree",
    "parent": {
-    "$step": 247
+    "$step": 251
    },
    "path": "M20 10a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-2.5a1 1 0 0 1-.8-.4l-.9-1.2A1 1 0 0 0 15 3h-2a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1Z M20 21a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-2.9a1 1 0 0 1-.88-.55l-.42-.85a1 1 0 0 0-.92-.6H13a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1Z M3 5a2 2 0 0 0 2 2h3 M3 3v13a2 2 0 0 0 2 2h3",
    "props": {
@@ -5199,7 +5276,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 224
+    "$step": 228
    },
    "props": {
     "layout": "horizontal",
@@ -5233,7 +5310,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 250
+    "$step": 254
    }
   }
  },
@@ -5243,7 +5320,7 @@
    "type": "vector",
    "name": "hand-coins",
    "parent": {
-    "$step": 250
+    "$step": 254
    },
    "path": "M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17 M7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9 M2 16 6 6 M13.1 9A2.9 2.9 0 1 0 18.9 9A2.9 2.9 0 1 0 13.1 9Z M3 5A3 3 0 1 0 9 5A3 3 0 1 0 3 5Z",
    "props": {
@@ -5264,7 +5341,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 224
+    "$step": 228
    },
    "props": {
     "layout": "horizontal",
@@ -5298,7 +5375,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 253
+    "$step": 257
    }
   }
  },
@@ -5308,7 +5385,7 @@
    "type": "vector",
    "name": "target",
    "parent": {
-    "$step": 253
+    "$step": 257
    },
    "path": "M2 12A10 10 0 1 0 22 12A10 10 0 1 0 2 12Z M6 12A6 6 0 1 0 18 12A6 6 0 1 0 6 12Z M10 12A2 2 0 1 0 14 12A2 2 0 1 0 10 12Z",
    "props": {
@@ -5329,7 +5406,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 224
+    "$step": 228
    },
    "props": {
     "layout": "horizontal",
@@ -5363,7 +5440,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 256
+    "$step": 260
    }
   }
  },
@@ -5373,7 +5450,7 @@
    "type": "vector",
    "name": "arrow-left-right",
    "parent": {
-    "$step": 256
+    "$step": 260
    },
    "path": "M8 3 4 7l4 4 M4 7h16 M16 21 4-4-4-4 M20 17H4",
    "props": {
@@ -5394,7 +5471,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 224
+    "$step": 228
    },
    "props": {
     "layout": "horizontal",
@@ -5428,7 +5505,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 259
+    "$step": 263
    }
   }
  },
@@ -5438,7 +5515,7 @@
    "type": "vector",
    "name": "settings",
    "parent": {
-    "$step": 259
+    "$step": 263
    },
    "path": "M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915 M9 12A3 3 0 1 0 15 12A3 3 0 1 0 9 12Z",
    "props": {
@@ -5459,7 +5536,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 223
+    "$step": 227
    },
    "props": {
     "layout": "vertical",
@@ -5482,7 +5559,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 262
+    "$step": 266
    },
    "width": 100,
    "height": 1,
@@ -5501,7 +5578,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 262
+    "$step": 266
    },
    "props": {
     "layout": "horizontal",
@@ -5535,7 +5612,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 264
+    "$step": 268
    }
   }
  },
@@ -5545,7 +5622,7 @@
    "type": "vector",
    "name": "library-big",
    "parent": {
-    "$step": 264
+    "$step": 268
    },
    "path": "M4 3H10A1 1 0 0 1 11 4V20A1 1 0 0 1 10 21H4A1 1 0 0 1 3 20V4A1 1 0 0 1 4 3Z M7 3v18 M20.4 18.9c.2.5-.1 1.1-.6 1.3l-1.9.7c-.5.2-1.1-.1-1.3-.6L11.1 5.1c-.2-.5.1-1.1.6-1.3l1.9-.7c.5-.2 1.1.1 1.3.6Z",
    "props": {
@@ -5566,7 +5643,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 262
+    "$step": 266
    },
    "props": {
     "layout": "horizontal",
@@ -5600,7 +5677,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 267
+    "$step": 271
    }
   }
  },
@@ -5610,7 +5687,7 @@
    "type": "vector",
    "name": "panel-left-close",
    "parent": {
-    "$step": 267
+    "$step": 271
    },
    "path": "M5 3H19A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3Z M9 3v18 M16 15-3-3 3-3",
    "props": {
@@ -5631,7 +5708,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 220
+    "$step": 224
    },
    "props": {
     "layout": "vertical",
@@ -5648,7 +5725,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 270
+    "$step": 274
    },
    "props": {
     "layout": "horizontal",
@@ -5672,7 +5749,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 271
+    "$step": 275
    },
    "props": {
     "layout": "horizontal",
@@ -5691,7 +5768,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 272
+    "$step": 276
    },
    "props": {
     "layout": "horizontal",
@@ -5728,7 +5805,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 273
+    "$step": 277
    }
   }
  },
@@ -5738,7 +5815,7 @@
    "type": "vector",
    "name": "plus",
    "parent": {
-    "$step": 273
+    "$step": 277
    },
    "path": "M5 12h14 M12 5v14",
    "props": {
@@ -5759,7 +5836,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 272
+    "$step": 276
    },
    "props": {
     "layout": "horizontal",
@@ -5784,7 +5861,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 276
+    "$step": 280
    },
    "width": 28,
    "height": 28,
@@ -5804,7 +5881,7 @@
    "type": "vector",
    "name": "rows-3",
    "parent": {
-    "$step": 277
+    "$step": 281
    },
    "path": "M5 3H19A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3Z M21 9H3 M21 15H3",
    "props": {
@@ -5825,7 +5902,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 276
+    "$step": 280
    },
    "width": 28,
    "height": 28,
@@ -5845,7 +5922,7 @@
    "type": "vector",
    "name": "list",
    "parent": {
-    "$step": 279
+    "$step": 283
    },
    "path": "M3 5h.01 M3 12h.01 M3 19h.01 M8 5h13 M8 12h13 M8 19h13",
    "props": {
@@ -5866,7 +5943,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 276
+    "$step": 280
    },
    "width": 28,
    "height": 28,
@@ -5889,7 +5966,7 @@
    "type": "vector",
    "name": "grid-3x3",
    "parent": {
-    "$step": 281
+    "$step": 285
    },
    "path": "M5 3H19A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3Z M3 9h18 M3 15h18 M9 3v18 M15 3v18",
    "props": {
@@ -5910,7 +5987,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 272
+    "$step": 276
    },
    "props": {
     "layout": "horizontal",
@@ -5928,7 +6005,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 283
+    "$step": 287
    },
    "props": {
     "layout": "horizontal",
@@ -5958,7 +6035,7 @@
    "type": "vector",
    "name": "chevron-down",
    "parent": {
-    "$step": 284
+    "$step": 288
    },
    "path": "M6 9 6 6 6-6",
    "props": {
@@ -5988,7 +6065,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 284
+    "$step": 288
    }
   }
  },
@@ -6008,7 +6085,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 283
+    "$step": 287
    }
   }
  },
@@ -6019,7 +6096,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 271
+    "$step": 275
    },
    "props": {
     "layout": "horizontal",
@@ -6054,7 +6131,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 288
+    "$step": 292
    }
   }
  },
@@ -6074,7 +6151,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 271
+    "$step": 275
    }
   }
  },
@@ -6085,7 +6162,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 270
+    "$step": 274
    },
    "width": 100,
    "height": 1,
@@ -6104,7 +6181,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 220
+    "$step": 224
    },
    "props": {
     "layout": "horizontal",
@@ -6138,7 +6215,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 292
+    "$step": 296
    }
   }
  },
@@ -6148,7 +6225,7 @@
    "type": "vector",
    "name": "chevron-down",
    "parent": {
-    "$step": 292
+    "$step": 296
    },
    "path": "M6 9 6 6 6-6",
    "props": {
@@ -6169,7 +6246,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 292
+    "$step": 296
    },
    "props": {
     "layout": "horizontal",
@@ -6205,7 +6282,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 295
+    "$step": 299
    }
   }
  },
@@ -6216,7 +6293,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 292
+    "$step": 296
    },
    "props": {
     "layout": "horizontal",
@@ -6252,7 +6329,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 297
+    "$step": 301
    }
   }
  },
@@ -6263,7 +6340,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 292
+    "$step": 296
    },
    "props": {
     "layout": "horizontal",
@@ -6299,7 +6376,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 299
+    "$step": 303
    }
   }
  },
@@ -6310,7 +6387,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 292
+    "$step": 296
    },
    "props": {
     "layout": "horizontal",
@@ -6346,7 +6423,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 301
+    "$step": 305
    }
   }
  },
@@ -6357,7 +6434,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 292
+    "$step": 296
    },
    "props": {
     "layout": "horizontal",
@@ -6393,7 +6470,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 303
+    "$step": 307
    }
   }
  },
@@ -6404,7 +6481,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 220
+    "$step": 224
    },
    "props": {
     "layout": "vertical",
@@ -6428,7 +6505,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 305
+    "$step": 309
    },
    "props": {
     "layout": "horizontal",
@@ -6446,7 +6523,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 306
+    "$step": 310
    },
    "props": {
     "layout": "vertical",
@@ -6464,7 +6541,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 307
+    "$step": 311
    },
    "width": 193,
    "height": 290,
@@ -6486,7 +6563,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 308
+    "$step": 312
    },
    "x": 176,
    "y": 0,
@@ -6506,7 +6583,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 308
+    "$step": 312
    },
    "x": 175,
    "y": 0,
@@ -6526,7 +6603,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 308
+    "$step": 312
    },
    "x": 35,
    "y": 75,
@@ -6543,7 +6620,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 308
+    "$step": 312
    },
    "x": 35,
    "y": 99,
@@ -6566,7 +6643,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 308
+    "$step": 312
    },
    "x": 35,
    "y": 198,
@@ -6600,7 +6677,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 307
+    "$step": 311
    },
    "width": 193,
    "textAlign": "right",
@@ -6623,7 +6700,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 307
+    "$step": 311
    },
    "width": 193,
    "textAlign": "right"
@@ -6636,7 +6713,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 307
+    "$step": 311
    },
    "props": {
     "layout": "horizontal",
@@ -6654,7 +6731,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 316
+    "$step": 320
    },
    "width": 64,
    "height": 5,
@@ -6678,7 +6755,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 317
+    "$step": 321
    },
    "width": 24,
    "height": 5,
@@ -6694,7 +6771,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 317
+    "$step": 321
    },
    "width": 40,
    "height": 5,
@@ -6722,7 +6799,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 316
+    "$step": 320
    }
   }
  },
@@ -6733,7 +6810,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 306
+    "$step": 310
    },
    "props": {
     "layout": "vertical",
@@ -6751,7 +6828,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 321
+    "$step": 325
    },
    "width": 193,
    "height": 290,
@@ -6773,7 +6850,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 322
+    "$step": 326
    },
    "x": 176,
    "y": 0,
@@ -6793,7 +6870,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 322
+    "$step": 326
    },
    "x": 175,
    "y": 0,
@@ -6813,7 +6890,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 322
+    "$step": 326
    },
    "x": 35,
    "y": 75,
@@ -6830,7 +6907,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 322
+    "$step": 326
    },
    "x": 35,
    "y": 99,
@@ -6853,7 +6930,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 322
+    "$step": 326
    },
    "x": 35,
    "y": 198,
@@ -6887,7 +6964,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 321
+    "$step": 325
    },
    "width": 193,
    "textAlign": "right",
@@ -6910,7 +6987,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 321
+    "$step": 325
    },
    "width": 193,
    "textAlign": "right"
@@ -6923,7 +7000,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 321
+    "$step": 325
    },
    "props": {
     "layout": "horizontal",
@@ -6950,7 +7027,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 330
+    "$step": 334
    }
   }
  },
@@ -6961,7 +7038,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 306
+    "$step": 310
    },
    "props": {
     "layout": "vertical",
@@ -6979,7 +7056,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 332
+    "$step": 336
    },
    "width": 193,
    "height": 290,
@@ -7001,7 +7078,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 333
+    "$step": 337
    },
    "x": 176,
    "y": 0,
@@ -7021,7 +7098,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 333
+    "$step": 337
    },
    "x": 175,
    "y": 0,
@@ -7041,7 +7118,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 333
+    "$step": 337
    },
    "x": 35,
    "y": 75,
@@ -7058,7 +7135,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 333
+    "$step": 337
    },
    "x": 35,
    "y": 99,
@@ -7081,7 +7158,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 333
+    "$step": 337
    },
    "x": 35,
    "y": 198,
@@ -7115,7 +7192,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 332
+    "$step": 336
    },
    "width": 193,
    "textAlign": "right",
@@ -7138,7 +7215,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 332
+    "$step": 336
    },
    "width": 193,
    "textAlign": "right"
@@ -7151,7 +7228,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 332
+    "$step": 336
    },
    "props": {
     "layout": "horizontal",
@@ -7178,7 +7255,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 341
+    "$step": 345
    }
   }
  },
@@ -7189,7 +7266,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 306
+    "$step": 310
    },
    "props": {
     "layout": "vertical",
@@ -7207,7 +7284,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 343
+    "$step": 347
    },
    "width": 193,
    "height": 290,
@@ -7229,7 +7306,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 344
+    "$step": 348
    },
    "x": 176,
    "y": 0,
@@ -7249,7 +7326,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 344
+    "$step": 348
    },
    "x": 175,
    "y": 0,
@@ -7269,7 +7346,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 344
+    "$step": 348
    },
    "x": 35,
    "y": 75,
@@ -7286,7 +7363,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 344
+    "$step": 348
    },
    "x": 35,
    "y": 99,
@@ -7309,7 +7386,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 344
+    "$step": 348
    },
    "x": 35,
    "y": 198,
@@ -7343,7 +7420,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 343
+    "$step": 347
    },
    "width": 193,
    "textAlign": "right",
@@ -7366,7 +7443,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 343
+    "$step": 347
    },
    "width": 193,
    "textAlign": "right"
@@ -7379,7 +7456,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 343
+    "$step": 347
    },
    "props": {
     "layout": "horizontal",
@@ -7397,7 +7474,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 352
+    "$step": 356
    },
    "width": 64,
    "height": 5,
@@ -7421,7 +7498,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 353
+    "$step": 357
    },
    "width": 24,
    "height": 5,
@@ -7437,7 +7514,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 353
+    "$step": 357
    },
    "width": 40,
    "height": 5,
@@ -7465,7 +7542,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 352
+    "$step": 356
    }
   }
  },
@@ -7476,7 +7553,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 306
+    "$step": 310
    },
    "props": {
     "layout": "vertical",
@@ -7494,7 +7571,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 357
+    "$step": 361
    },
    "width": 193,
    "height": 290,
@@ -7516,7 +7593,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 358
+    "$step": 362
    },
    "x": 176,
    "y": 0,
@@ -7536,7 +7613,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 358
+    "$step": 362
    },
    "x": 175,
    "y": 0,
@@ -7556,7 +7633,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 358
+    "$step": 362
    },
    "x": 35,
    "y": 75,
@@ -7573,7 +7650,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 358
+    "$step": 362
    },
    "x": 35,
    "y": 99,
@@ -7596,7 +7673,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 358
+    "$step": 362
    },
    "x": 35,
    "y": 198,
@@ -7630,7 +7707,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 357
+    "$step": 361
    },
    "width": 193,
    "textAlign": "right",
@@ -7653,7 +7730,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 357
+    "$step": 361
    },
    "width": 193,
    "textAlign": "right"
@@ -7666,7 +7743,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 357
+    "$step": 361
    },
    "props": {
     "layout": "horizontal",
@@ -7693,7 +7770,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 366
+    "$step": 370
    }
   }
  },
@@ -7704,7 +7781,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 305
+    "$step": 309
    },
    "props": {
     "layout": "horizontal",
@@ -7722,7 +7799,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 368
+    "$step": 372
    },
    "props": {
     "layout": "vertical",
@@ -7740,7 +7817,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 369
+    "$step": 373
    },
    "width": 193,
    "height": 290,
@@ -7762,7 +7839,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 370
+    "$step": 374
    },
    "x": 176,
    "y": 0,
@@ -7782,7 +7859,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 370
+    "$step": 374
    },
    "x": 175,
    "y": 0,
@@ -7802,7 +7879,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 370
+    "$step": 374
    },
    "x": 35,
    "y": 75,
@@ -7819,7 +7896,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 370
+    "$step": 374
    },
    "x": 35,
    "y": 99,
@@ -7842,7 +7919,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 370
+    "$step": 374
    },
    "x": 35,
    "y": 198,
@@ -7876,7 +7953,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 369
+    "$step": 373
    },
    "width": 193,
    "textAlign": "right",
@@ -7899,7 +7976,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 369
+    "$step": 373
    },
    "width": 193,
    "textAlign": "right"
@@ -7912,7 +7989,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 369
+    "$step": 373
    },
    "props": {
     "layout": "horizontal",
@@ -7939,7 +8016,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 378
+    "$step": 382
    }
   }
  },
@@ -7950,7 +8027,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 368
+    "$step": 372
    },
    "props": {
     "layout": "vertical",
@@ -7968,7 +8045,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 380
+    "$step": 384
    },
    "width": 193,
    "height": 290,
@@ -7990,7 +8067,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 381
+    "$step": 385
    },
    "x": 176,
    "y": 0,
@@ -8010,7 +8087,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 381
+    "$step": 385
    },
    "x": 175,
    "y": 0,
@@ -8030,7 +8107,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 381
+    "$step": 385
    },
    "x": 35,
    "y": 75,
@@ -8047,7 +8124,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 381
+    "$step": 385
    },
    "x": 35,
    "y": 99,
@@ -8070,7 +8147,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 381
+    "$step": 385
    },
    "x": 35,
    "y": 198,
@@ -8104,7 +8181,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 380
+    "$step": 384
    },
    "width": 193,
    "textAlign": "right",
@@ -8127,7 +8204,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 380
+    "$step": 384
    },
    "width": 193,
    "textAlign": "right"
@@ -8140,7 +8217,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 380
+    "$step": 384
    },
    "props": {
     "layout": "horizontal",
@@ -8158,7 +8235,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 389
+    "$step": 393
    },
    "width": 64,
    "height": 5,
@@ -8182,7 +8259,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 390
+    "$step": 394
    },
    "width": 24,
    "height": 5,
@@ -8198,7 +8275,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 390
+    "$step": 394
    },
    "width": 40,
    "height": 5,
@@ -8226,7 +8303,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 389
+    "$step": 393
    }
   }
  },
@@ -8237,7 +8314,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 368
+    "$step": 372
    },
    "props": {
     "layout": "vertical",
@@ -8255,7 +8332,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 394
+    "$step": 398
    },
    "width": 193,
    "height": 290,
@@ -8277,7 +8354,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 395
+    "$step": 399
    },
    "x": 176,
    "y": 0,
@@ -8297,7 +8374,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 395
+    "$step": 399
    },
    "x": 175,
    "y": 0,
@@ -8317,7 +8394,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 395
+    "$step": 399
    },
    "x": 35,
    "y": 75,
@@ -8334,7 +8411,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 395
+    "$step": 399
    },
    "x": 35,
    "y": 99,
@@ -8357,7 +8434,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 395
+    "$step": 399
    },
    "x": 35,
    "y": 198,
@@ -8391,7 +8468,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 394
+    "$step": 398
    },
    "width": 193,
    "textAlign": "right",
@@ -8414,7 +8491,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 394
+    "$step": 398
    },
    "width": 193,
    "textAlign": "right"
@@ -8427,7 +8504,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 394
+    "$step": 398
    },
    "props": {
     "layout": "horizontal",
@@ -8454,7 +8531,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 403
+    "$step": 407
    }
   }
  },
@@ -8465,7 +8542,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 368
+    "$step": 372
    },
    "props": {
     "layout": "vertical",
@@ -8483,7 +8560,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 405
+    "$step": 409
    },
    "width": 193,
    "height": 290,
@@ -8505,7 +8582,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 406
+    "$step": 410
    },
    "x": 176,
    "y": 0,
@@ -8525,7 +8602,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 406
+    "$step": 410
    },
    "x": 175,
    "y": 0,
@@ -8545,7 +8622,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 406
+    "$step": 410
    },
    "x": 35,
    "y": 75,
@@ -8562,7 +8639,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 406
+    "$step": 410
    },
    "x": 35,
    "y": 99,
@@ -8585,7 +8662,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 406
+    "$step": 410
    },
    "x": 35,
    "y": 198,
@@ -8619,7 +8696,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 405
+    "$step": 409
    },
    "width": 193,
    "textAlign": "right",
@@ -8642,7 +8719,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 405
+    "$step": 409
    },
    "width": 193,
    "textAlign": "right"
@@ -8655,7 +8732,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 405
+    "$step": 409
    },
    "props": {
     "layout": "horizontal",
@@ -8682,7 +8759,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 414
+    "$step": 418
    }
   }
  },
@@ -8693,7 +8770,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 368
+    "$step": 372
    },
    "props": {
     "layout": "vertical",
@@ -8711,7 +8788,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 416
+    "$step": 420
    },
    "width": 193,
    "height": 290,
@@ -8733,7 +8810,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 417
+    "$step": 421
    },
    "x": 176,
    "y": 0,
@@ -8753,7 +8830,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 417
+    "$step": 421
    },
    "x": 175,
    "y": 0,
@@ -8773,7 +8850,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 417
+    "$step": 421
    },
    "x": 35,
    "y": 75,
@@ -8790,7 +8867,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 417
+    "$step": 421
    },
    "x": 35,
    "y": 99,
@@ -8813,7 +8890,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 417
+    "$step": 421
    },
    "x": 35,
    "y": 198,
@@ -8847,7 +8924,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 416
+    "$step": 420
    },
    "width": 193,
    "textAlign": "right",
@@ -8870,7 +8947,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 416
+    "$step": 420
    },
    "width": 193,
    "textAlign": "right"
@@ -8883,7 +8960,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 416
+    "$step": 420
    },
    "props": {
     "layout": "horizontal",
@@ -8901,7 +8978,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 425
+    "$step": 429
    },
    "width": 64,
    "height": 5,
@@ -8925,7 +9002,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 426
+    "$step": 430
    },
    "width": 24,
    "height": 5,
@@ -8941,7 +9018,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 426
+    "$step": 430
    },
    "width": 40,
    "height": 5,
@@ -8969,7 +9046,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 425
+    "$step": 429
    }
   }
  },
@@ -9001,7 +9078,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 430
+    "$step": 434
    },
    "height": 44,
    "props": {
@@ -9022,7 +9099,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 431
+    "$step": 435
    },
    "height": 43,
    "props": {
@@ -9047,7 +9124,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 432
+    "$step": 436
    },
    "props": {
     "layout": "horizontal",
@@ -9065,7 +9142,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 433
+    "$step": 437
    },
    "props": {
     "layout": "horizontal",
@@ -9083,7 +9160,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 434
+    "$step": 438
    },
    "width": 44,
    "height": 32,
@@ -9101,7 +9178,7 @@
    "type": "vector",
    "name": "x",
    "parent": {
-    "$step": 435
+    "$step": 439
    },
    "path": "M18 6 6 18 M6 6 12 12",
    "props": {
@@ -9122,7 +9199,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 434
+    "$step": 438
    },
    "width": 44,
    "height": 32,
@@ -9140,7 +9217,7 @@
    "type": "vector",
    "name": "square",
    "parent": {
-    "$step": 437
+    "$step": 441
    },
    "path": "M5 3H19A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3Z",
    "props": {
@@ -9161,7 +9238,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 434
+    "$step": 438
    },
    "width": 44,
    "height": 32,
@@ -9179,7 +9256,7 @@
    "type": "vector",
    "name": "minus",
    "parent": {
-    "$step": 439
+    "$step": 443
    },
    "path": "M5 12h14",
    "props": {
@@ -9200,7 +9277,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 433
+    "$step": 437
    },
    "width": 8,
    "props": {
@@ -9216,7 +9293,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 433
+    "$step": 437
    },
    "props": {
     "layout": "horizontal",
@@ -9234,7 +9311,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 442
+    "$step": 446
    },
    "width": 32,
    "height": 32,
@@ -9252,7 +9329,7 @@
    "type": "vector",
    "name": "lock",
    "parent": {
-    "$step": 443
+    "$step": 447
    },
    "path": "M5 11H19A2 2 0 0 1 21 13V20A2 2 0 0 1 19 22H5A2 2 0 0 1 3 20V13A2 2 0 0 1 5 11Z M7 11V7a5 5 0 0 1 10 0v4",
    "props": {
@@ -9273,7 +9350,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 442
+    "$step": 446
    },
    "width": 32,
    "height": 32,
@@ -9291,7 +9368,7 @@
    "type": "vector",
    "name": "sun",
    "parent": {
-    "$step": 445
+    "$step": 449
    },
    "path": "M8 12A4 4 0 1 0 16 12A4 4 0 1 0 8 12Z M12 2v2 M12 20v2 M4.93 4.93 1.41 1.41 M17.66 17.66 1.41 1.41 M2 12h2 M20 12h2 M6.34 17.66-1.41 1.41 M19.07 4.93-1.41 1.41",
    "props": {
@@ -9312,7 +9389,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 442
+    "$step": 446
    },
    "width": 32,
    "height": 32,
@@ -9330,7 +9407,7 @@
    "type": "vector",
    "name": "languages",
    "parent": {
-    "$step": 447
+    "$step": 451
    },
    "path": "M5 8 6 6 M4 14 6-6 2-3 M2 5h12 M7 2h1 M22 22-5-10-5 10 M14 18h6",
    "props": {
@@ -9351,7 +9428,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 432
+    "$step": 436
    },
    "width": 544,
    "height": 40,
@@ -9376,7 +9453,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 449
+    "$step": 453
    },
    "height": 28,
    "props": {
@@ -9408,7 +9485,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 450
+    "$step": 454
    },
    "props": {
     "layout": "horizontal",
@@ -9446,7 +9523,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 451
+    "$step": 455
    }
   }
  },
@@ -9457,7 +9534,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 450
+    "$step": 454
    },
    "props": {
     "layout": "horizontal",
@@ -9484,7 +9561,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 453
+    "$step": 457
    }
   }
  },
@@ -9494,7 +9571,7 @@
    "type": "vector",
    "name": "search",
    "parent": {
-    "$step": 450
+    "$step": 454
    },
    "path": "M21 21-4.34-4.34 M3 11A8 8 0 1 0 19 11A8 8 0 1 0 3 11Z",
    "props": {
@@ -9515,7 +9592,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 432
+    "$step": 436
    },
    "props": {
     "layout": "horizontal",
@@ -9542,7 +9619,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 456
+    "$step": 460
    }
   }
  },
@@ -9553,7 +9630,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 456
+    "$step": 460
    },
    "width": 24,
    "height": 24,
@@ -9586,7 +9663,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 458
+    "$step": 462
    }
   }
  },
@@ -9597,7 +9674,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 431
+    "$step": 435
    },
    "width": 100,
    "height": 1,
@@ -9616,7 +9693,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 430
+    "$step": 434
    },
    "props": {
     "layout": "horizontal",
@@ -9633,7 +9710,7 @@
    "name": "main",
    "select": false,
    "parent": {
-    "$step": 461
+    "$step": 465
    },
    "props": {
     "layout": "vertical",
@@ -9650,7 +9727,7 @@
    "name": "sidebar",
    "select": false,
    "parent": {
-    "$step": 461
+    "$step": 465
    },
    "width": 240,
    "props": {
@@ -9671,7 +9748,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 463
+    "$step": 467
    },
    "width": 1,
    "height": 100,
@@ -9690,7 +9767,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 463
+    "$step": 467
    },
    "props": {
     "layout": "vertical",
@@ -9708,7 +9785,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 465
+    "$step": 469
    },
    "props": {
     "layout": "vertical",
@@ -9725,7 +9802,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 466
+    "$step": 470
    },
    "props": {
     "layout": "horizontal",
@@ -9759,7 +9836,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 467
+    "$step": 471
    }
   }
  },
@@ -9769,7 +9846,7 @@
    "type": "vector",
    "name": "layout-dashboard",
    "parent": {
-    "$step": 467
+    "$step": 471
    },
    "path": "M4 3H9A1 1 0 0 1 10 4V11A1 1 0 0 1 9 12H4A1 1 0 0 1 3 11V4A1 1 0 0 1 4 3Z M15 3H20A1 1 0 0 1 21 4V7A1 1 0 0 1 20 8H15A1 1 0 0 1 14 7V4A1 1 0 0 1 15 3Z M15 12H20A1 1 0 0 1 21 13V20A1 1 0 0 1 20 21H15A1 1 0 0 1 14 20V13A1 1 0 0 1 15 12Z M4 16H9A1 1 0 0 1 10 17V20A1 1 0 0 1 9 21H4A1 1 0 0 1 3 20V17A1 1 0 0 1 4 16Z",
    "props": {
@@ -9790,7 +9867,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 466
+    "$step": 470
    },
    "props": {
     "layout": "horizontal",
@@ -9824,7 +9901,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 470
+    "$step": 474
    }
   }
  },
@@ -9834,7 +9911,7 @@
    "type": "vector",
    "name": "library",
    "parent": {
-    "$step": 470
+    "$step": 474
    },
    "path": "M16 6 4 14 M12 6v14 M8 8v12 M4 4v16",
    "props": {
@@ -9855,7 +9932,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 466
+    "$step": 470
    },
    "props": {
     "layout": "horizontal",
@@ -9892,7 +9969,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 473
+    "$step": 477
    }
   }
  },
@@ -9902,7 +9979,7 @@
    "type": "vector",
    "name": "book-open",
    "parent": {
-    "$step": 473
+    "$step": 477
    },
    "path": "M12 5v16 M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z",
    "props": {
@@ -9923,7 +10000,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 466
+    "$step": 470
    },
    "width": 100,
    "height": 1,
@@ -9942,7 +10019,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 466
+    "$step": 470
    },
    "props": {
     "layout": "horizontal",
@@ -9976,7 +10053,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 477
+    "$step": 481
    }
   }
  },
@@ -9986,7 +10063,7 @@
    "type": "vector",
    "name": "sticky-note",
    "parent": {
-    "$step": 477
+    "$step": 481
    },
    "path": "M21 9a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 15 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z M15 3v5a1 1 0 0 0 1 1h5",
    "props": {
@@ -10007,7 +10084,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 466
+    "$step": 470
    },
    "props": {
     "layout": "horizontal",
@@ -10041,7 +10118,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 480
+    "$step": 484
    }
   }
  },
@@ -10051,7 +10128,7 @@
    "type": "vector",
    "name": "quote",
    "parent": {
-    "$step": 480
+    "$step": 484
    },
    "path": "M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z",
    "props": {
@@ -10072,7 +10149,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 466
+    "$step": 470
    },
    "props": {
     "layout": "horizontal",
@@ -10106,7 +10183,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 483
+    "$step": 487
    }
   }
  },
@@ -10116,7 +10193,7 @@
    "type": "vector",
    "name": "users",
    "parent": {
-    "$step": 483
+    "$step": 487
    },
    "path": "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M16 3.128a4 4 0 0 1 0 7.744 M22 21v-2a4 4 0 0 0-3-3.87 M5 7A4 4 0 1 0 13 7A4 4 0 1 0 5 7Z",
    "props": {
@@ -10137,7 +10214,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 466
+    "$step": 470
    },
    "props": {
     "layout": "horizontal",
@@ -10171,7 +10248,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 486
+    "$step": 490
    }
   }
  },
@@ -10181,7 +10258,7 @@
    "type": "vector",
    "name": "store",
    "parent": {
-    "$step": 486
+    "$step": 490
    },
    "path": "M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5 M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244 M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05",
    "props": {
@@ -10202,7 +10279,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 466
+    "$step": 470
    },
    "props": {
     "layout": "horizontal",
@@ -10236,7 +10313,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 489
+    "$step": 493
    }
   }
  },
@@ -10246,7 +10323,7 @@
    "type": "vector",
    "name": "folder-tree",
    "parent": {
-    "$step": 489
+    "$step": 493
    },
    "path": "M20 10a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-2.5a1 1 0 0 1-.8-.4l-.9-1.2A1 1 0 0 0 15 3h-2a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1Z M20 21a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-2.9a1 1 0 0 1-.88-.55l-.42-.85a1 1 0 0 0-.92-.6H13a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1Z M3 5a2 2 0 0 0 2 2h3 M3 3v13a2 2 0 0 0 2 2h3",
    "props": {
@@ -10267,7 +10344,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 466
+    "$step": 470
    },
    "props": {
     "layout": "horizontal",
@@ -10301,7 +10378,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 492
+    "$step": 496
    }
   }
  },
@@ -10311,7 +10388,7 @@
    "type": "vector",
    "name": "hand-coins",
    "parent": {
-    "$step": 492
+    "$step": 496
    },
    "path": "M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17 M7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9 M2 16 6 6 M13.1 9A2.9 2.9 0 1 0 18.9 9A2.9 2.9 0 1 0 13.1 9Z M3 5A3 3 0 1 0 9 5A3 3 0 1 0 3 5Z",
    "props": {
@@ -10332,7 +10409,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 466
+    "$step": 470
    },
    "props": {
     "layout": "horizontal",
@@ -10366,7 +10443,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 495
+    "$step": 499
    }
   }
  },
@@ -10376,7 +10453,7 @@
    "type": "vector",
    "name": "target",
    "parent": {
-    "$step": 495
+    "$step": 499
    },
    "path": "M2 12A10 10 0 1 0 22 12A10 10 0 1 0 2 12Z M6 12A6 6 0 1 0 18 12A6 6 0 1 0 6 12Z M10 12A2 2 0 1 0 14 12A2 2 0 1 0 10 12Z",
    "props": {
@@ -10397,7 +10474,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 466
+    "$step": 470
    },
    "props": {
     "layout": "horizontal",
@@ -10431,7 +10508,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 498
+    "$step": 502
    }
   }
  },
@@ -10441,7 +10518,7 @@
    "type": "vector",
    "name": "arrow-left-right",
    "parent": {
-    "$step": 498
+    "$step": 502
    },
    "path": "M8 3 4 7l4 4 M4 7h16 M16 21 4-4-4-4 M20 17H4",
    "props": {
@@ -10462,7 +10539,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 466
+    "$step": 470
    },
    "props": {
     "layout": "horizontal",
@@ -10496,7 +10573,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 501
+    "$step": 505
    }
   }
  },
@@ -10506,7 +10583,7 @@
    "type": "vector",
    "name": "settings",
    "parent": {
-    "$step": 501
+    "$step": 505
    },
    "path": "M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915 M9 12A3 3 0 1 0 15 12A3 3 0 1 0 9 12Z",
    "props": {
@@ -10527,7 +10604,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 465
+    "$step": 469
    },
    "props": {
     "layout": "vertical",
@@ -10550,7 +10627,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 504
+    "$step": 508
    },
    "width": 100,
    "height": 1,
@@ -10569,7 +10646,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 504
+    "$step": 508
    },
    "props": {
     "layout": "horizontal",
@@ -10603,7 +10680,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 506
+    "$step": 510
    }
   }
  },
@@ -10613,7 +10690,7 @@
    "type": "vector",
    "name": "library-big",
    "parent": {
-    "$step": 506
+    "$step": 510
    },
    "path": "M4 3H10A1 1 0 0 1 11 4V20A1 1 0 0 1 10 21H4A1 1 0 0 1 3 20V4A1 1 0 0 1 4 3Z M7 3v18 M20.4 18.9c.2.5-.1 1.1-.6 1.3l-1.9.7c-.5.2-1.1-.1-1.3-.6L11.1 5.1c-.2-.5.1-1.1.6-1.3l1.9-.7c.5-.2 1.1.1 1.3.6Z",
    "props": {
@@ -10634,7 +10711,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 504
+    "$step": 508
    },
    "props": {
     "layout": "horizontal",
@@ -10668,7 +10745,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 509
+    "$step": 513
    }
   }
  },
@@ -10678,7 +10755,7 @@
    "type": "vector",
    "name": "panel-left-close",
    "parent": {
-    "$step": 509
+    "$step": 513
    },
    "path": "M5 3H19A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3Z M9 3v18 M16 15-3-3 3-3",
    "props": {
@@ -10699,7 +10776,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 462
+    "$step": 466
    },
    "props": {
     "layout": "vertical",
@@ -10723,7 +10800,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 512
+    "$step": 516
    },
    "props": {
     "layout": "horizontal",
@@ -10750,7 +10827,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 513
+    "$step": 517
    }
   }
  },
@@ -10760,7 +10837,7 @@
    "type": "vector",
    "name": "arrow-right",
    "parent": {
-    "$step": 513
+    "$step": 517
    },
    "path": "M5 12h14 M12 5 7 7-7 7",
    "props": {
@@ -10781,7 +10858,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 512
+    "$step": 516
    },
    "props": {
     "layout": "horizontal",
@@ -10799,7 +10876,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 516
+    "$step": 520
    },
    "props": {
     "layout": "vertical",
@@ -10826,7 +10903,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 517
+    "$step": 521
    },
    "width": 660,
    "textAlign": "right",
@@ -10840,7 +10917,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 517
+    "$step": 521
    },
    "props": {
     "layout": "horizontal",
@@ -10858,7 +10935,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 519
+    "$step": 523
    },
    "props": {
     "layout": "horizontal",
@@ -10894,7 +10971,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 520
+    "$step": 524
    }
   }
  },
@@ -10914,7 +10991,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 519
+    "$step": 523
    }
   }
  },
@@ -10934,7 +11011,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 517
+    "$step": 521
    }
   }
  },
@@ -10945,7 +11022,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 517
+    "$step": 521
    },
    "props": {
     "layout": "vertical",
@@ -10963,7 +11040,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 524
+    "$step": 528
    },
    "width": 560,
    "height": 8,
@@ -10987,7 +11064,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 525
+    "$step": 529
    },
    "width": 213,
    "height": 8,
@@ -11003,7 +11080,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 525
+    "$step": 529
    },
    "width": 347,
    "height": 8,
@@ -11031,7 +11108,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 524
+    "$step": 528
    }
   }
  },
@@ -11042,7 +11119,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 517
+    "$step": 521
    },
    "props": {
     "layout": "horizontal",
@@ -11060,7 +11137,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 529
+    "$step": 533
    },
    "props": {
     "layout": "horizontal",
@@ -11096,7 +11173,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 530
+    "$step": 534
    }
   }
  },
@@ -11107,7 +11184,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 529
+    "$step": 533
    },
    "props": {
     "layout": "horizontal",
@@ -11143,7 +11220,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 532
+    "$step": 536
    }
   }
  },
@@ -11154,7 +11231,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 529
+    "$step": 533
    },
    "props": {
     "layout": "horizontal",
@@ -11190,7 +11267,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 534
+    "$step": 538
    }
   }
  },
@@ -11210,7 +11287,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 529
+    "$step": 533
    }
   }
  },
@@ -11221,7 +11298,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 517
+    "$step": 521
    },
    "props": {
     "layout": "horizontal",
@@ -11239,7 +11316,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 537
+    "$step": 541
    },
    "width": 40,
    "height": 40,
@@ -11275,7 +11352,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 538
+    "$step": 542
    }
   }
  },
@@ -11286,7 +11363,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 537
+    "$step": 541
    },
    "props": {
     "layout": "horizontal",
@@ -11326,7 +11403,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 540
+    "$step": 544
    }
   }
  },
@@ -11337,7 +11414,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 537
+    "$step": 541
    },
    "props": {
     "layout": "horizontal",
@@ -11374,7 +11451,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 542
+    "$step": 546
    }
   }
  },
@@ -11385,7 +11462,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 516
+    "$step": 520
    },
    "width": 320,
    "height": 480,
@@ -11407,7 +11484,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 544
+    "$step": 548
    },
    "x": 291,
    "y": 0,
@@ -11427,7 +11504,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 544
+    "$step": 548
    },
    "x": 290,
    "y": 0,
@@ -11447,7 +11524,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 544
+    "$step": 548
    },
    "x": 58,
    "y": 125,
@@ -11464,7 +11541,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 544
+    "$step": 548
    },
    "x": 58,
    "y": 163,
@@ -11487,7 +11564,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 544
+    "$step": 548
    },
    "x": 58,
    "y": 323,
@@ -11512,7 +11589,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 512
+    "$step": 516
    },
    "props": {
     "layout": "horizontal",
@@ -11531,7 +11608,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 550
+    "$step": 554
    },
    "props": {
     "layout": "vertical",
@@ -11564,7 +11641,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 551
+    "$step": 555
    }
   }
  },
@@ -11575,7 +11652,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 551
+    "$step": 555
    },
    "width": 40,
    "height": 2,
@@ -11593,7 +11670,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 550
+    "$step": 554
    },
    "props": {
     "layout": "vertical",
@@ -11626,7 +11703,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 554
+    "$step": 558
    }
   }
  },
@@ -11637,7 +11714,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 554
+    "$step": 558
    },
    "width": 40,
    "height": 2,
@@ -11655,7 +11732,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 550
+    "$step": 554
    },
    "props": {
     "layout": "vertical",
@@ -11688,7 +11765,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 557
+    "$step": 561
    }
   }
  },
@@ -11699,7 +11776,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 557
+    "$step": 561
    },
    "width": 40,
    "height": 2,
@@ -11717,7 +11794,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 550
+    "$step": 554
    },
    "props": {
     "layout": "vertical",
@@ -11750,7 +11827,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 560
+    "$step": 564
    }
   }
  },
@@ -11761,7 +11838,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 560
+    "$step": 564
    },
    "width": 40,
    "height": 2,
@@ -11779,7 +11856,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 550
+    "$step": 554
    },
    "props": {
     "layout": "vertical",
@@ -11812,7 +11889,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 563
+    "$step": 567
    }
   }
  },
@@ -11823,7 +11900,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 563
+    "$step": 567
    },
    "width": 40,
    "height": 2,
@@ -11841,7 +11918,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 550
+    "$step": 554
    },
    "props": {
     "layout": "vertical",
@@ -11874,7 +11951,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 566
+    "$step": 570
    }
   }
  },
@@ -11885,7 +11962,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 566
+    "$step": 570
    },
    "width": 40,
    "height": 2,
@@ -11903,7 +11980,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 550
+    "$step": 554
    },
    "props": {
     "layout": "vertical",
@@ -11936,7 +12013,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 569
+    "$step": 573
    }
   }
  },
@@ -11947,7 +12024,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 569
+    "$step": 573
    },
    "width": 40,
    "height": 2,
@@ -11967,7 +12044,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 512
+    "$step": 516
    },
    "width": 100,
    "height": 1,
@@ -11986,7 +12063,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 512
+    "$step": 516
    },
    "props": {
     "layout": "horizontal",
@@ -12003,7 +12080,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 573
+    "$step": 577
    },
    "width": 280,
    "props": {
@@ -12039,7 +12116,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 574
+    "$step": 578
    }
   }
  },
@@ -12050,7 +12127,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 574
+    "$step": 578
    },
    "props": {
     "layout": "horizontal",
@@ -12087,7 +12164,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 576
+    "$step": 580
    }
   }
  },
@@ -12097,7 +12174,7 @@
    "type": "vector",
    "name": "book-open",
    "parent": {
-    "$step": 576
+    "$step": 580
    },
    "path": "M12 5v16 M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z",
    "props": {
@@ -12127,7 +12204,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 574
+    "$step": 578
    }
   }
  },
@@ -12147,7 +12224,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 574
+    "$step": 578
    }
   }
  },
@@ -12167,7 +12244,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 574
+    "$step": 578
    }
   }
  },
@@ -12187,7 +12264,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 574
+    "$step": 578
    }
   }
  },
@@ -12207,7 +12284,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 574
+    "$step": 578
    }
   }
  },
@@ -12227,7 +12304,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 574
+    "$step": 578
    }
   }
  },
@@ -12238,7 +12315,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 573
+    "$step": 577
    },
    "props": {
     "layout": "vertical",
@@ -12265,7 +12342,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 585
+    "$step": 589
    }
   }
  },
@@ -12285,7 +12362,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 585
+    "$step": 589
    },
    "width": 640,
    "textAlign": "right",
@@ -12299,7 +12376,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 585
+    "$step": 589
    },
    "props": {
     "layout": "vertical",
@@ -12324,7 +12401,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 588
+    "$step": 592
    },
    "props": {
     "layout": "vertical",
@@ -12340,7 +12417,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 589
+    "$step": 593
    },
    "props": {
     "layout": "horizontal",
@@ -12364,7 +12441,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 590
+    "$step": 594
    },
    "props": {
     "layout": "horizontal",
@@ -12391,7 +12468,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 591
+    "$step": 595
    }
   }
  },
@@ -12411,7 +12488,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 590
+    "$step": 594
    },
    "width": 140,
    "textAlign": "right"
@@ -12424,7 +12501,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 588
+    "$step": 592
    },
    "props": {
     "layout": "vertical",
@@ -12440,7 +12517,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 594
+    "$step": 598
    },
    "width": 100,
    "height": 1,
@@ -12459,7 +12536,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 594
+    "$step": 598
    },
    "props": {
     "layout": "horizontal",
@@ -12483,7 +12560,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 596
+    "$step": 600
    },
    "props": {
     "layout": "horizontal",
@@ -12510,7 +12587,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 597
+    "$step": 601
    }
   }
  },
@@ -12530,7 +12607,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 596
+    "$step": 600
    },
    "width": 140,
    "textAlign": "right"
@@ -12543,7 +12620,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 588
+    "$step": 592
    },
    "props": {
     "layout": "vertical",
@@ -12559,7 +12636,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 600
+    "$step": 604
    },
    "width": 100,
    "height": 1,
@@ -12578,7 +12655,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 600
+    "$step": 604
    },
    "props": {
     "layout": "horizontal",
@@ -12602,7 +12679,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 602
+    "$step": 606
    },
    "props": {
     "layout": "horizontal",
@@ -12629,7 +12706,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 603
+    "$step": 607
    }
   }
  },
@@ -12649,7 +12726,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 602
+    "$step": 606
    },
    "width": 140,
    "textAlign": "right"
@@ -12662,7 +12739,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 588
+    "$step": 592
    },
    "props": {
     "layout": "vertical",
@@ -12678,7 +12755,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 606
+    "$step": 610
    },
    "width": 100,
    "height": 1,
@@ -12697,7 +12774,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 606
+    "$step": 610
    },
    "props": {
     "layout": "horizontal",
@@ -12721,7 +12798,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 608
+    "$step": 612
    },
    "props": {
     "layout": "horizontal",
@@ -12748,7 +12825,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 609
+    "$step": 613
    }
   }
  },
@@ -12768,7 +12845,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 608
+    "$step": 612
    },
    "width": 140,
    "textAlign": "right"
@@ -12781,7 +12858,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 588
+    "$step": 592
    },
    "props": {
     "layout": "vertical",
@@ -12797,7 +12874,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 612
+    "$step": 616
    },
    "width": 100,
    "height": 1,
@@ -12816,7 +12893,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 612
+    "$step": 616
    },
    "props": {
     "layout": "horizontal",
@@ -12840,7 +12917,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 614
+    "$step": 618
    },
    "props": {
     "layout": "horizontal",
@@ -12867,7 +12944,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 615
+    "$step": 619
    }
   }
  },
@@ -12887,7 +12964,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 614
+    "$step": 618
    },
    "width": 140,
    "textAlign": "right"
@@ -12900,7 +12977,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 588
+    "$step": 592
    },
    "props": {
     "layout": "vertical",
@@ -12916,7 +12993,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 618
+    "$step": 622
    },
    "width": 100,
    "height": 1,
@@ -12935,7 +13012,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 618
+    "$step": 622
    },
    "props": {
     "layout": "horizontal",
@@ -12959,7 +13036,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 620
+    "$step": 624
    },
    "props": {
     "layout": "horizontal",
@@ -12986,7 +13063,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 621
+    "$step": 625
    }
   }
  },
@@ -13006,7 +13083,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 620
+    "$step": 624
    },
    "width": 140,
    "textAlign": "right"
@@ -13019,7 +13096,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 588
+    "$step": 592
    },
    "props": {
     "layout": "vertical",
@@ -13035,7 +13112,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 624
+    "$step": 628
    },
    "width": 100,
    "height": 1,
@@ -13054,7 +13131,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 624
+    "$step": 628
    },
    "props": {
     "layout": "horizontal",
@@ -13078,7 +13155,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 626
+    "$step": 630
    },
    "props": {
     "layout": "horizontal",
@@ -13105,7 +13182,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 627
+    "$step": 631
    }
   }
  },
@@ -13125,7 +13202,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 626
+    "$step": 630
    },
    "width": 140,
    "textAlign": "right"

@@ -71,6 +71,26 @@ ICON_STROKE = 1.35
 
 COL_W = 193              # Library column: (content − padding − 4 gaps) ÷ 5
 
+# ── Spacing scale ────────────────────────────────────────────────────────────
+# Every page margin, section gap and card padding in one place. Padding is
+# [top, right, bottom, left] in *visual* terms, like every other row here.
+# Tune these and re-render; nothing below hard-codes a layout gap again.
+SP_PAGE_TOP = 32         # content padding above the page heading (dashboard)
+SP_PAGE_X = 40           # content padding, left and right (dashboard)
+SP_PAGE_BOTTOM = 40      # content padding below the last section (dashboard)
+SP_SECTION = 32          # vertical rhythm between page sections
+SP_CARD = 24             # padding inside every card
+SP_ROW_GAP = 16          # gap between the cards of one row
+
+# Fixed row heights exist only because a horizontal FigCraft frame cannot derive
+# its cross-axis size from `sizing_v="fill"` children (a hug parent has nothing
+# to measure). Each is the *natural height of the tallest card in its row* —
+# measured off the render with design/measure_spacing.py — plus ~2px of
+# headroom, so shorter cards stretch (as CSS Grid's `align-items: stretch`
+# does in the shipped dashboard) without a dead band under the whole row.
+KPI_ROW_H = 170          # goal card: value carries "من 30" inline, bar below
+STATS_ROW_H = 216        # "في مكتبتك" (4 stats): 213 natural
+
 
 # ── Primitives ───────────────────────────────────────────────────────────────
 
@@ -298,7 +318,8 @@ def shell(frame_name: str, active: str, x: int = 0) -> int:
 # ── Screen 1 · Dashboard ─────────────────────────────────────────────────────
 
 def dashboard(main: int) -> None:
-    root = v(main, name="content", gap=32, padding=[32, 40, 40, 40],
+    root = v(main, name="content", gap=SP_SECTION,
+             padding=[SP_PAGE_TOP, SP_PAGE_X, SP_PAGE_BOTTOM, SP_PAGE_X],
              sizing_h="fill", sizing_v="hug", cross_align="max")
 
     # DOM [greeting, action] → the action leads visually.
@@ -311,20 +332,30 @@ def dashboard(main: int) -> None:
       font=AR)
 
     # DOM reads total → reading → pages → goal, so the goal is leftmost here.
+    # (glyph, label, value, suffix, caption, tone, pct). `suffix` rides on the
+    # value line: the goal card reads "12 من 30" as one line, so it is no longer
+    # 44px taller than its siblings — which is exactly the dead space that
+    # equal-height rows would otherwise leave under each of them.
     kpis = [
-        ("flame", "هدف", "12", "84 منتهية · 2026", "success", 12 / 30),
-        ("target", "صفحة هذا العام", "18,302", "24 تصنيفاً", "default", None),
-        ("book-open", "أقرأها الآن", "47", "310 لم أبدأها", "accent", None),
-        ("library", "الإجمالي", "1,284", "كتاب · 96 مؤلفاً", "default", None),
+        ("flame", "هدف", "12", "من 30", "84 منتهية · 2026", "success", 12 / 30),
+        ("target", "صفحة هذا العام", "18,302", None, "24 تصنيفاً", "default",
+         None),
+        ("book-open", "أقرأها الآن", "47", None, "310 لم أبدأها", "accent",
+         None),
+        ("library", "الإجمالي", "1,284", None, "كتاب · 96 مؤلفاً", "default",
+         None),
     ]
     # A fixed row height rather than `sizing_v="fill"` on the row: the row's
     # cross-axis size is what the cards stretch *to*, and a hug parent cannot
-    # derive it from fill children. 200px is the natural height of the card
-    # that carries a progress bar — the tallest — so the rest stretch to match,
-    # exactly as `items-stretch` does in the shipped KpiCard row.
-    row = h(root, sizing_h="fill", sizing_v="fixed", height=200, gap=16)
-    for glyph, label, value, caption, tone, pct in kpis:
-        card = v(row, gap=8, padding=24, radius=14, fill=LIGHT["surface-1"],
+    # derive it from fill children. The height is the natural height of the
+    # tallest card — the one carrying the progress bar — so the rest stretch to
+    # match, exactly as `align-items: stretch` does in the shipped KpiCard grid,
+    # while the row itself leaves no dead band under *any* card. Derived from
+    # the render with design/measure_spacing.py (see KPI_ROW_H).
+    row = h(root, sizing_h="fill", sizing_v="fixed", height=KPI_ROW_H,
+            gap=SP_ROW_GAP)
+    for glyph, label, value, suffix, caption, tone, pct in kpis:
+        card = v(row, gap=8, padding=SP_CARD, radius=14, fill=LIGHT["surface-1"],
                  stroke=LIGHT["border-1"], sizing_h="fill", sizing_v="fill",
                  cross_align="max")
         # DOM [label, icon] → the label sits at the right.
@@ -334,18 +365,27 @@ def dashboard(main: int) -> None:
         t(label, line, size=13.5, color=LIGHT["text-2"], font=AR)
         tone_fg = {"default": LIGHT["text-1"], "accent": GREEN[0],
                    "success": "#2f7a4f"}[tone]
-        t(value, card, size=38, style="Bold", color=tone_fg, font=UI)
+        # DOM [value, suffix] → RTL lands the value at the right, "من 30"
+        # beside it, both sitting on one baseline.
+        vr = h(card, sizing_h="fill", sizing_v="hug", main_align="max",
+               cross_align="baseline", gap=6)
+        if suffix is not None:
+            t(suffix, vr, size=13.5, color=LIGHT["text-3"], font=AR)
+        t(value, vr, size=38, style="Bold", color=tone_fg, font=UI)
         t(caption, card, size=12, color=LIGHT["text-3"], font=AR)
         if pct is not None:
             progress(card, pct, width=190, height=6)
-            t("12 من 30", card, size=12, color=LIGHT["text-3"], font=AR)
 
-    cols = h(root, sizing_h="fill", sizing_v="fixed", height=225, gap=16)
+    cols = h(root, sizing_h="fill", sizing_v="fixed", height=STATS_ROW_H,
+             gap=SP_ROW_GAP)
 
     # Languages comes second in the DOM, therefore first — leftmost — here.
-    langs = v(cols, gap=14, padding=24, radius=14, fill=LIGHT["surface-1"],
+    # spaceBetween spreads title and rows over the row's height (its content is
+    # 40px shorter than the sibling card), so no space pools under the last row;
+    # the title still starts at the top, aligned with "في مكتبتك".
+    langs = v(cols, gap=14, padding=SP_CARD, radius=14, fill=LIGHT["surface-1"],
               stroke=LIGHT["border-1"], sizing_h="fill", sizing_v="fill",
-              cross_align="max")
+              cross_align="max", main_align="spaceBetween")
     t("اللغات", langs, size=17, style="SemiBold", color=LIGHT["text-1"], font=AR)
     for code, num in [("AR", "1,102"), ("EN", "174"), ("FR", "8")]:
         r = h(langs, sizing_h="fill", sizing_v="hug", main_align="spaceBetween",
@@ -355,7 +395,7 @@ def dashboard(main: int) -> None:
               sizing_h="hug", sizing_v="hug")
         t(code, b, size=13.5, color=LIGHT["text-2"], font=UI, style="Medium")
 
-    brk = v(cols, gap=16, padding=24, radius=14, fill=LIGHT["surface-1"],
+    brk = v(cols, gap=16, padding=SP_CARD, radius=14, fill=LIGHT["surface-1"],
             stroke=LIGHT["border-1"], sizing_h="fill", sizing_v="fill",
             cross_align="max")
     t("في مكتبتك", brk, size=17, style="SemiBold", color=LIGHT["text-1"], font=AR)
