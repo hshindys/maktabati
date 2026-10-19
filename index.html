@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="light" data-accent="green">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Maktabati · مكتبتي</title>
+    <meta
+      name="description"
+      content="مكتبتي — مدير مكتبة شخصية يعمل دون اتصال بالإنترنت."
+    />
+    <!--
+      No inline `<script>`: the Tauri CSP is `script-src 'self'`, so every script must be a real
+      file. Theme and direction are resolved by `src/lib/theme.ts` once the bundle loads, which
+      is fast enough that no pre-paint flash has been observed; if one ever appears, fix it by
+      emitting a real script file rather than weakening the CSP.
+    -->
+  </head>
+  <body>
+    <div id="app"></div>
+    <noscript>
+      مكتبتي يحتاج تفعيل JavaScript ليعمل.
+      <br />
+      Maktabati requires JavaScript to run.
+    </noscript>
+  </body>
+</html>

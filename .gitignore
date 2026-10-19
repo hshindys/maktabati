@@ -6,3 +6,24 @@
 .DS_Store
 .env
 .env.local
+
+# Tauri / bundling
+/src-tauri/gen
+/src-tauri/binaries
+/src-tauri/WixTools
+
+# Node
+*.tsbuildinfo
+.vite
+coverage
+.eslintcache
+
+# Tooling
+.direnv
+.idea
+.vscode/*
+!.vscode/extensions.json
+
+# insta snapshot review artifacts — transient, never committed
+*.pending-snap
+*.snap.new

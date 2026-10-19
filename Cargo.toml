@@ -1,0 +1,118 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/domain",
+    "crates/storage",
+    "crates/search",
+    "crates/metadata",
+    "crates/files",
+    "crates/notes",
+    "crates/stats",
+    "crates/backup",
+    "src-tauri",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.80"
+license = "MIT OR Apache-2.0"
+authors = ["Maktabati contributors"]
+repository = "https://example.invalid/maktabati"
+description = "Maktabati / مكتبتي — a local-first personal library manager"
+
+[workspace.dependencies]
+# --- internal crates ---
+maktabati-domain = { path = "crates/domain" }
+maktabati-storage = { path = "crates/storage" }
+maktabati-search = { path = "crates/search" }
+maktabati-metadata = { path = "crates/metadata" }
+maktabati-files = { path = "crates/files" }
+maktabati-notes = { path = "crates/notes" }
+maktabati-stats = { path = "crates/stats" }
+maktabati-backup = { path = "crates/backup" }
+
+# --- serialization ---
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# --- errors / logging ---
+thiserror = "2"
+anyhow = "1"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+tracing-appender = "0.2"
+
+# --- async runtime / http ---
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "time", "sync", "fs", "io-util"] }
+reqwest = { version = "0.13", default-features = false, features = ["json", "rustls-tls", "gzip", "brotli"] }
+
+# --- storage ---
+rusqlite = { version = "0.40", features = ["bundled", "backup", "serde_json"] }
+
+# --- domain utilities ---
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1", features = ["v7", "serde"] }
+unicode-normalization = "0.1"
+unicode-segmentation = "1"
+isbn = "0.8"
+sha2 = "0.11"
+hex = "0.4"
+directories = "6"
+
+# --- files / images ---
+image = { version = "0.25", default-features = false, features = ["jpeg", "png", "webp", "gif"] }
+fast_image_resize = "6"
+zip = { version = "9", default-features = false, features = ["deflate", "zstd", "time"] }
+walkdir = "2"
+notify = "8"
+epub = "2"
+lopdf = "0.45"
+
+# --- tauri ---
+tauri = { version = "2", features = ["tray-icon", "image-png"] }
+tauri-plugin-dialog = "2"
+tauri-plugin-opener = "2"
+tauri-plugin-fs = "2"
+tauri-plugin-window-state = "2"
+tauri-plugin-single-instance = "2"
+tauri-plugin-global-shortcut = "2"
+tauri-plugin-store = "2"
+tauri-plugin-log = "2"
+specta = { version = "=2.0.0-rc.25", features = ["derive", "serde_json"] }
+specta-typescript = "0.0.12"
+tauri-specta = { version = "=2.0.0-rc.25", features = ["derive", "typescript"] }
+
+# --- dev / test ---
+proptest = "1"
+insta = "1"
+mockall = "0.15"
+wiremock = "0.6"
+tempfile = "3"
+pretty_assertions = "1"
+
+[profile.dev]
+debug = 0
+incremental = true
+
+[profile.dev.package."*"]
+opt-level = 1
+
+[profile.release]
+codegen-units = 1
+lto = "thin"
+opt-level = "s"
+strip = true
+
+# Repository-wide lint policy — every crate opts in with `[lints] workspace = true`.
+[workspace.lints.clippy]
+unwrap_used = "deny"
+expect_used = "deny"
+todo = "deny"
+unimplemented = "deny"
+dbg_macro = "deny"
+# No `todo_in_doc` here: clippy ships no such lint, so naming it only raises `unknown_lints`
+# in every crate of the workspace. `todo` above already bans `todo!()`.
+
+[workspace.lints.rust]
+unsafe_code = "forbid"

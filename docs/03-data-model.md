@@ -728,10 +728,15 @@ filter bar and the command palette, so one implementation serves all three:
    startup with an actionable error (a modified applied migration is a red flag, never silently
    re-run).
 4. **Automatic backup before the first migration of a session** that will change the schema
-   version (ADR-0003). If the backup fails → migration is not attempted.
+   version (ADR-0003). If the backup fails → migration is not attempted. Skipped for a
+   brand-new database (schema version 0): an empty file has nothing to lose, and a snapshot of
+   it would be dead weight in `backups/`.
 5. No down-migrations. Recovery = restore a backup (`backups/`), which is verified by manifest.
-6. Seed data (§8) is applied through the **same** migration mechanism (`0002_seed_taxonomy.sql`),
-   so a fresh install and an upgraded install converge to the same state.
+6. Seed data (§8) is **not** a migration. It is applied by `storage::seed::apply` immediately
+   after migrations, and is idempotent (`WHERE NOT EXISTS`), so a fresh install and an upgraded
+   install converge to the same state. It lives in Rust rather than in a `0002_seed_taxonomy.sql`
+   because `categories.name_norm` must come from `domain::text::normalize` — a hand-written SQL
+   literal would be a second implementation of that function, free to drift from the first.
 
 ---
 

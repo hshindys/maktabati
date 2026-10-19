@@ -1,0 +1,61 @@
+[package]
+name = "maktabati-app"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.80"
+license = "MIT OR Apache-2.0"
+authors = ["Maktabati contributors"]
+repository = "https://example.invalid/maktabati"
+description = "Maktabati / مكتبتي — Tauri shell, IPC commands and application wiring"
+# `build = "build.rs"` is implicit (the file exists).
+
+[lints]
+workspace = true
+
+[lib]
+name = "maktabati_app_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+maktabati-domain = { workspace = true }
+maktabati-storage = { workspace = true }
+chrono = { workspace = true }
+maktabati-search = { workspace = true }
+maktabati-metadata = { workspace = true }
+maktabati-files = { workspace = true }
+maktabati-notes = { workspace = true }
+maktabati-stats = { workspace = true }
+maktabati-backup = { workspace = true }
+
+tauri = { workspace = true }
+tauri-plugin-dialog = { workspace = true }
+tauri-plugin-opener = { workspace = true }
+tauri-plugin-window-state = { workspace = true }
+tauri-plugin-single-instance = { workspace = true }
+tauri-plugin-global-shortcut = { workspace = true }
+tauri-plugin-store = { workspace = true }
+tauri-plugin-log = { workspace = true }
+specta = { workspace = true }
+tauri-specta = { workspace = true }
+specta-typescript = { workspace = true }
+
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+anyhow = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+tracing-appender = { workspace = true }
+directories = { workspace = true }
+
+[features]
+default = []
+# Enables the in-app component gallery route (#/dev/gallery).
+gallery = []
+
+[dev-dependencies]
+tempfile = { workspace = true }
+pretty_assertions = { workspace = true }

@@ -1,0 +1,65 @@
+# cargo-deny configuration.
+#
+# Run with `cargo deny check advisories bans sources`.
+# Rationale for each `warn` rather than `deny` is recorded here so the decision survives.
+
+[graph]
+all-features = true
+targets = [
+    { triple = "x86_64-unknown-linux-gnu" },
+    { triple = "x86_64-pc-windows-msvc" },
+    { triple = "aarch64-apple-darwin" },
+]
+
+[advisories]
+version = 2
+yanked = "deny"
+# No ignore list yet. An entry here must carry a comment naming the CVE and the reason the
+# advisory does not apply to this usage — a bare version range is not an acceptable reason.
+ignore = []
+
+[licenses]
+version = 2
+# Copyleft is fine for a local-first desktop app that is itself MIT/Apache-2.0 licensed as
+# long as it is not linked *into* a distributed proprietary blob; anything AGPL is rejected
+# on principle.
+deny = [
+    "AGPL-3.0",
+    "AGPL-3.0-or-later",
+    "GPL-3.0",
+    "GPL-3.0-or-later",
+]
+allow = [
+    "MIT",
+    "Apache-2.0",
+    "Apache-2.0 WITH LLVM-exception",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "ISC",
+    "Unicode-3.0",
+    "Unicode-DFS-2016",
+    "Zlib",
+    "BSL-1.0",
+    "CC0-1.0",
+    "MPL-2.0",
+    "OpenSSL",
+]
+confidence-threshold = 0.8
+
+[licenses.exceptions]
+# `ring` carries an ISC AND an OpenSSL/SSL variation; both are permissive and MIT-compatible.
+allow = ["ISC", "OpenSSL", "MIT", "Apache-2.0"]
+
+[bans]
+multiple-versions = "warn"
+wildcards = "deny"
+highlight = "all"
+# No crate-level `deny` entries yet. `mockall` and `wiremock` are dev-only and `time`/`chrono`
+# coexist by design (chrono owns the domain clock, time arrives via dependencies).
+skip = []
+skip-tree = []
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]

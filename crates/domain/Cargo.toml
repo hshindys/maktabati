@@ -1,0 +1,29 @@
+[package]
+name = "maktabati-domain"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "Pure domain entities, value objects and business rules for Maktabati (no I/O)"
+repository.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+chrono = { workspace = true }
+uuid = { workspace = true }
+unicode-normalization = { workspace = true }
+unicode-segmentation = { workspace = true }
+# Type derivation for the generated TS contract (ADR-0002). Pure proc-macro: no runtime,
+# no Tauri/webview dependency, so this crate stays I/O-free.
+specta = { workspace = true }
+
+[dev-dependencies]
+proptest = { workspace = true }
+pretty_assertions = { workspace = true }
+insta = { workspace = true }

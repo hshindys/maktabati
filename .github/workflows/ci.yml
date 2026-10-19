@@ -1,0 +1,124 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# Two jobs run on Linux (the primary target) and Windows (packaging target). macOS is a
+# `workflow_dispatch`-only addition until the signing story exists — see docs/05-roadmap.md.
+env:
+  CARGO_TERM_COLOR: always
+  RUSTFLAGS: -D warnings
+  # `svelte-check` and `vitest` both inherit this; a low limit keeps the runner from swapping.
+  NODE_OPTIONS: --max-old-space-size=4096
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  rust:
+    name: Rust (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+
+      - name: Cache cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: cargo-${{ matrix.os }}-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: cargo-${{ matrix.os }}-
+
+      # Linux only: the Tauri 2 webview stack.
+      - name: Install webview dependencies (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            libwebkit2gtk-4.1-dev build-essential curl wget file \
+            libxdo-dev libssl-dev libayatana-appindicator3-dev librsvg2-dev
+
+      - name: Check formatting
+        run: cargo fmt --all -- --check
+
+      - name: Clippy (deny warnings)
+        run: cargo clippy --workspace --all-targets --all-features -- -D warnings
+
+      - name: Build
+        run: cargo build --workspace
+
+      # `cargo nextest` is not installed on the runners; `cargo test --workspace` is the
+      # documented fallback (docs/05-roadmap.md).
+      - name: Test
+        run: cargo test --workspace
+
+      - name: Generated bindings are up to date
+        shell: bash
+        run: |
+          cargo test -p maktabati-app bindings_are_up_to_date
+          if ! git diff --exit-code -- src/bindings.ts; then
+            echo "::error::src/bindings.ts drifted from the Rust command surface."
+            echo "Regenerate it with: MAKTABATI_UPDATE_BINDINGS=1 cargo test -p maktabati-app bindings_are_up_to_date"
+            exit 1
+          fi
+
+      - name: Deny known-vulnerable dependencies
+        run: cargo deny check advisories bans sources
+
+  frontend:
+    name: Frontend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Unit tests
+        run: npm test
+
+      # Enforces docs/04-ux-design.md §7.2: physical left/right declarations are a build
+      # failure, because they break the Arabic mirror silently.
+      - name: RTL logical-property guard
+        run: npm run lint:logical-css
+
+      - name: Build
+        run: npm run build
+
+  commitlint:
+    name: Commit messages
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Check conventional commits
+        run: |
+          npx --yes commitlint@19 --from "${{ github.event.pull_request.base.sha }}" --to "${{ github.event.pull_request.head.sha }}" --verbose

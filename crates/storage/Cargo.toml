@@ -1,0 +1,28 @@
+[package]
+name = "maktabati-storage"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+description = "SQLite persistence, checksummed migrations and repositories for Maktabati"
+repository.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+maktabati-domain = { workspace = true }
+rusqlite = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+chrono = { workspace = true }
+sha2 = { workspace = true }
+# Derives for repository-facing DTOs (LibrarySummary). Pure proc-macro, no runtime (ADR-0002).
+specta = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }
+pretty_assertions = { workspace = true }

@@ -1,0 +1,414 @@
+/* ============================================================================
+ * Maktabati — design tokens & base layer
+ * Single source of truth: docs/04-ux-design.md §5.1–§5.3, §6, §7.
+ *
+ * Themes switch instantly by flipping `data-theme` and `data-accent` on <html>;
+ * there is no reload and no second stylesheet.
+ * ==========================================================================*/
+
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+ * Tailwind v4 theme bridge.
+ * Every token below is re-exported as a utility (`bg-surface-1`, `text-ink-2`,
+ * `rounded-md`, `p-4` …) so components never hard-code a raw value.
+ * ------------------------------------------------------------------------ */
+@theme {
+  --color-surface-0: var(--surface-0);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+
+  --color-border-1: var(--border-1);
+  --color-border-2: var(--border-2);
+
+  --color-ink-1: var(--text-1);
+  --color-ink-2: var(--text-2);
+  --color-ink-3: var(--text-3);
+
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-soft: var(--accent-soft);
+
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+
+  --color-star: var(--star-filled);
+  --color-star-empty: var(--star-empty);
+
+  --font-ui: Inter, Cairo, Tajawal, "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --font-read: "IBM Plex Sans Arabic", Inter, Cairo, system-ui, sans-serif;
+  --font-naskh: Amiri, "IBM Plex Sans Arabic", Georgia, serif;
+
+  --radius-sm: var(--r-sm);
+  --radius-md: var(--r-md);
+  --radius-lg: var(--r-lg);
+  --radius-xl: var(--r-xl);
+
+  --shadow-1: var(--sh-1);
+  --shadow-2: var(--sh-2);
+  --shadow-3: var(--sh-3);
+  --shadow-lift: var(--sh-lift);
+
+  --spacing-1: var(--sp-1);
+  --spacing-2: var(--sp-2);
+  --spacing-3: var(--sp-3);
+  --spacing-4: var(--sp-4);
+  --spacing-5: var(--sp-5);
+  --spacing-6: var(--sp-6);
+  --spacing-7: var(--sp-7);
+  --spacing-8: var(--sp-8);
+}
+
+/* ---------------------------------------------------------------------------
+ * Tokens
+ * ------------------------------------------------------------------------ */
+:root,
+[data-theme="light"] {
+  /* Light: "warm paper" */
+  --surface-0: #fbf8f1;
+  --surface-1: #ffffff;
+  --surface-2: #f4efe4;
+  --surface-3: #eae3d5;
+  --border-1: #e3dbcb;
+  --border-2: #cfc4ae;
+  --text-1: #2a2621;
+  --text-2: #6b6153;
+  --text-3: #948a79;
+
+  /* Warm-tinted elevation */
+  --sh-1: 0 1px 2px rgba(42, 38, 33, 0.06);
+  --sh-2: 0 2px 8px rgba(42, 38, 33, 0.1);
+  --sh-3: 0 8px 24px rgba(42, 38, 33, 0.14);
+  --sh-lift: 0 14px 34px rgba(42, 38, 33, 0.2);
+
+  --star-empty: #d8d0be;
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  /* Dark: "deep ink" */
+  --surface-0: #12110f;
+  --surface-1: #1a1917;
+  --surface-2: #22211e;
+  --surface-3: #2c2a26;
+  --border-1: #302e2a;
+  --border-2: #423f39;
+  --text-1: #ede7db;
+  --text-2: #ada697;
+  --text-3: #7e7768;
+
+  --sh-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --sh-2: 0 2px 8px rgba(0, 0, 0, 0.5);
+  --sh-3: 0 8px 24px rgba(0, 0, 0, 0.55);
+  --sh-lift: 0 14px 34px rgba(0, 0, 0, 0.65);
+
+  --star-empty: #45413a;
+  color-scheme: dark;
+}
+
+[data-theme="sepia"] {
+  /* Sepia: reading surfaces */
+  --surface-0: #f3e7cf;
+  --surface-1: #f7eedc;
+  --surface-2: #eee0c2;
+  --surface-3: #e4d3af;
+  --border-1: #ddcaa6;
+  --border-2: #c6ae83;
+  --text-1: #463b2a;
+  --text-2: #6f6049;
+  --text-3: #958568;
+
+  --star-empty: #d6c7a5;
+  color-scheme: light;
+}
+
+/* Accent presets — docs/04-ux-design.md §5.1. Applied to buttons, links, focus
+ * rings, progress bars, active nav and the heatmap ramp. */
+[data-accent="green"] {
+  --accent: #2f6b4f;
+  --accent-hover: #27593f;
+  --accent-fg: #ffffff;
+  --accent-soft: #e3efe8;
+  --accent-soft-ink: #24523c;
+  --success: #2f7a4f;
+  --success-soft: #e2f2e9;
+}
+[data-accent="indigo"] {
+  --accent: #3b4cca;
+  --accent-hover: #313ea8;
+  --accent-fg: #ffffff;
+  --accent-soft: #e6e8fa;
+  --accent-soft-ink: #2c3796;
+  --success: #2f7a4f;
+  --success-soft: #e2f2e9;
+}
+[data-accent="plum"] {
+  --accent: #7a3b69;
+  --accent-hover: #653057;
+  --accent-fg: #ffffff;
+  --accent-soft: #f6e7f1;
+  --accent-soft-ink: #5f2d51;
+  --success: #2f7a4f;
+  --success-soft: #e2f2e9;
+}
+[data-accent="terracotta"] {
+  --accent: #b4552f;
+  --accent-hover: #97461f;
+  --accent-fg: #ffffff;
+  --accent-soft: #fbe9df;
+  --accent-soft-ink: #8c4122;
+  --success: #2f7a4f;
+  --success-soft: #e2f2e9;
+}
+[data-accent="ocean"] {
+  --accent: #1f6a8a;
+  --accent-hover: #1a5872;
+  --accent-fg: #ffffff;
+  --accent-soft: #dfeef5;
+  --accent-soft-ink: #17526b;
+  --success: #2f7a4f;
+  --success-soft: #e2f2e9;
+}
+[data-accent="gold"] {
+  --accent: #8a6a1f;
+  --accent-hover: #725718;
+  --accent-fg: #ffffff;
+  --accent-soft: #f6eed9;
+  --accent-soft-ink: #6a5117;
+  --success: #2f7a4f;
+  --success-soft: #e2f2e9;
+}
+
+/* Semantic tokens that do not depend on the accent. */
+:root {
+  --warning: #9a6b12;
+  --warning-soft: #fbf0d8;
+  --danger: #a93226;
+  --danger-soft: #fbe7e5;
+  --info: #2a5f8f;
+  --info-soft: #e4eef7;
+  --star-filled: #c99a17;
+
+  /* Type scale — 1.200 minor third on a 16px base */
+  --fs-xs: 0.75rem;    /* 12px */
+  --fs-sm: 0.844rem;   /* 13.5px */
+  --fs-base: 0.938rem; /* 15px */
+  --fs-md: 1.063rem;   /* 17px */
+  --fs-lg: 1.25rem;    /* 20px */
+  --fs-xl: 1.5rem;     /* 24px */
+  --fs-2xl: 1.875rem;  /* 30px */
+  --fs-3xl: 2.375rem;  /* 38px */
+
+  --lh-tight: 1.25;
+  --lh-normal: 1.6;
+  --lh-read: 1.85; /* Arabic body: 1.75–1.9 (diacritics + descenders) */
+
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 14px;
+  --r-xl: 20px;
+  --r-full: 999px;
+
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 320ms;
+  --ease: cubic-bezier(0.2, 0.7, 0.3, 1);
+  --stagger: 30ms;
+}
+
+/* ---------------------------------------------------------------------------
+ * Base
+ * ------------------------------------------------------------------------ */
+@layer base {
+  * {
+    border-color: var(--border-1);
+  }
+
+  html {
+    /* Both scripts are bundled locally — there is never a network font fetch. */
+    font-family: Inter, Cairo, Tajawal, "IBM Plex Sans Arabic", system-ui, sans-serif;
+    font-size: var(--fs-base);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    /* Never allow a horizontal scrollbar to appear from an unmirrored element. */
+    scrollbar-gutter: stable;
+  }
+
+  body {
+    margin: 0;
+    background: var(--surface-0);
+    color: var(--text-1);
+    line-height: var(--lh-normal);
+    min-block-size: 100vh;
+    overflow: hidden; /* the shell owns its own scroll regions */
+  }
+
+  /* Arabic needs a looser default than Latin; applied only when the document is RTL
+   * so English keeps the tighter rhythm. */
+  [dir="rtl"] body {
+    line-height: var(--lh-read);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    line-height: var(--lh-tight);
+    font-weight: 600;
+    color: var(--text-1);
+    text-wrap: balance;
+  }
+
+  a {
+    color: var(--accent);
+    text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent);
+    text-underline-offset: 2px;
+  }
+  a:hover {
+    color: var(--accent-hover);
+  }
+
+  button, input, select, textarea {
+    font: inherit;
+    color: inherit;
+  }
+
+  /* Visible, consistent focus for keyboard users. Never removed. */
+  :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: var(--r-sm);
+  }
+
+  ::selection {
+    background: var(--accent-soft);
+    color: var(--accent-soft-ink, var(--text-1));
+  }
+
+  /* Scrollbars follow the theme rather than the OS default light-grey. */
+  ::-webkit-scrollbar {
+    inline-size: 10px;
+    block-size: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-2);
+    border-radius: var(--r-full);
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--text-3);
+    background-clip: content-box;
+  }
+
+  /* Numbers line up in tables; applies to every numeric cell. */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Utilities that encode design rules rather than convenience
+ * ------------------------------------------------------------------------ */
+@layer utilities {
+  /* Rule 7.4 — every user-authored string renders with the right direction
+   * regardless of the surrounding locale. */
+  .bidi-auto {
+    unicode-bidi: isolate;
+  }
+
+  /* Rule 7.5 — ISBNs, URLs, code and numbers stay LTR inside RTL text. */
+  .bidi-ltr {
+    direction: ltr;
+    unicode-bidi: isolate;
+  }
+
+  /* Rule 7.6 — directional icons mirror in RTL. Universal symbols (play, search,
+   * plus) must opt out with `.no-mirror`. */
+  .mirror-rtl {
+    transform: scaleX(-1);
+  }
+  [dir="rtl"] .no-mirror {
+    /* explicit no-op so the intent is visible next to `.mirror-rtl` */
+    transform: none;
+  }
+
+  /* Custom title bar: the region the user drags to move the window. */
+  .titlebar-drag {
+    app-region: drag;
+  }
+  .titlebar-no-drag {
+    app-region: no-drag;
+  }
+
+  /* Staggered entrance for lists — capped at 6 rows by the caller. */
+  .enter-stagger {
+    animation: enter-fade var(--dur-base) var(--ease) both;
+  }
+}
+
+@keyframes enter-fade {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Route transition — docs/04-ux-design.md §5.5: "never longer, or it feels slow". */
+@keyframes route-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.route-enter {
+  animation: route-in var(--dur-fast) var(--ease) both;
+}
+
+/* Cover hover lift — §5.5. */
+.cover-lift {
+  transition:
+    transform var(--dur-base) var(--ease),
+    box-shadow var(--dur-base) var(--ease);
+}
+.cover-lift:hover,
+.cover-lift:focus-within {
+  transform: translateY(-4px);
+  box-shadow: var(--sh-lift);
+}
+
+/* Rule: collapse all motion for users who ask for less. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Rule 7.2 safety net: the lint script enforces authoring, this enforces runtime
+ * by ensuring no physical offset can ever win over a logical one. */
+@supports (inset-inline-start: 0) {
+  [dir="rtl"] .mirror-rtl {
+    transform: scaleX(-1);
+  }
+}

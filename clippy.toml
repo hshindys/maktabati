@@ -1,0 +1,6 @@
+# Clippy *settings* (lint levels live in Cargo.toml [workspace.lints.clippy])
+msrv = "1.80"
+# Tests and seed/demo generators are allowed to unwrap — they are not user input paths.
+allow-unwrap-in-tests = true
+allow-expect-in-tests = true
+allow-panic-in-tests = true
