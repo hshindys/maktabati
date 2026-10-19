@@ -1,0 +1,6049 @@
+[
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "Maktabati · Design System",
+   "select": false,
+   "width": 1440,
+   "props": {
+    "layout": "vertical",
+    "gap": 40,
+    "padding": 56,
+    "fills": [
+     "#fbf8f1"
+    ],
+    "sizingH": "fixed",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 0
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 10,
+    "sizingH": "fill",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "مكتبتي · نظام التصميم",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 38,
+    "fontStyle": "Bold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 1
+   },
+   "lineHeight": "125%"
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "Maktabati design tokens — single source of truth: docs/04-ux-design.md §5–§7, shipped as src/app.css",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 15,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 1
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 1
+   },
+   "height": 4,
+   "props": {
+    "layout": "horizontal",
+    "sizingH": "fill"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 4
+   },
+   "width": 1328,
+   "height": 3,
+   "props": {
+    "fills": [
+     "#2f6b4f"
+    ],
+    "cornerRadius": 2
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "الأسطح والحدود · Surfaces & borders",
+   "select": false,
+   "parent": {
+    "$step": 0
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 18,
+    "padding": [
+     28,
+     32,
+     32,
+     32
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 14,
+    "stroke": "#e3dbcb",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "clip": true
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "الأسطح والحدود · Surfaces & borders",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 24,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 6
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "Four elevations and two border weights, in every theme.",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 6
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 6
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 10,
+    "sizingH": "fill",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "light · ورقي",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 9
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 9
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 16,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "min"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 11
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 12
+   },
+   "width": 132,
+   "height": 72,
+   "props": {
+    "fills": [
+     "#fbf8f1"
+    ],
+    "cornerRadius": 10
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#FBF8F1",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 12
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "surface-0",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 12
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 11
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 16
+   },
+   "width": 132,
+   "height": 72,
+   "props": {
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 10,
+    "stroke": "#e3dbcb",
+    "strokeWeight": 1,
+    "strokeAlign": "inside"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#FFFFFF",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 16
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "surface-1",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 16
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 11
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 20
+   },
+   "width": 132,
+   "height": 72,
+   "props": {
+    "fills": [
+     "#f4efe4"
+    ],
+    "cornerRadius": 10
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#F4EFE4",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 20
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "surface-2",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 20
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 11
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 24
+   },
+   "width": 132,
+   "height": 72,
+   "props": {
+    "fills": [
+     "#eae3d5"
+    ],
+    "cornerRadius": 10
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#EAE3D5",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 24
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "surface-3",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 24
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 11
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 28
+   },
+   "width": 132,
+   "height": 72,
+   "props": {
+    "fills": [
+     "#e3dbcb"
+    ],
+    "cornerRadius": 10
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#E3DBCB",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 28
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "border-1",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 28
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 11
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 32
+   },
+   "width": 132,
+   "height": 72,
+   "props": {
+    "fills": [
+     "#cfc4ae"
+    ],
+    "cornerRadius": 10
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#CFC4AE",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 32
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "border-2",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 32
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 9
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 16,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "min"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 36
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 37
+   },
+   "width": 132,
+   "height": 72,
+   "props": {
+    "fills": [
+     "#2a2621"
+    ],
+    "cornerRadius": 10
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#2A2621",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 37
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "text-1",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 37
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 36
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 41
+   },
+   "width": 132,
+   "height": 72,
+   "props": {
+    "fills": [
+     "#6b6153"
+    ],
+    "cornerRadius": 10
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#6B6153",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 41
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "text-2",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 41
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 36
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 45
+   },
+   "width": 132,
+   "height": 72,
+   "props": {
+    "fills": [
+     "#948a79"
+    ],
+    "cornerRadius": 10
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#948A79",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 45
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "text-3",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 45
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 6
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 10,
+    "sizingH": "fill",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "dark · حبر",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 49
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 49
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 16,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "min"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 51
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 52
+   },
+   "width": 132,
+   "height": 72,
+   "props": {
+    "fills": [
+     "#12110f"
+    ],
+    "cornerRadius": 10
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#12110F",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 52
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "surface-0",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 52
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 51
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 56
+   },
+   "width": 132,
+   "height": 72,
+   "props": {
+    "fills": [
+     "#1a1917"
+    ],
+    "cornerRadius": 10
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#1A1917",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 56
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "surface-1",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 56
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 51
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 60
+   },
+   "width": 132,
+   "height": 72,
+   "props": {
+    "fills": [
+     "#22211e"
+    ],
+    "cornerRadius": 10
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#22211E",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 60
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "surface-2",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 60
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 51
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 64
+   },
+   "width": 132,
+   "height": 72,
+   "props": {
+    "fills": [
+     "#2c2a26"
+    ],
+    "cornerRadius": 10
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#2C2A26",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 64
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "surface-3",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 64
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 51
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 68
+   },
+   "width": 132,
+   "height": 72,
+   "props": {
+    "fills": [
+     "#302e2a"
+    ],
+    "cornerRadius": 10
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#302E2A",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 68
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "border-1",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 68
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 51
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 72
+   },
+   "width": 132,
+   "height": 72,
+   "props": {
+    "fills": [
+     "#423f39"
+    ],
+    "cornerRadius": 10
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#423F39",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 72
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "border-2",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 72
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 49
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 16,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "min"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 76
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 77
+   },
+   "width": 132,
+   "height": 72,
+   "props": {
+    "fills": [
+     "#ede7db"
+    ],
+    "cornerRadius": 10
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#EDE7DB",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 77
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "text-1",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 77
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 76
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 81
+   },
+   "width": 132,
+   "height": 72,
+   "props": {
+    "fills": [
+     "#ada697"
+    ],
+    "cornerRadius": 10
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#ADA697",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 81
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "text-2",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 81
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 76
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 85
+   },
+   "width": 132,
+   "height": 72,
+   "props": {
+    "fills": [
+     "#7e7768"
+    ],
+    "cornerRadius": 10
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#7E7768",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 85
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "text-3",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 85
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 6
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 10,
+    "sizingH": "fill",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "sepia · تربيع",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 89
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 89
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 16,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "min"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 91
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 92
+   },
+   "width": 132,
+   "height": 72,
+   "props": {
+    "fills": [
+     "#f3e7cf"
+    ],
+    "cornerRadius": 10
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#F3E7CF",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 92
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "surface-0",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 92
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 91
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 96
+   },
+   "width": 132,
+   "height": 72,
+   "props": {
+    "fills": [
+     "#f7eedc"
+    ],
+    "cornerRadius": 10
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#F7EEDC",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 96
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "surface-1",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 96
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 91
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 100
+   },
+   "width": 132,
+   "height": 72,
+   "props": {
+    "fills": [
+     "#eee0c2"
+    ],
+    "cornerRadius": 10
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#EEE0C2",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 100
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "surface-2",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 100
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 91
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 104
+   },
+   "width": 132,
+   "height": 72,
+   "props": {
+    "fills": [
+     "#e4d3af"
+    ],
+    "cornerRadius": 10
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#E4D3AF",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 104
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "surface-3",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 104
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 91
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 108
+   },
+   "width": 132,
+   "height": 72,
+   "props": {
+    "fills": [
+     "#ddcaa6"
+    ],
+    "cornerRadius": 10
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#DDCAA6",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 108
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "border-1",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 108
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 91
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 112
+   },
+   "width": 132,
+   "height": 72,
+   "props": {
+    "fills": [
+     "#c6ae83"
+    ],
+    "cornerRadius": 10
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#C6AE83",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 112
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "border-2",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 112
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 89
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 16,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "min"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 116
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 117
+   },
+   "width": 132,
+   "height": 72,
+   "props": {
+    "fills": [
+     "#463b2a"
+    ],
+    "cornerRadius": 10
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#463B2A",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 117
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "text-1",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 117
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 116
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 121
+   },
+   "width": 132,
+   "height": 72,
+   "props": {
+    "fills": [
+     "#6f6049"
+    ],
+    "cornerRadius": 10
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#6F6049",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 121
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "text-2",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 121
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 116
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 125
+   },
+   "width": 132,
+   "height": 72,
+   "props": {
+    "fills": [
+     "#958568"
+    ],
+    "cornerRadius": 10
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#958568",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 125
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "text-3",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 125
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "لون التمييز · Accent presets",
+   "select": false,
+   "parent": {
+    "$step": 0
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 18,
+    "padding": [
+     28,
+     32,
+     32,
+     32
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 14,
+    "stroke": "#e3dbcb",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "clip": true
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "لون التمييز · Accent presets",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 24,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 129
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "Six presets, each with accent / soft / soft-ink. Applied to buttons, links, focus rings, progress bars, active nav and the heatmap ramp.",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 129
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 129
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 16,
+    "sizingH": "fill",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 132
+   },
+   "width": 200,
+   "props": {
+    "layout": "vertical",
+    "gap": 0,
+    "cornerRadius": 14,
+    "stroke": "#e3dbcb",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "clip": true
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 133
+   },
+   "width": 186,
+   "height": 72,
+   "props": {
+    "fills": [
+     "#2f6b4f"
+    ]
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 133
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 4,
+    "padding": [
+     12,
+     14,
+     14,
+     14
+    ],
+    "fills": [
+     "#e3efe8"
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "green",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 15,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#24523c"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 135
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#2F6B4F",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#24523c"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 135
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 132
+   },
+   "width": 200,
+   "props": {
+    "layout": "vertical",
+    "gap": 0,
+    "cornerRadius": 14,
+    "stroke": "#e3dbcb",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "clip": true
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 138
+   },
+   "width": 186,
+   "height": 72,
+   "props": {
+    "fills": [
+     "#3b4cca"
+    ]
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 138
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 4,
+    "padding": [
+     12,
+     14,
+     14,
+     14
+    ],
+    "fills": [
+     "#e6e8fa"
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "indigo",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 15,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2c3796"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 140
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#3B4CCA",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#2c3796"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 140
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 132
+   },
+   "width": 200,
+   "props": {
+    "layout": "vertical",
+    "gap": 0,
+    "cornerRadius": 14,
+    "stroke": "#e3dbcb",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "clip": true
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 143
+   },
+   "width": 186,
+   "height": 72,
+   "props": {
+    "fills": [
+     "#7a3b69"
+    ]
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 143
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 4,
+    "padding": [
+     12,
+     14,
+     14,
+     14
+    ],
+    "fills": [
+     "#f6e7f1"
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "plum",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 15,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#5f2d51"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 145
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#7A3B69",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#5f2d51"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 145
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 132
+   },
+   "width": 200,
+   "props": {
+    "layout": "vertical",
+    "gap": 0,
+    "cornerRadius": 14,
+    "stroke": "#e3dbcb",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "clip": true
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 148
+   },
+   "width": 186,
+   "height": 72,
+   "props": {
+    "fills": [
+     "#b4552f"
+    ]
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 148
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 4,
+    "padding": [
+     12,
+     14,
+     14,
+     14
+    ],
+    "fills": [
+     "#fbe9df"
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "terracotta",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 15,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#8c4122"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 150
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#B4552F",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#8c4122"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 150
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 132
+   },
+   "width": 200,
+   "props": {
+    "layout": "vertical",
+    "gap": 0,
+    "cornerRadius": 14,
+    "stroke": "#e3dbcb",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "clip": true
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 153
+   },
+   "width": 186,
+   "height": 72,
+   "props": {
+    "fills": [
+     "#1f6a8a"
+    ]
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 153
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 4,
+    "padding": [
+     12,
+     14,
+     14,
+     14
+    ],
+    "fills": [
+     "#dfeef5"
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "ocean",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 15,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#17526b"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 155
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#1F6A8A",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#17526b"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 155
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 132
+   },
+   "width": 200,
+   "props": {
+    "layout": "vertical",
+    "gap": 0,
+    "cornerRadius": 14,
+    "stroke": "#e3dbcb",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "clip": true
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 158
+   },
+   "width": 186,
+   "height": 72,
+   "props": {
+    "fills": [
+     "#8a6a1f"
+    ]
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 158
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 4,
+    "padding": [
+     12,
+     14,
+     14,
+     14
+    ],
+    "fills": [
+     "#f6eed9"
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "gold",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 15,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#6a5117"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 160
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#8A6A1F",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6a5117"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 160
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "الدلالات · Semantic",
+   "select": false,
+   "parent": {
+    "$step": 0
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 18,
+    "padding": [
+     28,
+     32,
+     32,
+     32
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 14,
+    "stroke": "#e3dbcb",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "clip": true
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "الدلالات · Semantic",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 24,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 163
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "Accent-independent status colours, each with a soft companion.",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 163
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 163
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 16,
+    "sizingH": "fill",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 166
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "padding": [
+     14,
+     16,
+     14,
+     16
+    ],
+    "fills": [
+     "#e2f2e9"
+    ],
+    "cornerRadius": 10,
+    "stroke": "#e3dbcb",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "success",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 15,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2f7a4f"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 167
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#2F7A4F",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 167
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 166
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "padding": [
+     14,
+     16,
+     14,
+     16
+    ],
+    "fills": [
+     "#fbf0d8"
+    ],
+    "cornerRadius": 10,
+    "stroke": "#e3dbcb",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "warning",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 15,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#9a6b12"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 170
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#9A6B12",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 170
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 166
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "padding": [
+     14,
+     16,
+     14,
+     16
+    ],
+    "fills": [
+     "#fbe7e5"
+    ],
+    "cornerRadius": 10,
+    "stroke": "#e3dbcb",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "danger",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 15,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#a93226"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 173
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#A93226",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 173
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 166
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "padding": [
+     14,
+     16,
+     14,
+     16
+    ],
+    "fills": [
+     "#e4eef7"
+    ],
+    "cornerRadius": 10,
+    "stroke": "#e3dbcb",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "info",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 15,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2a5f8f"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 176
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#2A5F8F",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 176
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 166
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "padding": [
+     14,
+     16,
+     14,
+     16
+    ],
+    "fills": [
+     "#d8d0be"
+    ],
+    "cornerRadius": 10,
+    "stroke": "#e3dbcb",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "star",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 15,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#c99a17"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 179
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "#C99A17",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 179
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "مقياس الخط · Type scale",
+   "select": false,
+   "parent": {
+    "$step": 0
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 18,
+    "padding": [
+     28,
+     32,
+     32,
+     32
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 14,
+    "stroke": "#e3dbcb",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "clip": true
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "مقياس الخط · Type scale",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 24,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 182
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "1.200 minor third on a 16px base. Arabic gets the looser --lh-read (1.85) so diacritics and descenders never collide.",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 182
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 182
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 24,
+    "padding": [
+     6,
+     0,
+     6,
+     0
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "baseline"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "3xl · 38",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "height"
+   },
+   "parent": {
+    "$step": 185
+   },
+   "width": 110
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "مقدمة في التاريخ الإسلامي",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 38,
+    "fontStyle": "Bold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 185
+   },
+   "lineHeight": "150%"
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "Reading a library",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 38,
+    "fontStyle": "Bold",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 185
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 182
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 24,
+    "padding": [
+     6,
+     0,
+     6,
+     0
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "baseline"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "2xl · 30",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "height"
+   },
+   "parent": {
+    "$step": 189
+   },
+   "width": 110
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "مقدمة في التاريخ الإسلامي",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 30,
+    "fontStyle": "Bold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 189
+   },
+   "lineHeight": "150%"
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "Reading a library",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 30,
+    "fontStyle": "Bold",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 189
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 182
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 24,
+    "padding": [
+     6,
+     0,
+     6,
+     0
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "baseline"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "xl · 24",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "height"
+   },
+   "parent": {
+    "$step": 193
+   },
+   "width": 110
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "مقدمة في التاريخ الإسلامي",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 24,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 193
+   },
+   "lineHeight": "150%"
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "Reading a library",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 24,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 193
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 182
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 24,
+    "padding": [
+     6,
+     0,
+     6,
+     0
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "baseline"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "lg · 20",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "height"
+   },
+   "parent": {
+    "$step": 197
+   },
+   "width": 110
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "مقدمة في التاريخ الإسلامي",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 20,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 197
+   },
+   "lineHeight": "150%"
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "Reading a library",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 20,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 197
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 182
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 24,
+    "padding": [
+     6,
+     0,
+     6,
+     0
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "baseline"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "md · 17",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "height"
+   },
+   "parent": {
+    "$step": 201
+   },
+   "width": 110
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "مقدمة في التاريخ الإسلامي",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 17,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 201
+   },
+   "lineHeight": "150%"
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "Reading a library",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 17,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 201
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 182
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 24,
+    "padding": [
+     6,
+     0,
+     6,
+     0
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "baseline"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "base · 15",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "height"
+   },
+   "parent": {
+    "$step": 205
+   },
+   "width": 110
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "مقدمة في التاريخ الإسلامي",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "Regular",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 205
+   },
+   "lineHeight": "150%"
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "Reading a library",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 15,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 205
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 182
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 24,
+    "padding": [
+     6,
+     0,
+     6,
+     0
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "baseline"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "sm · 13.5",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "height"
+   },
+   "parent": {
+    "$step": 209
+   },
+   "width": 110
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "مقدمة في التاريخ الإسلامي",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 209
+   },
+   "lineHeight": "150%"
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "Reading a library",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 209
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 182
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 24,
+    "padding": [
+     6,
+     0,
+     6,
+     0
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "baseline"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "xs · 12",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "height"
+   },
+   "parent": {
+    "$step": 213
+   },
+   "width": 110
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "مقدمة في التاريخ الإسلامي",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 213
+   },
+   "lineHeight": "150%"
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "Reading a library",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 213
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "الزوايا والمسافات · Radii & spacing",
+   "select": false,
+   "parent": {
+    "$step": 0
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 18,
+    "padding": [
+     28,
+     32,
+     32,
+     32
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 14,
+    "stroke": "#e3dbcb",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "clip": true
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "الزوايا والمسافات · Radii & spacing",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 24,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 217
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "A four-step radius ramp on an 8px rhythm (4/8/12/16/24/32/48/64).",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 217
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 217
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 20,
+    "sizingH": "fill",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 220
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 221
+   },
+   "width": 96,
+   "height": 64,
+   "props": {
+    "fills": [
+     "#f4efe4"
+    ],
+    "cornerRadius": 6,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "r-sm · 6px",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 221
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 220
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 224
+   },
+   "width": 96,
+   "height": 64,
+   "props": {
+    "fills": [
+     "#f4efe4"
+    ],
+    "cornerRadius": 10,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "r-md · 10px",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 224
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 220
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 227
+   },
+   "width": 96,
+   "height": 64,
+   "props": {
+    "fills": [
+     "#f4efe4"
+    ],
+    "cornerRadius": 14,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "r-lg · 14px",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 227
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 220
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 230
+   },
+   "width": 96,
+   "height": 64,
+   "props": {
+    "fills": [
+     "#f4efe4"
+    ],
+    "cornerRadius": 20,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "r-xl · 20px",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 230
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 217
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 20,
+    "padding": [
+     8,
+     0,
+     0,
+     0
+    ],
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 233
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 234
+   },
+   "width": 4,
+   "height": 4,
+   "props": {
+    "fills": [
+     "#3b4cca"
+    ]
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "sp-1 · 4",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 234
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 233
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 237
+   },
+   "width": 8,
+   "height": 8,
+   "props": {
+    "fills": [
+     "#3b4cca"
+    ]
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "sp-2 · 8",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 237
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 233
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 240
+   },
+   "width": 12,
+   "height": 12,
+   "props": {
+    "fills": [
+     "#3b4cca"
+    ]
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "sp-3 · 12",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 240
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 233
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 243
+   },
+   "width": 16,
+   "height": 16,
+   "props": {
+    "fills": [
+     "#3b4cca"
+    ]
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "sp-4 · 16",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 243
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 233
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 246
+   },
+   "width": 24,
+   "height": 24,
+   "props": {
+    "fills": [
+     "#3b4cca"
+    ]
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "sp-5 · 24",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 246
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 233
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 249
+   },
+   "width": 32,
+   "height": 32,
+   "props": {
+    "fills": [
+     "#3b4cca"
+    ]
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "sp-6 · 32",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 249
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 233
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 252
+   },
+   "width": 48,
+   "height": 48,
+   "props": {
+    "fills": [
+     "#3b4cca"
+    ]
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "sp-7 · 48",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 252
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 233
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 255
+   },
+   "width": 64,
+   "height": 64,
+   "props": {
+    "fills": [
+     "#3b4cca"
+    ]
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "sp-8 · 64",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 255
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "المكوّنات · Components",
+   "select": false,
+   "parent": {
+    "$step": 0
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 18,
+    "padding": [
+     28,
+     32,
+     32,
+     32
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 14,
+    "stroke": "#e3dbcb",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "clip": true
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "المكوّنات · Components",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 24,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 258
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "The base kit: buttons, field, chip, progress, rating, stat card.",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 258
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 258
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 12,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 261
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     10,
+     18,
+     10,
+     18
+    ],
+    "fills": [
+     "#2f6b4f"
+    ],
+    "cornerRadius": 8,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "أساسي · Primary",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#ffffff"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 262
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 261
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     10,
+     18,
+     10,
+     18
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 8,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "ثانوي · Secondary",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 264
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 261
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     10,
+     18,
+     10,
+     18
+    ],
+    "cornerRadius": 8,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "شبح · Ghost",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#2f6b4f"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 266
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 261
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     10,
+     18,
+     10,
+     18
+    ],
+    "fills": [
+     "#a93226"
+    ],
+    "cornerRadius": 8,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "خطر · Danger",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#ffffff"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 268
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 258
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 12,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 270
+   },
+   "width": 360,
+   "props": {
+    "layout": "horizontal",
+    "gap": 8,
+    "padding": [
+     10,
+     14,
+     10,
+     14
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 8,
+    "stroke": "#cfc4ae",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fixed",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "ابحث في كل شيء…",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 15,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 271
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 270
+   },
+   "props": {
+    "layout": "horizontal",
+    "padding": [
+     6,
+     12,
+     6,
+     12
+    ],
+    "fills": [
+     "#e3efe8"
+    ],
+    "cornerRadius": 999,
+    "sizingH": "hug",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "قراءة الآن",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#24523c"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 273
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 270
+   },
+   "props": {
+    "layout": "horizontal",
+    "padding": [
+     6,
+     12,
+     6,
+     12
+    ],
+    "fills": [
+     "#e6e8fa"
+    ],
+    "cornerRadius": 999,
+    "sizingH": "hug",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "أنهيت",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#2c3796"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 275
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 258
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 8,
+    "sizingH": "fill",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "62% · صفحة ٢٦٣ من ٤٢٤",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 277
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 277
+   },
+   "width": 520,
+   "height": 8,
+   "props": {
+    "layout": "horizontal",
+    "fills": [
+     "#eae3d5"
+    ],
+    "cornerRadius": 999,
+    "sizingH": "fixed",
+    "sizingV": "fixed",
+    "clip": true
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "rectangle",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 279
+   },
+   "width": 322,
+   "height": 8,
+   "props": {
+    "fills": [
+     "#2f6b4f"
+    ],
+    "cornerRadius": 999
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 258
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 4,
+    "sizingH": "hug",
+    "sizingV": "hug",
+    "crossAlign": "center"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "★★★★☆  (٤)",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 24,
+    "fontStyle": "Regular",
+    "fills": [
+     "#c99a17"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 281
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "نجمة واحدة · star #c99a17 / star-empty #d8d0be",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 281
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 258
+   },
+   "props": {
+    "layout": "horizontal",
+    "gap": 16,
+    "sizingH": "fill",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 284
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 6,
+    "padding": [
+     18,
+     20,
+     18,
+     20
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 14,
+    "stroke": "#e3dbcb",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "1,284",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 30,
+    "fontStyle": "Bold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 285
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "كتاب · إجمالي",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 285
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "dashboard stat",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 285
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 284
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 6,
+    "padding": [
+     18,
+     20,
+     18,
+     20
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 14,
+    "stroke": "#e3dbcb",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "47",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 30,
+    "fontStyle": "Bold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 289
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "أقرأها الآن",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 289
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "dashboard stat",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 289
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 284
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 6,
+    "padding": [
+     18,
+     20,
+     18,
+     20
+    ],
+    "fills": [
+     "#ffffff"
+    ],
+    "cornerRadius": 14,
+    "stroke": "#e3dbcb",
+    "strokeWeight": 1,
+    "strokeAlign": "inside",
+    "sizingH": "fill",
+    "sizingV": "hug"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "18,302",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 30,
+    "fontStyle": "Bold",
+    "fills": [
+     "#2a2621"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 293
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "صفحة هذا العام",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 13.5,
+    "fontStyle": "Regular",
+    "fills": [
+     "#6b6153"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 293
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "dashboard stat",
+   "select": false,
+   "props": {
+    "fontFamily": "Inter",
+    "fontSize": 12,
+    "fontStyle": "Regular",
+    "fills": [
+     "#948a79"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 293
+   }
+  }
+ }
+]

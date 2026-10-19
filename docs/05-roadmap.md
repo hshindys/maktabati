@@ -19,7 +19,7 @@ commits before moving on. Effort is estimated in focused engineering days for on
 |---|---|---|---|
 | **0** | Online research → `docs/00-research.md` | 1.5 d | ✅ |
 | **1** | Planning & architecture docs + ADRs | 2 d | ✅ |
-| **2** | Workspace scaffold, CI, design system, app shell, i18n/RTL, DB + migrations + seed | 4 d | ⬜ |
+| **2** | Workspace scaffold, CI, design system, app shell, i18n/RTL, DB + migrations + seed | 4 d | ✅ |
 | **3** | CRUD for books/authors/publishers/categories/tags + add-book wizard + covers | 4 d | ⬜ |
 | **4** | Metadata lookup, duplicate detection, import/export | 3 d | ⬜ |
 | **5** | Library browser, filters, shelves, command palette, Arabic-aware search | 4 d | ⬜ |
@@ -52,7 +52,7 @@ commits before moving on. Effort is estimated in focused engineering days for on
 
 ---
 
-## M1 — Planning & architecture 🚧
+## M1 — Planning & architecture ✅
 
 **Deliverables:** `01-product-spec.md`, `02-architecture.md`, `03-data-model.md`,
 `04-ux-design.md`, `05-roadmap.md`, `docs/adr/0001–0012`.
@@ -89,7 +89,7 @@ commits before moving on. Effort is estimated in focused engineering days for on
 
 ---
 
-## M2 — Foundation
+## M2 — Foundation ✅
 
 **Scope**
 1. Cargo workspace: `crates/{domain,storage,search,metadata,files,notes,stats,backup,app}` +

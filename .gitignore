@@ -27,3 +27,4 @@ coverage
 # insta snapshot review artifacts — transient, never committed
 *.pending-snap
 *.snap.new
+__pycache__/
