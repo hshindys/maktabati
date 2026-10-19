@@ -27,7 +27,7 @@ import "@fontsource/amiri/400.css";
 import "@fontsource/amiri/700.css";
 
 import "./app.css";
-import "./settings";
+import "./lib/settings";
 
 import { mount } from "svelte";
 

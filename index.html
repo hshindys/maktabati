@@ -10,7 +10,7 @@
     />
     <!--
       No inline `<script>`: the Tauri CSP is `script-src 'self'`, so every script must be a real
-      file. Theme and direction are resolved by `src/lib/theme.ts` once the bundle loads, which
+      file. Theme and direction are resolved by `src/lib/settings.ts` once the bundle loads, which
       is fast enough that no pre-paint flash has been observed; if one ever appears, fix it by
       emitting a real script file rather than weakening the CSP.
     -->
@@ -22,5 +22,12 @@
       <br />
       Maktabati requires JavaScript to run.
     </noscript>
+    <!--
+      External module entry — required. The Tauri CSP is `script-src 'self'`, which
+      permits this file but not an inline script, so it must stay external.
+      Without this tag Vite bundles nothing and emits index.html alone: the app
+      renders a blank window while `npm run build` still exits 0.
+    -->
+    <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

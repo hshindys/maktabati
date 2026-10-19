@@ -107,6 +107,16 @@ jobs:
 
       - name: Build
         run: npm run build
+      # `vite build` exits 0 even when it emits only `index.html` (a missing module
+      # entry is not a build error). Guard the artifact: the window is blank without
+      # a JS chunk, so this gate is the only thing that would catch a regression.
+      - name: Built bundle actually contains the app
+        shell: bash
+        run: |
+          test -f dist/index.html
+          js="$(find dist -name '*.js' -type f -print -quit)"
+          test -n "$js" || { echo "::error::vite emitted no JavaScript chunk"; exit 1; }
+          echo "dist: $(du -sh dist | cut -f1)  ($js)"
 
   commitlint:
     name: Commit messages
