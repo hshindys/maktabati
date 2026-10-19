@@ -139,3 +139,27 @@ pub fn not_found(kind: &str, id: &str) -> StorageError {
         id: id.to_owned(),
     }
 }
+
+/// Map an insert/update failure onto a typed [`StorageError::Duplicate`] when SQLite
+/// reports a unique-constraint violation, passing anything else through untouched.
+///
+/// The caller knows *which* value collided — it is the value it was writing — so the key
+/// comes in as an argument rather than being parsed back out of SQLite's message. Pass the
+/// **display** form of that value (the name the user typed, not its normalized mirror):
+/// `Duplicate.key` is shown back to them, and a hamza-folded shadow of their own spelling
+/// reads like a second, unrelated book.
+#[must_use]
+pub fn on_unique(kind: &str, key: &str, err: rusqlite::Error) -> StorageError {
+    use rusqlite::ffi;
+
+    let unique = matches!(
+        &err,
+        rusqlite::Error::SqliteFailure(failure, _)
+            if failure.extended_code == ffi::SQLITE_CONSTRAINT_UNIQUE
+                || failure.extended_code == ffi::SQLITE_CONSTRAINT_PRIMARYKEY
+    );
+    if unique {
+        return duplicate(kind, key);
+    }
+    StorageError::Sqlite(err)
+}

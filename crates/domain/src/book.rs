@@ -9,7 +9,9 @@ use specta::Type;
 
 use crate::{
     ids::new_id,
+    json::Json,
     text::{contains_arabic, normalize},
+    validate::{check_len, check_opt_len, check_year},
     AuthorRole, BookFormat, BookSource, Condition, CoverSource, Direction, Isbn, Rating, Result,
 };
 
@@ -62,6 +64,8 @@ pub struct Book {
     pub series_id: Option<String>,
     /// Order within the series (`f32` so `1.5` novellas are expressible).
     pub series_order: Option<f64>,
+    /// Publishing house (one per book in v1, like `series_id`).
+    pub publisher_id: Option<String>,
     /// Physical location: room.
     pub room: Option<String>,
     /// Physical location: shelf.
@@ -95,7 +99,11 @@ pub struct Book {
     /// How the record entered the library.
     pub source: BookSource,
     /// External identifiers (Open Library / Google Books keys) as JSON.
-    pub external_ids: Option<serde_json::Value>,
+    ///
+    /// [`Json`] rather than `serde_json::Value`: same bytes on the wire and in the database,
+    /// but a *named* type on the TS side — `Value` expands structurally at every use site and
+    /// would make the binding export recurse forever (ADR-0013).
+    pub external_ids: Option<Json>,
     /// Creation timestamp, epoch ms UTC.
     pub created_at: i64,
     /// Last update timestamp, epoch ms UTC.
@@ -162,7 +170,7 @@ pub struct BookInput {
     /// Provenance of the record.
     pub source: Option<BookSource>,
     /// External identifiers.
-    pub external_ids: Option<serde_json::Value>,
+    pub external_ids: Option<Json>,
     /// Author credits (id + role). Validated by `storage`, checked for at least one author
     /// is **not** required — many Arabic books are catalogued before their author is known.
     pub authors: Vec<AuthorCredit>,
@@ -220,7 +228,7 @@ impl Book {
             input.acquired_from.as_deref(),
             limits::SHORT_TEXT,
         )?;
-        check_year(input.publication_year)?;
+        check_year("publication_year", input.publication_year)?;
         check_pages(input.page_count)?;
         check_rating(input.rating)?;
 
@@ -246,8 +254,9 @@ impl Book {
             page_count,
             format: input.format.unwrap_or(BookFormat::Print),
             description: input.description.filter_non_empty(),
-            series_id: input.series_id,
+            series_id: input.series_id.filter_non_empty(),
             series_order: input.series_order,
+            publisher_id: input.publisher_id.filter_non_empty(),
             room: input.room.filter_non_empty(),
             shelf: input.shelf.filter_non_empty(),
             box_name: input.box_name.filter_non_empty(),
@@ -302,6 +311,7 @@ impl Book {
         to.description.clone_from(&self.description);
         to.series_id.clone_from(&self.series_id);
         to.series_order = self.series_order;
+        to.publisher_id.clone_from(&self.publisher_id);
         to.room.clone_from(&self.room);
         to.shelf.clone_from(&self.shelf);
         to.box_name.clone_from(&self.box_name);
@@ -398,38 +408,6 @@ pub fn compute_progress(current_page: Option<i32>, page_count: Option<i32>) -> i
         }
         _ => 0,
     }
-}
-
-fn check_len(field: &str, value: &str, max: usize) -> Result<()> {
-    let len = value.chars().count();
-    if len > max {
-        return Err(crate::DomainError::TooLong {
-            field: field.into(),
-            got: len,
-            max,
-        });
-    }
-    Ok(())
-}
-
-fn check_opt_len(field: &str, value: Option<&str>, max: usize) -> Result<()> {
-    match value {
-        Some(v) if !v.trim().is_empty() => check_len(field, v, max),
-        _ => Ok(()),
-    }
-}
-
-fn check_year(year: Option<i32>) -> Result<()> {
-    if let Some(y) = year {
-        if !(1..=9999).contains(&y) {
-            return Err(crate::DomainError::OutOfRange {
-                field: "publication_year".into(),
-                got: y.to_string(),
-                expected: "1..=9999".into(),
-            });
-        }
-    }
-    Ok(())
 }
 
 fn check_pages(pages: Option<i32>) -> Result<()> {

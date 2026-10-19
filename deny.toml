@@ -14,21 +14,25 @@ targets = [
 [advisories]
 version = 2
 yanked = "deny"
-# No ignore list yet. An entry here must carry a comment naming the CVE and the reason the
-# advisory does not apply to this usage — a bare version range is not an acceptable reason.
-ignore = []
+# Every entry must name the advisory and state why it does not apply to this usage — a bare
+# version range is not an acceptable reason. All five below are "crate is unmaintained"
+# advisories (none is a vulnerability) sitting in dependency graphs this project does not
+# control, none of which offers a safe upgrade from this side. Revisit when Tauri or specta
+# move their pins; `unused-ignored-advisory` (default warn) calls out any that go stale.
+ignore = [
+    { id = "RUSTSEC-2024-0436", reason = "paste: build-time proc-macro behind the pinned specta 2.0.0-rc.25; it expands inside the compiler, no code of it ships in the binary" },
+    { id = "RUSTSEC-2024-0370", reason = "proc-macro-error: build-time helper of glib-macros in Tauri's own tray-icon chain (gtk/libappindicator); expands inside the compiler, no code of it ships in the binary, and Tauri's pins leave no upgrade below" },
+    { id = "RUSTSEC-2026-0370", reason = "zvariant: merged into zbus 6.0, but tauri-plugin-opener and tauri-plugin-single-instance pin zbus 5 — the advisory itself states no safe upgrade is available until Tauri migrates" },
+    { id = "RUSTSEC-2026-0371", reason = "zbus_names: name-type helpers of the same pinned zbus 5 graph as RUSTSEC-2026-0370, reached only through those two Tauri plugins on Linux" },
+    { id = "RUSTSEC-2026-0372", reason = "zvariant_derive: derive macros of the zvariant crate named in RUSTSEC-2026-0370's entry, same pinned zbus 5 graph" },
+]
 
 [licenses]
 version = 2
-# Copyleft is fine for a local-first desktop app that is itself MIT/Apache-2.0 licensed as
-# long as it is not linked *into* a distributed proprietary blob; anything AGPL is rejected
-# on principle.
-deny = [
-    "AGPL-3.0",
-    "AGPL-3.0-or-later",
-    "GPL-3.0",
-    "GPL-3.0-or-later",
-]
+# Under version 2 every license not in `allow` (or an exception) is rejected, so copyleft
+# lands here simply by omission: AGPL-3.0(-or-later) and GPL-3.0(-or-later) are not listed,
+# which is the whole policy for a local-first app that is itself MIT/Apache-2.0 licensed —
+# fine to *depend on* copyleft while developing, never shipped inside the distributed blob.
 allow = [
     "MIT",
     "Apache-2.0",
@@ -37,18 +41,14 @@ allow = [
     "BSD-3-Clause",
     "ISC",
     "Unicode-3.0",
-    "Unicode-DFS-2016",
     "Zlib",
-    "BSL-1.0",
     "CC0-1.0",
     "MPL-2.0",
-    "OpenSSL",
 ]
 confidence-threshold = 0.8
-
-[licenses.exceptions]
-# `ring` carries an ISC AND an OpenSSL/SSL variation; both are permissive and MIT-compatible.
-allow = ["ISC", "OpenSSL", "MIT", "Apache-2.0"]
+# No [licenses.exceptions]: every dependency in this workspace is covered by the list above.
+# An exception must be per-crate (`name = { allow = [...] }`) and carry a comment naming the
+# crate, its actual license expression, and why a normal allow entry is not enough.
 
 [bans]
 multiple-versions = "warn"

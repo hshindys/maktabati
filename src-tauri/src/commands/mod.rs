@@ -7,6 +7,8 @@
 //! also generates the TypeScript contract into `src/bindings.ts`. A CI drift gate fails the
 //! build when the Rust surface changes without the generated file being refreshed (ADR-0002).
 
+pub mod catalogue;
+
 use std::sync::Arc;
 
 use chrono::Datelike;

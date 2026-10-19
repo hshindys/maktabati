@@ -3,7 +3,18 @@
 use serde::{Deserialize, Serialize};
 use specta::Type;
 
-use crate::{ids::new_id, text::normalize, Direction};
+use crate::validate::{check_len, check_lifespan, check_opt_len, check_required, check_year};
+use crate::{ids::new_id, text::normalize, Direction, Result};
+
+/// Length caps for author fields.
+pub mod limits {
+    /// Display-name cap.
+    pub const NAME: usize = 300;
+    /// Biography cap.
+    pub const BIO: usize = 20_000;
+    /// Free-text cap (nationality…).
+    pub const SHORT_TEXT: usize = 200;
+}
 
 /// A person credited on a book (author, translator, editor, illustrator, foreword).
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Type)]
@@ -55,22 +66,26 @@ pub struct AuthorInput {
 
 impl Author {
     /// Build a new author, deriving `id`, the normalized mirror and timestamps.
-    #[must_use]
-    pub fn new(input: AuthorInput, now_ms: i64) -> Self {
-        let name_norm = normalize(&input.name);
-        let name_original_norm = input
+    ///
+    /// # Errors
+    ///
+    /// * [`crate::DomainError::EmptyField`] when the name is blank.
+    /// * [`crate::DomainError::TooLong`] when a field exceeds its cap.
+    /// * [`crate::DomainError::OutOfRange`] for an implausible year, or a death before birth.
+    pub fn new(input: AuthorInput, now_ms: i64) -> Result<Self> {
+        Self::check(&input)?;
+        let name = input.name.trim().to_owned();
+        let name_original = input
             .name_original
-            .as_deref()
             .filter(|s| !s.trim().is_empty())
-            .map(normalize);
-        Self {
+            .map(|s| s.trim().to_owned());
+        let name_norm = normalize(&name);
+        let name_original_norm = name_original.as_deref().map(normalize);
+        Ok(Self {
             id: new_id(),
-            name: input.name.trim().to_owned(),
+            name,
             name_norm,
-            name_original: input
-                .name_original
-                .filter(|s| !s.trim().is_empty())
-                .map(|s| s.trim().to_owned()),
+            name_original,
             name_original_norm,
             bio: input.bio.filter(|s| !s.trim().is_empty()),
             nationality: input.nationality.filter(|s| !s.trim().is_empty()),
@@ -79,11 +94,16 @@ impl Author {
             photo_path: input.photo_path,
             created_at: now_ms,
             updated_at: now_ms,
-        }
+        })
     }
 
     /// Recompute derived fields after an edit.
-    pub fn apply(&mut self, input: AuthorInput, now_ms: i64) {
+    ///
+    /// # Errors
+    ///
+    /// Same as [`Author::new`] — an edit can never loosen what creation enforces.
+    pub fn apply(&mut self, input: AuthorInput, now_ms: i64) -> Result<()> {
+        Self::check(&input)?;
         self.name = input.name.trim().to_owned();
         self.name_norm = normalize(&self.name);
         self.name_original = input
@@ -97,6 +117,28 @@ impl Author {
         self.death_year = input.death_year;
         self.photo_path = input.photo_path;
         self.updated_at = now_ms;
+        Ok(())
+    }
+
+    /// Validate a raw input — shared by `new` and `apply`.
+    fn check(input: &AuthorInput) -> Result<()> {
+        let name = input.name.trim();
+        check_required("name", name)?;
+        check_len("name", name, limits::NAME)?;
+        check_opt_len(
+            "name_original",
+            input.name_original.as_deref(),
+            limits::NAME,
+        )?;
+        check_opt_len("bio", input.bio.as_deref(), limits::BIO)?;
+        check_opt_len(
+            "nationality",
+            input.nationality.as_deref(),
+            limits::SHORT_TEXT,
+        )?;
+        check_year("birth_year", input.birth_year)?;
+        check_year("death_year", input.death_year)?;
+        check_lifespan(input.birth_year, input.death_year)
     }
 
     /// Writing direction of the author's name, used for per-field bidi isolation.
@@ -123,7 +165,8 @@ mod tests {
                 ..Default::default()
             },
             1,
-        );
+        )
+        .unwrap();
         assert_eq!(a.name, "أحمد فكري");
         assert_eq!(a.name_norm, "احمد فكري");
         assert_eq!(a.direction(), Direction::Rtl);
@@ -137,7 +180,8 @@ mod tests {
                 ..Default::default()
             },
             1,
-        );
+        )
+        .unwrap();
         assert_eq!(a.name_norm, "tolstoy");
         a.apply(
             AuthorInput {
@@ -145,9 +189,43 @@ mod tests {
                 ..Default::default()
             },
             2,
-        );
+        )
+        .unwrap();
         assert_eq!(a.name_norm, "leo tolstoy");
         assert_eq!(a.updated_at, 2);
         assert_eq!(a.created_at, 1);
+    }
+
+    #[test]
+    fn blank_name_is_rejected() {
+        let err = Author::new(
+            AuthorInput {
+                name: "   ".into(),
+                ..Default::default()
+            },
+            1,
+        )
+        .unwrap_err();
+        assert_eq!(
+            err,
+            crate::DomainError::EmptyField {
+                field: "name".into()
+            }
+        );
+    }
+
+    #[test]
+    fn death_before_birth_is_rejected() {
+        let err = Author::new(
+            AuthorInput {
+                name: "أحمد فكري".into(),
+                birth_year: Some(1990),
+                death_year: Some(1980),
+                ..Default::default()
+            },
+            1,
+        )
+        .unwrap_err();
+        assert_eq!(err.code(), "validation.out_of_range");
     }
 }

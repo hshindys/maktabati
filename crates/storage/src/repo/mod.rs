@@ -4,8 +4,15 @@
 //! transaction) and returns domain types — no SQL or `rusqlite` types cross this boundary, so
 //! `src-tauri` never sees a row handle.
 
+pub mod author;
+pub mod book;
+pub mod category;
+pub mod language;
+pub mod publisher;
+pub mod series;
 pub mod settings;
 pub mod summary;
+pub mod tag;
 
 /// Tests that the SQL `CHECK` constraints and the Rust enums describe the same vocabulary.
 ///

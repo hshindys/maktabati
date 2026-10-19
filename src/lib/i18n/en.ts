@@ -138,6 +138,7 @@ export const en: Record<MessageKey, string> = {
   "about.noTelemetry": "No network access, no accounts, no telemetry.",
 
   "error.internal": "Something unexpected happened. Check the details and try again.",
+  "error.shell.unavailable": "This preview runs without the app, so commands do not execute here.",
   "error.title": "That could not be completed",
   "error.storage.not_found": "That item no longer exists.",
   "error.storage.duplicate": "An item with the same data already exists.",

@@ -77,8 +77,9 @@ erDiagram
 
 ## 3. Full schema
 
-The canonical DDL is `crates/storage/migrations/0001_init.sql`, embedded at compile time. It is
-reproduced here verbatim in annotated sections.
+The canonical DDL is the migration set in `crates/storage/migrations/` — `0001_init.sql`
+establishes the schema and `0002_book_publisher.sql` amends it — both embedded at compile
+time. The resulting schema is reproduced here verbatim in annotated sections.
 
 ### 3.1 Core catalogue
 
@@ -179,6 +180,7 @@ CREATE TABLE books (
   description    TEXT,
   series_id      TEXT REFERENCES series(id) ON DELETE SET NULL,
   series_order   REAL,                    -- supports 1.5 ("1.5" novella)
+  publisher_id   TEXT REFERENCES publishers(id) ON DELETE SET NULL,  -- one house per book (0002)
   -- physical location (collector persona)
   room           TEXT,
   shelf          TEXT,
@@ -218,6 +220,7 @@ CREATE INDEX ix_books_progress    ON books(progress_pct);
 CREATE INDEX ix_books_updated     ON books(updated_at DESC);
 CREATE INDEX ix_books_created     ON books(created_at DESC);
 CREATE INDEX ix_books_series      ON books(series_id, series_order);
+CREATE INDEX ix_books_publisher   ON books(publisher_id);
 CREATE INDEX ix_books_loc         ON books(room, shelf, box);
 
 CREATE TABLE book_authors (

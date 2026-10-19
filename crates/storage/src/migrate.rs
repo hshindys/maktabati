@@ -30,8 +30,15 @@ pub struct MigrationFile {
 
 /// Every migration embedded in the binary, in application order.
 pub fn embedded() -> Vec<MigrationFile> {
-    let files: [(&str, i64, &str, &'static str); 1] =
-        [("init", 1, "init", crate::migrations::M0001_INIT)];
+    let files: [(&str, i64, &str, &'static str); 2] = [
+        ("init", 1, "init", crate::migrations::M0001_INIT),
+        (
+            "book_publisher",
+            2,
+            "book_publisher",
+            crate::migrations::M0002_BOOK_PUBLISHER,
+        ),
+    ];
     let mut out: Vec<MigrationFile> = files
         .into_iter()
         .map(|(_, version, name, sql)| MigrationFile {

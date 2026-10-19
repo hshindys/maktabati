@@ -10,7 +10,19 @@
  *    throwing — which is what makes the component gallery usable during design review.
  */
 
-import type { LibrarySummary, AppInfo, LibraryHealth } from "@/bindings";
+import type {
+  AppErrorDto,
+  AppInfo,
+  AuthorInput,
+  BookInput,
+  CategoryInput,
+  LanguageInput,
+  LibraryHealth,
+  LibrarySummary,
+  PublisherInput,
+  SeriesInput,
+  TagInput,
+} from "@/bindings";
 
 /** Reading status, mirroring `domain::enums::ReadingStatus`. */
 export type ReadingStatus = "to_read" | "reading" | "finished" | "paused" | "abandoned";
@@ -129,3 +141,169 @@ export async function setSetting(key: string, value: unknown): Promise<boolean> 
 export function countFor(summary: LibrarySummary, status: ReadingStatus): number {
   return summary.by_status.find(([s]) => s === status)?.[1] ?? 0;
 }
+
+// ── Catalogue CRUD (M3) ──────────────────────────────────────────────────────────────────
+//
+// Unlike the read helpers above, these never turn a failure into a fake success: the wizard
+// prints field validation and duplicate warnings *from* the error, so an outcome has to reach
+// the caller intact. Outside the shell there is no backend at all, which is an outcome too —
+// `NO_SHELL`, never an empty OK that would pretend a write happened.
+
+/** Result of a command exactly as `tauri-specta` shapes it: data on success, `AppErrorDto` on failure. */
+export type Outcome<T> =
+  | { status: "ok"; data: T }
+  | { status: "error"; error: AppErrorDto };
+
+/** What every catalogue call resolves to in a plain browser: nothing ran. */
+const NO_SHELL: Outcome<never> = {
+  status: "error",
+  error: {
+    code: "shell.unavailable",
+    message: "not running inside the Tauri shell",
+    i18n_key: "error.shell.unavailable",
+    details: null,
+  },
+};
+
+/**
+ * Invoke one bindings command.
+ *
+ * `f` receives the command table so each call stays checked against the generated signature;
+ * a native rejection — the `invoke` API itself being absent — maps to `NO_SHELL`.
+ */
+async function run<T>(
+  f: (cmds: typeof import("@/bindings").commands) => Promise<Outcome<T>>,
+): Promise<Outcome<T>> {
+  const cmds = await commands();
+  if (cmds === null) return NO_SHELL;
+  try {
+    return await f(cmds);
+  } catch {
+    return NO_SHELL;
+  }
+}
+
+// ── Authors ───────────────────────────────────────────────────────────────────────────────
+
+/** Create an author from the wizard's inline form. */
+export const createAuthor = (input: AuthorInput) => run((c) => c.authorCreate(input));
+/** Fetch one author by id. */
+export const getAuthor = (id: string) => run((c) => c.authorGet(id));
+/** List every author. */
+export const listAuthors = () => run((c) => c.authorList());
+/** Update an author's editable fields. */
+export const updateAuthor = (id: string, input: AuthorInput) =>
+  run((c) => c.authorUpdate(id, input));
+/** Delete an author and its book credits; the books themselves remain. */
+export const deleteAuthor = (id: string) => run((c) => c.authorDelete(id));
+/** Substring search over the normalised name, for autocomplete (20 rows unless `limit` says). */
+export const searchAuthors = (query: string, limit?: number) =>
+  run((c) => c.authorSearch(query, limit ?? null));
+
+// ── Publishers ────────────────────────────────────────────────────────────────────────────
+
+/** Create a publisher from the wizard's inline form. */
+export const createPublisher = (input: PublisherInput) => run((c) => c.publisherCreate(input));
+/** Fetch one publisher by id. */
+export const getPublisher = (id: string) => run((c) => c.publisherGet(id));
+/** List every publisher. */
+export const listPublishers = () => run((c) => c.publisherList());
+/** Update a publisher's editable fields. */
+export const updatePublisher = (id: string, input: PublisherInput) =>
+  run((c) => c.publisherUpdate(id, input));
+/** Delete a publisher; books that credited it drop the link (`ON DELETE SET NULL`). */
+export const deletePublisher = (id: string) => run((c) => c.publisherDelete(id));
+/** Substring search over the normalised name, for autocomplete (20 rows unless `limit` says). */
+export const searchPublishers = (query: string, limit?: number) =>
+  run((c) => c.publisherSearch(query, limit ?? null));
+
+// ── Series ────────────────────────────────────────────────────────────────────────────────
+
+/** Create a series from the wizard's inline form. */
+export const createSeries = (input: SeriesInput) => run((c) => c.seriesCreate(input));
+/** Fetch one series by id. */
+export const getSeries = (id: string) => run((c) => c.seriesGet(id));
+/** List every series. */
+export const listSeries = () => run((c) => c.seriesList());
+/** Update a series' editable fields. */
+export const updateSeries = (id: string, input: SeriesInput) =>
+  run((c) => c.seriesUpdate(id, input));
+/** Delete a series; books in it drop the link (`ON DELETE SET NULL`). */
+export const deleteSeries = (id: string) => run((c) => c.seriesDelete(id));
+/** Substring search over the normalised name, for autocomplete (20 rows unless `limit` says). */
+export const searchSeries = (query: string, limit?: number) =>
+  run((c) => c.seriesSearch(query, limit ?? null));
+
+// ── Tags ──────────────────────────────────────────────────────────────────────────────────
+
+/** Create a tag from the wizard's inline form. */
+export const createTag = (input: TagInput) => run((c) => c.tagCreate(input));
+/** Fetch one tag by id. */
+export const getTag = (id: string) => run((c) => c.tagGet(id));
+/** List every tag. */
+export const listTags = () => run((c) => c.tagList());
+/** Update a tag's editable fields. */
+export const updateTag = (id: string, input: TagInput) => run((c) => c.tagUpdate(id, input));
+/** Delete a tag; its book-tag links go with it. */
+export const deleteTag = (id: string) => run((c) => c.tagDelete(id));
+/** Substring search over the normalised name, for autocomplete (20 rows unless `limit` says). */
+export const searchTags = (query: string, limit?: number) =>
+  run((c) => c.tagSearch(query, limit ?? null));
+
+// ── Languages ─────────────────────────────────────────────────────────────────────────────
+
+/** Create a language; its `code` is the key and never changes. */
+export const createLanguage = (input: LanguageInput) => run((c) => c.languageCreate(input));
+/** Fetch one language by its code. */
+export const getLanguage = (code: string) => run((c) => c.languageGet(code));
+/** List every language, active or not. */
+export const listLanguages = () => run((c) => c.languageList());
+/** List only the active languages — the wizard's language picker. */
+export const listActiveLanguages = () => run((c) => c.languageListActive());
+/** Update a language's editable fields (never its `code`). */
+export const updateLanguage = (code: string, input: LanguageInput) =>
+  run((c) => c.languageUpdate(code, input));
+/** Delete a language; fails while any book still uses it. */
+export const deleteLanguage = (code: string) => run((c) => c.languageDelete(code));
+
+// ── Categories (tree) ─────────────────────────────────────────────────────────────────────
+
+/** Create a category under `parentId`, or at the root when it is omitted. */
+export const createCategory = (input: CategoryInput, parentId?: string | null) =>
+  run((c) => c.categoryCreate(input, parentId ?? null));
+/** Fetch one category by id. */
+export const getCategory = (id: string) => run((c) => c.categoryGet(id));
+/** List the whole tree in path order. */
+export const listCategories = () => run((c) => c.categoryList());
+/** List a category's direct children (omitted parent = the roots). */
+export const listCategoryChildren = (parentId?: string | null) =>
+  run((c) => c.categoryChildren(parentId ?? null));
+/** Update a category's name and colour; key, parent and position never change. */
+export const updateCategory = (id: string, input: CategoryInput) =>
+  run((c) => c.categoryUpdate(id, input));
+/** Delete a category and its whole subtree, plus their book links. */
+export const deleteCategory = (id: string) => run((c) => c.categoryDelete(id));
+
+// ── Books ─────────────────────────────────────────────────────────────────────────────────
+
+/** Create a book with its author credits, categories and tags. */
+export const createBook = (input: BookInput) => run((c) => c.bookCreate(input));
+/** Fetch one book's own row. */
+export const getBook = (id: string) => run((c) => c.bookGet(id));
+/** Fetch a book with the relations the per-book page renders, in one round trip. */
+export const getBookDetail = (id: string) => run((c) => c.bookDetail(id));
+/** List every book (filtering beyond this arrives with search, M4). */
+export const listBooks = () => run((c) => c.bookList());
+/** Update a book and its relations from an edited form. */
+export const updateBook = (id: string, input: BookInput) =>
+  run((c) => c.bookUpdate(id, input));
+/** Delete a book with its cycles, links, notes, files and search row. */
+export const deleteBook = (id: string) => run((c) => c.bookDelete(id));
+/** Books whose canonical ISBN matches (either ISBN form is accepted). */
+export const findBooksByIsbn = (isbn: string) => run((c) => c.bookFindByIsbn(isbn));
+/**
+ * Books that look like the one being saved — the save-time duplicate warning, which never
+ * blocks the save. Pass `excludeId` while editing so the book does not match itself.
+ */
+export const findDuplicateBooks = (input: BookInput, excludeId?: string | null) =>
+  run((c) => c.bookFindDuplicates(input, excludeId ?? null));

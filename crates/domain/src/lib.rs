@@ -32,21 +32,32 @@ pub mod error;
 pub mod ids;
 pub mod isbn;
 pub mod json;
+pub mod language;
 pub mod money;
 pub mod publisher;
 pub mod rating;
 pub mod rules;
 pub mod series;
+pub mod tag;
 pub mod text;
 
-pub use book::BookStatus;
-pub use category::Category;
+/// Field validation shared by every entity input (private to the crate: it exists so the
+/// entities cannot drift apart, not as part of the public API).
+mod validate;
+
+pub use author::{Author, AuthorInput};
+pub use book::{AuthorCredit, Book, BookInput, BookStatus};
+pub use category::{Category, CategoryInput};
 pub use enums::*;
 pub use error::DomainError;
 pub use isbn::Isbn;
 pub use json::Json;
+pub use language::{Language, LanguageInput};
 pub use money::Money;
+pub use publisher::{Publisher, PublisherInput};
 pub use rating::Rating;
+pub use series::{Series, SeriesInput};
+pub use tag::{Tag, TagInput};
 
 /// Result alias used throughout the domain layer.
 pub type Result<T> = std::result::Result<T, DomainError>;

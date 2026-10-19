@@ -23,14 +23,16 @@ description = "Maktabati / مكتبتي — a local-first personal library manag
 
 [workspace.dependencies]
 # --- internal crates ---
-maktabati-domain = { path = "crates/domain" }
-maktabati-storage = { path = "crates/storage" }
-maktabati-search = { path = "crates/search" }
-maktabati-metadata = { path = "crates/metadata" }
-maktabati-files = { path = "crates/files" }
-maktabati-notes = { path = "crates/notes" }
-maktabati-stats = { path = "crates/stats" }
-maktabati-backup = { path = "crates/backup" }
+# `version` alongside `path` keeps cargo-deny's `wildcards = "deny"` happy (a path dep with no
+# version requirement resolves as an unbounded wildcard) and is what publishing would require.
+maktabati-domain = { path = "crates/domain", version = "0.1.0" }
+maktabati-storage = { path = "crates/storage", version = "0.1.0" }
+maktabati-search = { path = "crates/search", version = "0.1.0" }
+maktabati-metadata = { path = "crates/metadata", version = "0.1.0" }
+maktabati-files = { path = "crates/files", version = "0.1.0" }
+maktabati-notes = { path = "crates/notes", version = "0.1.0" }
+maktabati-stats = { path = "crates/stats", version = "0.1.0" }
+maktabati-backup = { path = "crates/backup", version = "0.1.0" }
 
 # --- serialization ---
 serde = { version = "1", features = ["derive"] }

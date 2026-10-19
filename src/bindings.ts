@@ -76,6 +76,373 @@ Json[] |
 	 *  [`AppErrorDto`] when the value cannot be serialized or persisted.
 	 */
 	settingsSet: (key: string, value: Json) => typedError<null, AppErrorDto>(__TAURI_INVOKE("settings_set", { key, value })),
+	/**
+	 *  Create an author from the wizard's inline form.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when validation fails or that display name already exists.
+	 */
+	authorCreate: (input: AuthorInput) => typedError<Author, AppErrorDto>(__TAURI_INVOKE("author_create", { input })),
+	/**
+	 *  Delete an author and the book credits that name them; the books themselves remain.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when the author does not exist or the delete fails.
+	 */
+	authorDelete: (id: string) => typedError<null, AppErrorDto>(__TAURI_INVOKE("author_delete", { id })),
+	/**
+	 *  Fetch one author by id.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when no author with that id exists.
+	 */
+	authorGet: (id: string) => typedError<Author, AppErrorDto>(__TAURI_INVOKE("author_get", { id })),
+	/**
+	 *  List every author.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when the query fails.
+	 */
+	authorList: () => typedError<Author[], AppErrorDto>(__TAURI_INVOKE("author_list")),
+	/**
+	 *  Substring search over the normalised name, for autocomplete.
+	 * 
+	 *  An empty query or a non-positive limit returns nothing.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when the query fails.
+	 */
+	authorSearch: (query: string, limit: number | null) => typedError<Author[], AppErrorDto>(__TAURI_INVOKE("author_search", { query, limit })),
+	/**
+	 *  Update an author's editable fields.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when validation fails, the author does not exist, or the new name collides.
+	 */
+	authorUpdate: (id: string, input: AuthorInput) => typedError<Author, AppErrorDto>(__TAURI_INVOKE("author_update", { id, input })),
+	/**
+	 *  Create a book with its author credits, categories and tags.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when validation fails or a referenced entity does not exist.
+	 */
+	bookCreate: (input: BookInput) => typedError<Book, AppErrorDto>(__TAURI_INVOKE("book_create", { input })),
+	/**
+	 *  Delete a book with its cycles, links, notes, files and search row.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when the book does not exist or the delete fails.
+	 */
+	bookDelete: (id: string) => typedError<null, AppErrorDto>(__TAURI_INVOKE("book_delete", { id })),
+	/**
+	 *  Fetch a book with the relations the per-book page renders, in one round trip.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when no book with that id exists.
+	 */
+	bookDetail: (id: string) => typedError<BookDetail, AppErrorDto>(__TAURI_INVOKE("book_detail", { id })),
+	/**
+	 *  Books whose canonical ISBN matches the given one (either ISBN form is accepted).
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when the query fails — an unparseable ISBN simply matches nothing.
+	 */
+	bookFindByIsbn: (isbn: string) => typedError<Book[], AppErrorDto>(__TAURI_INVOKE("book_find_by_isbn", { isbn })),
+	/**
+	 *  Books that look like the one being saved: same canonical ISBN, or same title and author.
+	 * 
+	 *  This powers the save-time duplicate warning. It never blocks the save; pass `exclude_id`
+	 *  while editing so the book does not match itself.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when the query fails.
+	 */
+	bookFindDuplicates: (input: BookInput, excludeId: string | null) => typedError<Book[], AppErrorDto>(__TAURI_INVOKE("book_find_duplicates", { input, excludeId })),
+	/**
+	 *  Fetch one book's own row.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when no book with that id exists.
+	 */
+	bookGet: (id: string) => typedError<Book, AppErrorDto>(__TAURI_INVOKE("book_get", { id })),
+	/**
+	 *  List every book (ordering and filtering beyond this arrive with search, M4).
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when the query fails.
+	 */
+	bookList: () => typedError<Book[], AppErrorDto>(__TAURI_INVOKE("book_list")),
+	/**
+	 *  Update a book and its relations from an edited form.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when validation fails, the book does not exist, or a referenced entity does not.
+	 */
+	bookUpdate: (id: string, input: BookInput) => typedError<Book, AppErrorDto>(__TAURI_INVOKE("book_update", { id, input })),
+	/**
+	 *  List the direct children of a category (`null` parent = the roots).
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when the query fails.
+	 */
+	categoryChildren: (parentId: string | null) => typedError<Category[], AppErrorDto>(__TAURI_INVOKE("category_children", { parentId })),
+	/**
+	 *  Create a category under `parent_id`, or at the root when it is `null`.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when validation fails, the parent does not exist, or the key already exists.
+	 */
+	categoryCreate: (input: CategoryInput, parentId: string | null) => typedError<Category, AppErrorDto>(__TAURI_INVOKE("category_create", { input, parentId })),
+	/**
+	 *  Delete a category and its whole subtree, plus their book links.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when the category does not exist or the delete fails.
+	 */
+	categoryDelete: (id: string) => typedError<null, AppErrorDto>(__TAURI_INVOKE("category_delete", { id })),
+	/**
+	 *  Fetch one category by id.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when no category with that id exists.
+	 */
+	categoryGet: (id: string) => typedError<Category, AppErrorDto>(__TAURI_INVOKE("category_get", { id })),
+	/**
+	 *  List the whole tree in path order (siblings ordered by their stable key).
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when the query fails.
+	 */
+	categoryList: () => typedError<Category[], AppErrorDto>(__TAURI_INVOKE("category_list")),
+	/**
+	 *  Update a category's display name and colour.
+	 * 
+	 *  The key, parent, position and path never change: descendant paths and saved filters are
+	 *  built on them.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when validation fails or the category does not exist.
+	 */
+	categoryUpdate: (id: string, input: CategoryInput) => typedError<Category, AppErrorDto>(__TAURI_INVOKE("category_update", { id, input })),
+	/**
+	 *  Create a language. Its `code` is the primary key and never changes afterwards.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when validation fails or that code already exists.
+	 */
+	languageCreate: (input: LanguageInput) => typedError<Language, AppErrorDto>(__TAURI_INVOKE("language_create", { input })),
+	/**
+	 *  Delete a language. Books have no `ON DELETE` rule for it, so one still in use blocks this.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when the language does not exist or any book still uses it
+	 *  (`storage.foreign_key_violation`).
+	 */
+	languageDelete: (code: string) => typedError<null, AppErrorDto>(__TAURI_INVOKE("language_delete", { code })),
+	/**
+	 *  Fetch one language by its code.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when no language with that code exists.
+	 */
+	languageGet: (code: string) => typedError<Language, AppErrorDto>(__TAURI_INVOKE("language_get", { code })),
+	/**
+	 *  List every language, active or not.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when the query fails.
+	 */
+	languageList: () => typedError<Language[], AppErrorDto>(__TAURI_INVOKE("language_list")),
+	/**
+	 *  List only the active languages — the wizard's language picker.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when the query fails.
+	 */
+	languageListActive: () => typedError<Language[], AppErrorDto>(__TAURI_INVOKE("language_list_active")),
+	/**
+	 *  Update a language's editable fields (the `code` itself never changes).
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when validation fails or the language does not exist.
+	 */
+	languageUpdate: (code: string, input: LanguageInput) => typedError<Language, AppErrorDto>(__TAURI_INVOKE("language_update", { code, input })),
+	/**
+	 *  Create a publisher from the wizard's inline form.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when validation fails or that display name already exists.
+	 */
+	publisherCreate: (input: PublisherInput) => typedError<Publisher, AppErrorDto>(__TAURI_INVOKE("publisher_create", { input })),
+	/**
+	 *  Delete a publisher; books that credited it keep their other fields (`ON DELETE SET NULL`).
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when the publisher does not exist or the delete fails.
+	 */
+	publisherDelete: (id: string) => typedError<null, AppErrorDto>(__TAURI_INVOKE("publisher_delete", { id })),
+	/**
+	 *  Fetch one publisher by id.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when no publisher with that id exists.
+	 */
+	publisherGet: (id: string) => typedError<Publisher, AppErrorDto>(__TAURI_INVOKE("publisher_get", { id })),
+	/**
+	 *  List every publisher.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when the query fails.
+	 */
+	publisherList: () => typedError<Publisher[], AppErrorDto>(__TAURI_INVOKE("publisher_list")),
+	/**
+	 *  Substring search over the normalised name, for autocomplete.
+	 * 
+	 *  An empty query or a non-positive limit returns nothing.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when the query fails.
+	 */
+	publisherSearch: (query: string, limit: number | null) => typedError<Publisher[], AppErrorDto>(__TAURI_INVOKE("publisher_search", { query, limit })),
+	/**
+	 *  Update a publisher's editable fields.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when validation fails, the publisher does not exist, or the name collides.
+	 */
+	publisherUpdate: (id: string, input: PublisherInput) => typedError<Publisher, AppErrorDto>(__TAURI_INVOKE("publisher_update", { id, input })),
+	/**
+	 *  Create a series from the wizard's inline form.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when validation fails or that display name already exists.
+	 */
+	seriesCreate: (input: SeriesInput) => typedError<Series, AppErrorDto>(__TAURI_INVOKE("series_create", { input })),
+	/**
+	 *  Delete a series; books that belonged to it keep their other fields (`ON DELETE SET NULL`).
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when the series does not exist or the delete fails.
+	 */
+	seriesDelete: (id: string) => typedError<null, AppErrorDto>(__TAURI_INVOKE("series_delete", { id })),
+	/**
+	 *  Fetch one series by id.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when no series with that id exists.
+	 */
+	seriesGet: (id: string) => typedError<Series, AppErrorDto>(__TAURI_INVOKE("series_get", { id })),
+	/**
+	 *  List every series.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when the query fails.
+	 */
+	seriesList: () => typedError<Series[], AppErrorDto>(__TAURI_INVOKE("series_list")),
+	/**
+	 *  Substring search over the normalised name, for autocomplete.
+	 * 
+	 *  An empty query or a non-positive limit returns nothing.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when the query fails.
+	 */
+	seriesSearch: (query: string, limit: number | null) => typedError<Series[], AppErrorDto>(__TAURI_INVOKE("series_search", { query, limit })),
+	/**
+	 *  Update a series' editable fields.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when validation fails, the series does not exist, or the name collides.
+	 */
+	seriesUpdate: (id: string, input: SeriesInput) => typedError<Series, AppErrorDto>(__TAURI_INVOKE("series_update", { id, input })),
+	/**
+	 *  Create a tag from the wizard's inline form.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when validation fails or that display name already exists.
+	 */
+	tagCreate: (input: TagInput) => typedError<Tag, AppErrorDto>(__TAURI_INVOKE("tag_create", { input })),
+	/**
+	 *  Delete a tag; the book-tag links are removed with it.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when the tag does not exist or the delete fails.
+	 */
+	tagDelete: (id: string) => typedError<null, AppErrorDto>(__TAURI_INVOKE("tag_delete", { id })),
+	/**
+	 *  Fetch one tag by id.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when no tag with that id exists.
+	 */
+	tagGet: (id: string) => typedError<Tag, AppErrorDto>(__TAURI_INVOKE("tag_get", { id })),
+	/**
+	 *  List every tag.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when the query fails.
+	 */
+	tagList: () => typedError<Tag[], AppErrorDto>(__TAURI_INVOKE("tag_list")),
+	/**
+	 *  Substring search over the normalised name, for autocomplete.
+	 * 
+	 *  An empty query or a non-positive limit returns nothing.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when the query fails.
+	 */
+	tagSearch: (query: string, limit: number | null) => typedError<Tag[], AppErrorDto>(__TAURI_INVOKE("tag_search", { query, limit })),
+	/**
+	 *  Update a tag's editable fields.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when validation fails, the tag does not exist, or the name collides.
+	 */
+	tagUpdate: (id: string, input: TagInput) => typedError<Tag, AppErrorDto>(__TAURI_INVOKE("tag_update", { id, input })),
 };
 
 /* Types */
@@ -125,6 +492,297 @@ export type AppInfo = {
 	data_dir_bytes: number,
 };
 
+/**  A person credited on a book (author, translator, editor, illustrator, foreword). */
+export type Author = {
+	/**  UUID v7. */
+	id: string,
+	/**  Display name, exactly as the user wrote it (Arabic or Latin script). */
+	name: string,
+	/**  Normalized mirror used for search and duplicate detection. */
+	name_norm: string,
+	/**  Name in the author's own script, when different from `name`. */
+	name_original: string | null,
+	/**  Normalized mirror of `name_original`. */
+	name_original_norm: string | null,
+	/**  Biography. */
+	bio: string | null,
+	/**  Country or region of origin (free text, user-owned). */
+	nationality: string | null,
+	/**  Birth year. */
+	birth_year: number | null,
+	/**  Death year (`None` for the living). */
+	death_year: number | null,
+	/**  Relative path under `covers/`. */
+	photo_path: string | null,
+	/**  Creation timestamp, epoch ms UTC. */
+	created_at: number,
+	/**  Last update timestamp, epoch ms UTC. */
+	updated_at: number,
+};
+
+/**  A single author credit on a book. */
+export type AuthorCredit = {
+	/**  Author id. */
+	author_id: string,
+	/**  Role played. */
+	role: AuthorRole,
+};
+
+/**  Input for creating or updating an [`Author`]. */
+export type AuthorInput = {
+	/**  Display name (required). */
+	name: string,
+	/**  Own-script name. */
+	name_original: string | null,
+	/**  Biography. */
+	bio: string | null,
+	/**  Nationality. */
+	nationality: string | null,
+	/**  Birth year. */
+	birth_year: number | null,
+	/**  Death year. */
+	death_year: number | null,
+	/**  Photo path. */
+	photo_path: string | null,
+};
+
+/**  Role an author plays on a book (Calibre-style multi-role credits). */
+export type AuthorRole = "author" | "translator" | "editor" | "illustrator" | "foreword" | "other";
+
+/**  A book record — the library's aggregate root. */
+export type Book = {
+	/**  UUID v7. */
+	id: string,
+	/**  Primary title, exactly as entered. */
+	title: string,
+	/**  Subtitle. */
+	subtitle: string | null,
+	/**  Title in the original script (for translated works). */
+	original_title: string | null,
+	/**  Normalized mirror of `title` (search + duplicate detection). */
+	title_norm: string,
+	/**  Primary language code. */
+	language_code: string,
+	/**  Validated ISBN-10 (digits only). */
+	isbn10: string | null,
+	/**  Validated ISBN-13 (digits only). */
+	isbn13: string | null,
+	/**  Edition statement (`الطبعة الثالثة`, `3rd ed.`…). */
+	edition: string | null,
+	/**  Year of this edition's publication. */
+	publication_year: number | null,
+	/**  Page count. */
+	page_count: number | null,
+	/**  Format of the copy. */
+	format: BookFormat,
+	/**  Blurb / summary. */
+	description: string | null,
+	/**  Series membership. */
+	series_id: string | null,
+	/**  Order within the series (`f32` so `1.5` novellas are expressible). */
+	series_order: number | null,
+	/**  Publishing house (one per book in v1, like `series_id`). */
+	publisher_id: string | null,
+	/**  Physical location: room. */
+	room: string | null,
+	/**  Physical location: shelf. */
+	shelf: string | null,
+	/**  Physical location: box. */
+	box_name: string | null,
+	/**  Acquisition date (`YYYY-MM-DD`). */
+	acquired_date: string | null,
+	/**  Where the copy came from. */
+	acquired_from: string | null,
+	/**  Acquisition price in minor units. */
+	price_minor: number | null,
+	/**  Acquisition currency (ISO-4217). */
+	price_currency: string | null,
+	/**  Physical condition. */
+	condition: Condition | null,
+	/**  Relative cover path under `covers/`. */
+	cover_path: string | null,
+	/**  Relative thumbnail path. */
+	cover_thumb: string | null,
+	/**  Provenance of the cover. */
+	cover_source: CoverSource | null,
+	/**  Current reading status (denormalized for indexed filtering). */
+	reading_status: ReadingStatus,
+	/**  Overall rating in half-star units (`0..=10`). */
+	rating: number | null,
+	/**  Current page while reading. */
+	current_page: number | null,
+	/**  Derived progress percentage. */
+	progress_pct: number,
+	/**  How the record entered the library. */
+	source: BookSource,
+	/**
+	 *  External identifiers (Open Library / Google Books keys) as JSON.
+	 * 
+	 *  [`Json`] rather than `serde_json::Value`: same bytes on the wire and in the database,
+	 *  but a *named* type on the TS side — `Value` expands structurally at every use site and
+	 *  would make the binding export recurse forever (ADR-0013).
+	 */
+	external_ids: Json | null,
+	/**  Creation timestamp, epoch ms UTC. */
+	created_at: number,
+	/**  Last update timestamp, epoch ms UTC. */
+	updated_at: number,
+};
+
+/**
+ *  A book with the relations the per-book page renders. They live outside [`Book`] by design,
+ *  so the page asks for both in one call instead of four round trips.
+ */
+export type BookDetail = {
+	/**  The book's scalar fields. */
+	book: Book,
+	/**  Author credits, in order, with roles. */
+	authors: AuthorCredit[],
+	/**  Category ids the book is filed under. */
+	categories: string[],
+	/**  Tag ids. */
+	tags: string[],
+};
+
+/**  Physical or digital format of a copy. */
+export type BookFormat = "print" | "ebook" | "audiobook" | "pdf" | "other";
+
+/**
+ *  Input for creating or updating a [`Book`].
+ * 
+ *  Relations are supplied separately by `storage` so this type stays free of foreign keys.
+ */
+export type BookInput = {
+	/**  Title (required). */
+	title: string,
+	/**  Subtitle. */
+	subtitle: string | null,
+	/**  Original-script title. */
+	original_title: string | null,
+	/**  Language code (required; must exist in `languages`). */
+	language_code: string | null,
+	/**  ISBN-10 as typed (validated). */
+	isbn10: string | null,
+	/**  ISBN-13 as typed (validated). */
+	isbn13: string | null,
+	/**  Edition. */
+	edition: string | null,
+	/**  Publication year. */
+	publication_year: number | null,
+	/**  Page count. */
+	page_count: number | null,
+	/**  Format. */
+	format: BookFormat | null,
+	/**  Description. */
+	description: string | null,
+	/**  Series id. */
+	series_id: string | null,
+	/**  Series order. */
+	series_order: number | null,
+	/**  Room. */
+	room: string | null,
+	/**  Shelf. */
+	shelf: string | null,
+	/**  Box. */
+	box_name: string | null,
+	/**  Acquisition date. */
+	acquired_date: string | null,
+	/**  Acquisition source. */
+	acquired_from: string | null,
+	/**  Price in minor units. */
+	price_minor: number | null,
+	/**  Price currency. */
+	price_currency: string | null,
+	/**  Condition. */
+	condition: Condition | null,
+	/**  Overall rating (half-star units). */
+	rating: number | null,
+	/**  Current page. */
+	current_page: number | null,
+	/**  Reading status. */
+	reading_status: ReadingStatus | null,
+	/**  Cover path (relative). */
+	cover_path: string | null,
+	/**  Cover provenance. */
+	cover_source: CoverSource | null,
+	/**  Provenance of the record. */
+	source: BookSource | null,
+	/**  External identifiers. */
+	external_ids: Json | null,
+	/**
+	 *  Author credits (id + role). Validated by `storage`, checked for at least one author
+	 *  is **not** required — many Arabic books are catalogued before their author is known.
+	 */
+	authors: AuthorCredit[],
+	/**  Publisher id. */
+	publisher_id: string | null,
+	/**  Category ids. */
+	categories: string[],
+	/**  Tag ids. */
+	tags: string[],
+};
+
+/**  Where a book record came from (used for provenance badges and import auditing). */
+export type BookSource = "manual" | "isbn" | "folder_scan" | "csv" | "goodreads" | "calibre" | "json";
+
+/**  A node in the category tree. */
+export type Category = {
+	/**  UUID v7. */
+	id: string,
+	/**  Parent node, `None` for a root category. */
+	parent_id: string | null,
+	/**  Stable machine key (never localized), e.g. `novels`. */
+	key: string,
+	/**  Arabic name. */
+	name_ar: string,
+	/**  English name. */
+	name_en: string,
+	/**
+	 *  Normalized mirror (of the name matching the active locale is not decided here — both
+	 *  names are searchable through the projection).
+	 */
+	name_norm: string,
+	/**  Materialized path of `key`s: `/literature/novels/fantasy`. */
+	path: string,
+	/**  `0` for roots. */
+	depth: number,
+	/**  Sibling ordering. */
+	position: number,
+	/**  Optional icon identifier. */
+	icon: string | null,
+	/**  Optional accent colour (hex). */
+	color: string | null,
+	/**  `true` for seeded system categories (can be renamed/reordered, never silently deleted). */
+	is_system: boolean,
+	/**  Creation timestamp, epoch ms UTC. */
+	created_at: number,
+	/**  Last update timestamp, epoch ms UTC. */
+	updated_at: number,
+};
+
+/**  Input for creating or updating a [`Category`]. */
+export type CategoryInput = {
+	/**  Stable machine key. */
+	key: string,
+	/**  Arabic name. */
+	name_ar: string,
+	/**  English name. */
+	name_en: string,
+	/**  Icon. */
+	icon: string | null,
+	/**  Colour. */
+	color: string | null,
+};
+
+/**  Condition of a physical copy (collector persona). */
+export type Condition = "new" | "like_new" | "very_good" | "good" | "fair" | "poor";
+
+/**  Where a cover image came from. */
+export type CoverSource = "manual" | "openlibrary" | "googlebooks" | "embedded" | "generated";
+
+/**  Writing direction of a language. */
+export type Direction = "rtl" | "ltr";
+
 /**
  *  Arbitrary JSON, mirroring [`serde_json::Value`] but safe to export to TypeScript.
  * 
@@ -162,6 +820,44 @@ Json[] |
  *  serde serializes it as too, so both sides agree.
  */
 export type JsonNull = null;
+
+/**
+ *  A catalogue language (`ar`, `en`, `fr`…).
+ * 
+ *  Rows are seeded rather than invented casually: a language decides script, direction
+ *  and date formatting, so a typo'd code would change how every book already stored
+ *  under it renders. Creation exists for the languages the seed does not ship.
+ */
+export type Language = {
+	/**  ISO-ish code, also the primary key. */
+	code: string,
+	/**  Arabic display name. */
+	name_ar: string,
+	/**  English display name. */
+	name_en: string,
+	/**  Reading/writing direction. */
+	direction: Direction,
+	/**  Whether the language shows in pickers. */
+	is_active: boolean,
+	/**  Sort position. */
+	position: number,
+};
+
+/**  Input for creating or updating a [`Language`]. */
+export type LanguageInput = {
+	/**  Code (required; primary key). */
+	code: string,
+	/**  Arabic display name (required). */
+	name_ar: string,
+	/**  English display name (required). */
+	name_en: string,
+	/**  Reading/writing direction. */
+	direction: Direction,
+	/**  Whether the language shows in pickers. */
+	is_active: boolean,
+	/**  Sort position. */
+	position: number,
+};
 
 /**  Result of [`library_health`]. */
 export type LibraryHealth = {
@@ -221,11 +917,108 @@ export type LibrarySummary = {
 	schema_version: number,
 };
 
+/**  A publishing house. */
+export type Publisher = {
+	/**  UUID v7. */
+	id: string,
+	/**  Name as written. */
+	name: string,
+	/**  Normalized mirror for search and duplicate detection. */
+	name_norm: string,
+	/**  Country. */
+	country: string | null,
+	/**  City. */
+	city: string | null,
+	/**  Website. */
+	website: string | null,
+	/**  Free-text notes. */
+	notes: string | null,
+	/**  Logo/cover path. */
+	cover_path: string | null,
+	/**  Creation timestamp, epoch ms UTC. */
+	created_at: number,
+	/**  Last update timestamp, epoch ms UTC. */
+	updated_at: number,
+};
+
+/**  Input for creating or updating a [`Publisher`]. */
+export type PublisherInput = {
+	/**  Name (required). */
+	name: string,
+	/**  Country. */
+	country: string | null,
+	/**  City. */
+	city: string | null,
+	/**  Website. */
+	website: string | null,
+	/**  Notes. */
+	notes: string | null,
+	/**  Cover path. */
+	cover_path: string | null,
+};
+
 /**
  *  Current reading status of a book (the brief: to-read / reading / finished / paused /
  *  abandoned — Hard Cover's "did not finish" maps to `Abandoned`).
  */
 export type ReadingStatus = "to_read" | "reading" | "finished" | "paused" | "abandoned";
+
+/**
+ *  A book series (السلسلة).
+ * 
+ *  A book belongs to at most one series in v1 — a deliberate simplification documented in
+ *  `docs/03-data-model.md`; multi-series membership would complicate the add form for a case
+ *  that is rare in practice.
+ */
+export type Series = {
+	/**  UUID v7. */
+	id: string,
+	/**  Name as written. */
+	name: string,
+	/**  Normalized mirror. */
+	name_norm: string,
+	/**  Description. */
+	description: string | null,
+	/**  Creation timestamp, epoch ms UTC. */
+	created_at: number,
+	/**  Last update timestamp, epoch ms UTC. */
+	updated_at: number,
+};
+
+/**  Input for creating or updating a [`Series`]. */
+export type SeriesInput = {
+	/**  Name (required). */
+	name: string,
+	/**  Description. */
+	description: string | null,
+};
+
+/**
+ *  A free-form label (الوسم) the user attaches to books.
+ * 
+ *  Tags are flat and unordered by design: a label that needs a hierarchy wants to be a
+ *  category instead.
+ */
+export type Tag = {
+	/**  UUID v7. */
+	id: string,
+	/**  Name as written. */
+	name: string,
+	/**  Normalized mirror; uniqueness comes from `ux_tags_name_norm`. */
+	name_norm: string,
+	/**  Optional colour, `#RRGGBB`. */
+	color: string | null,
+	/**  Creation timestamp, epoch ms UTC. */
+	created_at: number,
+};
+
+/**  Input for creating or renaming a [`Tag`]. */
+export type TagInput = {
+	/**  Name (required). */
+	name: string,
+	/**  Optional colour. */
+	color: string | null,
+};
 
 /* Tauri Specta runtime */
 async function typedError<T, E>(result: Promise<T>): Promise<{ status: "ok"; data: T } | { status: "error"; error: E }> {
