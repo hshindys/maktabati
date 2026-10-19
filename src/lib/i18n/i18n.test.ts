@@ -14,8 +14,9 @@ describe("catalogues", () => {
 
   it("has no untranslated Arabic value that is byte-identical to English", () => {
     // A handful of values are legitimately identical (e.g. the Latin-script accent names are
-    // not, but "Ctrl+K" is). Allow-list them explicitly so adding a new copy-paste is caught.
-    const allowedIdentical = new Set<string>(["shell.searchHint"]);
+    // not, but "Ctrl+K" is, and PDF is PDF in every locale). Allow-list them explicitly so
+    // adding a new copy-paste is caught.
+    const allowedIdentical = new Set<string>(["shell.searchHint", "wizard.format.pdf"]);
     const suspicious = Object.keys(ar).filter(
       (k) => ar[k as keyof typeof ar] === en[k as keyof typeof en] && !allowedIdentical.has(k),
     );

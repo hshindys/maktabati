@@ -3,14 +3,18 @@
 
   import Button from "../components/Button.svelte";
   import Card from "../components/Card.svelte";
+  import Combobox from "../components/Combobox.svelte";
   import CoverPlaceholder from "../components/CoverPlaceholder.svelte";
   import EmptyState from "../components/EmptyState.svelte";
+  import Field from "../components/Field.svelte";
   import KpiCard from "../components/KpiCard.svelte";
   import ProgressBar from "../components/ProgressBar.svelte";
   import Stars from "../components/Stars.svelte";
+  import TagInput from "../components/TagInput.svelte";
   import { locale, translatorFor } from "../i18n";
   import { pushToast } from "../toast";
   import { ACCENTS, preferences, setPreferences, THEME_CHOICES } from "../settings";
+  import type { EntityRef } from "../draft";
 
   /**
    * Component gallery — debug builds only (route `#/dev/gallery`).
@@ -28,11 +32,16 @@
   const SECTIONS = [
     "buttons",
     "inputs",
+    "forms",
     "feedback",
     "data",
     "navigation",
     "overlays",
   ] as const;
+
+  // Form primitives need live state — a static screenshot cannot show a chip being added.
+  let galleryAuthor = $state<EntityRef | null>(null);
+  let galleryTags = $state<string[]>(["تاريخ", "حضارة"]);
 </script>
 
 <div class="mx-auto flex max-w-6xl flex-col gap-[var(--sp-7)] px-[var(--sp-6)] py-[var(--sp-6)]">
@@ -143,6 +152,49 @@
               />
               <span class="text-[var(--fs-xs)] text-danger">{t("error.validation.isbn_invalid")}</span>
             </label>
+          </div>
+        </Card>
+
+      {:else if section === "forms"}
+        <!-- The wizard's form primitives, live: combobox pick-or-create, tag chips, a
+             labelled field with its error state (the states the wizard relies on). -->
+        <Card>
+          <div class="grid gap-[var(--sp-4)] sm:grid-cols-2">
+            <Field
+              label={t("wizard.field.title")}
+              required
+              for="gallery-field"
+              hint={t("wizard.optional")}
+            >
+              <input
+                id="gallery-field"
+                class="h-9 w-full rounded-[var(--r-md)] border border-border-2 bg-surface-1 px-[var(--sp-3)] text-[var(--fs-base)] outline-none focus:border-accent"
+              />
+            </Field>
+            <Combobox
+              label={t("wizard.field.authors")}
+              value={galleryAuthor}
+              onchange={(next) => (galleryAuthor = next)}
+              options={[
+                { id: "a1", name: "أحمد فكري" },
+                { id: "a2", name: "طه حسين" },
+                { id: "a3", name: "نجيب محفوظ" },
+              ]}
+              placeholder={t("common.search")}
+              createLabel={t("wizard.add", { name: t("wizard.field.authors") })}
+              oncreate={async (name) => ({ id: `new-${name}`, name })}
+              removeLabel={t("common.delete")}
+            />
+          </div>
+          <div class="mt-[var(--sp-4)]">
+            <TagInput
+              label={t("wizard.field.tags")}
+              value={galleryTags}
+              onchange={(next) => (galleryTags = next)}
+              placeholder={t("wizard.tags.placeholder")}
+              hint={t("wizard.tags.hint")}
+              removeLabel={t("common.delete")}
+            />
           </div>
         </Card>
 

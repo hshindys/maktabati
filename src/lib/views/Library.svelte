@@ -7,6 +7,7 @@
   import { locale, translatorFor } from "../i18n";
   import { formatNumber } from "../format";
   import { preferences } from "../settings";
+  import { openAddBook } from "../wizard";
 
   /**
    * Library browser — the screen the app is judged on.
@@ -90,7 +91,7 @@
         title={t("library.empty.title")}
         body={t("library.empty.body")}
         actionLabel={t("common.add")}
-        onaction={() => undefined}
+        onaction={openAddBook}
       />
     </Card>
   </div>

@@ -13,6 +13,7 @@
   import { formatDate, formatNumber, gregorianYear, type DigitStyle } from "../format";
   import { preferences } from "../settings";
   import { go } from "../router";
+  import { openAddBook } from "../wizard";
   import type { LibrarySummary } from "@/bindings";
   import { EMPTY_SUMMARY } from "../api";
 
@@ -78,7 +79,7 @@
         title={t("dashboard.empty.title")}
         body={t("dashboard.empty.body")}
         actionLabel={t("dashboard.empty.action")}
-        onaction={() => go("/library")}
+        onaction={() => openAddBook()}
       />
     </Card>
   {:else}
