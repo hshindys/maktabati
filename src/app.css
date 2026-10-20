@@ -80,8 +80,8 @@
   --border-1: #e3dbcb;
   --border-2: #cfc4ae;
   --text-1: #2a2621;
-  --text-2: #6b6153;
-  --text-3: #948a79;
+  --text-2: #5a5344;
+  --text-3: #6e6554;
 
   /* Warm-tinted elevation */
   --sh-1: 0 1px 2px rgba(42, 38, 33, 0.06);
@@ -103,7 +103,7 @@
   --border-2: #423f39;
   --text-1: #ede7db;
   --text-2: #ada697;
-  --text-3: #7e7768;
+  --text-3: #979081;
 
   --sh-1: 0 1px 2px rgba(0, 0, 0, 0.4);
   --sh-2: 0 2px 8px rgba(0, 0, 0, 0.5);
@@ -123,23 +123,23 @@
   --border-1: #ddcaa6;
   --border-2: #c6ae83;
   --text-1: #463b2a;
-  --text-2: #6f6049;
-  --text-3: #958568;
+  --text-2: #57492e;
+  --text-3: #695a3e;
 
   --star-empty: #d6c7a5;
   color-scheme: light;
 }
 
 /* Accent presets — docs/04-ux-design.md §5.1. Applied to buttons, links, focus
- * rings, progress bars, active nav and the heatmap ramp. */
+ * rings, progress bars, active nav and the heatmap ramp. These are the *light*
+ * values; dark and sepia get their own in the theme×accent matrix below, and the
+ * accent-independent status colours live in the semantic section — never here. */
 [data-accent="green"] {
   --accent: #2f6b4f;
   --accent-hover: #27593f;
   --accent-fg: #ffffff;
   --accent-soft: #e3efe8;
   --accent-soft-ink: #24523c;
-  --success: #2f7a4f;
-  --success-soft: #e2f2e9;
 }
 [data-accent="indigo"] {
   --accent: #3b4cca;
@@ -147,8 +147,6 @@
   --accent-fg: #ffffff;
   --accent-soft: #e6e8fa;
   --accent-soft-ink: #2c3796;
-  --success: #2f7a4f;
-  --success-soft: #e2f2e9;
 }
 [data-accent="plum"] {
   --accent: #7a3b69;
@@ -156,17 +154,13 @@
   --accent-fg: #ffffff;
   --accent-soft: #f6e7f1;
   --accent-soft-ink: #5f2d51;
-  --success: #2f7a4f;
-  --success-soft: #e2f2e9;
 }
 [data-accent="terracotta"] {
-  --accent: #b4552f;
-  --accent-hover: #97461f;
+  --accent: #a64821;
+  --accent-hover: #95390e;
   --accent-fg: #ffffff;
   --accent-soft: #fbe9df;
   --accent-soft-ink: #8c4122;
-  --success: #2f7a4f;
-  --success-soft: #e2f2e9;
 }
 [data-accent="ocean"] {
   --accent: #1f6a8a;
@@ -174,22 +168,20 @@
   --accent-fg: #ffffff;
   --accent-soft: #dfeef5;
   --accent-soft-ink: #17526b;
-  --success: #2f7a4f;
-  --success-soft: #e2f2e9;
 }
 [data-accent="gold"] {
-  --accent: #8a6a1f;
-  --accent-hover: #725718;
+  --accent: #7f5f0f;
+  --accent-hover: #705100;
   --accent-fg: #ffffff;
   --accent-soft: #f6eed9;
   --accent-soft-ink: #6a5117;
-  --success: #2f7a4f;
-  --success-soft: #e2f2e9;
 }
 
 /* Semantic tokens that do not depend on the accent. */
 :root {
-  --warning: #9a6b12;
+  --success: #2d784d;
+  --success-soft: #e2f2e9;
+  --warning: #926301;
   --warning-soft: #fbf0d8;
   --danger: #a93226;
   --danger-soft: #fbe7e5;
@@ -222,6 +214,94 @@
   --dur-slow: 320ms;
   --ease: cubic-bezier(0.2, 0.7, 0.3, 1);
   --stagger: 30ms;
+}
+
+/* ---------------------------------------------------------------------------
+ * Theme × accent and theme × status matrix (P0-3 / P0-4).
+ *
+ * Every pair here is pinned by `npm run lint:contrast` (scripts/check-contrast.mjs),
+ * which recomputes the WCAG ratios from these very declarations and fails the build
+ * under 4.5:1 for text pairs. Dark accents are *lighter* than their light-theme
+ * originals (they are read as text on dark surfaces) and flip --accent-fg to ink;
+ * the dark status inks follow the same rule. Values were derived in OKLab lightness
+ * space from the light originals — hue preserved, never a guess.
+ * ------------------------------------------------------------------------ */
+:root[data-theme="dark"] {
+  --success: #87d1a2;
+  --success-soft: #183b26;
+  --warning: #e7b466;
+  --warning-soft: #473109;
+  --danger: #ff9381;
+  --danger-soft: #5d231c;
+  --info: #8cc3f9;
+  --info-soft: #1e374f;
+}
+
+:root[data-theme="sepia"] {
+  --success: #287449;
+  --warning: #8c5e00;
+}
+
+/* Sepia accents keep the light pills (they pass on warm surfaces); only the
+ * accents that could not hold 4.5:1 on sepia's lightest surface are retuned. */
+[data-theme="sepia"][data-accent="green"] {
+  --accent: #29664a;
+  --accent-hover: #19583d;
+}
+[data-theme="sepia"][data-accent="terracotta"] {
+  --accent: #9b3e15;
+  --accent-hover: #8b2f00;
+}
+[data-theme="sepia"][data-accent="ocean"] {
+  --accent: #126181;
+  --accent-hover: #005372;
+}
+[data-theme="sepia"][data-accent="gold"] {
+  --accent: #755600;
+  --accent-hover: #664800;
+}
+
+[data-theme="dark"][data-accent="green"] {
+  --accent: #639f80;
+  --accent-hover: #549071;
+  --accent-fg: #12110f;
+  --accent-soft: #032c1b;
+  --accent-soft-ink: #97d4b3;
+}
+[data-theme="dark"][data-accent="indigo"] {
+  --accent: #6e8bff;
+  --accent-hover: #607bee;
+  --accent-fg: #12110f;
+  --accent-soft: #131b60;
+  --accent-soft-ink: #9abbff;
+}
+[data-theme="dark"][data-accent="plum"] {
+  --accent: #c17cad;
+  --accent-hover: #b16d9d;
+  --accent-fg: #12110f;
+  --accent-soft: #3d1533;
+  --accent-soft-ink: #f2a9dc;
+}
+[data-theme="dark"][data-accent="terracotta"] {
+  --accent: #db7852;
+  --accent-hover: #ca6943;
+  --accent-fg: #12110f;
+  --accent-soft: #490f00;
+  --accent-soft-ink: #ffa57e;
+}
+[data-theme="dark"][data-accent="ocean"] {
+  --accent: #549bbd;
+  --accent-hover: #448cad;
+  --accent-fg: #12110f;
+  --accent-soft: #002639;
+  --accent-soft-ink: #87cff3;
+}
+[data-theme="dark"][data-accent="gold"] {
+  --accent: #af8e47;
+  --accent-hover: #9f7f37;
+  --accent-fg: #12110f;
+  --accent-soft: #332000;
+  --accent-soft-ink: #e2bf78;
 }
 
 /* ---------------------------------------------------------------------------
