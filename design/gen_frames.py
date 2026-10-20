@@ -37,22 +37,30 @@ RAIL = 240               # --drawer: 15rem
 GREEN = ACCENTS["green"]
 STAR = "#c99a17"
 
-# Visual (left→right) — the DOM order is the reverse of each of these.
-NAV_PRIMARY = [
-    ("layout-dashboard", "لوحة التحكم"),
-    ("library", "المكتبة"),
-    ("book-open", "أقرأ الآن"),
-]
-NAV_SECONDARY = [
-    ("sticky-note", "الملاحظات"),
-    ("quote", "الاقتباسات"),
-    ("users", "المؤلفون"),
-    ("store", "الناشرون"),
-    ("folder-tree", "التصنيفات"),
-    ("hand-coins", "الإعارات"),
-    ("target", "الأهداف"),
-    ("arrow-left-right", "استيراد / تصدير"),
-    ("settings", "الإعدادات"),
+# Visual (left→right) — the DOM order is the reverse of each of these. The rail
+# is grouped (P1-10, mirrors src/lib/components/Sidebar.svelte): four labelled
+# groups so twelve screens read as four ideas rather than one flat list.
+NAV_GROUPS = [
+    ("المكتبة", [
+        ("layout-dashboard", "لوحة التحكم"),
+        ("library", "المكتبة"),
+        ("book-open", "أقرأ الآن"),
+    ]),
+    ("التنظيم", [
+        ("sticky-note", "الملاحظات"),
+        ("quote", "الاقتباسات"),
+        ("users", "المؤلفون"),
+        ("store", "الناشرون"),
+        ("folder-tree", "التصنيفات"),
+    ]),
+    ("المتابعة", [
+        ("hand-coins", "الإعارات"),
+        ("target", "الأهداف"),
+        ("arrow-left-right", "استيراد / تصدير"),
+    ]),
+    ("النظام", [
+        ("settings", "الإعدادات"),
+    ]),
 ]
 
 # CoverPlaceholder's six bookbinding tones.
@@ -304,16 +312,19 @@ def shell(frame_name: str, active: str, x: int = 0) -> int:
     s.rect(rail, width=1, height=100, fill=LIGHT["border-1"], sizing_v="fill")
     inner = v(rail, sizing_h="fill", sizing_v="fill", padding=8, gap=4)
 
-    items = v(inner, sizing_h="fill", sizing_v="fill", gap=4)
-    for glyph, label in NAV_PRIMARY:
-        nav_item(items, glyph, label, active=(glyph == active))
-    rule(items)
-    for glyph, label in NAV_SECONDARY:
-        nav_item(items, glyph, label, active=(glyph == active))
+    # Grouped rail: each group is a labelled stack; the label hugs the outer
+    # (right) edge in RTL, and the active item carries the accent-soft fill.
+    items = v(inner, sizing_h="fill", sizing_v="fill", gap=16)
+    for group_label, group in NAV_GROUPS:
+        grp = v(items, sizing_h="fill", sizing_v="hug", gap=4, cross_align="max")
+        t(group_label, grp, size=10, style="SemiBold", color=LIGHT["text-3"], font=AR)
+        for glyph, label in group:
+            nav_item(grp, glyph, label, active=(glyph == active))
 
+    # Rail footer: only the collapse control — the dev gallery lives behind
+    # import.meta.env.DEV in the app, not in the shipped rail.
     foot = v(inner, sizing_h="fill", sizing_v="hug", gap=4, padding=[4, 0, 0, 0])
     rule(foot)
-    nav_item(foot, "library-big", "معرض المكوّنات", muted=True)
     nav_item(foot, "panel-left-close", "طيّ الشريط الجانبي", muted=True)
 
     return main

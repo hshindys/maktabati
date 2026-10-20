@@ -134,7 +134,7 @@
     "width": 16,
     "height": 16,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -173,7 +173,7 @@
     "width": 16,
     "height": 16,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -212,7 +212,7 @@
     "width": 16,
     "height": 16,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -285,7 +285,7 @@
     "width": 16,
     "height": 16,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -324,7 +324,7 @@
     "width": 16,
     "height": 16,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -363,7 +363,7 @@
     "width": 16,
     "height": 16,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -467,7 +467,7 @@
     "fontSize": 10,
     "fontStyle": "Medium",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
@@ -505,7 +505,7 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
@@ -527,7 +527,7 @@
     "width": 14,
     "height": 14,
     "fills": [],
-    "stroke": "#948a79",
+    "stroke": "#6e6554",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -738,7 +738,7 @@
    },
    "props": {
     "layout": "vertical",
-    "gap": 4,
+    "gap": 16,
     "sizingH": "fill",
     "sizingV": "fill"
    }
@@ -752,6 +752,44 @@
    "select": false,
    "parent": {
     "$step": 36
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 4,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "المكتبة",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 10,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#6e6554"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 37
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 37
    },
    "props": {
     "layout": "horizontal",
@@ -788,7 +826,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 37
+    "$step": 39
    }
   }
  },
@@ -798,7 +836,7 @@
    "type": "vector",
    "name": "layout-dashboard",
    "parent": {
-    "$step": 37
+    "$step": 39
    },
    "path": "M4 3H9A1 1 0 0 1 10 4V11A1 1 0 0 1 9 12H4A1 1 0 0 1 3 11V4A1 1 0 0 1 4 3Z M15 3H20A1 1 0 0 1 21 4V7A1 1 0 0 1 20 8H15A1 1 0 0 1 14 7V4A1 1 0 0 1 15 3Z M15 12H20A1 1 0 0 1 21 13V20A1 1 0 0 1 20 21H15A1 1 0 0 1 14 20V13A1 1 0 0 1 15 12Z M4 16H9A1 1 0 0 1 10 17V20A1 1 0 0 1 9 21H4A1 1 0 0 1 3 20V17A1 1 0 0 1 4 16Z",
    "props": {
@@ -819,7 +857,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 36
+    "$step": 37
    },
    "props": {
     "layout": "horizontal",
@@ -848,12 +886,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 40
+    "$step": 42
    }
   }
  },
@@ -863,14 +901,14 @@
    "type": "vector",
    "name": "library",
    "parent": {
-    "$step": 40
+    "$step": 42
    },
    "path": "M16 6L20 20 M12 6v14 M8 8v12 M4 4v16",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -884,7 +922,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 36
+    "$step": 37
    },
    "props": {
     "layout": "horizontal",
@@ -913,12 +951,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 43
+    "$step": 45
    }
   }
  },
@@ -928,36 +966,17 @@
    "type": "vector",
    "name": "book-open",
    "parent": {
-    "$step": 43
+    "$step": 45
    },
    "path": "M12 5v16 M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
-   }
-  }
- },
- {
-  "command": "node.create",
-  "params": {
-   "type": "rectangle",
-   "name": "",
-   "select": false,
-   "parent": {
-    "$step": 36
-   },
-   "width": 100,
-   "height": 1,
-   "props": {
-    "fills": [
-     "#e3dbcb"
-    ],
-    "sizingH": "fill"
    }
   }
  },
@@ -969,6 +988,44 @@
    "select": false,
    "parent": {
     "$step": 36
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 4,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "التنظيم",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 10,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#6e6554"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 48
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 48
    },
    "props": {
     "layout": "horizontal",
@@ -997,12 +1054,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 47
+    "$step": 50
    }
   }
  },
@@ -1012,14 +1069,14 @@
    "type": "vector",
    "name": "sticky-note",
    "parent": {
-    "$step": 47
+    "$step": 50
    },
    "path": "M21 9a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 15 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z M15 3v5a1 1 0 0 0 1 1h5",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -1033,7 +1090,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 36
+    "$step": 48
    },
    "props": {
     "layout": "horizontal",
@@ -1062,12 +1119,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 50
+    "$step": 53
    }
   }
  },
@@ -1077,14 +1134,14 @@
    "type": "vector",
    "name": "quote",
    "parent": {
-    "$step": 50
+    "$step": 53
    },
    "path": "M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -1098,7 +1155,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 36
+    "$step": 48
    },
    "props": {
     "layout": "horizontal",
@@ -1127,12 +1184,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 53
+    "$step": 56
    }
   }
  },
@@ -1142,14 +1199,14 @@
    "type": "vector",
    "name": "users",
    "parent": {
-    "$step": 53
+    "$step": 56
    },
    "path": "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M16 3.128a4 4 0 0 1 0 7.744 M22 21v-2a4 4 0 0 0-3-3.87 M5 7A4 4 0 1 0 13 7A4 4 0 1 0 5 7Z",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -1163,7 +1220,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 36
+    "$step": 48
    },
    "props": {
     "layout": "horizontal",
@@ -1192,12 +1249,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 56
+    "$step": 59
    }
   }
  },
@@ -1207,14 +1264,14 @@
    "type": "vector",
    "name": "store",
    "parent": {
-    "$step": 56
+    "$step": 59
    },
    "path": "M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5 M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244 M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -1228,7 +1285,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 36
+    "$step": 48
    },
    "props": {
     "layout": "horizontal",
@@ -1257,12 +1314,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 59
+    "$step": 62
    }
   }
  },
@@ -1272,14 +1329,14 @@
    "type": "vector",
    "name": "folder-tree",
    "parent": {
-    "$step": 59
+    "$step": 62
    },
    "path": "M20 10a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-2.5a1 1 0 0 1-.8-.4l-.9-1.2A1 1 0 0 0 15 3h-2a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1Z M20 21a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-2.9a1 1 0 0 1-.88-.55l-.42-.85a1 1 0 0 0-.92-.6H13a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1Z M3 5a2 2 0 0 0 2 2h3 M3 3v13a2 2 0 0 0 2 2h3",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -1294,6 +1351,44 @@
    "select": false,
    "parent": {
     "$step": 36
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 4,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "المتابعة",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 10,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#6e6554"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 65
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 65
    },
    "props": {
     "layout": "horizontal",
@@ -1322,12 +1417,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 62
+    "$step": 67
    }
   }
  },
@@ -1337,14 +1432,14 @@
    "type": "vector",
    "name": "hand-coins",
    "parent": {
-    "$step": 62
+    "$step": 67
    },
    "path": "M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17 M7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9 M2 16L8 22 M13.1 9A2.9 2.9 0 1 0 18.9 9A2.9 2.9 0 1 0 13.1 9Z M3 5A3 3 0 1 0 9 5A3 3 0 1 0 3 5Z",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -1358,7 +1453,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 36
+    "$step": 65
    },
    "props": {
     "layout": "horizontal",
@@ -1387,12 +1482,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 65
+    "$step": 70
    }
   }
  },
@@ -1402,14 +1497,14 @@
    "type": "vector",
    "name": "target",
    "parent": {
-    "$step": 65
+    "$step": 70
    },
    "path": "M2 12A10 10 0 1 0 22 12A10 10 0 1 0 2 12Z M6 12A6 6 0 1 0 18 12A6 6 0 1 0 6 12Z M10 12A2 2 0 1 0 14 12A2 2 0 1 0 10 12Z",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -1423,7 +1518,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 36
+    "$step": 65
    },
    "props": {
     "layout": "horizontal",
@@ -1452,12 +1547,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 68
+    "$step": 73
    }
   }
  },
@@ -1467,14 +1562,14 @@
    "type": "vector",
    "name": "arrow-left-right",
    "parent": {
-    "$step": 68
+    "$step": 73
    },
    "path": "M8 3 4 7l4 4 M4 7h16 M16 21L20 17L16 13 M20 17H4",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -1489,6 +1584,44 @@
    "select": false,
    "parent": {
     "$step": 36
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 4,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "النظام",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 10,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#6e6554"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 76
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 76
    },
    "props": {
     "layout": "horizontal",
@@ -1517,12 +1650,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 71
+    "$step": 78
    }
   }
  },
@@ -1532,14 +1665,14 @@
    "type": "vector",
    "name": "settings",
    "parent": {
-    "$step": 71
+    "$step": 78
    },
    "path": "M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915 M9 12A3 3 0 1 0 15 12A3 3 0 1 0 9 12Z",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -1576,7 +1709,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 74
+    "$step": 81
    },
    "width": 100,
    "height": 1,
@@ -1595,72 +1728,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 74
-   },
-   "props": {
-    "layout": "horizontal",
-    "gap": 12,
-    "padding": [
-     8,
-     12,
-     8,
-     12
-    ],
-    "cornerRadius": 10,
-    "sizingH": "fill",
-    "sizingV": "hug",
-    "crossAlign": "center"
-   }
-  }
- },
- {
-  "command": "node.create",
-  "params": {
-   "type": "text",
-   "text": "معرض المكوّنات",
-   "select": false,
-   "props": {
-    "fontFamily": "Cairo",
-    "fontSize": 13.5,
-    "fontStyle": "Regular",
-    "fills": [
-     "#948a79"
-    ],
-    "textAutoResize": "widthAndHeight"
-   },
-   "parent": {
-    "$step": 76
-   }
-  }
- },
- {
-  "command": "node.create",
-  "params": {
-   "type": "vector",
-   "name": "library-big",
-   "parent": {
-    "$step": 76
-   },
-   "path": "M4 3H10A1 1 0 0 1 11 4V20A1 1 0 0 1 10 21H4A1 1 0 0 1 3 20V4A1 1 0 0 1 4 3Z M7 3v18 M20.4 18.9c.2.5-.1 1.1-.6 1.3l-1.9.7c-.5.2-1.1-.1-1.3-.6L11.1 5.1c-.2-.5.1-1.1.6-1.3l1.9-.7c.5-.2 1.1.1 1.3.6Z",
-   "props": {
-    "width": 18,
-    "height": 18,
-    "fills": [],
-    "stroke": "#948a79",
-    "strokeWeight": 1.35,
-    "strokeCap": "round",
-    "strokeJoin": "round"
-   }
-  }
- },
- {
-  "command": "node.create",
-  "params": {
-   "type": "frame",
-   "name": "",
-   "select": false,
-   "parent": {
-    "$step": 74
+    "$step": 81
    },
    "props": {
     "layout": "horizontal",
@@ -1689,12 +1757,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 79
+    "$step": 83
    }
   }
  },
@@ -1704,14 +1772,14 @@
    "type": "vector",
    "name": "panel-left-close",
    "parent": {
-    "$step": 79
+    "$step": 83
    },
    "path": "M5 3H19A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3Z M9 3v18 M16 15L13 12L16 9",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#948a79",
+    "stroke": "#6e6554",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -1749,7 +1817,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 82
+    "$step": 86
    },
    "props": {
     "layout": "horizontal",
@@ -1767,7 +1835,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 83
+    "$step": 87
    },
    "props": {
     "layout": "horizontal",
@@ -1804,7 +1872,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 84
+    "$step": 88
    }
   }
  },
@@ -1815,7 +1883,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 83
+    "$step": 87
    },
    "props": {
     "layout": "vertical",
@@ -1842,7 +1910,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 86
+    "$step": 90
    }
   }
  },
@@ -1857,12 +1925,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 86
+    "$step": 90
    }
   }
  },
@@ -1873,7 +1941,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 82
+    "$step": 86
    },
    "height": 170,
    "props": {
@@ -1891,7 +1959,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 89
+    "$step": 93
    },
    "props": {
     "layout": "vertical",
@@ -1917,7 +1985,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 90
+    "$step": 94
    },
    "props": {
     "layout": "horizontal",
@@ -1934,14 +2002,14 @@
    "type": "vector",
    "name": "flame",
    "parent": {
-    "$step": 91
+    "$step": 95
    },
    "path": "M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#948a79",
+    "stroke": "#6e6554",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -1959,12 +2027,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 91
+    "$step": 95
    }
   }
  },
@@ -1975,7 +2043,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 90
+    "$step": 94
    },
    "props": {
     "layout": "horizontal",
@@ -1998,12 +2066,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 94
+    "$step": 98
    }
   }
  },
@@ -2023,7 +2091,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 94
+    "$step": 98
    }
   }
  },
@@ -2038,12 +2106,12 @@
     "fontSize": 12,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 90
+    "$step": 94
    }
   }
  },
@@ -2054,7 +2122,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 90
+    "$step": 94
    },
    "width": 190,
    "height": 6,
@@ -2078,7 +2146,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 98
+    "$step": 102
    },
    "width": 114,
    "height": 6,
@@ -2094,7 +2162,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 98
+    "$step": 102
    },
    "width": 76,
    "height": 6,
@@ -2113,7 +2181,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 89
+    "$step": 93
    },
    "props": {
     "layout": "vertical",
@@ -2139,7 +2207,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 101
+    "$step": 105
    },
    "props": {
     "layout": "horizontal",
@@ -2156,14 +2224,14 @@
    "type": "vector",
    "name": "target",
    "parent": {
-    "$step": 102
+    "$step": 106
    },
    "path": "M2 12A10 10 0 1 0 22 12A10 10 0 1 0 2 12Z M6 12A6 6 0 1 0 18 12A6 6 0 1 0 6 12Z M10 12A2 2 0 1 0 14 12A2 2 0 1 0 10 12Z",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#948a79",
+    "stroke": "#6e6554",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -2181,12 +2249,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 102
+    "$step": 106
    }
   }
  },
@@ -2197,7 +2265,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 101
+    "$step": 105
    },
    "props": {
     "layout": "horizontal",
@@ -2225,7 +2293,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 105
+    "$step": 109
    }
   }
  },
@@ -2240,12 +2308,12 @@
     "fontSize": 12,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 101
+    "$step": 105
    }
   }
  },
@@ -2256,7 +2324,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 89
+    "$step": 93
    },
    "props": {
     "layout": "vertical",
@@ -2282,7 +2350,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 108
+    "$step": 112
    },
    "props": {
     "layout": "horizontal",
@@ -2299,14 +2367,14 @@
    "type": "vector",
    "name": "book-open",
    "parent": {
-    "$step": 109
+    "$step": 113
    },
    "path": "M12 5v16 M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#948a79",
+    "stroke": "#6e6554",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -2324,12 +2392,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 109
+    "$step": 113
    }
   }
  },
@@ -2340,7 +2408,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 108
+    "$step": 112
    },
    "props": {
     "layout": "horizontal",
@@ -2368,7 +2436,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 112
+    "$step": 116
    }
   }
  },
@@ -2383,12 +2451,12 @@
     "fontSize": 12,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 108
+    "$step": 112
    }
   }
  },
@@ -2399,7 +2467,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 89
+    "$step": 93
    },
    "props": {
     "layout": "vertical",
@@ -2425,7 +2493,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 115
+    "$step": 119
    },
    "props": {
     "layout": "horizontal",
@@ -2442,14 +2510,14 @@
    "type": "vector",
    "name": "library",
    "parent": {
-    "$step": 116
+    "$step": 120
    },
    "path": "M16 6L20 20 M12 6v14 M8 8v12 M4 4v16",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#948a79",
+    "stroke": "#6e6554",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -2467,12 +2535,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 116
+    "$step": 120
    }
   }
  },
@@ -2483,7 +2551,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 115
+    "$step": 119
    },
    "props": {
     "layout": "horizontal",
@@ -2511,7 +2579,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 119
+    "$step": 123
    }
   }
  },
@@ -2526,12 +2594,12 @@
     "fontSize": 12,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 115
+    "$step": 119
    }
   }
  },
@@ -2542,7 +2610,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 82
+    "$step": 86
    },
    "height": 216,
    "props": {
@@ -2560,7 +2628,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 122
+    "$step": 126
    },
    "props": {
     "layout": "vertical",
@@ -2596,7 +2664,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 123
+    "$step": 127
    }
   }
  },
@@ -2607,7 +2675,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 123
+    "$step": 127
    },
    "props": {
     "layout": "horizontal",
@@ -2634,7 +2702,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 125
+    "$step": 129
    }
   }
  },
@@ -2645,7 +2713,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 125
+    "$step": 129
    },
    "props": {
     "layout": "horizontal",
@@ -2675,12 +2743,12 @@
     "fontSize": 13.5,
     "fontStyle": "Medium",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 127
+    "$step": 131
    }
   }
  },
@@ -2691,7 +2759,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 123
+    "$step": 127
    },
    "props": {
     "layout": "horizontal",
@@ -2718,7 +2786,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 129
+    "$step": 133
    }
   }
  },
@@ -2729,7 +2797,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 129
+    "$step": 133
    },
    "props": {
     "layout": "horizontal",
@@ -2759,12 +2827,12 @@
     "fontSize": 13.5,
     "fontStyle": "Medium",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 131
+    "$step": 135
    }
   }
  },
@@ -2775,7 +2843,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 123
+    "$step": 127
    },
    "props": {
     "layout": "horizontal",
@@ -2802,7 +2870,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 133
+    "$step": 137
    }
   }
  },
@@ -2813,7 +2881,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 133
+    "$step": 137
    },
    "props": {
     "layout": "horizontal",
@@ -2843,12 +2911,12 @@
     "fontSize": 13.5,
     "fontStyle": "Medium",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 135
+    "$step": 139
    }
   }
  },
@@ -2859,7 +2927,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 122
+    "$step": 126
    },
    "props": {
     "layout": "vertical",
@@ -2894,7 +2962,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 137
+    "$step": 141
    }
   }
  },
@@ -2905,7 +2973,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 137
+    "$step": 141
    },
    "props": {
     "layout": "horizontal",
@@ -2922,7 +2990,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 139
+    "$step": 143
    },
    "props": {
     "layout": "vertical",
@@ -2944,12 +3012,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 140
+    "$step": 144
    }
   }
  },
@@ -2969,7 +3037,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 140
+    "$step": 144
    }
   }
  },
@@ -2980,7 +3048,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 139
+    "$step": 143
    },
    "props": {
     "layout": "vertical",
@@ -3002,12 +3070,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 143
+    "$step": 147
    }
   }
  },
@@ -3027,7 +3095,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 143
+    "$step": 147
    }
   }
  },
@@ -3038,7 +3106,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 137
+    "$step": 141
    },
    "props": {
     "layout": "horizontal",
@@ -3055,7 +3123,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 146
+    "$step": 150
    },
    "props": {
     "layout": "vertical",
@@ -3077,12 +3145,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 147
+    "$step": 151
    }
   }
  },
@@ -3102,7 +3170,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 147
+    "$step": 151
    }
   }
  },
@@ -3113,7 +3181,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 146
+    "$step": 150
    },
    "props": {
     "layout": "vertical",
@@ -3135,12 +3203,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 150
+    "$step": 154
    }
   }
  },
@@ -3160,7 +3228,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 150
+    "$step": 154
    }
   }
  },
@@ -3171,7 +3239,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 82
+    "$step": 86
    },
    "props": {
     "layout": "vertical",
@@ -3198,7 +3266,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 153
+    "$step": 157
    }
   }
  },
@@ -3209,7 +3277,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 153
+    "$step": 157
    },
    "props": {
     "layout": "horizontal",
@@ -3227,7 +3295,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 155
+    "$step": 159
    },
    "width": 120,
    "height": 180,
@@ -3249,7 +3317,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 156
+    "$step": 160
    },
    "x": 109,
    "y": 0,
@@ -3269,7 +3337,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 156
+    "$step": 160
    },
    "x": 108,
    "y": 0,
@@ -3289,7 +3357,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 156
+    "$step": 160
    },
    "x": 22,
    "y": 47,
@@ -3306,7 +3374,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 156
+    "$step": 160
    },
    "x": 22,
    "y": 61,
@@ -3329,7 +3397,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 156
+    "$step": 160
    },
    "x": 22,
    "y": 126,
@@ -3354,7 +3422,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 155
+    "$step": 159
    },
    "width": 120,
    "height": 180,
@@ -3376,7 +3444,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 162
+    "$step": 166
    },
    "x": 109,
    "y": 0,
@@ -3396,7 +3464,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 162
+    "$step": 166
    },
    "x": 108,
    "y": 0,
@@ -3416,7 +3484,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 162
+    "$step": 166
    },
    "x": 22,
    "y": 47,
@@ -3433,7 +3501,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 162
+    "$step": 166
    },
    "x": 22,
    "y": 61,
@@ -3456,7 +3524,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 162
+    "$step": 166
    },
    "x": 22,
    "y": 126,
@@ -3481,7 +3549,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 155
+    "$step": 159
    },
    "width": 120,
    "height": 180,
@@ -3503,7 +3571,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 168
+    "$step": 172
    },
    "x": 109,
    "y": 0,
@@ -3523,7 +3591,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 168
+    "$step": 172
    },
    "x": 108,
    "y": 0,
@@ -3543,7 +3611,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 168
+    "$step": 172
    },
    "x": 22,
    "y": 47,
@@ -3560,7 +3628,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 168
+    "$step": 172
    },
    "x": 22,
    "y": 61,
@@ -3583,7 +3651,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 168
+    "$step": 172
    },
    "x": 22,
    "y": 126,
@@ -3608,7 +3676,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 155
+    "$step": 159
    },
    "width": 120,
    "height": 180,
@@ -3630,7 +3698,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 174
+    "$step": 178
    },
    "x": 109,
    "y": 0,
@@ -3650,7 +3718,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 174
+    "$step": 178
    },
    "x": 108,
    "y": 0,
@@ -3670,7 +3738,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 174
+    "$step": 178
    },
    "x": 22,
    "y": 47,
@@ -3687,7 +3755,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 174
+    "$step": 178
    },
    "x": 22,
    "y": 61,
@@ -3710,7 +3778,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 174
+    "$step": 178
    },
    "x": 22,
    "y": 126,
@@ -3735,7 +3803,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 155
+    "$step": 159
    },
    "width": 120,
    "height": 180,
@@ -3757,7 +3825,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 180
+    "$step": 184
    },
    "x": 109,
    "y": 0,
@@ -3777,7 +3845,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 180
+    "$step": 184
    },
    "x": 108,
    "y": 0,
@@ -3797,7 +3865,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 180
+    "$step": 184
    },
    "x": 22,
    "y": 47,
@@ -3814,7 +3882,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 180
+    "$step": 184
    },
    "x": 22,
    "y": 61,
@@ -3837,7 +3905,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 180
+    "$step": 184
    },
    "x": 22,
    "y": 126,
@@ -3862,7 +3930,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 155
+    "$step": 159
    },
    "width": 120,
    "height": 180,
@@ -3884,7 +3952,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 186
+    "$step": 190
    },
    "x": 109,
    "y": 0,
@@ -3904,7 +3972,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 186
+    "$step": 190
    },
    "x": 108,
    "y": 0,
@@ -3924,7 +3992,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 186
+    "$step": 190
    },
    "x": 22,
    "y": 47,
@@ -3941,7 +4009,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 186
+    "$step": 190
    },
    "x": 22,
    "y": 61,
@@ -3964,7 +4032,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 186
+    "$step": 190
    },
    "x": 22,
    "y": 126,
@@ -4010,7 +4078,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 192
+    "$step": 196
    },
    "height": 44,
    "props": {
@@ -4031,7 +4099,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 193
+    "$step": 197
    },
    "height": 43,
    "props": {
@@ -4056,7 +4124,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 194
+    "$step": 198
    },
    "props": {
     "layout": "horizontal",
@@ -4074,7 +4142,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 195
+    "$step": 199
    },
    "props": {
     "layout": "horizontal",
@@ -4092,7 +4160,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 196
+    "$step": 200
    },
    "width": 44,
    "height": 32,
@@ -4110,14 +4178,14 @@
    "type": "vector",
    "name": "x",
    "parent": {
-    "$step": 197
+    "$step": 201
    },
    "path": "M18 6 6 18 M6 6L18 18",
    "props": {
     "width": 16,
     "height": 16,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -4131,7 +4199,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 196
+    "$step": 200
    },
    "width": 44,
    "height": 32,
@@ -4149,14 +4217,14 @@
    "type": "vector",
    "name": "square",
    "parent": {
-    "$step": 199
+    "$step": 203
    },
    "path": "M5 3H19A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3Z",
    "props": {
     "width": 16,
     "height": 16,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -4170,7 +4238,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 196
+    "$step": 200
    },
    "width": 44,
    "height": 32,
@@ -4188,14 +4256,14 @@
    "type": "vector",
    "name": "minus",
    "parent": {
-    "$step": 201
+    "$step": 205
    },
    "path": "M5 12h14",
    "props": {
     "width": 16,
     "height": 16,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -4209,7 +4277,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 195
+    "$step": 199
    },
    "width": 8,
    "props": {
@@ -4225,7 +4293,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 195
+    "$step": 199
    },
    "props": {
     "layout": "horizontal",
@@ -4243,7 +4311,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 204
+    "$step": 208
    },
    "width": 32,
    "height": 32,
@@ -4261,14 +4329,14 @@
    "type": "vector",
    "name": "lock",
    "parent": {
-    "$step": 205
+    "$step": 209
    },
    "path": "M5 11H19A2 2 0 0 1 21 13V20A2 2 0 0 1 19 22H5A2 2 0 0 1 3 20V13A2 2 0 0 1 5 11Z M7 11V7a5 5 0 0 1 10 0v4",
    "props": {
     "width": 16,
     "height": 16,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -4282,7 +4350,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 204
+    "$step": 208
    },
    "width": 32,
    "height": 32,
@@ -4300,14 +4368,14 @@
    "type": "vector",
    "name": "sun",
    "parent": {
-    "$step": 207
+    "$step": 211
    },
    "path": "M8 12A4 4 0 1 0 16 12A4 4 0 1 0 8 12Z M12 2v2 M12 20v2 M4.93 4.93L6.34 6.34 M17.66 17.66L19.07 19.07 M2 12h2 M20 12h2 M6.34 17.66L4.93 19.07 M19.07 4.93L17.66 6.34",
    "props": {
     "width": 16,
     "height": 16,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -4321,7 +4389,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 204
+    "$step": 208
    },
    "width": 32,
    "height": 32,
@@ -4339,14 +4407,14 @@
    "type": "vector",
    "name": "languages",
    "parent": {
-    "$step": 209
+    "$step": 213
    },
    "path": "M5 8L11 14 M4 14L10 8L12 5 M2 5h12 M7 2h1 M22 22L17 12L12 22 M14 18h6",
    "props": {
     "width": 16,
     "height": 16,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -4360,7 +4428,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 194
+    "$step": 198
    },
    "width": 544,
    "height": 40,
@@ -4385,7 +4453,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 211
+    "$step": 215
    },
    "height": 28,
    "props": {
@@ -4417,7 +4485,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 212
+    "$step": 216
    },
    "props": {
     "layout": "horizontal",
@@ -4450,12 +4518,12 @@
     "fontSize": 10,
     "fontStyle": "Medium",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 213
+    "$step": 217
    }
   }
  },
@@ -4466,7 +4534,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 212
+    "$step": 216
    },
    "props": {
     "layout": "horizontal",
@@ -4488,12 +4556,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 215
+    "$step": 219
    }
   }
  },
@@ -4503,14 +4571,14 @@
    "type": "vector",
    "name": "search",
    "parent": {
-    "$step": 212
+    "$step": 216
    },
    "path": "M21 21L16.66 16.66 M3 11A8 8 0 1 0 19 11A8 8 0 1 0 3 11Z",
    "props": {
     "width": 14,
     "height": 14,
     "fills": [],
-    "stroke": "#948a79",
+    "stroke": "#6e6554",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -4524,7 +4592,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 194
+    "$step": 198
    },
    "props": {
     "layout": "horizontal",
@@ -4551,7 +4619,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 218
+    "$step": 222
    }
   }
  },
@@ -4562,7 +4630,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 218
+    "$step": 222
    },
    "width": 24,
    "height": 24,
@@ -4595,7 +4663,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 220
+    "$step": 224
    }
   }
  },
@@ -4606,7 +4674,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 193
+    "$step": 197
    },
    "width": 100,
    "height": 1,
@@ -4625,7 +4693,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 192
+    "$step": 196
    },
    "props": {
     "layout": "horizontal",
@@ -4642,7 +4710,7 @@
    "name": "main",
    "select": false,
    "parent": {
-    "$step": 223
+    "$step": 227
    },
    "props": {
     "layout": "vertical",
@@ -4659,7 +4727,7 @@
    "name": "sidebar",
    "select": false,
    "parent": {
-    "$step": 223
+    "$step": 227
    },
    "width": 240,
    "props": {
@@ -4680,7 +4748,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 225
+    "$step": 229
    },
    "width": 1,
    "height": 100,
@@ -4699,7 +4767,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 225
+    "$step": 229
    },
    "props": {
     "layout": "vertical",
@@ -4717,11 +4785,11 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 227
+    "$step": 231
    },
    "props": {
     "layout": "vertical",
-    "gap": 4,
+    "gap": 16,
     "sizingH": "fill",
     "sizingV": "fill"
    }
@@ -4734,7 +4802,45 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 228
+    "$step": 232
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 4,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "المكتبة",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 10,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#6e6554"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 233
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 233
    },
    "props": {
     "layout": "horizontal",
@@ -4763,12 +4869,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 229
+    "$step": 235
    }
   }
  },
@@ -4778,14 +4884,14 @@
    "type": "vector",
    "name": "layout-dashboard",
    "parent": {
-    "$step": 229
+    "$step": 235
    },
    "path": "M4 3H9A1 1 0 0 1 10 4V11A1 1 0 0 1 9 12H4A1 1 0 0 1 3 11V4A1 1 0 0 1 4 3Z M15 3H20A1 1 0 0 1 21 4V7A1 1 0 0 1 20 8H15A1 1 0 0 1 14 7V4A1 1 0 0 1 15 3Z M15 12H20A1 1 0 0 1 21 13V20A1 1 0 0 1 20 21H15A1 1 0 0 1 14 20V13A1 1 0 0 1 15 12Z M4 16H9A1 1 0 0 1 10 17V20A1 1 0 0 1 9 21H4A1 1 0 0 1 3 20V17A1 1 0 0 1 4 16Z",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -4799,7 +4905,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 228
+    "$step": 233
    },
    "props": {
     "layout": "horizontal",
@@ -4836,7 +4942,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 232
+    "$step": 238
    }
   }
  },
@@ -4846,7 +4952,7 @@
    "type": "vector",
    "name": "library",
    "parent": {
-    "$step": 232
+    "$step": 238
    },
    "path": "M16 6L20 20 M12 6v14 M8 8v12 M4 4v16",
    "props": {
@@ -4867,7 +4973,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 228
+    "$step": 233
    },
    "props": {
     "layout": "horizontal",
@@ -4896,12 +5002,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 235
+    "$step": 241
    }
   }
  },
@@ -4911,36 +5017,17 @@
    "type": "vector",
    "name": "book-open",
    "parent": {
-    "$step": 235
+    "$step": 241
    },
    "path": "M12 5v16 M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
-   }
-  }
- },
- {
-  "command": "node.create",
-  "params": {
-   "type": "rectangle",
-   "name": "",
-   "select": false,
-   "parent": {
-    "$step": 228
-   },
-   "width": 100,
-   "height": 1,
-   "props": {
-    "fills": [
-     "#e3dbcb"
-    ],
-    "sizingH": "fill"
    }
   }
  },
@@ -4951,7 +5038,45 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 228
+    "$step": 232
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 4,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "التنظيم",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 10,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#6e6554"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 244
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 244
    },
    "props": {
     "layout": "horizontal",
@@ -4980,12 +5105,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 239
+    "$step": 246
    }
   }
  },
@@ -4995,14 +5120,14 @@
    "type": "vector",
    "name": "sticky-note",
    "parent": {
-    "$step": 239
+    "$step": 246
    },
    "path": "M21 9a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 15 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z M15 3v5a1 1 0 0 0 1 1h5",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -5016,7 +5141,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 228
+    "$step": 244
    },
    "props": {
     "layout": "horizontal",
@@ -5045,12 +5170,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 242
+    "$step": 249
    }
   }
  },
@@ -5060,14 +5185,14 @@
    "type": "vector",
    "name": "quote",
    "parent": {
-    "$step": 242
+    "$step": 249
    },
    "path": "M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -5081,7 +5206,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 228
+    "$step": 244
    },
    "props": {
     "layout": "horizontal",
@@ -5110,12 +5235,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 245
+    "$step": 252
    }
   }
  },
@@ -5125,14 +5250,14 @@
    "type": "vector",
    "name": "users",
    "parent": {
-    "$step": 245
+    "$step": 252
    },
    "path": "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M16 3.128a4 4 0 0 1 0 7.744 M22 21v-2a4 4 0 0 0-3-3.87 M5 7A4 4 0 1 0 13 7A4 4 0 1 0 5 7Z",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -5146,7 +5271,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 228
+    "$step": 244
    },
    "props": {
     "layout": "horizontal",
@@ -5175,12 +5300,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 248
+    "$step": 255
    }
   }
  },
@@ -5190,14 +5315,14 @@
    "type": "vector",
    "name": "store",
    "parent": {
-    "$step": 248
+    "$step": 255
    },
    "path": "M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5 M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244 M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -5211,7 +5336,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 228
+    "$step": 244
    },
    "props": {
     "layout": "horizontal",
@@ -5240,12 +5365,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 251
+    "$step": 258
    }
   }
  },
@@ -5255,14 +5380,14 @@
    "type": "vector",
    "name": "folder-tree",
    "parent": {
-    "$step": 251
+    "$step": 258
    },
    "path": "M20 10a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-2.5a1 1 0 0 1-.8-.4l-.9-1.2A1 1 0 0 0 15 3h-2a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1Z M20 21a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-2.9a1 1 0 0 1-.88-.55l-.42-.85a1 1 0 0 0-.92-.6H13a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1Z M3 5a2 2 0 0 0 2 2h3 M3 3v13a2 2 0 0 0 2 2h3",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -5276,7 +5401,45 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 228
+    "$step": 232
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 4,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "المتابعة",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 10,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#6e6554"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 261
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 261
    },
    "props": {
     "layout": "horizontal",
@@ -5305,12 +5468,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 254
+    "$step": 263
    }
   }
  },
@@ -5320,14 +5483,14 @@
    "type": "vector",
    "name": "hand-coins",
    "parent": {
-    "$step": 254
+    "$step": 263
    },
    "path": "M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17 M7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9 M2 16L8 22 M13.1 9A2.9 2.9 0 1 0 18.9 9A2.9 2.9 0 1 0 13.1 9Z M3 5A3 3 0 1 0 9 5A3 3 0 1 0 3 5Z",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -5341,7 +5504,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 228
+    "$step": 261
    },
    "props": {
     "layout": "horizontal",
@@ -5370,12 +5533,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 257
+    "$step": 266
    }
   }
  },
@@ -5385,14 +5548,14 @@
    "type": "vector",
    "name": "target",
    "parent": {
-    "$step": 257
+    "$step": 266
    },
    "path": "M2 12A10 10 0 1 0 22 12A10 10 0 1 0 2 12Z M6 12A6 6 0 1 0 18 12A6 6 0 1 0 6 12Z M10 12A2 2 0 1 0 14 12A2 2 0 1 0 10 12Z",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -5406,7 +5569,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 228
+    "$step": 261
    },
    "props": {
     "layout": "horizontal",
@@ -5435,12 +5598,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 260
+    "$step": 269
    }
   }
  },
@@ -5450,14 +5613,14 @@
    "type": "vector",
    "name": "arrow-left-right",
    "parent": {
-    "$step": 260
+    "$step": 269
    },
    "path": "M8 3 4 7l4 4 M4 7h16 M16 21L20 17L16 13 M20 17H4",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -5471,7 +5634,45 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 228
+    "$step": 232
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 4,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "النظام",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 10,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#6e6554"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 272
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 272
    },
    "props": {
     "layout": "horizontal",
@@ -5500,12 +5701,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 263
+    "$step": 274
    }
   }
  },
@@ -5515,14 +5716,14 @@
    "type": "vector",
    "name": "settings",
    "parent": {
-    "$step": 263
+    "$step": 274
    },
    "path": "M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915 M9 12A3 3 0 1 0 15 12A3 3 0 1 0 9 12Z",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -5536,7 +5737,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 227
+    "$step": 231
    },
    "props": {
     "layout": "vertical",
@@ -5559,7 +5760,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 266
+    "$step": 277
    },
    "width": 100,
    "height": 1,
@@ -5578,72 +5779,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 266
-   },
-   "props": {
-    "layout": "horizontal",
-    "gap": 12,
-    "padding": [
-     8,
-     12,
-     8,
-     12
-    ],
-    "cornerRadius": 10,
-    "sizingH": "fill",
-    "sizingV": "hug",
-    "crossAlign": "center"
-   }
-  }
- },
- {
-  "command": "node.create",
-  "params": {
-   "type": "text",
-   "text": "معرض المكوّنات",
-   "select": false,
-   "props": {
-    "fontFamily": "Cairo",
-    "fontSize": 13.5,
-    "fontStyle": "Regular",
-    "fills": [
-     "#948a79"
-    ],
-    "textAutoResize": "widthAndHeight"
-   },
-   "parent": {
-    "$step": 268
-   }
-  }
- },
- {
-  "command": "node.create",
-  "params": {
-   "type": "vector",
-   "name": "library-big",
-   "parent": {
-    "$step": 268
-   },
-   "path": "M4 3H10A1 1 0 0 1 11 4V20A1 1 0 0 1 10 21H4A1 1 0 0 1 3 20V4A1 1 0 0 1 4 3Z M7 3v18 M20.4 18.9c.2.5-.1 1.1-.6 1.3l-1.9.7c-.5.2-1.1-.1-1.3-.6L11.1 5.1c-.2-.5.1-1.1.6-1.3l1.9-.7c.5-.2 1.1.1 1.3.6Z",
-   "props": {
-    "width": 18,
-    "height": 18,
-    "fills": [],
-    "stroke": "#948a79",
-    "strokeWeight": 1.35,
-    "strokeCap": "round",
-    "strokeJoin": "round"
-   }
-  }
- },
- {
-  "command": "node.create",
-  "params": {
-   "type": "frame",
-   "name": "",
-   "select": false,
-   "parent": {
-    "$step": 266
+    "$step": 277
    },
    "props": {
     "layout": "horizontal",
@@ -5672,12 +5808,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 271
+    "$step": 279
    }
   }
  },
@@ -5687,14 +5823,14 @@
    "type": "vector",
    "name": "panel-left-close",
    "parent": {
-    "$step": 271
+    "$step": 279
    },
    "path": "M5 3H19A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3Z M9 3v18 M16 15L13 12L16 9",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#948a79",
+    "stroke": "#6e6554",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -5708,7 +5844,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 224
+    "$step": 228
    },
    "props": {
     "layout": "vertical",
@@ -5725,7 +5861,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 274
+    "$step": 282
    },
    "props": {
     "layout": "horizontal",
@@ -5749,7 +5885,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 275
+    "$step": 283
    },
    "props": {
     "layout": "horizontal",
@@ -5768,7 +5904,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 276
+    "$step": 284
    },
    "props": {
     "layout": "horizontal",
@@ -5805,7 +5941,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 277
+    "$step": 285
    }
   }
  },
@@ -5815,7 +5951,7 @@
    "type": "vector",
    "name": "plus",
    "parent": {
-    "$step": 277
+    "$step": 285
    },
    "path": "M5 12h14 M12 5v14",
    "props": {
@@ -5836,7 +5972,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 276
+    "$step": 284
    },
    "props": {
     "layout": "horizontal",
@@ -5861,7 +5997,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 280
+    "$step": 288
    },
    "width": 28,
    "height": 28,
@@ -5881,14 +6017,14 @@
    "type": "vector",
    "name": "rows-3",
    "parent": {
-    "$step": 281
+    "$step": 289
    },
    "path": "M5 3H19A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3Z M21 9H3 M21 15H3",
    "props": {
     "width": 16,
     "height": 16,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -5902,7 +6038,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 280
+    "$step": 288
    },
    "width": 28,
    "height": 28,
@@ -5922,14 +6058,14 @@
    "type": "vector",
    "name": "list",
    "parent": {
-    "$step": 283
+    "$step": 291
    },
    "path": "M3 5h.01 M3 12h.01 M3 19h.01 M8 5h13 M8 12h13 M8 19h13",
    "props": {
     "width": 16,
     "height": 16,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -5943,7 +6079,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 280
+    "$step": 288
    },
    "width": 28,
    "height": 28,
@@ -5966,7 +6102,7 @@
    "type": "vector",
    "name": "grid-3x3",
    "parent": {
-    "$step": 285
+    "$step": 293
    },
    "path": "M5 3H19A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3Z M3 9h18 M3 15h18 M9 3v18 M15 3v18",
    "props": {
@@ -5987,7 +6123,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 276
+    "$step": 284
    },
    "props": {
     "layout": "horizontal",
@@ -6005,7 +6141,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 287
+    "$step": 295
    },
    "props": {
     "layout": "horizontal",
@@ -6035,14 +6171,14 @@
    "type": "vector",
    "name": "chevron-down",
    "parent": {
-    "$step": 288
+    "$step": 296
    },
    "path": "M6 9L12 15L18 9",
    "props": {
     "width": 14,
     "height": 14,
     "fills": [],
-    "stroke": "#948a79",
+    "stroke": "#6e6554",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -6065,7 +6201,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 288
+    "$step": 296
    }
   }
  },
@@ -6080,12 +6216,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 287
+    "$step": 295
    }
   }
  },
@@ -6096,7 +6232,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 275
+    "$step": 283
    },
    "props": {
     "layout": "horizontal",
@@ -6126,12 +6262,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 292
+    "$step": 300
    }
   }
  },
@@ -6151,7 +6287,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 275
+    "$step": 283
    }
   }
  },
@@ -6162,7 +6298,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 274
+    "$step": 282
    },
    "width": 100,
    "height": 1,
@@ -6181,7 +6317,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 224
+    "$step": 228
    },
    "props": {
     "layout": "horizontal",
@@ -6210,12 +6346,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 296
+    "$step": 304
    }
   }
  },
@@ -6225,14 +6361,14 @@
    "type": "vector",
    "name": "chevron-down",
    "parent": {
-    "$step": 296
+    "$step": 304
    },
    "path": "M6 9L12 15L18 9",
    "props": {
     "width": 14,
     "height": 14,
     "fills": [],
-    "stroke": "#948a79",
+    "stroke": "#6e6554",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -6246,7 +6382,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 296
+    "$step": 304
    },
    "props": {
     "layout": "horizontal",
@@ -6277,12 +6413,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 299
+    "$step": 307
    }
   }
  },
@@ -6293,7 +6429,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 296
+    "$step": 304
    },
    "props": {
     "layout": "horizontal",
@@ -6324,12 +6460,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 301
+    "$step": 309
    }
   }
  },
@@ -6340,7 +6476,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 296
+    "$step": 304
    },
    "props": {
     "layout": "horizontal",
@@ -6371,12 +6507,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 303
+    "$step": 311
    }
   }
  },
@@ -6387,7 +6523,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 296
+    "$step": 304
    },
    "props": {
     "layout": "horizontal",
@@ -6418,12 +6554,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 305
+    "$step": 313
    }
   }
  },
@@ -6434,7 +6570,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 296
+    "$step": 304
    },
    "props": {
     "layout": "horizontal",
@@ -6470,7 +6606,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 307
+    "$step": 315
    }
   }
  },
@@ -6481,7 +6617,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 224
+    "$step": 228
    },
    "props": {
     "layout": "vertical",
@@ -6505,7 +6641,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 309
+    "$step": 317
    },
    "props": {
     "layout": "horizontal",
@@ -6523,7 +6659,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 310
+    "$step": 318
    },
    "props": {
     "layout": "vertical",
@@ -6541,7 +6677,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 311
+    "$step": 319
    },
    "width": 193,
    "height": 290,
@@ -6563,7 +6699,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 312
+    "$step": 320
    },
    "x": 176,
    "y": 0,
@@ -6583,7 +6719,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 312
+    "$step": 320
    },
    "x": 175,
    "y": 0,
@@ -6603,7 +6739,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 312
+    "$step": 320
    },
    "x": 35,
    "y": 75,
@@ -6620,7 +6756,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 312
+    "$step": 320
    },
    "x": 35,
    "y": 99,
@@ -6643,7 +6779,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 312
+    "$step": 320
    },
    "x": 35,
    "y": 198,
@@ -6677,7 +6813,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 311
+    "$step": 319
    },
    "width": 193,
    "textAlign": "right",
@@ -6695,12 +6831,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 311
+    "$step": 319
    },
    "width": 193,
    "textAlign": "right"
@@ -6713,7 +6849,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 311
+    "$step": 319
    },
    "props": {
     "layout": "horizontal",
@@ -6731,7 +6867,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 320
+    "$step": 328
    },
    "width": 64,
    "height": 5,
@@ -6755,7 +6891,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 321
+    "$step": 329
    },
    "width": 24,
    "height": 5,
@@ -6771,7 +6907,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 321
+    "$step": 329
    },
    "width": 40,
    "height": 5,
@@ -6799,7 +6935,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 320
+    "$step": 328
    }
   }
  },
@@ -6810,7 +6946,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 310
+    "$step": 318
    },
    "props": {
     "layout": "vertical",
@@ -6828,7 +6964,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 325
+    "$step": 333
    },
    "width": 193,
    "height": 290,
@@ -6850,7 +6986,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 326
+    "$step": 334
    },
    "x": 176,
    "y": 0,
@@ -6870,7 +7006,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 326
+    "$step": 334
    },
    "x": 175,
    "y": 0,
@@ -6890,7 +7026,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 326
+    "$step": 334
    },
    "x": 35,
    "y": 75,
@@ -6907,7 +7043,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 326
+    "$step": 334
    },
    "x": 35,
    "y": 99,
@@ -6930,7 +7066,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 326
+    "$step": 334
    },
    "x": 35,
    "y": 198,
@@ -6964,7 +7100,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 325
+    "$step": 333
    },
    "width": 193,
    "textAlign": "right",
@@ -6982,12 +7118,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 325
+    "$step": 333
    },
    "width": 193,
    "textAlign": "right"
@@ -7000,7 +7136,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 325
+    "$step": 333
    },
    "props": {
     "layout": "horizontal",
@@ -7027,7 +7163,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 334
+    "$step": 342
    }
   }
  },
@@ -7038,7 +7174,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 310
+    "$step": 318
    },
    "props": {
     "layout": "vertical",
@@ -7056,7 +7192,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 336
+    "$step": 344
    },
    "width": 193,
    "height": 290,
@@ -7078,7 +7214,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 337
+    "$step": 345
    },
    "x": 176,
    "y": 0,
@@ -7098,7 +7234,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 337
+    "$step": 345
    },
    "x": 175,
    "y": 0,
@@ -7118,7 +7254,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 337
+    "$step": 345
    },
    "x": 35,
    "y": 75,
@@ -7135,7 +7271,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 337
+    "$step": 345
    },
    "x": 35,
    "y": 99,
@@ -7158,7 +7294,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 337
+    "$step": 345
    },
    "x": 35,
    "y": 198,
@@ -7192,7 +7328,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 336
+    "$step": 344
    },
    "width": 193,
    "textAlign": "right",
@@ -7210,12 +7346,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 336
+    "$step": 344
    },
    "width": 193,
    "textAlign": "right"
@@ -7228,7 +7364,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 336
+    "$step": 344
    },
    "props": {
     "layout": "horizontal",
@@ -7255,7 +7391,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 345
+    "$step": 353
    }
   }
  },
@@ -7266,7 +7402,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 310
+    "$step": 318
    },
    "props": {
     "layout": "vertical",
@@ -7284,7 +7420,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 347
+    "$step": 355
    },
    "width": 193,
    "height": 290,
@@ -7306,7 +7442,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 348
+    "$step": 356
    },
    "x": 176,
    "y": 0,
@@ -7326,7 +7462,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 348
+    "$step": 356
    },
    "x": 175,
    "y": 0,
@@ -7346,7 +7482,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 348
+    "$step": 356
    },
    "x": 35,
    "y": 75,
@@ -7363,7 +7499,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 348
+    "$step": 356
    },
    "x": 35,
    "y": 99,
@@ -7386,7 +7522,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 348
+    "$step": 356
    },
    "x": 35,
    "y": 198,
@@ -7420,7 +7556,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 347
+    "$step": 355
    },
    "width": 193,
    "textAlign": "right",
@@ -7438,12 +7574,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 347
+    "$step": 355
    },
    "width": 193,
    "textAlign": "right"
@@ -7456,7 +7592,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 347
+    "$step": 355
    },
    "props": {
     "layout": "horizontal",
@@ -7474,7 +7610,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 356
+    "$step": 364
    },
    "width": 64,
    "height": 5,
@@ -7498,7 +7634,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 357
+    "$step": 365
    },
    "width": 24,
    "height": 5,
@@ -7514,7 +7650,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 357
+    "$step": 365
    },
    "width": 40,
    "height": 5,
@@ -7542,7 +7678,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 356
+    "$step": 364
    }
   }
  },
@@ -7553,7 +7689,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 310
+    "$step": 318
    },
    "props": {
     "layout": "vertical",
@@ -7571,7 +7707,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 361
+    "$step": 369
    },
    "width": 193,
    "height": 290,
@@ -7593,7 +7729,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 362
+    "$step": 370
    },
    "x": 176,
    "y": 0,
@@ -7613,7 +7749,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 362
+    "$step": 370
    },
    "x": 175,
    "y": 0,
@@ -7633,7 +7769,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 362
+    "$step": 370
    },
    "x": 35,
    "y": 75,
@@ -7650,7 +7786,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 362
+    "$step": 370
    },
    "x": 35,
    "y": 99,
@@ -7673,7 +7809,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 362
+    "$step": 370
    },
    "x": 35,
    "y": 198,
@@ -7707,7 +7843,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 361
+    "$step": 369
    },
    "width": 193,
    "textAlign": "right",
@@ -7725,12 +7861,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 361
+    "$step": 369
    },
    "width": 193,
    "textAlign": "right"
@@ -7743,7 +7879,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 361
+    "$step": 369
    },
    "props": {
     "layout": "horizontal",
@@ -7770,7 +7906,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 370
+    "$step": 378
    }
   }
  },
@@ -7781,7 +7917,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 309
+    "$step": 317
    },
    "props": {
     "layout": "horizontal",
@@ -7799,7 +7935,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 372
+    "$step": 380
    },
    "props": {
     "layout": "vertical",
@@ -7817,7 +7953,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 373
+    "$step": 381
    },
    "width": 193,
    "height": 290,
@@ -7839,7 +7975,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 374
+    "$step": 382
    },
    "x": 176,
    "y": 0,
@@ -7859,7 +7995,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 374
+    "$step": 382
    },
    "x": 175,
    "y": 0,
@@ -7879,7 +8015,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 374
+    "$step": 382
    },
    "x": 35,
    "y": 75,
@@ -7896,7 +8032,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 374
+    "$step": 382
    },
    "x": 35,
    "y": 99,
@@ -7919,7 +8055,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 374
+    "$step": 382
    },
    "x": 35,
    "y": 198,
@@ -7953,7 +8089,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 373
+    "$step": 381
    },
    "width": 193,
    "textAlign": "right",
@@ -7971,12 +8107,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 373
+    "$step": 381
    },
    "width": 193,
    "textAlign": "right"
@@ -7989,7 +8125,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 373
+    "$step": 381
    },
    "props": {
     "layout": "horizontal",
@@ -8016,7 +8152,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 382
+    "$step": 390
    }
   }
  },
@@ -8027,7 +8163,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 372
+    "$step": 380
    },
    "props": {
     "layout": "vertical",
@@ -8045,7 +8181,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 384
+    "$step": 392
    },
    "width": 193,
    "height": 290,
@@ -8067,7 +8203,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 385
+    "$step": 393
    },
    "x": 176,
    "y": 0,
@@ -8087,7 +8223,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 385
+    "$step": 393
    },
    "x": 175,
    "y": 0,
@@ -8107,7 +8243,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 385
+    "$step": 393
    },
    "x": 35,
    "y": 75,
@@ -8124,7 +8260,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 385
+    "$step": 393
    },
    "x": 35,
    "y": 99,
@@ -8147,7 +8283,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 385
+    "$step": 393
    },
    "x": 35,
    "y": 198,
@@ -8181,7 +8317,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 384
+    "$step": 392
    },
    "width": 193,
    "textAlign": "right",
@@ -8199,12 +8335,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 384
+    "$step": 392
    },
    "width": 193,
    "textAlign": "right"
@@ -8217,7 +8353,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 384
+    "$step": 392
    },
    "props": {
     "layout": "horizontal",
@@ -8235,7 +8371,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 393
+    "$step": 401
    },
    "width": 64,
    "height": 5,
@@ -8259,7 +8395,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 394
+    "$step": 402
    },
    "width": 24,
    "height": 5,
@@ -8275,7 +8411,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 394
+    "$step": 402
    },
    "width": 40,
    "height": 5,
@@ -8303,7 +8439,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 393
+    "$step": 401
    }
   }
  },
@@ -8314,7 +8450,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 372
+    "$step": 380
    },
    "props": {
     "layout": "vertical",
@@ -8332,7 +8468,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 398
+    "$step": 406
    },
    "width": 193,
    "height": 290,
@@ -8354,7 +8490,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 399
+    "$step": 407
    },
    "x": 176,
    "y": 0,
@@ -8374,7 +8510,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 399
+    "$step": 407
    },
    "x": 175,
    "y": 0,
@@ -8394,7 +8530,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 399
+    "$step": 407
    },
    "x": 35,
    "y": 75,
@@ -8411,7 +8547,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 399
+    "$step": 407
    },
    "x": 35,
    "y": 99,
@@ -8434,7 +8570,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 399
+    "$step": 407
    },
    "x": 35,
    "y": 198,
@@ -8468,7 +8604,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 398
+    "$step": 406
    },
    "width": 193,
    "textAlign": "right",
@@ -8486,12 +8622,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 398
+    "$step": 406
    },
    "width": 193,
    "textAlign": "right"
@@ -8504,7 +8640,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 398
+    "$step": 406
    },
    "props": {
     "layout": "horizontal",
@@ -8531,7 +8667,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 407
+    "$step": 415
    }
   }
  },
@@ -8542,7 +8678,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 372
+    "$step": 380
    },
    "props": {
     "layout": "vertical",
@@ -8560,7 +8696,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 409
+    "$step": 417
    },
    "width": 193,
    "height": 290,
@@ -8582,7 +8718,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 410
+    "$step": 418
    },
    "x": 176,
    "y": 0,
@@ -8602,7 +8738,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 410
+    "$step": 418
    },
    "x": 175,
    "y": 0,
@@ -8622,7 +8758,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 410
+    "$step": 418
    },
    "x": 35,
    "y": 75,
@@ -8639,7 +8775,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 410
+    "$step": 418
    },
    "x": 35,
    "y": 99,
@@ -8662,7 +8798,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 410
+    "$step": 418
    },
    "x": 35,
    "y": 198,
@@ -8696,7 +8832,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 409
+    "$step": 417
    },
    "width": 193,
    "textAlign": "right",
@@ -8714,12 +8850,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 409
+    "$step": 417
    },
    "width": 193,
    "textAlign": "right"
@@ -8732,7 +8868,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 409
+    "$step": 417
    },
    "props": {
     "layout": "horizontal",
@@ -8759,7 +8895,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 418
+    "$step": 426
    }
   }
  },
@@ -8770,7 +8906,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 372
+    "$step": 380
    },
    "props": {
     "layout": "vertical",
@@ -8788,7 +8924,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 420
+    "$step": 428
    },
    "width": 193,
    "height": 290,
@@ -8810,7 +8946,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 421
+    "$step": 429
    },
    "x": 176,
    "y": 0,
@@ -8830,7 +8966,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 421
+    "$step": 429
    },
    "x": 175,
    "y": 0,
@@ -8850,7 +8986,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 421
+    "$step": 429
    },
    "x": 35,
    "y": 75,
@@ -8867,7 +9003,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 421
+    "$step": 429
    },
    "x": 35,
    "y": 99,
@@ -8890,7 +9026,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 421
+    "$step": 429
    },
    "x": 35,
    "y": 198,
@@ -8924,7 +9060,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 420
+    "$step": 428
    },
    "width": 193,
    "textAlign": "right",
@@ -8942,12 +9078,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 420
+    "$step": 428
    },
    "width": 193,
    "textAlign": "right"
@@ -8960,7 +9096,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 420
+    "$step": 428
    },
    "props": {
     "layout": "horizontal",
@@ -8978,7 +9114,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 429
+    "$step": 437
    },
    "width": 64,
    "height": 5,
@@ -9002,7 +9138,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 430
+    "$step": 438
    },
    "width": 24,
    "height": 5,
@@ -9018,7 +9154,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 430
+    "$step": 438
    },
    "width": 40,
    "height": 5,
@@ -9046,7 +9182,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 429
+    "$step": 437
    }
   }
  },
@@ -9078,7 +9214,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 434
+    "$step": 442
    },
    "height": 44,
    "props": {
@@ -9099,7 +9235,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 435
+    "$step": 443
    },
    "height": 43,
    "props": {
@@ -9124,7 +9260,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 436
+    "$step": 444
    },
    "props": {
     "layout": "horizontal",
@@ -9142,7 +9278,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 437
+    "$step": 445
    },
    "props": {
     "layout": "horizontal",
@@ -9160,7 +9296,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 438
+    "$step": 446
    },
    "width": 44,
    "height": 32,
@@ -9178,14 +9314,14 @@
    "type": "vector",
    "name": "x",
    "parent": {
-    "$step": 439
+    "$step": 447
    },
    "path": "M18 6 6 18 M6 6L18 18",
    "props": {
     "width": 16,
     "height": 16,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -9199,7 +9335,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 438
+    "$step": 446
    },
    "width": 44,
    "height": 32,
@@ -9217,14 +9353,14 @@
    "type": "vector",
    "name": "square",
    "parent": {
-    "$step": 441
+    "$step": 449
    },
    "path": "M5 3H19A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3Z",
    "props": {
     "width": 16,
     "height": 16,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -9238,7 +9374,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 438
+    "$step": 446
    },
    "width": 44,
    "height": 32,
@@ -9256,14 +9392,14 @@
    "type": "vector",
    "name": "minus",
    "parent": {
-    "$step": 443
+    "$step": 451
    },
    "path": "M5 12h14",
    "props": {
     "width": 16,
     "height": 16,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -9277,7 +9413,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 437
+    "$step": 445
    },
    "width": 8,
    "props": {
@@ -9293,7 +9429,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 437
+    "$step": 445
    },
    "props": {
     "layout": "horizontal",
@@ -9311,7 +9447,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 446
+    "$step": 454
    },
    "width": 32,
    "height": 32,
@@ -9329,14 +9465,14 @@
    "type": "vector",
    "name": "lock",
    "parent": {
-    "$step": 447
+    "$step": 455
    },
    "path": "M5 11H19A2 2 0 0 1 21 13V20A2 2 0 0 1 19 22H5A2 2 0 0 1 3 20V13A2 2 0 0 1 5 11Z M7 11V7a5 5 0 0 1 10 0v4",
    "props": {
     "width": 16,
     "height": 16,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -9350,7 +9486,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 446
+    "$step": 454
    },
    "width": 32,
    "height": 32,
@@ -9368,14 +9504,14 @@
    "type": "vector",
    "name": "sun",
    "parent": {
-    "$step": 449
+    "$step": 457
    },
    "path": "M8 12A4 4 0 1 0 16 12A4 4 0 1 0 8 12Z M12 2v2 M12 20v2 M4.93 4.93L6.34 6.34 M17.66 17.66L19.07 19.07 M2 12h2 M20 12h2 M6.34 17.66L4.93 19.07 M19.07 4.93L17.66 6.34",
    "props": {
     "width": 16,
     "height": 16,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -9389,7 +9525,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 446
+    "$step": 454
    },
    "width": 32,
    "height": 32,
@@ -9407,14 +9543,14 @@
    "type": "vector",
    "name": "languages",
    "parent": {
-    "$step": 451
+    "$step": 459
    },
    "path": "M5 8L11 14 M4 14L10 8L12 5 M2 5h12 M7 2h1 M22 22L17 12L12 22 M14 18h6",
    "props": {
     "width": 16,
     "height": 16,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -9428,7 +9564,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 436
+    "$step": 444
    },
    "width": 544,
    "height": 40,
@@ -9453,7 +9589,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 453
+    "$step": 461
    },
    "height": 28,
    "props": {
@@ -9485,7 +9621,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 454
+    "$step": 462
    },
    "props": {
     "layout": "horizontal",
@@ -9518,12 +9654,12 @@
     "fontSize": 10,
     "fontStyle": "Medium",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 455
+    "$step": 463
    }
   }
  },
@@ -9534,7 +9670,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 454
+    "$step": 462
    },
    "props": {
     "layout": "horizontal",
@@ -9556,12 +9692,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 457
+    "$step": 465
    }
   }
  },
@@ -9571,14 +9707,14 @@
    "type": "vector",
    "name": "search",
    "parent": {
-    "$step": 454
+    "$step": 462
    },
    "path": "M21 21L16.66 16.66 M3 11A8 8 0 1 0 19 11A8 8 0 1 0 3 11Z",
    "props": {
     "width": 14,
     "height": 14,
     "fills": [],
-    "stroke": "#948a79",
+    "stroke": "#6e6554",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -9592,7 +9728,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 436
+    "$step": 444
    },
    "props": {
     "layout": "horizontal",
@@ -9619,7 +9755,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 460
+    "$step": 468
    }
   }
  },
@@ -9630,7 +9766,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 460
+    "$step": 468
    },
    "width": 24,
    "height": 24,
@@ -9663,7 +9799,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 462
+    "$step": 470
    }
   }
  },
@@ -9674,7 +9810,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 435
+    "$step": 443
    },
    "width": 100,
    "height": 1,
@@ -9693,7 +9829,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 434
+    "$step": 442
    },
    "props": {
     "layout": "horizontal",
@@ -9710,7 +9846,7 @@
    "name": "main",
    "select": false,
    "parent": {
-    "$step": 465
+    "$step": 473
    },
    "props": {
     "layout": "vertical",
@@ -9727,7 +9863,7 @@
    "name": "sidebar",
    "select": false,
    "parent": {
-    "$step": 465
+    "$step": 473
    },
    "width": 240,
    "props": {
@@ -9748,7 +9884,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 467
+    "$step": 475
    },
    "width": 1,
    "height": 100,
@@ -9767,7 +9903,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 467
+    "$step": 475
    },
    "props": {
     "layout": "vertical",
@@ -9785,11 +9921,11 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 469
+    "$step": 477
    },
    "props": {
     "layout": "vertical",
-    "gap": 4,
+    "gap": 16,
     "sizingH": "fill",
     "sizingV": "fill"
    }
@@ -9802,7 +9938,45 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 470
+    "$step": 478
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 4,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "المكتبة",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 10,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#6e6554"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 479
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 479
    },
    "props": {
     "layout": "horizontal",
@@ -9831,12 +10005,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 471
+    "$step": 481
    }
   }
  },
@@ -9846,14 +10020,14 @@
    "type": "vector",
    "name": "layout-dashboard",
    "parent": {
-    "$step": 471
+    "$step": 481
    },
    "path": "M4 3H9A1 1 0 0 1 10 4V11A1 1 0 0 1 9 12H4A1 1 0 0 1 3 11V4A1 1 0 0 1 4 3Z M15 3H20A1 1 0 0 1 21 4V7A1 1 0 0 1 20 8H15A1 1 0 0 1 14 7V4A1 1 0 0 1 15 3Z M15 12H20A1 1 0 0 1 21 13V20A1 1 0 0 1 20 21H15A1 1 0 0 1 14 20V13A1 1 0 0 1 15 12Z M4 16H9A1 1 0 0 1 10 17V20A1 1 0 0 1 9 21H4A1 1 0 0 1 3 20V17A1 1 0 0 1 4 16Z",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -9867,7 +10041,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 470
+    "$step": 479
    },
    "props": {
     "layout": "horizontal",
@@ -9896,12 +10070,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 474
+    "$step": 484
    }
   }
  },
@@ -9911,14 +10085,14 @@
    "type": "vector",
    "name": "library",
    "parent": {
-    "$step": 474
+    "$step": 484
    },
    "path": "M16 6L20 20 M12 6v14 M8 8v12 M4 4v16",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -9932,7 +10106,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 470
+    "$step": 479
    },
    "props": {
     "layout": "horizontal",
@@ -9969,7 +10143,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 477
+    "$step": 487
    }
   }
  },
@@ -9979,7 +10153,7 @@
    "type": "vector",
    "name": "book-open",
    "parent": {
-    "$step": 477
+    "$step": 487
    },
    "path": "M12 5v16 M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z",
    "props": {
@@ -9996,19 +10170,38 @@
  {
   "command": "node.create",
   "params": {
-   "type": "rectangle",
+   "type": "frame",
    "name": "",
    "select": false,
    "parent": {
-    "$step": 470
+    "$step": 478
    },
-   "width": 100,
-   "height": 1,
    "props": {
+    "layout": "vertical",
+    "gap": 4,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "التنظيم",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 10,
+    "fontStyle": "SemiBold",
     "fills": [
-     "#e3dbcb"
+     "#6e6554"
     ],
-    "sizingH": "fill"
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 490
    }
   }
  },
@@ -10019,7 +10212,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 470
+    "$step": 490
    },
    "props": {
     "layout": "horizontal",
@@ -10048,12 +10241,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 481
+    "$step": 492
    }
   }
  },
@@ -10063,14 +10256,14 @@
    "type": "vector",
    "name": "sticky-note",
    "parent": {
-    "$step": 481
+    "$step": 492
    },
    "path": "M21 9a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 15 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z M15 3v5a1 1 0 0 0 1 1h5",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -10084,7 +10277,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 470
+    "$step": 490
    },
    "props": {
     "layout": "horizontal",
@@ -10113,12 +10306,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 484
+    "$step": 495
    }
   }
  },
@@ -10128,14 +10321,14 @@
    "type": "vector",
    "name": "quote",
    "parent": {
-    "$step": 484
+    "$step": 495
    },
    "path": "M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -10149,7 +10342,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 470
+    "$step": 490
    },
    "props": {
     "layout": "horizontal",
@@ -10178,12 +10371,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 487
+    "$step": 498
    }
   }
  },
@@ -10193,14 +10386,14 @@
    "type": "vector",
    "name": "users",
    "parent": {
-    "$step": 487
+    "$step": 498
    },
    "path": "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M16 3.128a4 4 0 0 1 0 7.744 M22 21v-2a4 4 0 0 0-3-3.87 M5 7A4 4 0 1 0 13 7A4 4 0 1 0 5 7Z",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -10214,7 +10407,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 470
+    "$step": 490
    },
    "props": {
     "layout": "horizontal",
@@ -10243,12 +10436,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 490
+    "$step": 501
    }
   }
  },
@@ -10258,14 +10451,14 @@
    "type": "vector",
    "name": "store",
    "parent": {
-    "$step": 490
+    "$step": 501
    },
    "path": "M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5 M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244 M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -10279,7 +10472,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 470
+    "$step": 490
    },
    "props": {
     "layout": "horizontal",
@@ -10308,12 +10501,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 493
+    "$step": 504
    }
   }
  },
@@ -10323,14 +10516,14 @@
    "type": "vector",
    "name": "folder-tree",
    "parent": {
-    "$step": 493
+    "$step": 504
    },
    "path": "M20 10a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-2.5a1 1 0 0 1-.8-.4l-.9-1.2A1 1 0 0 0 15 3h-2a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1Z M20 21a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-2.9a1 1 0 0 1-.88-.55l-.42-.85a1 1 0 0 0-.92-.6H13a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1Z M3 5a2 2 0 0 0 2 2h3 M3 3v13a2 2 0 0 0 2 2h3",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -10344,7 +10537,45 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 470
+    "$step": 478
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 4,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "المتابعة",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 10,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#6e6554"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 507
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 507
    },
    "props": {
     "layout": "horizontal",
@@ -10373,12 +10604,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 496
+    "$step": 509
    }
   }
  },
@@ -10388,14 +10619,14 @@
    "type": "vector",
    "name": "hand-coins",
    "parent": {
-    "$step": 496
+    "$step": 509
    },
    "path": "M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17 M7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9 M2 16L8 22 M13.1 9A2.9 2.9 0 1 0 18.9 9A2.9 2.9 0 1 0 13.1 9Z M3 5A3 3 0 1 0 9 5A3 3 0 1 0 3 5Z",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -10409,7 +10640,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 470
+    "$step": 507
    },
    "props": {
     "layout": "horizontal",
@@ -10438,12 +10669,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 499
+    "$step": 512
    }
   }
  },
@@ -10453,14 +10684,14 @@
    "type": "vector",
    "name": "target",
    "parent": {
-    "$step": 499
+    "$step": 512
    },
    "path": "M2 12A10 10 0 1 0 22 12A10 10 0 1 0 2 12Z M6 12A6 6 0 1 0 18 12A6 6 0 1 0 6 12Z M10 12A2 2 0 1 0 14 12A2 2 0 1 0 10 12Z",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -10474,7 +10705,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 470
+    "$step": 507
    },
    "props": {
     "layout": "horizontal",
@@ -10503,12 +10734,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 502
+    "$step": 515
    }
   }
  },
@@ -10518,14 +10749,14 @@
    "type": "vector",
    "name": "arrow-left-right",
    "parent": {
-    "$step": 502
+    "$step": 515
    },
    "path": "M8 3 4 7l4 4 M4 7h16 M16 21L20 17L16 13 M20 17H4",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -10539,7 +10770,45 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 470
+    "$step": 478
+   },
+   "props": {
+    "layout": "vertical",
+    "gap": 4,
+    "sizingH": "fill",
+    "sizingV": "hug",
+    "crossAlign": "max"
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "text",
+   "text": "النظام",
+   "select": false,
+   "props": {
+    "fontFamily": "Cairo",
+    "fontSize": 10,
+    "fontStyle": "SemiBold",
+    "fills": [
+     "#6e6554"
+    ],
+    "textAutoResize": "widthAndHeight"
+   },
+   "parent": {
+    "$step": 518
+   }
+  }
+ },
+ {
+  "command": "node.create",
+  "params": {
+   "type": "frame",
+   "name": "",
+   "select": false,
+   "parent": {
+    "$step": 518
    },
    "props": {
     "layout": "horizontal",
@@ -10568,12 +10837,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 505
+    "$step": 520
    }
   }
  },
@@ -10583,14 +10852,14 @@
    "type": "vector",
    "name": "settings",
    "parent": {
-    "$step": 505
+    "$step": 520
    },
    "path": "M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915 M9 12A3 3 0 1 0 15 12A3 3 0 1 0 9 12Z",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -10604,7 +10873,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 469
+    "$step": 477
    },
    "props": {
     "layout": "vertical",
@@ -10627,7 +10896,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 508
+    "$step": 523
    },
    "width": 100,
    "height": 1,
@@ -10646,72 +10915,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 508
-   },
-   "props": {
-    "layout": "horizontal",
-    "gap": 12,
-    "padding": [
-     8,
-     12,
-     8,
-     12
-    ],
-    "cornerRadius": 10,
-    "sizingH": "fill",
-    "sizingV": "hug",
-    "crossAlign": "center"
-   }
-  }
- },
- {
-  "command": "node.create",
-  "params": {
-   "type": "text",
-   "text": "معرض المكوّنات",
-   "select": false,
-   "props": {
-    "fontFamily": "Cairo",
-    "fontSize": 13.5,
-    "fontStyle": "Regular",
-    "fills": [
-     "#948a79"
-    ],
-    "textAutoResize": "widthAndHeight"
-   },
-   "parent": {
-    "$step": 510
-   }
-  }
- },
- {
-  "command": "node.create",
-  "params": {
-   "type": "vector",
-   "name": "library-big",
-   "parent": {
-    "$step": 510
-   },
-   "path": "M4 3H10A1 1 0 0 1 11 4V20A1 1 0 0 1 10 21H4A1 1 0 0 1 3 20V4A1 1 0 0 1 4 3Z M7 3v18 M20.4 18.9c.2.5-.1 1.1-.6 1.3l-1.9.7c-.5.2-1.1-.1-1.3-.6L11.1 5.1c-.2-.5.1-1.1.6-1.3l1.9-.7c.5-.2 1.1.1 1.3.6Z",
-   "props": {
-    "width": 18,
-    "height": 18,
-    "fills": [],
-    "stroke": "#948a79",
-    "strokeWeight": 1.35,
-    "strokeCap": "round",
-    "strokeJoin": "round"
-   }
-  }
- },
- {
-  "command": "node.create",
-  "params": {
-   "type": "frame",
-   "name": "",
-   "select": false,
-   "parent": {
-    "$step": 508
+    "$step": 523
    },
    "props": {
     "layout": "horizontal",
@@ -10740,12 +10944,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 513
+    "$step": 525
    }
   }
  },
@@ -10755,14 +10959,14 @@
    "type": "vector",
    "name": "panel-left-close",
    "parent": {
-    "$step": 513
+    "$step": 525
    },
    "path": "M5 3H19A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3Z M9 3v18 M16 15L13 12L16 9",
    "props": {
     "width": 18,
     "height": 18,
     "fills": [],
-    "stroke": "#948a79",
+    "stroke": "#6e6554",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -10776,7 +10980,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 466
+    "$step": 474
    },
    "props": {
     "layout": "vertical",
@@ -10800,7 +11004,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 516
+    "$step": 528
    },
    "props": {
     "layout": "horizontal",
@@ -10822,12 +11026,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 517
+    "$step": 529
    }
   }
  },
@@ -10837,14 +11041,14 @@
    "type": "vector",
    "name": "arrow-right",
    "parent": {
-    "$step": 517
+    "$step": 529
    },
    "path": "M5 12h14 M12 5L19 12L12 19",
    "props": {
     "width": 16,
     "height": 16,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -10858,7 +11062,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 516
+    "$step": 528
    },
    "props": {
     "layout": "horizontal",
@@ -10876,7 +11080,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 520
+    "$step": 532
    },
    "props": {
     "layout": "vertical",
@@ -10903,7 +11107,7 @@
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 521
+    "$step": 533
    },
    "width": 660,
    "textAlign": "right",
@@ -10917,7 +11121,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 521
+    "$step": 533
    },
    "props": {
     "layout": "horizontal",
@@ -10935,7 +11139,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 523
+    "$step": 535
    },
    "props": {
     "layout": "horizontal",
@@ -10966,12 +11170,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 524
+    "$step": 536
    }
   }
  },
@@ -10986,12 +11190,12 @@
     "fontSize": 17,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 523
+    "$step": 535
    }
   }
  },
@@ -11006,12 +11210,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 521
+    "$step": 533
    }
   }
  },
@@ -11022,7 +11226,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 521
+    "$step": 533
    },
    "props": {
     "layout": "vertical",
@@ -11040,7 +11244,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 528
+    "$step": 540
    },
    "width": 560,
    "height": 8,
@@ -11064,7 +11268,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 529
+    "$step": 541
    },
    "width": 213,
    "height": 8,
@@ -11080,7 +11284,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 529
+    "$step": 541
    },
    "width": 347,
    "height": 8,
@@ -11103,12 +11307,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 528
+    "$step": 540
    }
   }
  },
@@ -11119,7 +11323,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 521
+    "$step": 533
    },
    "props": {
     "layout": "horizontal",
@@ -11137,7 +11341,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 533
+    "$step": 545
    },
    "props": {
     "layout": "horizontal",
@@ -11168,12 +11372,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 534
+    "$step": 546
    }
   }
  },
@@ -11184,7 +11388,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 533
+    "$step": 545
    },
    "props": {
     "layout": "horizontal",
@@ -11215,12 +11419,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 536
+    "$step": 548
    }
   }
  },
@@ -11231,7 +11435,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 533
+    "$step": 545
    },
    "props": {
     "layout": "horizontal",
@@ -11262,12 +11466,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 538
+    "$step": 550
    }
   }
  },
@@ -11287,7 +11491,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 533
+    "$step": 545
    }
   }
  },
@@ -11298,7 +11502,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 521
+    "$step": 533
    },
    "props": {
     "layout": "horizontal",
@@ -11316,7 +11520,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 541
+    "$step": 553
    },
    "width": 40,
    "height": 40,
@@ -11347,12 +11551,12 @@
     "fontSize": 17,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 542
+    "$step": 554
    }
   }
  },
@@ -11363,7 +11567,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 541
+    "$step": 553
    },
    "props": {
     "layout": "horizontal",
@@ -11403,7 +11607,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 544
+    "$step": 556
    }
   }
  },
@@ -11414,7 +11618,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 541
+    "$step": 553
    },
    "props": {
     "layout": "horizontal",
@@ -11451,7 +11655,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 546
+    "$step": 558
    }
   }
  },
@@ -11462,7 +11666,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 520
+    "$step": 532
    },
    "width": 320,
    "height": 480,
@@ -11484,7 +11688,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 548
+    "$step": 560
    },
    "x": 291,
    "y": 0,
@@ -11504,7 +11708,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 548
+    "$step": 560
    },
    "x": 290,
    "y": 0,
@@ -11524,7 +11728,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 548
+    "$step": 560
    },
    "x": 58,
    "y": 125,
@@ -11541,7 +11745,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 548
+    "$step": 560
    },
    "x": 58,
    "y": 163,
@@ -11564,7 +11768,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 548
+    "$step": 560
    },
    "x": 58,
    "y": 323,
@@ -11589,7 +11793,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 516
+    "$step": 528
    },
    "props": {
     "layout": "horizontal",
@@ -11608,7 +11812,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 554
+    "$step": 566
    },
    "props": {
     "layout": "vertical",
@@ -11636,12 +11840,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 555
+    "$step": 567
    }
   }
  },
@@ -11652,7 +11856,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 555
+    "$step": 567
    },
    "width": 40,
    "height": 2,
@@ -11670,7 +11874,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 554
+    "$step": 566
    },
    "props": {
     "layout": "vertical",
@@ -11698,12 +11902,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 558
+    "$step": 570
    }
   }
  },
@@ -11714,7 +11918,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 558
+    "$step": 570
    },
    "width": 40,
    "height": 2,
@@ -11732,7 +11936,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 554
+    "$step": 566
    },
    "props": {
     "layout": "vertical",
@@ -11760,12 +11964,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 561
+    "$step": 573
    }
   }
  },
@@ -11776,7 +11980,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 561
+    "$step": 573
    },
    "width": 40,
    "height": 2,
@@ -11794,7 +11998,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 554
+    "$step": 566
    },
    "props": {
     "layout": "vertical",
@@ -11822,12 +12026,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 564
+    "$step": 576
    }
   }
  },
@@ -11838,7 +12042,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 564
+    "$step": 576
    },
    "width": 40,
    "height": 2,
@@ -11856,7 +12060,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 554
+    "$step": 566
    },
    "props": {
     "layout": "vertical",
@@ -11884,12 +12088,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 567
+    "$step": 579
    }
   }
  },
@@ -11900,7 +12104,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 567
+    "$step": 579
    },
    "width": 40,
    "height": 2,
@@ -11918,7 +12122,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 554
+    "$step": 566
    },
    "props": {
     "layout": "vertical",
@@ -11946,12 +12150,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 570
+    "$step": 582
    }
   }
  },
@@ -11962,7 +12166,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 570
+    "$step": 582
    },
    "width": 40,
    "height": 2,
@@ -11980,7 +12184,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 554
+    "$step": 566
    },
    "props": {
     "layout": "vertical",
@@ -12013,7 +12217,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 573
+    "$step": 585
    }
   }
  },
@@ -12024,7 +12228,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 573
+    "$step": 585
    },
    "width": 40,
    "height": 2,
@@ -12044,7 +12248,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 516
+    "$step": 528
    },
    "width": 100,
    "height": 1,
@@ -12063,7 +12267,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 516
+    "$step": 528
    },
    "props": {
     "layout": "horizontal",
@@ -12080,7 +12284,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 577
+    "$step": 589
    },
    "width": 280,
    "props": {
@@ -12111,12 +12315,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 578
+    "$step": 590
    }
   }
  },
@@ -12127,7 +12331,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 578
+    "$step": 590
    },
    "props": {
     "layout": "horizontal",
@@ -12164,7 +12368,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 580
+    "$step": 592
    }
   }
  },
@@ -12174,7 +12378,7 @@
    "type": "vector",
    "name": "book-open",
    "parent": {
-    "$step": 580
+    "$step": 592
    },
    "path": "M12 5v16 M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z",
    "props": {
@@ -12199,12 +12403,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 578
+    "$step": 590
    }
   }
  },
@@ -12224,7 +12428,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 578
+    "$step": 590
    }
   }
  },
@@ -12239,12 +12443,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 578
+    "$step": 590
    }
   }
  },
@@ -12264,7 +12468,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 578
+    "$step": 590
    }
   }
  },
@@ -12279,12 +12483,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 578
+    "$step": 590
    }
   }
  },
@@ -12304,7 +12508,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 578
+    "$step": 590
    }
   }
  },
@@ -12315,7 +12519,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 577
+    "$step": 589
    },
    "props": {
     "layout": "vertical",
@@ -12342,7 +12546,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 589
+    "$step": 601
    }
   }
  },
@@ -12357,12 +12561,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 589
+    "$step": 601
    },
    "width": 640,
    "textAlign": "right",
@@ -12376,7 +12580,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 589
+    "$step": 601
    },
    "props": {
     "layout": "vertical",
@@ -12401,7 +12605,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 592
+    "$step": 604
    },
    "props": {
     "layout": "vertical",
@@ -12417,7 +12621,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 593
+    "$step": 605
    },
    "props": {
     "layout": "horizontal",
@@ -12441,7 +12645,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 594
+    "$step": 606
    },
    "props": {
     "layout": "horizontal",
@@ -12468,7 +12672,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 595
+    "$step": 607
    }
   }
  },
@@ -12483,12 +12687,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 594
+    "$step": 606
    },
    "width": 140,
    "textAlign": "right"
@@ -12501,7 +12705,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 592
+    "$step": 604
    },
    "props": {
     "layout": "vertical",
@@ -12517,7 +12721,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 598
+    "$step": 610
    },
    "width": 100,
    "height": 1,
@@ -12536,7 +12740,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 598
+    "$step": 610
    },
    "props": {
     "layout": "horizontal",
@@ -12560,7 +12764,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 600
+    "$step": 612
    },
    "props": {
     "layout": "horizontal",
@@ -12587,7 +12791,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 601
+    "$step": 613
    }
   }
  },
@@ -12602,12 +12806,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 600
+    "$step": 612
    },
    "width": 140,
    "textAlign": "right"
@@ -12620,7 +12824,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 592
+    "$step": 604
    },
    "props": {
     "layout": "vertical",
@@ -12636,7 +12840,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 604
+    "$step": 616
    },
    "width": 100,
    "height": 1,
@@ -12655,7 +12859,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 604
+    "$step": 616
    },
    "props": {
     "layout": "horizontal",
@@ -12679,7 +12883,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 606
+    "$step": 618
    },
    "props": {
     "layout": "horizontal",
@@ -12706,7 +12910,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 607
+    "$step": 619
    }
   }
  },
@@ -12721,12 +12925,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 606
+    "$step": 618
    },
    "width": 140,
    "textAlign": "right"
@@ -12739,7 +12943,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 592
+    "$step": 604
    },
    "props": {
     "layout": "vertical",
@@ -12755,7 +12959,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 610
+    "$step": 622
    },
    "width": 100,
    "height": 1,
@@ -12774,7 +12978,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 610
+    "$step": 622
    },
    "props": {
     "layout": "horizontal",
@@ -12798,7 +13002,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 612
+    "$step": 624
    },
    "props": {
     "layout": "horizontal",
@@ -12825,7 +13029,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 613
+    "$step": 625
    }
   }
  },
@@ -12840,12 +13044,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 612
+    "$step": 624
    },
    "width": 140,
    "textAlign": "right"
@@ -12858,7 +13062,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 592
+    "$step": 604
    },
    "props": {
     "layout": "vertical",
@@ -12874,7 +13078,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 616
+    "$step": 628
    },
    "width": 100,
    "height": 1,
@@ -12893,7 +13097,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 616
+    "$step": 628
    },
    "props": {
     "layout": "horizontal",
@@ -12917,7 +13121,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 618
+    "$step": 630
    },
    "props": {
     "layout": "horizontal",
@@ -12944,7 +13148,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 619
+    "$step": 631
    }
   }
  },
@@ -12959,12 +13163,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 618
+    "$step": 630
    },
    "width": 140,
    "textAlign": "right"
@@ -12977,7 +13181,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 592
+    "$step": 604
    },
    "props": {
     "layout": "vertical",
@@ -12993,7 +13197,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 622
+    "$step": 634
    },
    "width": 100,
    "height": 1,
@@ -13012,7 +13216,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 622
+    "$step": 634
    },
    "props": {
     "layout": "horizontal",
@@ -13036,7 +13240,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 624
+    "$step": 636
    },
    "props": {
     "layout": "horizontal",
@@ -13063,7 +13267,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 625
+    "$step": 637
    }
   }
  },
@@ -13078,12 +13282,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 624
+    "$step": 636
    },
    "width": 140,
    "textAlign": "right"
@@ -13096,7 +13300,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 592
+    "$step": 604
    },
    "props": {
     "layout": "vertical",
@@ -13112,7 +13316,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 628
+    "$step": 640
    },
    "width": 100,
    "height": 1,
@@ -13131,7 +13335,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 628
+    "$step": 640
    },
    "props": {
     "layout": "horizontal",
@@ -13155,7 +13359,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 630
+    "$step": 642
    },
    "props": {
     "layout": "horizontal",
@@ -13182,7 +13386,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 631
+    "$step": 643
    }
   }
  },
@@ -13197,12 +13401,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "height"
    },
    "parent": {
-    "$step": 630
+    "$step": 642
    },
    "width": 140,
    "textAlign": "right"
@@ -13234,7 +13438,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 634
+    "$step": 646
    },
    "width": 1320,
    "height": 880,
@@ -13253,7 +13457,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 634
+    "$step": 646
    },
    "x": 230,
    "y": 60,
@@ -13282,7 +13486,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 636
+    "$step": 648
    },
    "props": {
     "layout": "horizontal",
@@ -13306,7 +13510,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 637
+    "$step": 649
    },
    "width": 32,
    "height": 32,
@@ -13329,14 +13533,14 @@
    "type": "vector",
    "name": "x",
    "parent": {
-    "$step": 638
+    "$step": 650
    },
    "path": "M18 6 6 18 M6 6L18 18",
    "props": {
     "width": 16,
     "height": 16,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -13359,7 +13563,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 637
+    "$step": 649
    }
   }
  },
@@ -13370,7 +13574,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 636
+    "$step": 648
    },
    "width": 100,
    "height": 1,
@@ -13389,7 +13593,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 636
+    "$step": 648
    },
    "props": {
     "layout": "horizontal",
@@ -13413,7 +13617,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 642
+    "$step": 654
    },
    "props": {
     "layout": "horizontal",
@@ -13442,12 +13646,12 @@
     "fontSize": 14,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 643
+    "$step": 655
    }
   }
  },
@@ -13458,7 +13662,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 643
+    "$step": 655
    },
    "width": 20,
    "height": 20,
@@ -13486,12 +13690,12 @@
     "fontSize": 12,
     "fontStyle": "SemiBold",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 645
+    "$step": 657
    }
   }
  },
@@ -13502,7 +13706,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 642
+    "$step": 654
    },
    "props": {
     "layout": "horizontal",
@@ -13531,12 +13735,12 @@
     "fontSize": 14,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 647
+    "$step": 659
    }
   }
  },
@@ -13547,7 +13751,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 647
+    "$step": 659
    },
    "width": 20,
    "height": 20,
@@ -13575,12 +13779,12 @@
     "fontSize": 12,
     "fontStyle": "SemiBold",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 649
+    "$step": 661
    }
   }
  },
@@ -13591,7 +13795,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 642
+    "$step": 654
    },
    "props": {
     "layout": "horizontal",
@@ -13620,12 +13824,12 @@
     "fontSize": 14,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 651
+    "$step": 663
    }
   }
  },
@@ -13636,7 +13840,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 651
+    "$step": 663
    },
    "width": 20,
    "height": 20,
@@ -13664,12 +13868,12 @@
     "fontSize": 12,
     "fontStyle": "SemiBold",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 653
+    "$step": 665
    }
   }
  },
@@ -13680,7 +13884,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 642
+    "$step": 654
    },
    "props": {
     "layout": "horizontal",
@@ -13717,7 +13921,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 655
+    "$step": 667
    }
   }
  },
@@ -13728,7 +13932,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 655
+    "$step": 667
    },
    "width": 20,
    "height": 20,
@@ -13761,7 +13965,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 657
+    "$step": 669
    }
   }
  },
@@ -13772,7 +13976,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 636
+    "$step": 648
    },
    "width": 100,
    "height": 1,
@@ -13791,7 +13995,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 636
+    "$step": 648
    },
    "props": {
     "layout": "vertical",
@@ -13815,7 +14019,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 636
+    "$step": 648
    },
    "width": 100,
    "height": 1,
@@ -13834,7 +14038,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 636
+    "$step": 648
    },
    "props": {
     "layout": "horizontal",
@@ -13858,7 +14062,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 662
+    "$step": 674
    },
    "props": {
     "layout": "horizontal",
@@ -13876,7 +14080,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 663
+    "$step": 675
    },
    "props": {
     "layout": "horizontal",
@@ -13913,7 +14117,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 664
+    "$step": 676
    }
   }
  },
@@ -13923,7 +14127,7 @@
    "type": "vector",
    "name": "arrow-left",
    "parent": {
-    "$step": 664
+    "$step": 676
    },
    "path": "M12 19L5 12L12 5 M19 12H5",
    "props": {
@@ -13944,7 +14148,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 662
+    "$step": 674
    },
    "props": {
     "layout": "horizontal",
@@ -13984,7 +14188,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 667
+    "$step": 679
    }
   }
  },
@@ -13995,7 +14199,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 660
+    "$step": 672
    },
    "props": {
     "layout": "vertical",
@@ -14013,7 +14217,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 669
+    "$step": 681
    },
    "props": {
     "layout": "horizontal",
@@ -14035,12 +14239,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 670
+    "$step": 682
    }
   }
  },
@@ -14051,7 +14255,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 669
+    "$step": 681
    },
    "height": 36,
    "props": {
@@ -14092,7 +14296,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 672
+    "$step": 684
    }
   }
  },
@@ -14112,7 +14316,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 669
+    "$step": 681
    }
   }
  },
@@ -14123,7 +14327,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 660
+    "$step": 672
    },
    "props": {
     "layout": "vertical",
@@ -14141,7 +14345,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 675
+    "$step": 687
    },
    "props": {
     "layout": "horizontal",
@@ -14163,12 +14367,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 676
+    "$step": 688
    }
   }
  },
@@ -14179,7 +14383,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 675
+    "$step": 687
    },
    "props": {
     "layout": "horizontal",
@@ -14208,12 +14412,12 @@
     "fontSize": 13,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 678
+    "$step": 690
    }
   }
  },
@@ -14224,7 +14428,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 678
+    "$step": 690
    },
    "props": {
     "layout": "horizontal",
@@ -14258,12 +14462,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 680
+    "$step": 692
    }
   }
  },
@@ -14274,7 +14478,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 660
+    "$step": 672
    },
    "height": 250,
    "props": {
@@ -14310,7 +14514,7 @@
    "type": "vector",
    "name": "upload",
    "parent": {
-    "$step": 682
+    "$step": 694
    },
    "path": "M12 3v12 M17 8L12 3L7 8 M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4",
    "props": {
@@ -14340,7 +14544,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 682
+    "$step": 694
    }
   }
  },
@@ -14351,7 +14555,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 682
+    "$step": 694
    },
    "props": {
     "layout": "horizontal",
@@ -14391,7 +14595,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 685
+    "$step": 697
    }
   }
  },
@@ -14406,12 +14610,12 @@
     "fontSize": 12.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 682
+    "$step": 694
    }
   }
  },
@@ -14441,7 +14645,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 688
+    "$step": 700
    },
    "width": 1320,
    "height": 880,
@@ -14460,7 +14664,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 688
+    "$step": 700
    },
    "x": 230,
    "y": 60,
@@ -14489,7 +14693,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 690
+    "$step": 702
    },
    "props": {
     "layout": "horizontal",
@@ -14513,7 +14717,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 691
+    "$step": 703
    },
    "width": 32,
    "height": 32,
@@ -14536,14 +14740,14 @@
    "type": "vector",
    "name": "x",
    "parent": {
-    "$step": 692
+    "$step": 704
    },
    "path": "M18 6 6 18 M6 6L18 18",
    "props": {
     "width": 16,
     "height": 16,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -14566,7 +14770,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 691
+    "$step": 703
    }
   }
  },
@@ -14577,7 +14781,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 690
+    "$step": 702
    },
    "width": 100,
    "height": 1,
@@ -14596,7 +14800,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 690
+    "$step": 702
    },
    "props": {
     "layout": "horizontal",
@@ -14620,7 +14824,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 696
+    "$step": 708
    },
    "props": {
     "layout": "horizontal",
@@ -14649,12 +14853,12 @@
     "fontSize": 14,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 697
+    "$step": 709
    }
   }
  },
@@ -14665,7 +14869,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 697
+    "$step": 709
    },
    "width": 20,
    "height": 20,
@@ -14693,12 +14897,12 @@
     "fontSize": 12,
     "fontStyle": "SemiBold",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 699
+    "$step": 711
    }
   }
  },
@@ -14709,7 +14913,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 696
+    "$step": 708
    },
    "props": {
     "layout": "horizontal",
@@ -14738,12 +14942,12 @@
     "fontSize": 14,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 701
+    "$step": 713
    }
   }
  },
@@ -14754,7 +14958,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 701
+    "$step": 713
    },
    "width": 20,
    "height": 20,
@@ -14782,12 +14986,12 @@
     "fontSize": 12,
     "fontStyle": "SemiBold",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 703
+    "$step": 715
    }
   }
  },
@@ -14798,7 +15002,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 696
+    "$step": 708
    },
    "props": {
     "layout": "horizontal",
@@ -14835,7 +15039,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 705
+    "$step": 717
    }
   }
  },
@@ -14846,7 +15050,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 705
+    "$step": 717
    },
    "width": 20,
    "height": 20,
@@ -14879,7 +15083,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 707
+    "$step": 719
    }
   }
  },
@@ -14890,7 +15094,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 696
+    "$step": 708
    },
    "props": {
     "layout": "horizontal",
@@ -14919,12 +15123,12 @@
     "fontSize": 14,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 709
+    "$step": 721
    }
   }
  },
@@ -14935,7 +15139,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 709
+    "$step": 721
    },
    "width": 20,
    "height": 20,
@@ -14958,7 +15162,7 @@
    "type": "vector",
    "name": "check",
    "parent": {
-    "$step": 711
+    "$step": 723
    },
    "path": "M20 6 9 17l-5-5",
    "props": {
@@ -14979,7 +15183,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 690
+    "$step": 702
    },
    "width": 100,
    "height": 1,
@@ -14998,7 +15202,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 690
+    "$step": 702
    },
    "props": {
     "layout": "vertical",
@@ -15022,7 +15226,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 690
+    "$step": 702
    },
    "width": 100,
    "height": 1,
@@ -15041,7 +15245,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 690
+    "$step": 702
    },
    "props": {
     "layout": "horizontal",
@@ -15065,7 +15269,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 716
+    "$step": 728
    },
    "props": {
     "layout": "horizontal",
@@ -15083,7 +15287,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 717
+    "$step": 729
    },
    "props": {
     "layout": "horizontal",
@@ -15120,7 +15324,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 718
+    "$step": 730
    }
   }
  },
@@ -15130,7 +15334,7 @@
    "type": "vector",
    "name": "arrow-left",
    "parent": {
-    "$step": 718
+    "$step": 730
    },
    "path": "M12 19L5 12L12 5 M19 12H5",
    "props": {
@@ -15151,7 +15355,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 717
+    "$step": 729
    },
    "props": {
     "layout": "horizontal",
@@ -15191,7 +15395,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 721
+    "$step": 733
    }
   }
  },
@@ -15201,7 +15405,7 @@
    "type": "vector",
    "name": "arrow-right",
    "parent": {
-    "$step": 721
+    "$step": 733
    },
    "path": "M5 12h14 M12 5L19 12L12 19",
    "props": {
@@ -15222,7 +15426,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 716
+    "$step": 728
    },
    "props": {
     "layout": "horizontal",
@@ -15262,7 +15466,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 724
+    "$step": 736
    }
   }
  },
@@ -15273,7 +15477,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 714
+    "$step": 726
    },
    "props": {
     "layout": "vertical",
@@ -15291,7 +15495,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 726
+    "$step": 738
    },
    "props": {
     "layout": "horizontal",
@@ -15318,7 +15522,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 727
+    "$step": 739
    }
   }
  },
@@ -15333,12 +15537,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 727
+    "$step": 739
    }
   }
  },
@@ -15349,7 +15553,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 726
+    "$step": 738
    },
    "height": 36,
    "props": {
@@ -15381,7 +15585,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 730
+    "$step": 742
    },
    "props": {
     "layout": "horizontal",
@@ -15408,7 +15612,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 731
+    "$step": 743
    }
   }
  },
@@ -15419,7 +15623,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 714
+    "$step": 726
    },
    "props": {
     "layout": "vertical",
@@ -15437,7 +15641,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 733
+    "$step": 745
    },
    "props": {
     "layout": "horizontal",
@@ -15459,12 +15663,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 734
+    "$step": 746
    }
   }
  },
@@ -15475,7 +15679,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 733
+    "$step": 745
    },
    "height": 36,
    "props": {
@@ -15507,7 +15711,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 736
+    "$step": 748
    },
    "props": {
     "layout": "horizontal",
@@ -15529,12 +15733,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 737
+    "$step": 749
    }
   }
  },
@@ -15545,7 +15749,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 714
+    "$step": 726
    },
    "props": {
     "layout": "horizontal",
@@ -15563,7 +15767,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 739
+    "$step": 751
    },
    "props": {
     "layout": "vertical",
@@ -15581,7 +15785,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 740
+    "$step": 752
    },
    "props": {
     "layout": "horizontal",
@@ -15603,12 +15807,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 741
+    "$step": 753
    }
   }
  },
@@ -15619,7 +15823,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 740
+    "$step": 752
    },
    "props": {
     "layout": "horizontal",
@@ -15637,7 +15841,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 743
+    "$step": 755
    },
    "props": {
     "layout": "horizontal",
@@ -15677,7 +15881,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 744
+    "$step": 756
    }
   }
  },
@@ -15687,7 +15891,7 @@
    "type": "vector",
    "name": "plus",
    "parent": {
-    "$step": 744
+    "$step": 756
    },
    "path": "M5 12h14 M12 5v14",
    "props": {
@@ -15708,7 +15912,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 743
+    "$step": 755
    },
    "height": 36,
    "props": {
@@ -15740,7 +15944,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 747
+    "$step": 759
    },
    "props": {
     "layout": "horizontal",
@@ -15767,7 +15971,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 748
+    "$step": 760
    }
   }
  },
@@ -15778,7 +15982,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 739
+    "$step": 751
    },
    "props": {
     "layout": "vertical",
@@ -15796,7 +16000,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 750
+    "$step": 762
    },
    "props": {
     "layout": "horizontal",
@@ -15823,7 +16027,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 751
+    "$step": 763
    }
   }
  },
@@ -15838,12 +16042,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 751
+    "$step": 763
    }
   }
  },
@@ -15854,7 +16058,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 750
+    "$step": 762
    },
    "props": {
     "layout": "horizontal",
@@ -15872,7 +16076,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 754
+    "$step": 766
    },
    "props": {
     "layout": "horizontal",
@@ -15912,7 +16116,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 755
+    "$step": 767
    }
   }
  },
@@ -15922,7 +16126,7 @@
    "type": "vector",
    "name": "plus",
    "parent": {
-    "$step": 755
+    "$step": 767
    },
    "path": "M5 12h14 M12 5v14",
    "props": {
@@ -15943,7 +16147,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 754
+    "$step": 766
    },
    "height": 36,
    "props": {
@@ -15975,7 +16179,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 758
+    "$step": 770
    },
    "props": {
     "layout": "horizontal",
@@ -16002,7 +16206,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 759
+    "$step": 771
    }
   }
  },
@@ -16013,7 +16217,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 714
+    "$step": 726
    },
    "props": {
     "layout": "horizontal",
@@ -16031,7 +16235,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 761
+    "$step": 773
    },
    "width": 150,
    "props": {
@@ -16050,7 +16254,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 762
+    "$step": 774
    },
    "props": {
     "layout": "horizontal",
@@ -16072,12 +16276,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 763
+    "$step": 775
    }
   }
  },
@@ -16088,7 +16292,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 762
+    "$step": 774
    },
    "height": 36,
    "props": {
@@ -16120,7 +16324,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 765
+    "$step": 777
    },
    "props": {
     "layout": "horizontal",
@@ -16142,12 +16346,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 766
+    "$step": 778
    }
   }
  },
@@ -16158,7 +16362,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 761
+    "$step": 773
    },
    "props": {
     "layout": "vertical",
@@ -16176,7 +16380,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 768
+    "$step": 780
    },
    "props": {
     "layout": "horizontal",
@@ -16198,12 +16402,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 769
+    "$step": 781
    }
   }
  },
@@ -16214,7 +16418,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 768
+    "$step": 780
    },
    "props": {
     "layout": "horizontal",
@@ -16232,7 +16436,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 771
+    "$step": 783
    },
    "props": {
     "layout": "horizontal",
@@ -16272,7 +16476,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 772
+    "$step": 784
    }
   }
  },
@@ -16282,7 +16486,7 @@
    "type": "vector",
    "name": "plus",
    "parent": {
-    "$step": 772
+    "$step": 784
    },
    "path": "M5 12h14 M12 5v14",
    "props": {
@@ -16303,7 +16507,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 771
+    "$step": 783
    },
    "height": 36,
    "props": {
@@ -16335,7 +16539,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 775
+    "$step": 787
    },
    "props": {
     "layout": "horizontal",
@@ -16357,12 +16561,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 776
+    "$step": 788
    }
   }
  },
@@ -16373,7 +16577,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 714
+    "$step": 726
    },
    "props": {
     "layout": "horizontal",
@@ -16391,7 +16595,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 778
+    "$step": 790
    },
    "props": {
     "layout": "vertical",
@@ -16409,7 +16613,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 779
+    "$step": 791
    },
    "props": {
     "layout": "horizontal",
@@ -16431,12 +16635,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 780
+    "$step": 792
    }
   }
  },
@@ -16447,7 +16651,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 779
+    "$step": 791
    },
    "height": 36,
    "props": {
@@ -16478,14 +16682,14 @@
    "type": "vector",
    "name": "chevron-down",
    "parent": {
-    "$step": 782
+    "$step": 794
    },
    "path": "M6 9L12 15L18 9",
    "props": {
     "width": 16,
     "height": 16,
     "fills": [],
-    "stroke": "#948a79",
+    "stroke": "#6e6554",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -16508,7 +16712,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 782
+    "$step": 794
    }
   }
  },
@@ -16519,7 +16723,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 778
+    "$step": 790
    },
    "props": {
     "layout": "vertical",
@@ -16537,7 +16741,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 785
+    "$step": 797
    },
    "props": {
     "layout": "horizontal",
@@ -16559,12 +16763,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 786
+    "$step": 798
    }
   }
  },
@@ -16575,7 +16779,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 785
+    "$step": 797
    },
    "height": 36,
    "props": {
@@ -16607,7 +16811,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 788
+    "$step": 800
    },
    "props": {
     "layout": "horizontal",
@@ -16634,7 +16838,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 789
+    "$step": 801
    }
   }
  },
@@ -16645,7 +16849,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 778
+    "$step": 790
    },
    "props": {
     "layout": "vertical",
@@ -16663,7 +16867,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 791
+    "$step": 803
    },
    "props": {
     "layout": "horizontal",
@@ -16685,12 +16889,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 792
+    "$step": 804
    }
   }
  },
@@ -16701,7 +16905,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 791
+    "$step": 803
    },
    "height": 36,
    "props": {
@@ -16733,7 +16937,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 794
+    "$step": 806
    },
    "props": {
     "layout": "horizontal",
@@ -16760,7 +16964,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 795
+    "$step": 807
    }
   }
  },
@@ -16771,7 +16975,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 714
+    "$step": 726
    },
    "props": {
     "layout": "horizontal",
@@ -16789,7 +16993,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 797
+    "$step": 809
    },
    "props": {
     "layout": "vertical",
@@ -16807,7 +17011,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 798
+    "$step": 810
    },
    "props": {
     "layout": "horizontal",
@@ -16829,12 +17033,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 799
+    "$step": 811
    }
   }
  },
@@ -16845,7 +17049,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 798
+    "$step": 810
    },
    "height": 36,
    "props": {
@@ -16877,7 +17081,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 801
+    "$step": 813
    },
    "props": {
     "layout": "horizontal",
@@ -16904,7 +17108,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 802
+    "$step": 814
    }
   }
  },
@@ -16915,7 +17119,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 797
+    "$step": 809
    },
    "props": {
     "layout": "vertical",
@@ -16933,7 +17137,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 804
+    "$step": 816
    },
    "props": {
     "layout": "horizontal",
@@ -16955,12 +17159,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 805
+    "$step": 817
    }
   }
  },
@@ -16971,7 +17175,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 804
+    "$step": 816
    },
    "height": 36,
    "props": {
@@ -17002,14 +17206,14 @@
    "type": "vector",
    "name": "chevron-down",
    "parent": {
-    "$step": 807
+    "$step": 819
    },
    "path": "M6 9L12 15L18 9",
    "props": {
     "width": 16,
     "height": 16,
     "fills": [],
-    "stroke": "#948a79",
+    "stroke": "#6e6554",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -17032,7 +17236,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 807
+    "$step": 819
    }
   }
  },
@@ -17062,7 +17266,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 810
+    "$step": 822
    },
    "width": 1320,
    "height": 880,
@@ -17081,7 +17285,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 810
+    "$step": 822
    },
    "x": 230,
    "y": 60,
@@ -17110,7 +17314,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 812
+    "$step": 824
    },
    "props": {
     "layout": "horizontal",
@@ -17134,7 +17338,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 813
+    "$step": 825
    },
    "width": 32,
    "height": 32,
@@ -17157,14 +17361,14 @@
    "type": "vector",
    "name": "x",
    "parent": {
-    "$step": 814
+    "$step": 826
    },
    "path": "M18 6 6 18 M6 6L18 18",
    "props": {
     "width": 16,
     "height": 16,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -17187,7 +17391,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 813
+    "$step": 825
    }
   }
  },
@@ -17198,7 +17402,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 812
+    "$step": 824
    },
    "width": 100,
    "height": 1,
@@ -17217,7 +17421,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 812
+    "$step": 824
    },
    "props": {
     "layout": "horizontal",
@@ -17241,7 +17445,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 818
+    "$step": 830
    },
    "props": {
     "layout": "horizontal",
@@ -17270,12 +17474,12 @@
     "fontSize": 14,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 819
+    "$step": 831
    }
   }
  },
@@ -17286,7 +17490,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 819
+    "$step": 831
    },
    "width": 20,
    "height": 20,
@@ -17314,12 +17518,12 @@
     "fontSize": 12,
     "fontStyle": "SemiBold",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 821
+    "$step": 833
    }
   }
  },
@@ -17330,7 +17534,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 818
+    "$step": 830
    },
    "props": {
     "layout": "horizontal",
@@ -17367,7 +17571,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 823
+    "$step": 835
    }
   }
  },
@@ -17378,7 +17582,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 823
+    "$step": 835
    },
    "width": 20,
    "height": 20,
@@ -17411,7 +17615,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 825
+    "$step": 837
    }
   }
  },
@@ -17422,7 +17626,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 818
+    "$step": 830
    },
    "props": {
     "layout": "horizontal",
@@ -17451,12 +17655,12 @@
     "fontSize": 14,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 827
+    "$step": 839
    }
   }
  },
@@ -17467,7 +17671,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 827
+    "$step": 839
    },
    "width": 20,
    "height": 20,
@@ -17490,7 +17694,7 @@
    "type": "vector",
    "name": "check",
    "parent": {
-    "$step": 829
+    "$step": 841
    },
    "path": "M20 6 9 17l-5-5",
    "props": {
@@ -17511,7 +17715,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 818
+    "$step": 830
    },
    "props": {
     "layout": "horizontal",
@@ -17540,12 +17744,12 @@
     "fontSize": 14,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 831
+    "$step": 843
    }
   }
  },
@@ -17556,7 +17760,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 831
+    "$step": 843
    },
    "width": 20,
    "height": 20,
@@ -17579,7 +17783,7 @@
    "type": "vector",
    "name": "check",
    "parent": {
-    "$step": 833
+    "$step": 845
    },
    "path": "M20 6 9 17l-5-5",
    "props": {
@@ -17600,7 +17804,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 812
+    "$step": 824
    },
    "width": 100,
    "height": 1,
@@ -17619,7 +17823,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 812
+    "$step": 824
    },
    "props": {
     "layout": "vertical",
@@ -17643,7 +17847,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 812
+    "$step": 824
    },
    "width": 100,
    "height": 1,
@@ -17662,7 +17866,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 812
+    "$step": 824
    },
    "props": {
     "layout": "horizontal",
@@ -17686,7 +17890,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 838
+    "$step": 850
    },
    "props": {
     "layout": "horizontal",
@@ -17704,7 +17908,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 839
+    "$step": 851
    },
    "props": {
     "layout": "horizontal",
@@ -17741,7 +17945,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 840
+    "$step": 852
    }
   }
  },
@@ -17751,7 +17955,7 @@
    "type": "vector",
    "name": "arrow-left",
    "parent": {
-    "$step": 840
+    "$step": 852
    },
    "path": "M12 19L5 12L12 5 M19 12H5",
    "props": {
@@ -17772,7 +17976,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 839
+    "$step": 851
    },
    "props": {
     "layout": "horizontal",
@@ -17812,7 +18016,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 843
+    "$step": 855
    }
   }
  },
@@ -17822,7 +18026,7 @@
    "type": "vector",
    "name": "arrow-right",
    "parent": {
-    "$step": 843
+    "$step": 855
    },
    "path": "M5 12h14 M12 5L19 12L12 19",
    "props": {
@@ -17843,7 +18047,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 838
+    "$step": 850
    },
    "props": {
     "layout": "horizontal",
@@ -17883,7 +18087,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 846
+    "$step": 858
    }
   }
  },
@@ -17894,7 +18098,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 836
+    "$step": 848
    },
    "props": {
     "layout": "horizontal",
@@ -17912,7 +18116,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 848
+    "$step": 860
    },
    "props": {
     "layout": "vertical",
@@ -17930,7 +18134,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 849
+    "$step": 861
    },
    "props": {
     "layout": "horizontal",
@@ -17952,12 +18156,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 850
+    "$step": 862
    }
   }
  },
@@ -17968,7 +18172,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 849
+    "$step": 861
    },
    "height": 36,
    "props": {
@@ -18001,7 +18205,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 852
+    "$step": 864
    },
    "props": {
     "layout": "horizontal",
@@ -18028,7 +18232,7 @@
    "type": "vector",
    "name": "x",
    "parent": {
-    "$step": 853
+    "$step": 865
    },
    "path": "M18 6 6 18 M6 6L18 18",
    "props": {
@@ -18058,7 +18262,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 853
+    "$step": 865
    }
   }
  },
@@ -18069,7 +18273,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 852
+    "$step": 864
    },
    "props": {
     "layout": "horizontal",
@@ -18096,7 +18300,7 @@
    "type": "vector",
    "name": "x",
    "parent": {
-    "$step": 856
+    "$step": 868
    },
    "path": "M18 6 6 18 M6 6L18 18",
    "props": {
@@ -18126,7 +18330,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 856
+    "$step": 868
    }
   }
  },
@@ -18137,7 +18341,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 848
+    "$step": 860
    },
    "props": {
     "layout": "vertical",
@@ -18155,7 +18359,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 859
+    "$step": 871
    },
    "props": {
     "layout": "horizontal",
@@ -18177,12 +18381,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 860
+    "$step": 872
    }
   }
  },
@@ -18193,7 +18397,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 859
+    "$step": 871
    },
    "props": {
     "layout": "horizontal",
@@ -18211,7 +18415,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 862
+    "$step": 874
    },
    "props": {
     "layout": "horizontal",
@@ -18251,7 +18455,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 863
+    "$step": 875
    }
   }
  },
@@ -18261,7 +18465,7 @@
    "type": "vector",
    "name": "plus",
    "parent": {
-    "$step": 863
+    "$step": 875
    },
    "path": "M5 12h14 M12 5v14",
    "props": {
@@ -18282,7 +18486,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 862
+    "$step": 874
    },
    "height": 36,
    "props": {
@@ -18314,7 +18518,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 866
+    "$step": 878
    },
    "props": {
     "layout": "horizontal",
@@ -18341,7 +18545,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 867
+    "$step": 879
    }
   }
  },
@@ -18352,7 +18556,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 836
+    "$step": 848
    },
    "props": {
     "layout": "horizontal",
@@ -18370,7 +18574,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 869
+    "$step": 881
    },
    "props": {
     "layout": "vertical",
@@ -18388,7 +18592,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 870
+    "$step": 882
    },
    "props": {
     "layout": "horizontal",
@@ -18410,12 +18614,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 871
+    "$step": 883
    }
   }
  },
@@ -18426,7 +18630,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 870
+    "$step": 882
    },
    "props": {
     "layout": "horizontal",
@@ -18443,7 +18647,7 @@
    "type": "vector",
    "name": "star",
    "parent": {
-    "$step": 873
+    "$step": 885
    },
    "path": "M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z",
    "props": {
@@ -18463,7 +18667,7 @@
    "type": "vector",
    "name": "star",
    "parent": {
-    "$step": 873
+    "$step": 885
    },
    "path": "M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z",
    "props": {
@@ -18483,7 +18687,7 @@
    "type": "vector",
    "name": "star",
    "parent": {
-    "$step": 873
+    "$step": 885
    },
    "path": "M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z",
    "props": {
@@ -18505,7 +18709,7 @@
    "type": "vector",
    "name": "star",
    "parent": {
-    "$step": 873
+    "$step": 885
    },
    "path": "M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z",
    "props": {
@@ -18527,7 +18731,7 @@
    "type": "vector",
    "name": "star",
    "parent": {
-    "$step": 873
+    "$step": 885
    },
    "path": "M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z",
    "props": {
@@ -18550,7 +18754,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 869
+    "$step": 881
    },
    "props": {
     "layout": "vertical",
@@ -18568,7 +18772,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 879
+    "$step": 891
    },
    "props": {
     "layout": "horizontal",
@@ -18590,12 +18794,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 880
+    "$step": 892
    }
   }
  },
@@ -18606,7 +18810,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 879
+    "$step": 891
    },
    "height": 36,
    "props": {
@@ -18637,14 +18841,14 @@
    "type": "vector",
    "name": "chevron-down",
    "parent": {
-    "$step": 882
+    "$step": 894
    },
    "path": "M6 9L12 15L18 9",
    "props": {
     "width": 16,
     "height": 16,
     "fills": [],
-    "stroke": "#948a79",
+    "stroke": "#6e6554",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -18667,7 +18871,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 882
+    "$step": 894
    }
   }
  },
@@ -18678,7 +18882,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 836
+    "$step": 848
    },
    "props": {
     "layout": "vertical",
@@ -18696,7 +18900,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 885
+    "$step": 897
    },
    "props": {
     "layout": "horizontal",
@@ -18718,12 +18922,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 886
+    "$step": 898
    }
   }
  },
@@ -18734,7 +18938,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 885
+    "$step": 897
    },
    "height": 220,
    "props": {
@@ -18769,12 +18973,12 @@
     "fontSize": 15,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 888
+    "$step": 900
    }
   }
  },
@@ -18804,7 +19008,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 890
+    "$step": 902
    },
    "width": 1320,
    "height": 880,
@@ -18823,7 +19027,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 890
+    "$step": 902
    },
    "x": 230,
    "y": 60,
@@ -18852,7 +19056,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 892
+    "$step": 904
    },
    "props": {
     "layout": "horizontal",
@@ -18876,7 +19080,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 893
+    "$step": 905
    },
    "width": 32,
    "height": 32,
@@ -18899,14 +19103,14 @@
    "type": "vector",
    "name": "x",
    "parent": {
-    "$step": 894
+    "$step": 906
    },
    "path": "M18 6 6 18 M6 6L18 18",
    "props": {
     "width": 16,
     "height": 16,
     "fills": [],
-    "stroke": "#6b6153",
+    "stroke": "#5a5344",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -18929,7 +19133,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 893
+    "$step": 905
    }
   }
  },
@@ -18940,7 +19144,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 892
+    "$step": 904
    },
    "width": 100,
    "height": 1,
@@ -18959,7 +19163,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 892
+    "$step": 904
    },
    "props": {
     "layout": "horizontal",
@@ -18983,7 +19187,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 898
+    "$step": 910
    },
    "props": {
     "layout": "horizontal",
@@ -19020,7 +19224,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 899
+    "$step": 911
    }
   }
  },
@@ -19031,7 +19235,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 899
+    "$step": 911
    },
    "width": 20,
    "height": 20,
@@ -19064,7 +19268,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 901
+    "$step": 913
    }
   }
  },
@@ -19075,7 +19279,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 898
+    "$step": 910
    },
    "props": {
     "layout": "horizontal",
@@ -19104,12 +19308,12 @@
     "fontSize": 14,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 903
+    "$step": 915
    }
   }
  },
@@ -19120,7 +19324,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 903
+    "$step": 915
    },
    "width": 20,
    "height": 20,
@@ -19143,7 +19347,7 @@
    "type": "vector",
    "name": "check",
    "parent": {
-    "$step": 905
+    "$step": 917
    },
    "path": "M20 6 9 17l-5-5",
    "props": {
@@ -19164,7 +19368,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 898
+    "$step": 910
    },
    "props": {
     "layout": "horizontal",
@@ -19193,12 +19397,12 @@
     "fontSize": 14,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 907
+    "$step": 919
    }
   }
  },
@@ -19209,7 +19413,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 907
+    "$step": 919
    },
    "width": 20,
    "height": 20,
@@ -19232,7 +19436,7 @@
    "type": "vector",
    "name": "check",
    "parent": {
-    "$step": 909
+    "$step": 921
    },
    "path": "M20 6 9 17l-5-5",
    "props": {
@@ -19253,7 +19457,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 898
+    "$step": 910
    },
    "props": {
     "layout": "horizontal",
@@ -19282,12 +19486,12 @@
     "fontSize": 14,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 911
+    "$step": 923
    }
   }
  },
@@ -19298,7 +19502,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 911
+    "$step": 923
    },
    "width": 20,
    "height": 20,
@@ -19321,7 +19525,7 @@
    "type": "vector",
    "name": "check",
    "parent": {
-    "$step": 913
+    "$step": 925
    },
    "path": "M20 6 9 17l-5-5",
    "props": {
@@ -19342,7 +19546,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 892
+    "$step": 904
    },
    "width": 100,
    "height": 1,
@@ -19361,7 +19565,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 892
+    "$step": 904
    },
    "props": {
     "layout": "vertical",
@@ -19385,7 +19589,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 892
+    "$step": 904
    },
    "width": 100,
    "height": 1,
@@ -19404,7 +19608,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 892
+    "$step": 904
    },
    "props": {
     "layout": "horizontal",
@@ -19428,7 +19632,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 918
+    "$step": 930
    },
    "props": {
     "layout": "horizontal",
@@ -19446,7 +19650,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 919
+    "$step": 931
    },
    "props": {
     "layout": "horizontal",
@@ -19483,7 +19687,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 920
+    "$step": 932
    }
   }
  },
@@ -19493,7 +19697,7 @@
    "type": "vector",
    "name": "check",
    "parent": {
-    "$step": 920
+    "$step": 932
    },
    "path": "M20 6 9 17l-5-5",
    "props": {
@@ -19514,7 +19718,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 919
+    "$step": 931
    },
    "props": {
     "layout": "horizontal",
@@ -19554,7 +19758,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 923
+    "$step": 935
    }
   }
  },
@@ -19564,7 +19768,7 @@
    "type": "vector",
    "name": "arrow-right",
    "parent": {
-    "$step": 923
+    "$step": 935
    },
    "path": "M5 12h14 M12 5L19 12L12 19",
    "props": {
@@ -19585,7 +19789,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 918
+    "$step": 930
    },
    "props": {
     "layout": "horizontal",
@@ -19625,7 +19829,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 926
+    "$step": 938
    }
   }
  },
@@ -19636,7 +19840,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 916
+    "$step": 928
    },
    "props": {
     "layout": "horizontal",
@@ -19654,7 +19858,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 928
+    "$step": 940
    },
    "width": 116,
    "height": 174,
@@ -19676,7 +19880,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 929
+    "$step": 941
    },
    "x": 106,
    "y": 0,
@@ -19696,7 +19900,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 929
+    "$step": 941
    },
    "x": 105,
    "y": 0,
@@ -19716,7 +19920,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 929
+    "$step": 941
    },
    "x": 21,
    "y": 45,
@@ -19733,7 +19937,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 929
+    "$step": 941
    },
    "x": 21,
    "y": 59,
@@ -19756,7 +19960,7 @@
   "command": "text.create",
   "params": {
    "parent": {
-    "$step": 929
+    "$step": 941
    },
    "x": 21,
    "y": 124,
@@ -19781,7 +19985,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 928
+    "$step": 940
    },
    "props": {
     "layout": "vertical",
@@ -19799,7 +20003,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 935
+    "$step": 947
    },
    "props": {
     "layout": "horizontal",
@@ -19832,7 +20036,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 936
+    "$step": 948
    }
   }
  },
@@ -19847,12 +20051,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 936
+    "$step": 948
    }
   }
  },
@@ -19863,7 +20067,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 935
+    "$step": 947
    },
    "props": {
     "layout": "horizontal",
@@ -19896,7 +20100,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 939
+    "$step": 951
    }
   }
  },
@@ -19911,12 +20115,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 939
+    "$step": 951
    }
   }
  },
@@ -19927,7 +20131,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 935
+    "$step": 947
    },
    "props": {
     "layout": "horizontal",
@@ -19960,7 +20164,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 942
+    "$step": 954
    }
   }
  },
@@ -19975,12 +20179,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 942
+    "$step": 954
    }
   }
  },
@@ -19991,7 +20195,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 935
+    "$step": 947
    },
    "props": {
     "layout": "horizontal",
@@ -20024,7 +20228,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 945
+    "$step": 957
    }
   }
  },
@@ -20039,12 +20243,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 945
+    "$step": 957
    }
   }
  },
@@ -20055,7 +20259,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 935
+    "$step": 947
    },
    "props": {
     "layout": "horizontal",
@@ -20088,7 +20292,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 948
+    "$step": 960
    }
   }
  },
@@ -20103,12 +20307,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 948
+    "$step": 960
    }
   }
  },
@@ -20119,7 +20323,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 935
+    "$step": 947
    },
    "props": {
     "layout": "horizontal",
@@ -20152,7 +20356,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 951
+    "$step": 963
    }
   }
  },
@@ -20167,12 +20371,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 951
+    "$step": 963
    }
   }
  },
@@ -20183,7 +20387,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 935
+    "$step": 947
    },
    "props": {
     "layout": "horizontal",
@@ -20207,7 +20411,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 954
+    "$step": 966
    },
    "props": {
     "layout": "horizontal",
@@ -20225,7 +20429,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 955
+    "$step": 967
    },
    "props": {
     "layout": "horizontal",
@@ -20259,12 +20463,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 956
+    "$step": 968
    }
   }
  },
@@ -20275,7 +20479,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 955
+    "$step": 967
    },
    "props": {
     "layout": "horizontal",
@@ -20309,12 +20513,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 958
+    "$step": 970
    }
   }
  },
@@ -20329,12 +20533,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 954
+    "$step": 966
    }
   }
  },
@@ -20345,7 +20549,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 935
+    "$step": 947
    },
    "props": {
     "layout": "horizontal",
@@ -20369,7 +20573,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 961
+    "$step": 973
    },
    "props": {
     "layout": "horizontal",
@@ -20387,7 +20591,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 962
+    "$step": 974
    },
    "props": {
     "layout": "horizontal",
@@ -20421,12 +20625,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 963
+    "$step": 975
    }
   }
  },
@@ -20437,7 +20641,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 962
+    "$step": 974
    },
    "props": {
     "layout": "horizontal",
@@ -20471,12 +20675,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 965
+    "$step": 977
    }
   }
  },
@@ -20491,12 +20695,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 961
+    "$step": 973
    }
   }
  },
@@ -20507,7 +20711,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 935
+    "$step": 947
    },
    "props": {
     "layout": "horizontal",
@@ -20540,7 +20744,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 968
+    "$step": 980
    }
   }
  },
@@ -20555,12 +20759,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#948a79"
+     "#6e6554"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 968
+    "$step": 980
    }
   }
  },
@@ -20571,7 +20775,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 916
+    "$step": 928
    },
    "props": {
     "layout": "vertical",
@@ -20586,7 +20790,7 @@
      "#fbf0d8"
     ],
     "cornerRadius": 12,
-    "stroke": "#9a6b12",
+    "stroke": "#926301",
     "strokeWeight": 1,
     "strokeAlign": "inside",
     "sizingH": "fill",
@@ -20602,7 +20806,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 971
+    "$step": 983
    },
    "props": {
     "layout": "horizontal",
@@ -20624,12 +20828,12 @@
     "fontSize": 14,
     "fontStyle": "SemiBold",
     "fills": [
-     "#9a6b12"
+     "#926301"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 972
+    "$step": 984
    }
   }
  },
@@ -20639,14 +20843,14 @@
    "type": "vector",
    "name": "triangle-alert",
    "parent": {
-    "$step": 972
+    "$step": 984
    },
    "path": "M21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3 M12 9v4 M12 17h.01",
    "props": {
     "width": 16,
     "height": 16,
     "fills": [],
-    "stroke": "#9a6b12",
+    "stroke": "#926301",
     "strokeWeight": 1.35,
     "strokeCap": "round",
     "strokeJoin": "round"
@@ -20664,12 +20868,12 @@
     "fontSize": 13.5,
     "fontStyle": "Regular",
     "fills": [
-     "#6b6153"
+     "#5a5344"
     ],
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 971
+    "$step": 983
    }
   }
  },
@@ -20680,7 +20884,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 971
+    "$step": 983
    },
    "props": {
     "layout": "horizontal",
@@ -20698,7 +20902,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 976
+    "$step": 988
    },
    "props": {
     "layout": "horizontal",
@@ -20735,7 +20939,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 977
+    "$step": 989
    }
   }
  },
@@ -20746,7 +20950,7 @@
    "name": "",
    "select": false,
    "parent": {
-    "$step": 976
+    "$step": 988
    },
    "props": {
     "layout": "horizontal",
@@ -20786,7 +20990,7 @@
     "textAutoResize": "widthAndHeight"
    },
    "parent": {
-    "$step": 979
+    "$step": 991
    }
   }
  }
