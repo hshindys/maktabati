@@ -2,7 +2,7 @@
   import { ArrowLeftRight, Barcode, BookOpen, Flame, Library, Target, TriangleAlert } from "@lucide/svelte";
   import { onMount } from "svelte";
 
-  import { countFor, getLibrarySummary, EMPTY_SUMMARY, type ReadingStatus } from "../api";
+  import { countFor, getLibrarySummary, listBooks, EMPTY_SUMMARY, type ReadingStatus } from "../api";
   import Button from "../components/Button.svelte";
   import Card from "../components/Card.svelte";
   import CoverPlaceholder from "../components/CoverPlaceholder.svelte";
@@ -15,7 +15,7 @@
   import { preferences } from "../settings";
   import { go } from "../router";
   import { openAddBook } from "../wizard";
-  import type { AppErrorDto, LibrarySummary } from "@/bindings";
+  import type { AppErrorDto, Book, LibrarySummary } from "@/bindings";
 
   /**
    * Dashboard — "understand my library" (docs/04-ux-design.md §4.1).
@@ -32,12 +32,14 @@
   let year = $derived(gregorianYear(Date.now()));
 
   let summary = $state<LibrarySummary>(EMPTY_SUMMARY);
+  /** The six most recently added books — the shelf the "recently added" strip shows. */
+  let recent = $state<Book[]>([]);
   let loadError = $state<AppErrorDto | null>(null);
   let loading = $state(true);
 
   async function load(): Promise<void> {
     loading = true;
-    const res = await getLibrarySummary(year);
+    const [res, booksRes] = await Promise.all([getLibrarySummary(year), listBooks()]);
     if (res.status === "ok") {
       summary = res.data;
       loadError = null;
@@ -45,6 +47,12 @@
       summary = EMPTY_SUMMARY;
       loadError = res.error;
     }
+    // The shelf is decoration on top of a screen that already loaded: a failure here must
+    // not replace the whole dashboard with an error card, so it just leaves the strip empty.
+    recent =
+      booksRes.status === "ok"
+        ? [...booksRes.data].sort((a, b) => b.created_at - a.created_at).slice(0, 6)
+        : [];
     loading = false;
   }
 
@@ -209,19 +217,22 @@
         <dl class="grid grid-cols-2 gap-[var(--sp-4)]">
           <div>
             <dt class="text-[var(--fs-sm)] text-ink-3">{t("nav.quotes")}</dt>
-            <dd class="tnum bidi-ltr text-[var(--fs-xl)] font-semibold">{num(summary.quotes)}</dd>
+            <!-- The cell keeps the page direction so the number aligns under its label; the
+                 digits are isolated inside it (docs/04 §7.5) rather than flipping the whole
+                 cell to LTR, which slid every value to the opposite edge. -->
+            <dd class="tnum text-[var(--fs-xl)] font-semibold"><span class="bidi-ltr">{num(summary.quotes)}</span></dd>
           </div>
           <div>
             <dt class="text-[var(--fs-sm)] text-ink-3">{t("nav.notes")}</dt>
-            <dd class="tnum bidi-ltr text-[var(--fs-xl)] font-semibold">{num(summary.note_pages)}</dd>
+            <dd class="tnum text-[var(--fs-xl)] font-semibold"><span class="bidi-ltr">{num(summary.note_pages)}</span></dd>
           </div>
           <div>
             <dt class="text-[var(--fs-sm)] text-ink-3">{t("nav.publishers")}</dt>
-            <dd class="tnum bidi-ltr text-[var(--fs-xl)] font-semibold">{num(summary.publishers)}</dd>
+            <dd class="tnum text-[var(--fs-xl)] font-semibold"><span class="bidi-ltr">{num(summary.publishers)}</span></dd>
           </div>
           <div>
             <dt class="text-[var(--fs-sm)] text-ink-3">{t("nav.shelves")}</dt>
-            <dd class="tnum bidi-ltr text-[var(--fs-xl)] font-semibold">{num(summary.shelves)}</dd>
+            <dd class="tnum text-[var(--fs-xl)] font-semibold"><span class="bidi-ltr">{num(summary.shelves)}</span></dd>
           </div>
         </dl>
       </Card>
@@ -245,19 +256,21 @@
       </Card>
     </div>
 
-    <!-- Recently added — real covers once the book CRUD lands; the generated placeholder shows
-         the Arabic title treatment that every coverless book will use. -->
-    <section>
-      <h2 class="mb-[var(--sp-3)] text-[var(--fs-md)] font-semibold">
-        {t("dashboard.recentlyAdded")}
-      </h2>
-      <div class="flex gap-[var(--sp-4)] overflow-x-auto pb-[var(--sp-2)]">
-        {#each summary.by_status.slice(0, 6) as [status] (status)}
-          <div class="shrink-0">
-            <CoverPlaceholder title={t(`status.${status}`)} height={180} />
-          </div>
-        {/each}
-      </div>
-    </section>
+    <!-- Recently added — real books and their generated covers (the same title treatment a
+         coverless book keeps in the library browser). Each links to its book page. -->
+    {#if recent.length > 0}
+      <section>
+        <h2 class="mb-[var(--sp-3)] text-[var(--fs-md)] font-semibold">
+          {t("dashboard.recentlyAdded")}
+        </h2>
+        <div class="flex gap-[var(--sp-4)] overflow-x-auto pb-[var(--sp-2)]">
+          {#each recent as book (book.id)}
+            <a href="#/book/{book.id}" class="shrink-0" title={book.title}>
+              <CoverPlaceholder title={book.title} language={book.language_code} height={180} />
+            </a>
+          {/each}
+        </div>
+      </section>
+    {/if}
   {/if}
 </div>
