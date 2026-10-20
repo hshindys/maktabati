@@ -16,6 +16,7 @@ use std::sync::Arc;
 use tauri::tray::TrayIconBuilder;
 use tauri::tray::{MouseButton, MouseButtonState, TrayIconEvent};
 use tauri::Manager;
+use tauri_plugin_dialog::DialogExt;
 use tauri_specta::{collect_commands, Builder};
 
 use maktabati_storage::{conn, migrate, seed, Db};
@@ -226,6 +227,36 @@ pub fn run() -> anyhow::Result<()> {
                         .unwrap_or_else(|_| tracing_subscriber::EnvFilter::new("info")),
                 )
                 .try_init();
+
+            // P0-2: a debug build points the webview at Vite (build.devUrl). With no dev
+            // server listening the window is a bare WebKit connection error — which reads
+            // as "the app is broken". Detect it here, where we can still say what is wrong:
+            // a log line in the file the docs point at, plus a dialog that names the fix.
+            if cfg!(debug_assertions) {
+                let dev_up = std::net::TcpStream::connect_timeout(
+                    &std::net::SocketAddr::from(([127, 0, 0, 1], 1420)),
+                    std::time::Duration::from_millis(300),
+                )
+                .is_ok();
+                if !dev_up {
+                    tracing::error!(
+                        "dev server not reachable on 127.0.0.1:1420 — the window will render \
+                         blank; run `npm run tauri dev`, or `npm run dev` in another terminal"
+                    );
+                    eprintln!(
+                        "maktabati: no Vite dev server on 127.0.0.1:1420 — the window will be \
+                         blank. Run `npm run tauri dev`."
+                    );
+                    app.dialog()
+                        .message(
+                            "The Vite dev server is not running on port 1420, so this window \
+                             would be blank.\n\nRun `npm run tauri dev` — or `npm run dev` in \
+                             another terminal — and reopen.",
+                        )
+                        .title("Maktabati — dev server not running")
+                        .blocking_show();
+                }
+            }
 
             let db = open_database(&data_dir)?;
             tracing::info!(data_dir = %data_dir.display(), "database ready");

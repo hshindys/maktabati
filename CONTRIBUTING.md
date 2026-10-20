@@ -19,6 +19,23 @@ Arabic-first and offline-first; everything else is negotiable in review.
 5. **Conventional commits.** `feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `chore:`, with an
    optional `scope` — `feat(search): …`.
 
+## Running the app
+
+Three ways to start it, and one trap:
+
+- **`npm run tauri dev`** — the real thing. Tauri runs Vite itself (via `beforeDevCommand`),
+  opens the window, and hot-reloads both the Rust and the Svelte side. This is the command.
+- **`npm run dev`** — browser preview only, at http://localhost:1420. There is no IPC shell in a
+  plain browser, so views degrade to their designed empty states (the `NO_SHELL` outcome in
+  `src/lib/api.ts`); useful for iterating on markup, useless for verifying behaviour.
+- **`cargo build -p maktabati-app && ./target/debug/maktabati-app`** — the trap: a debug build
+  points the webview at `build.devUrl` (http://localhost:1420). With no Vite running the window
+  used to render a blank page with no explanation. The shell now probes port 1420 at startup
+  and, when nothing listens, logs `dev server not reachable` and shows a dialog naming the fix.
+
+Production bundle: `npm run tauri build` (`--no-bundle` skips packaging and just links the
+release binary).
+
 ## Commit format
 
 ```
