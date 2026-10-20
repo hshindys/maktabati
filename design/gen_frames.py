@@ -304,8 +304,11 @@ def shell(frame_name: str, active: str, x: int = 0) -> int:
     rule(tb)
 
     # ── Body: main first (visual left), rail second (visual right).
-    body = h(root, sizing_h="fill", sizing_v="fill", gap=0)
-    main = v(body, name="main", sizing_h="fill", sizing_v="fill", gap=0)
+    # FigCraft's default frame fill is opaque WHITE, so a full-size container
+    # created without an explicit fill paints white over the shell background.
+    body = h(root, sizing_h="fill", sizing_v="fill", gap=0, fill=LIGHT["surface-0"])
+    main = v(body, name="main", sizing_h="fill", sizing_v="fill", gap=0,
+             fill=LIGHT["surface-0"])
 
     rail = h(body, name="sidebar", width=RAIL, sizing_h="fixed", sizing_v="fill",
              fill=LIGHT["surface-1"], gap=0)

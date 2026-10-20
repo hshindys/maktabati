@@ -323,6 +323,11 @@ class Script:
               height=None, sizing_h=None, sizing_v=None, main_align=None,
               cross_align=None, clip=None, cross_gap=None,
               x=None, y=None) -> int:
+        # FigCraft's default fill is opaque WHITE, so a container that wants to
+        # be transparent has to say so explicitly. `_props` maps `[]` to
+        # `"fills": []`, which renders as no fill at all.
+        if fill is None:
+            fill = []
         params: dict = {"type": "frame", "name": name, "select": False}
         if parent is not None:
             params["parent"] = {"$step": parent}
