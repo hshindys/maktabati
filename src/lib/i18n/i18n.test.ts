@@ -15,8 +15,14 @@ describe("catalogues", () => {
   it("has no untranslated Arabic value that is byte-identical to English", () => {
     // A handful of values are legitimately identical (e.g. the Latin-script accent names are
     // not, but "Ctrl+K" is, and PDF is PDF in every locale). Allow-list them explicitly so
-    // adding a new copy-paste is caught.
-    const allowedIdentical = new Set<string>(["shell.searchHint", "wizard.format.pdf"]);
+    // adding a new copy-paste is caught. ISBN stays Latin in Arabic bibliography — the
+    // digits and the check symbol are part of the identifier, so it is not translated.
+    const allowedIdentical = new Set<string>([
+      "shell.searchHint",
+      "wizard.format.pdf",
+      "book.isbn10",
+      "book.isbn13",
+    ]);
     const suspicious = Object.keys(ar).filter(
       (k) => ar[k as keyof typeof ar] === en[k as keyof typeof en] && !allowedIdentical.has(k),
     );

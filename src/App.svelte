@@ -9,6 +9,7 @@
   import Gallery from "./lib/views/Gallery.svelte";
   import LibraryView from "./lib/views/Library.svelte";
   import SettingsView from "./lib/views/Settings.svelte";
+  import BookPage from "./lib/views/BookPage.svelte";
   import Placeholder from "./lib/views/Placeholder.svelte";
   import AddBook from "./lib/views/AddBook.svelte";
 
@@ -53,6 +54,10 @@
             <SettingsView />
           {:else if currentPath === "/dev/gallery"}
             <Gallery />
+          {:else if currentPath.startsWith("/book/")}
+            <!-- A detail page, not a section: `/book/:id` keeps المكتبة lit in the rail via
+                 `activeHref`, so it is matched before the placeholder fallback. -->
+            <BookPage />
           {:else}
             <Placeholder path={currentPath} pattern={$route.pattern} />
           {/if}

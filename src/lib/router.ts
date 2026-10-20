@@ -125,6 +125,24 @@ export function isActive(pattern: string, current: string): boolean {
   return current === pattern || current.startsWith(`${pattern}/`);
 }
 
+/**
+ * The rail href a concrete path should light up.
+ *
+ * A detail page keeps its owning section lit instead of clearing the whole rail: opening a
+ * book must not make المكتبة go dark, because a rail with nothing selected reads as "lost".
+ * `/book/:id` is the one alias that has no `/book` route of its own; every other two-segment
+ * path (`/settings/backup`) owns its first segment already.
+ */
+export function activeHref(current: string): string {
+  if (current === "/") return "/";
+  if (current.startsWith("/book/")) return "/library";
+  const [head] = current.split("/").filter(Boolean);
+  const parent = head === undefined ? "/" : `/${head}`;
+  // `ROUTES` is a tuple, so its `includes` only accepts a route literal; widening to
+  // `string` is the point of the check.
+  return (ROUTES as readonly string[]).includes(parent) ? parent : "/";
+}
+
 // Keep the store in step with the browser's own back/forward buttons.
 if (typeof window !== "undefined") {
   window.addEventListener("hashchange", () => {

@@ -18,7 +18,7 @@
   } from "@lucide/svelte";
 
   import { locale, translatorFor, type MessageKey } from "../i18n";
-  import { isActive } from "../router";
+  import { activeHref, isActive } from "../router";
   import { preferences, setPreferences } from "../settings";
 
   /**
@@ -91,7 +91,7 @@
 
 {#snippet navLink(item: NavItem)}
   {@const Icon = item.icon}
-  {@const active = isActive(item.href, currentPath)}
+  {@const active = isActive(item.href, activeHref(currentPath))}
   <a
     href="#{item.href}"
     title={collapsed ? t(item.key) : undefined}
