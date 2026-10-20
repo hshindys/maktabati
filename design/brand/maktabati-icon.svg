@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" viewBox="0 0 512 512">
+  <title>Maktabati Icon</title>
+  <g id="Layer_1" data-name="Layer 1">
+    <path d="M112 0 L400 0 C461.856 0 512 50.144 512 112 L512 400 C512 461.856 461.856 512 400 512 L112 512 C50.144 512 0 461.856 0 400 L0 112 C0 50.144 50.144 0 112 0 Z" fill="#fbf8f1"/>
+    <path d="M224 184 C168 180 120 196 72 208 L72 376 C140 380 190 364 224 352 Z" fill="#2a2621"/>
+    <path d="M288 184 C344 180 392 196 440 208 L440 376 C372 380 322 364 288 352 Z" fill="#2a2621"/>
+    <path d="M230 104 C230 89.641 241.641 78 256 78 C270.359 78 282 89.641 282 104 C282 118.359 270.359 130 256 130 C241.641 130 230 118.359 230 104 Z" fill="none" stroke="#2f6b4f" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M232 128 L280 128 L280 404 L256 376 L232 404 Z" fill="#2f6b4f"/>
+  </g>
+</svg>

@@ -2,6 +2,7 @@
   import { Languages, Lock, Maximize2, Minus, Minimize2, Moon, Search, Sun, X } from "@lucide/svelte";
   import { onMount } from "svelte";
 
+  import Mark from "./Mark.svelte";
   import { locale, translatorFor } from "../i18n";
   import { preferences, resolveTheme, setPreferences, THEME_CHOICES } from "../settings";
 
@@ -97,12 +98,7 @@
 >
   <!-- App mark + name -->
   <div class="titlebar-no-drag flex items-center gap-[var(--sp-2)] pe-[var(--sp-2)]">
-    <span
-      class="grid size-6 place-items-center rounded-[var(--r-sm)] bg-accent text-[13px] font-bold text-accent-fg"
-      aria-hidden="true"
-    >
-      م
-    </span>
+    <Mark class="size-6" />
     <span class="text-[var(--fs-base)] font-semibold text-ink-1">{t("app.name")}</span>
   </div>
 

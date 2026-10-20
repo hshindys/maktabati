@@ -15,6 +15,7 @@ Every claim below was verified on this machine. Reproduce before you change anyt
 - `Cargo.toml:96-98` already sets `[profile.dev] debug = 0`. Leave it.
 - i18n parity holds: 190 keys in `src/lib/i18n/ar.ts` and 190 in `en.ts`.
 - `design/` **is** tracked — 16 committed files (both `.figcraft` sources, `gen_design.py`, `gen_frames.py`, `icons.py`, `measure_spacing.py`, `frames.json`, `design-system.json`, and the 8 exported PNGs), landed in `f8822fb`, `41dfd8c`, `6680e2a`. `git status --short` is clean.
+- **Both design tools are already built and current — do not rebuild them.** `~/Projects/vectorcraft/target/release/vectorcraft-cli` (0.10.0) and `~/Projects/figcraft/target/release/figcraft-cli` (0.7.0) both run, and no source file is newer than either binary. Each workspace's `target/` is ~30 GB; a rebuild buys you nothing. See §4 and §5 for the verified invocations.
 
 ## 1. How to actually run the app (broken and undocumented today — see P0-2)
 
@@ -150,11 +151,25 @@ Reality: `crates/files/src/lib.rs` is a **1-line stub**, and none of the 50 IPC 
 
 The repo has **no vector master** for its mark. `src-tauri/icons/{icon.png,32x32.png,128x128.png,128x128@2x.png,icon.ico,icon.icns}` are rasterised by `scripts/make-icons.py` — Pillow polygons drawing a warm paper plate, an open book in ink, three text rules, and a green bookmark ribbon. It works, but it is drawn in code, has no SVG, no brand sheet, and no variants.
 
-VectorCraft lives at `~/Projects/vectorcraft` (pure-Rust, clean-room Illustrator reimplementation). There is **no prebuilt CLI at `target/debug`**; stale release binaries exist from earlier builds.
+VectorCraft lives at `~/Projects/vectorcraft` (pure-Rust, clean-room Illustrator reimplementation). **The CLI is already built and current — do not rebuild it.** Verified on this machine:
+
+- `~/Projects/vectorcraft/target/release/vectorcraft-cli` → `vectorcraft-cli 0.10.0`, built 2026-10-12, and **no `.rs` file under `crates/` or `apps/` is newer than it** (checked with `find crates apps -name '*.rs' -newer …`). The GUI binary `target/release/vectorcraft` is newer still (2026-10-15).
+- End-to-end smoke test that passed:
 
 ```bash
 cd ~/Projects/vectorcraft
-cargo build --release -p vectorcraft-cli          # CLI
+./target/release/vectorcraft-cli run \
+  --cmd file.new   --params '{"width":512,"height":512,"units":"Pixels"}' \
+  --cmd shape.polygon --params '{"cx":256,"cy":256,"radius":200,"sides":6}' \
+  --cmd shape.ellipse --params '{"x":156,"y":156,"width":200,"height":200}' \
+  --export /tmp/vc-smoke.svg
+# → {"bytes":605,"format":"svg","path":"/tmp/vc-smoke.svg","warnings":[]}  (valid SVG, one <path> per shape)
+```
+
+`commands` reports **743 commands**, including `path.create` (`{anchors:[{x,y,in?,out?}],closed?,d?}`), `shape.rectangle|ellipse|polygon|star|line|arc|spiral`, `text.create`, `object.transform`, `recolor.*` and `document.export` (`format: svg|svgz|pdf|png|…`). That is everything Task A needs — drive it headlessly with `run`, and only fall back to the GUI control server if you want to look at the art while drawing it.
+
+```bash
+# optional, interactive: GUI with the control server on 127.0.0.1:7979
 cargo run --release -p vectorcraft -- --control 7979 design/brand/maktabati-mark.vectorcraft
 ```
 
@@ -177,12 +192,21 @@ MCP mode is also available: `vectorcraft-cli mcp` (see `docs/mcp.md` in that rep
 
 ## 5. Task B — the GUI pass in FigCraft
 
-FigCraft lives at `~/Projects/figcraft` (pure-Rust, clean-room Figma reimplementation). Its `target/` was cleaned, so **build first**:
+FigCraft lives at `~/Projects/figcraft` (pure-Rust, clean-room Figma reimplementation). **Its CLI is already built and current — do not rebuild it.** Verified on this machine:
+
+- `~/Projects/figcraft/target/release/figcraft-cli` → `figcraft-cli 0.7.0`, built 2026-10-20, newer than every `.rs` file under `crates/` and `apps/`.
+- Both of this project's design files open cleanly in it:
 
 ```bash
-cd ~/Projects/figcraft
-cargo build --release -p figcraft-cli
+cd ~/Projects/maktabati/design
+~/Projects/figcraft/target/release/figcraft-cli info design-system.figcraft --json
+# → 298 nodes, 1 frame "Maktabati · Design System" (1440×3568), 0 missing fonts, 0 images
+~/Projects/figcraft/target/release/figcraft-cli info maktabati.figcraft --json
+# → 1279 nodes, 9 frames — Design System + 1·Dashboard + 2·Library + 3·Book page +
+#   4/5/6·Wizard + … , 0 missing fonts, 0 images
 ```
+
+Useful subcommands: `run <script.json> [--in FILE] [--out FILE]` (headless, JSON lines of `{"command": id, "params": {…}}`, one JSON result per step), `export <file> -o <dir> --format png|svg|pdf|fig [--node ID|NAME]`, `render`, `convert`, `commands [--filter TEXT]`, `mcp`. Pass `--no-system-fonts` for renders that must match on every machine.
 
 Hard rules from that repo's `AGENTS.md`, which you must not break: clean-room only, and **never add, copy, trace, redraw or embed any third-party product iconography, image, font, template or UI kit** — every asset under `assets/`, `docs/brand/` or `docs/images/` needs an `ATTRIBUTION.md` row or `cargo xtask assets` (part of `cargo xtask ci`) fails. FigCraft's own UI icons are drawn in code at `crates/ui-egui/src/icons.rs` from simple primitives. Parallel agents need separate `CARGO_TARGET_DIR`.
 

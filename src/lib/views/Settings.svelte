@@ -13,6 +13,7 @@
     type ThemeChoice,
   } from "../settings";
   import Card from "../components/Card.svelte";
+  import Mark from "../components/Mark.svelte";
 
   /**
    * Settings → Appearance & language.
@@ -198,10 +199,14 @@
 
   <!-- About -->
   <Card>
-    <h2 class="mb-[var(--sp-3)] text-[var(--fs-md)] font-semibold">{t("about.noTelemetry")}</h2>
-    <p class="text-[var(--fs-sm)] text-ink-3">
-      {t("app.tagline")}
-    </p>
+    <div class="flex items-center gap-[var(--sp-4)]">
+      <Mark class="size-12 shrink-0" title={t("app.name")} />
+      <div>
+        <h2 class="text-[var(--fs-lg)] font-semibold text-ink-1">{t("app.name")}</h2>
+        <p class="text-[var(--fs-sm)] text-ink-3">{t("app.tagline")}</p>
+      </div>
+    </div>
+    <p class="mt-[var(--sp-4)] text-[var(--fs-sm)] text-ink-2">{t("about.noTelemetry")}</p>
   </Card>
 </div>
 
