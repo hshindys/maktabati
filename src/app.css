@@ -30,6 +30,10 @@
   --color-accent-hover: var(--accent-hover);
   --color-accent-fg: var(--accent-fg);
   --color-accent-soft: var(--accent-soft);
+  /* The ink that sits on `--accent-soft`. Without this mapping `text-accent-soft-ink`
+   * silently emitted nothing, so the rail's active item and the selected accent swatch
+   * fell back to inherited ink — the "you are here" cue the design asks for (P1-10). */
+  --color-accent-soft-ink: var(--accent-soft-ink);
 
   --color-success: var(--success);
   --color-success-soft: var(--success-soft);
@@ -202,6 +206,20 @@
   --lh-tight: 1.25;
   --lh-normal: 1.6;
   --lh-read: 1.85; /* Arabic body: 1.75–1.9 (diacritics + descenders) */
+
+  /* Spacing — 4px base. These are the *values*; `@theme` below aliases Tailwind's
+   * `--spacing-N` at them, and every `p-[var(--sp-N)]` / `gap-[var(--sp-N)]` in the app
+   * reads them directly. Defining them here (rather than only in @theme) is what makes
+   * them real: an alias with no target silently resolves to nothing, which collapsed all
+   * 200+ spacing declarations in the app to 0 and flattened every screen. */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --sp-8: 64px;
 
   --r-sm: 6px;
   --r-md: 10px;
