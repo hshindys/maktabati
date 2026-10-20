@@ -9,8 +9,9 @@
   import TagInput from "../components/TagInput.svelte";
 
   import * as api from "../api";
-  import { ar, locale, translatorFor, type MessageKey } from "../i18n";
+  import { locale, translatorFor, type MessageKey } from "../i18n";
   import { canonicalIsbn, isValidIsbn } from "../isbn";
+  import { messageFor } from "../errors";
   import { clearDraft, EMPTY_DRAFT, loadDraft, saveDraft, type BookDraft, type EntityRef } from "../draft";
   import { addBookOpen, closeAddBook } from "../wizard";
   import { notifySaved, pushToast } from "../toast";
@@ -158,7 +159,7 @@
       authors = [...authors, res.data];
       return { id: res.data.id, name };
     }
-    pushToast(`${t("wizard.field.authors")} «${name}»: ${messageFor(res.error)}`, {
+    pushToast(`${t("wizard.field.authors")} «${name}»: ${messageFor(res.error, t)}`, {
       tone: "error",
     });
     return { id: null, name };
@@ -177,7 +178,7 @@
       publishers = [...publishers, res.data];
       return { id: res.data.id, name };
     }
-    pushToast(`${t("wizard.field.publisher")} «${name}»: ${messageFor(res.error)}`, {
+    pushToast(`${t("wizard.field.publisher")} «${name}»: ${messageFor(res.error, t)}`, {
       tone: "error",
     });
     return { id: null, name };
@@ -189,7 +190,7 @@
       seriesList = [...seriesList, res.data];
       return { id: res.data.id, name };
     }
-    pushToast(`${t("wizard.field.series")} «${name}»: ${messageFor(res.error)}`, {
+    pushToast(`${t("wizard.field.series")} «${name}»: ${messageFor(res.error, t)}`, {
       tone: "error",
     });
     return { id: null, name };
@@ -214,7 +215,7 @@
       categories = [...categories, res.data];
       return { id: res.data.id, name };
     }
-    pushToast(`${t("wizard.field.categories")} «${name}»: ${messageFor(res.error)}`, {
+    pushToast(`${t("wizard.field.categories")} «${name}»: ${messageFor(res.error, t)}`, {
       tone: "error",
     });
     return { id: null, name };
@@ -238,11 +239,6 @@
     if (!s) return null;
     const n = Number(s);
     return Number.isInteger(n) ? n : null;
-  }
-
-  function messageFor(error: { message: string; i18n_key: string | null }): string {
-    const key = error.i18n_key;
-    return key && key in ar ? t(key as MessageKey) : error.message;
   }
 
   /** Check what the user typed; returns messages and the step that holds the first problem. */
@@ -352,7 +348,7 @@
             authors = [...authors, res.data];
             id = res.data.id;
           } else {
-            errs.push(`${t("wizard.field.authors")} «${a.name}»: ${messageFor(res.error)}`);
+            errs.push(`${t("wizard.field.authors")} «${a.name}»: ${messageFor(res.error, t)}`);
           }
         }
         if (id) credits.push({ author_id: id, role: "author" });
@@ -373,7 +369,7 @@
           publisherId = res.data.id;
         } else {
           errs.push(
-            `${t("wizard.field.publisher")} «${draft.publisher.name}»: ${messageFor(res.error)}`,
+            `${t("wizard.field.publisher")} «${draft.publisher.name}»: ${messageFor(res.error, t)}`,
           );
         }
       }
@@ -386,7 +382,7 @@
           seriesId = res.data.id;
         } else {
           errs.push(
-            `${t("wizard.field.series")} «${draft.series.name}»: ${messageFor(res.error)}`,
+            `${t("wizard.field.series")} «${draft.series.name}»: ${messageFor(res.error, t)}`,
           );
         }
       }
@@ -403,7 +399,7 @@
           tags = [...tags, res.data];
           tagIds.push(res.data.id);
         } else {
-          errs.push(`${t("wizard.field.tags")} «${name}»: ${messageFor(res.error)}`);
+          errs.push(`${t("wizard.field.tags")} «${name}»: ${messageFor(res.error, t)}`);
         }
       }
 
@@ -428,7 +424,7 @@
         dupMatches = [];
         closeAddBook();
       } else {
-        saveErrors = [messageFor(res.error)];
+        saveErrors = [messageFor(res.error, t)];
       }
     } finally {
       saving = false;

@@ -181,6 +181,7 @@ export const ar = {
 
   "error.internal": "حدث خطأ غير متوقع. سجّل التفاصيل وأعد المحاولة.",
   "error.shell.unavailable": "المعاينة تعمل بلا تطبيق، فلا تُنفَّذ الأوامر هنا.",
+  "error.shell.invoke_failed": "تعذّر الاتصال بتطبيق سطح المكتب — راجع سجل الأخطاء.",
   "error.title": "تعذّر إتمام العملية",
   "error.storage.not_found": "لم يعد هذا العنصر موجوداً.",
   "error.storage.duplicate": "عنصر بنفس البيانات موجود مسبقاً.",

@@ -47,14 +47,18 @@ export const EMPTY_SUMMARY: LibrarySummary = {
 };
 
 /** `true` when the page is running inside the Tauri shell rather than a browser. */
-export async function isTauri(): Promise<boolean> {
-  try {
-    const { getCurrentWindow } = await import("@tauri-apps/api/window");
-    getCurrentWindow();
-    return true;
-  } catch {
-    return false;
-  }
+let shellProbe: Promise<boolean> | null = null;
+export function isTauri(): Promise<boolean> {
+  shellProbe ??= (async () => {
+    try {
+      const { getCurrentWindow } = await import("@tauri-apps/api/window");
+      getCurrentWindow();
+      return true;
+    } catch {
+      return false;
+    }
+  })();
+  return shellProbe;
 }
 
 /** Load the command table, or `null` when there is none (browser preview). */
@@ -67,73 +71,98 @@ async function commands(): Promise<typeof import("@/bindings").commands | null> 
 }
 
 /**
+ * Outcome of a *read* command — the same discipline the write path already has.
+ *
+ * P0-5: these helpers used to collapse a backend error into `EMPTY_SUMMARY`/`null`, so a
+ * corrupt, locked or missing database rendered exactly like a brand-new library: clean
+ * empty state, zero counters, no log line. A failure now reaches the caller intact and
+ * the view decides how to say it. The browser preview keeps its designed fallback — no
+ * shell is not an error, it is a different runtime.
+ */
+export type ReadResult<T> = { status: "ok"; data: T } | { status: "error"; error: AppErrorDto };
+
+/** The browser preview: no backend exists, so the empty value really is the answer. */
+function preview<T>(data: T): ReadResult<T> {
+  return { status: "ok", data };
+}
+
+/** A native invoke failure (no shell behind an existing table, IPC broken) as an error. */
+function invokeFailure(cause: unknown): AppErrorDto {
+  return {
+    code: "shell.invoke_failed",
+    message: cause instanceof Error ? cause.message : String(cause),
+    i18n_key: "error.shell.invoke_failed",
+    details: null,
+  };
+}
+
+/**
  * Fetch the library summary.
  *
- * `year` selects the window for the "finished this year" counter. Outside Tauri this resolves
- * to [`EMPTY_SUMMARY`] so the dashboard renders its designed empty state rather than a spinner
- * that never resolves.
+ * `year` selects the window for the "finished this year" counter. Outside the shell this
+ * resolves to [`EMPTY_SUMMARY`] so the dashboard renders its designed empty state; inside
+ * it, a failed command arrives as `{ status: "error" }` with the backend's `AppErrorDto`.
  */
-export async function getLibrarySummary(year?: number): Promise<LibrarySummary> {
+export async function getLibrarySummary(year?: number): Promise<ReadResult<LibrarySummary>> {
   const cmds = await commands();
-  if (cmds === null) return EMPTY_SUMMARY;
+  if (cmds === null || !(await isTauri())) return preview(EMPTY_SUMMARY);
   try {
-    // `typedError` resolves with a discriminated union instead of rejecting, so a failed
-    // command arrives as `{ status: "error" }` and must be narrowed here — the `catch` below
-    // only covers native failures such as the invoke not existing outside Tauri.
     const res = await cmds.librarySummary(year ?? null);
-    return res.status === "ok" ? res.data : EMPTY_SUMMARY;
-  } catch {
-    return EMPTY_SUMMARY;
+    return res.status === "ok" ? res : { status: "error", error: res.error };
+  } catch (e) {
+    return { status: "error", error: invokeFailure(e) };
   }
 }
 
 /** Fetch installation facts for Settings → About. */
-export async function getAppInfo(): Promise<AppInfo | null> {
+export async function getAppInfo(): Promise<ReadResult<AppInfo | null>> {
   const cmds = await commands();
-  if (cmds === null) return null;
+  if (cmds === null || !(await isTauri())) return preview(null);
   try {
     const res = await cmds.appInfo();
-    return res.status === "ok" ? res.data : null;
-  } catch {
-    return null;
+    return res.status === "ok" ? res : { status: "error", error: res.error };
+  } catch (e) {
+    return { status: "error", error: invokeFailure(e) };
   }
 }
 
 /** Run the storage health check. */
-export async function getLibraryHealth(): Promise<LibraryHealth | null> {
+export async function getLibraryHealth(): Promise<ReadResult<LibraryHealth | null>> {
   const cmds = await commands();
-  if (cmds === null) return null;
+  if (cmds === null || !(await isTauri())) return preview(null);
   try {
     const res = await cmds.libraryHealth();
-    return res.status === "ok" ? res.data : null;
-  } catch {
-    return null;
+    return res.status === "ok" ? res : { status: "error", error: res.error };
+  } catch (e) {
+    return { status: "error", error: invokeFailure(e) };
   }
 }
 
-/** Read one setting. */
-export async function getSetting<T>(key: string): Promise<T | null> {
+/** Read one setting; `ok(null)` means the key has never been written. */
+export async function getSetting<T>(key: string): Promise<ReadResult<T | null>> {
   const cmds = await commands();
-  if (cmds === null) return null;
+  if (cmds === null || !(await isTauri())) return preview(null);
   try {
     const res = await cmds.settingsGet(key);
     // The wire type is `Json`; the caller knows the setting's own shape, which is why this
     // module is the documented home of the cast.
-    return res.status === "ok" ? (res.data as unknown as T | null) : null;
-  } catch {
-    return null;
+    return res.status === "ok"
+      ? { status: "ok", data: res.data as unknown as T | null }
+      : { status: "error", error: res.error };
+  } catch (e) {
+    return { status: "error", error: invokeFailure(e) };
   }
 }
 
 /** Write one setting. */
-export async function setSetting(key: string, value: unknown): Promise<boolean> {
+export async function setSetting(key: string, value: unknown): Promise<ReadResult<null>> {
   const cmds = await commands();
-  if (cmds === null) return false;
+  if (cmds === null || !(await isTauri())) return preview(null);
   try {
     const res = await cmds.settingsSet(key, value as never);
-    return res.status === "ok";
-  } catch {
-    return false;
+    return res.status === "ok" ? { status: "ok", data: null } : { status: "error", error: res.error };
+  } catch (e) {
+    return { status: "error", error: invokeFailure(e) };
   }
 }
 

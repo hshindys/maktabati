@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { BookOpen, Flame, Library, Target } from "@lucide/svelte";
+  import { BookOpen, Flame, Library, Target, TriangleAlert } from "@lucide/svelte";
   import { onMount } from "svelte";
 
-  import { countFor, getLibrarySummary, type ReadingStatus } from "../api";
+  import { countFor, getLibrarySummary, EMPTY_SUMMARY, type ReadingStatus } from "../api";
   import Button from "../components/Button.svelte";
   import Card from "../components/Card.svelte";
   import CoverPlaceholder from "../components/CoverPlaceholder.svelte";
@@ -10,19 +10,21 @@
   import KpiCard from "../components/KpiCard.svelte";
   import ProgressBar from "../components/ProgressBar.svelte";
   import { locale, translatorFor } from "../i18n";
+  import { messageFor } from "../errors";
   import { formatDate, formatNumber, gregorianYear, type DigitStyle } from "../format";
   import { preferences } from "../settings";
   import { go } from "../router";
   import { openAddBook } from "../wizard";
-  import type { LibrarySummary } from "@/bindings";
-  import { EMPTY_SUMMARY } from "../api";
+  import type { AppErrorDto, LibrarySummary } from "@/bindings";
 
   /**
-   * Dashboard — "understand my reading" (docs/04-ux-design.md §4.1).
+   * Dashboard — "understand my library" (docs/04-ux-design.md §4.1).
    *
    * The first screen after onboarding and the one that answers "where was I?" in under a
-   * second, so it leads with counts rather than charts and never blocks on a spinner: the
-   * summary request resolves or the designed empty state takes its place.
+   * second, so it leads with counts rather than charts and never blocks on a spinner. A
+   * *failed* summary is not an empty library (P0-5): it gets its own state with the real
+   * error and a retry, because a corrupt database wearing a clean empty state is the worst
+   * possible first impression.
    */
 
   let t = $derived(translatorFor($locale));
@@ -30,12 +32,23 @@
   let year = $derived(gregorianYear(Date.now()));
 
   let summary = $state<LibrarySummary>(EMPTY_SUMMARY);
+  let loadError = $state<AppErrorDto | null>(null);
   let loading = $state(true);
 
-  onMount(async () => {
-    summary = await getLibrarySummary(year);
+  async function load(): Promise<void> {
+    loading = true;
+    const res = await getLibrarySummary(year);
+    if (res.status === "ok") {
+      summary = res.data;
+      loadError = null;
+    } else {
+      summary = EMPTY_SUMMARY;
+      loadError = res.error;
+    }
     loading = false;
-  });
+  }
+
+  onMount(() => void load());
 
   let today = $derived(
     formatDate(Date.now(), $locale, $preferences.calendar, digits),
@@ -73,6 +86,21 @@
         <div class="h-[7.5rem] animate-pulse rounded-[var(--r-lg)] border border-border-1 bg-surface-2"></div>
       {/each}
     </div>
+  {:else if loadError}
+    <!-- A backend failure is not an empty library (P0-5): name it, show the real
+         message, offer the retry. -->
+    <Card>
+      <div role="alert" class="flex flex-col items-start gap-[var(--sp-3)]">
+        <div class="flex items-center gap-2 text-[var(--fs-md)] font-semibold text-danger">
+          <TriangleAlert class="size-5 no-mirror" strokeWidth={2} />
+          {t("error.title")}
+        </div>
+        <p class="text-[var(--fs-base)] text-ink-2" dir="auto">
+          {messageFor(loadError, t)}
+        </p>
+        <Button onclick={() => void load()}>{t("common.retry")}</Button>
+      </div>
+    </Card>
   {:else if isEmpty}
     <Card>
       <EmptyState

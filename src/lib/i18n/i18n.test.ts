@@ -65,8 +65,9 @@ describe("translator", () => {
 
 describe("error keys", () => {
   /**
-   * Every code `DomainError::code` and `StorageError::code` can produce, plus the one the
-   * frontend raises on its own (`error.shell.unavailable`, `api.ts`'s `NO_SHELL`).
+   * Every code `DomainError::code` and `StorageError::code` can produce, plus the two the
+   * frontend raises on its own (`error.shell.unavailable` from `api.ts`'s `NO_SHELL`, and
+   * `error.shell.invoke_failed` from the read path's native-failure branch, P0-5).
    *
    * `AppErrorDto.i18n_key` is derived as `error.{code}`, so a code with no entry here would
    * show a developer string to a user. Mirrored from `domain/src/error.rs` and
@@ -103,6 +104,8 @@ describe("error keys", () => {
     "error.internal",
     // frontend-owned: a command invoked with no shell behind it (api.ts, browser preview)
     "error.shell.unavailable",
+    // frontend-owned: the read path catching a native invoke failure (api.ts, P0-5)
+    "error.shell.invoke_failed",
     "error.title",
   ];
 
