@@ -20,7 +20,7 @@ commits before moving on. Effort is estimated in focused engineering days for on
 | **0** | Online research → `docs/00-research.md` | 1.5 d | ✅ |
 | **1** | Planning & architecture docs + ADRs | 2 d | ✅ |
 | **2** | Workspace scaffold, CI, design system, app shell, i18n/RTL, DB + migrations + seed | 4 d | ✅ |
-| **3** | CRUD for books/authors/publishers/categories/tags + add-book wizard + covers | 4 d | ⬜ |
+| **3** | CRUD for books/authors/publishers/categories/tags + add-book wizard | 4 d | ✅ |
 | **4** | Metadata lookup, duplicate detection, import/export | 3 d | ⬜ |
 | **5** | Library browser, filters, shelves, command palette, Arabic-aware search | 4 d | ⬜ |
 | **6** | Per-book page: overview, status/progress, reading sessions, related | 3 d | ⬜ |
@@ -129,20 +129,24 @@ commits before moving on. Effort is estimated in focused engineering days for on
 
 ---
 
-## M3 — Catalogue CRUD
+## M3 — Catalogue CRUD ✅
 
 **Scope:** books / authors / publishers / categories / tags / languages / series CRUD with
 validation (ISBN, required fields, enum checks), inline entity creation + autocomplete in forms,
-the **sectioned add-book wizard**, cover upload + drag-and-drop + generated Arabic placeholder +
-thumbnail cache.
+the **sectioned add-book wizard**. Cover ingest moved to M8 — see the note under the criteria.
 
 **Acceptance criteria**
-- [ ] Every entity: create, read, update, delete, with repository integration tests
-- [ ] Wizard: 4 steps, inline create, validation summaries, cancel/restore
-- [ ] ISBN-10/13 validated (checksum) with clear localized errors; property tests for validation
-- [ ] Cover: upload, drag-drop, thumbnail regeneration, placeholder renders Arabic correctly
-- [ ] Duplicate check at save time (ISBN + `title_norm|author_norm`) warns but allows override
-- [ ] `fmt`/`clippy`/tests green
+- [x] Every entity: create, read, update, delete, with repository integration tests
+- [x] Wizard: 4 steps, inline create, validation summaries, cancel/restore
+- [x] ISBN-10/13 validated (checksum) with clear localized errors; property tests for validation
+- [x] Duplicate check at save time (ISBN + `title_norm|author_norm`) warns but allows override
+- [x] `fmt`/`clippy`/tests green
+
+> **Cover criterion moved to M8.** Upload, drag-drop, thumbnail regeneration and the Arabic
+> placeholder all need `crates/files` (ingest, SHA-256 dedupe, downscale, WebP thumbnail
+> cache), which is the M8 files crate. The wizard's cover drop-zone stays absent until that
+> backend exists rather than shipping a control that cannot store a cover. The `CoverPlaceholder`
+> component (which renders Arabic correctly) already exists.
 
 **Risks:** cover formats (AVIF/HEIC) — accept JPEG/PNG/WebP only, documented; large images → downscale on ingest.
 
@@ -236,6 +240,10 @@ extraction, chunked safe read, folder watcher), reader overlay (pdf.js + foliate
 themes/fonts/RTL, bookmarks, **highlight → quote**, position sync to `reading_cycles`/progress.
 
 **Acceptance criteria**
+- [ ] Cover pipeline: ingest (JPEG/PNG/WebP only), downscale on ingest, WebP thumbnail cache at
+      `{book_id}_{200,400,800}.webp`, EXIF stripped, max 4096px; wizard drop-zone + drag-drop onto
+      the library grid; `cover_set` / `cover_remove` / `cover_regenerate` commands; Arabic
+      placeholder renders correctly at every size
 - [ ] Attach: copy vs reference; dedupe proven by a test attaching the same bytes twice
 - [ ] Path traversal impossible (tests attempt `../../etc/passwd` and absolute escapes)
 - [ ] Type/size validation (magic bytes + allowlist) rejects mismatched content

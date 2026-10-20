@@ -8,7 +8,7 @@
 
 ## Status
 
-In active development. Milestones `M0`–`M3` are complete: research and specs, the domain/storage/search core, the Tauri shell, and the catalogue — 44 backend commands plus the four-step add-book wizard (live ISBN validation, duplicate warning, draft persistence). The remaining screens and importers are landing milestone by milestone. See [`docs/05-roadmap.md`](docs/05-roadmap.md) for what is done and what is next.
+In active development. Milestones `M0`–`M3` are complete: research and specs, the domain/storage core, the Tauri shell, and the catalogue — 50 backend commands plus the four-step add-book wizard (live ISBN validation, duplicate warning, draft persistence). Cover ingest is not part of M3; it moves to the `files` crate in M8. The remaining screens and importers are landing milestone by milestone. See [`docs/05-roadmap.md`](docs/05-roadmap.md) for what is done and what is next.
 
 ## Why
 
@@ -29,14 +29,18 @@ src-tauri/            Tauri shell: window, tray, plugins, IPC commands
 crates/
   ├── domain/         entities, validation, ISBN, Arabic-aware text normalization
   ├── storage/        SQLite: pool, checksummed migrations, seed, repositories
-  ├── search/         FTS5 index + Arabic normalization
-  ├── metadata/       Open Library / Google Books, rate-limited, cache-first
-  ├── files/          attachment import, SHA-256 dedupe, cover extraction
-  ├── notes/          block-based notes, backlinks, Markdown export
-  ├── stats/          aggregates, heatmap, goals
-  └── backup/         snapshot, verify, restore
+  ├── search/         FTS5 index + Arabic normalization              (planned — M5)
+  ├── metadata/       Open Library / Google Books, rate-limited      (planned — M4)
+  ├── files/          attachment import, dedupe, cover extraction    (planned — M8)
+  ├── notes/          block-based notes, backlinks, Markdown export  (planned — M7)
+  ├── stats/          aggregates, heatmap, goals                     (planned — M10)
+  └── backup/         snapshot, verify, restore                      (planned — M11)
 src/                  Svelte 5 + TS + Tailwind v4 (no domain logic)
 ```
+
+The crates marked **planned** are scaffolded (an empty `lib.rs` and a `Cargo.toml` so the
+workspace builds) but carry no logic yet — each lands with its milestone. `domain`, `storage`
+and the `src-tauri` command surface are the ones that are built and tested today.
 
 Key decisions are recorded as ADRs in [`docs/adr/`](docs/adr/):
 
