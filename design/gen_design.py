@@ -226,11 +226,15 @@ TYPE_SCALE.reverse()
 
 RADII = [(key, int(_px(value))) for key, value in _ROOT.items() if key.startswith("r-")]
 
-# Spacing: `app.css` only *aliases* --sp-N (in @theme); the literal 4/8/12/16/24/
-# 32/48/64 rhythm those aliases point at is the documented scale in
-# docs/04-ux-design.md §6, so it is read from there rather than invented here.
-SPACING = [("sp-1", 4), ("sp-2", 8), ("sp-3", 12), ("sp-4", 16),
-           ("sp-5", 24), ("sp-6", 32), ("sp-7", 48), ("sp-8", 64)]
+# Spacing is parsed from `:root` like every other scale. The literals live in
+# app.css because that is what `@theme`'s `--spacing-N` aliases point at — reading
+# them here means the sheet cannot describe a rhythm the running app does not use,
+# which is exactly how the two drifted apart before (the app shipped no `--sp-*`
+# at all, and every spacing declaration in it resolved to zero).
+SPACING = sorted(
+    ((key, int(_px(value))) for key, value in _ROOT.items() if key.startswith("sp-")),
+    key=lambda kv: int(kv[0][3:]),
+)
 
 MOTION = [
     (key, value.strip())
