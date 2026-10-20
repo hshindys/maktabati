@@ -15,7 +15,8 @@
     "test:watch": "vitest",
     "lint:logical-css": "node scripts/check-logical-css.mjs",
     "lint:contrast": "node scripts/check-contrast.mjs",
-    "check": "npm run typecheck && npm run test && npm run lint:logical-css && npm run lint:contrast"
+    "lint:tokens": "node scripts/check-tokens-defined.mjs",
+    "check": "npm run typecheck && npm run test && npm run lint:logical-css && npm run lint:contrast && npm run lint:tokens"
   },
   "dependencies": {
     "@lucide/svelte": "^1.59.0",
