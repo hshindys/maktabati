@@ -25,6 +25,10 @@ export const ar = {
   "nav.transfer": "استيراد / تصدير",
   "nav.settings": "الإعدادات",
   "nav.gallery": "معرض المكوّنات",
+  "nav.group.library": "المكتبة",
+  "nav.group.organize": "التنظيم",
+  "nav.group.track": "المتابعة",
+  "nav.group.system": "النظام",
 
   "shell.search": "ابحث في كل شيء",
   "shell.searchHint": "Ctrl+K",
@@ -59,6 +63,10 @@ export const ar = {
   "dashboard.empty.title": "مكتبتك فارغة",
   "dashboard.empty.body": "أضف كتابك الأول خلال أقل من دقيقة.",
   "dashboard.empty.action": "إضافة كتاب",
+  "dashboard.empty.importTitle": "استيراد من Goodreads",
+  "dashboard.empty.importBody": "انقل مكتبتك كاملة عبر ملف CSV في خطوة واحدة.",
+  "dashboard.empty.scanTitle": "امسح رمز ISBN",
+  "dashboard.empty.scanBody": "أضف كتابًا بقراءة الرمز المطبوع على غلافه.",
 
   "library.title": "المكتبة",
   "library.count": "كتاب",

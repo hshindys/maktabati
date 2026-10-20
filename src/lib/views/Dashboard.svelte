@@ -1,13 +1,13 @@
 <script lang="ts">
-  import { BookOpen, Flame, Library, Target, TriangleAlert } from "@lucide/svelte";
+  import { ArrowLeftRight, Barcode, BookOpen, Flame, Library, Target, TriangleAlert } from "@lucide/svelte";
   import { onMount } from "svelte";
 
   import { countFor, getLibrarySummary, EMPTY_SUMMARY, type ReadingStatus } from "../api";
   import Button from "../components/Button.svelte";
   import Card from "../components/Card.svelte";
   import CoverPlaceholder from "../components/CoverPlaceholder.svelte";
-  import EmptyState from "../components/EmptyState.svelte";
   import KpiCard from "../components/KpiCard.svelte";
+  import Mark from "../components/Mark.svelte";
   import ProgressBar from "../components/ProgressBar.svelte";
   import { locale, translatorFor } from "../i18n";
   import { messageFor } from "../errors";
@@ -102,14 +102,55 @@
       </div>
     </Card>
   {:else if isEmpty}
-    <Card>
-      <EmptyState
-        title={t("dashboard.empty.title")}
-        body={t("dashboard.empty.body")}
-        actionLabel={t("dashboard.empty.action")}
-        onaction={() => openAddBook()}
-      />
-    </Card>
+    <!-- A teaching empty state (P1-10): the first screen should show how the product works,
+         not sit as a small centred card. One primary action, two ways to get books in. -->
+    <div
+      class="flex flex-col items-center gap-[var(--sp-6)] rounded-[var(--r-xl)] border border-border-1 bg-surface-1 px-[var(--sp-6)] py-[var(--sp-8)] text-center shadow-[var(--sh-1)]"
+    >
+      <div class="flex flex-col items-center gap-[var(--sp-2)]">
+        <Mark class="size-16" />
+        <h2 class="mt-[var(--sp-2)] text-[var(--fs-xl)] font-semibold">{t("dashboard.empty.title")}</h2>
+        <p class="max-w-md text-[var(--fs-base)] text-ink-2">{t("dashboard.empty.body")}</p>
+      </div>
+
+      <Button variant="primary" size="lg" onclick={() => openAddBook()}>
+        {t("dashboard.empty.action")}
+      </Button>
+
+      <div class="grid w-full max-w-2xl gap-[var(--sp-4)] sm:grid-cols-2">
+        <button
+          type="button"
+          onclick={() => go("/transfer")}
+          class="flex items-start gap-[var(--sp-3)] rounded-[var(--r-lg)] border border-border-1 bg-surface-2 p-[var(--sp-4)] text-start transition-colors hover:border-border-2 hover:bg-surface-3"
+        >
+          <ArrowLeftRight class="mt-0.5 size-5 shrink-0 text-accent no-mirror" strokeWidth={1.75} />
+          <span>
+            <span class="block text-[var(--fs-base)] font-medium text-ink-1">
+              {t("dashboard.empty.importTitle")}
+            </span>
+            <span class="mt-0.5 block text-[var(--fs-sm)] text-ink-3">
+              {t("dashboard.empty.importBody")}
+            </span>
+          </span>
+        </button>
+
+        <button
+          type="button"
+          onclick={() => openAddBook()}
+          class="flex items-start gap-[var(--sp-3)] rounded-[var(--r-lg)] border border-border-1 bg-surface-2 p-[var(--sp-4)] text-start transition-colors hover:border-border-2 hover:bg-surface-3"
+        >
+          <Barcode class="mt-0.5 size-5 shrink-0 text-accent no-mirror" strokeWidth={1.75} />
+          <span>
+            <span class="block text-[var(--fs-base)] font-medium text-ink-1">
+              {t("dashboard.empty.scanTitle")}
+            </span>
+            <span class="mt-0.5 block text-[var(--fs-sm)] text-ink-3">
+              {t("dashboard.empty.scanBody")}
+            </span>
+          </span>
+        </button>
+      </div>
+    </div>
   {:else}
     <!-- KPI row -->
     <div class="grid grid-cols-2 gap-[var(--sp-4)] lg:grid-cols-4">

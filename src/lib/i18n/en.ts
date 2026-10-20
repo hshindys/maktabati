@@ -25,6 +25,10 @@ export const en: Record<MessageKey, string> = {
   "nav.transfer": "Import / Export",
   "nav.settings": "Settings",
   "nav.gallery": "Component gallery",
+  "nav.group.library": "Library",
+  "nav.group.organize": "Organize",
+  "nav.group.track": "Track",
+  "nav.group.system": "System",
 
   "shell.search": "Search everything",
   "shell.searchHint": "Ctrl+K",
@@ -59,6 +63,10 @@ export const en: Record<MessageKey, string> = {
   "dashboard.empty.title": "Your library is empty",
   "dashboard.empty.body": "Add your first book — it takes under a minute.",
   "dashboard.empty.action": "Add a book",
+  "dashboard.empty.importTitle": "Import from Goodreads",
+  "dashboard.empty.importBody": "Bring your whole library over from a CSV file in one step.",
+  "dashboard.empty.scanTitle": "Scan an ISBN",
+  "dashboard.empty.scanBody": "Add a book by reading the barcode printed on its cover.",
 
   "library.title": "Library",
   "library.count": "books",
