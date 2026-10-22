@@ -28,8 +28,8 @@
    * It never disappears: past 1100 px it collapses to icons with tooltips, because a nav that
    * hides behind a hamburger makes a 13-screen app feel twice as deep. The rail is grouped
    * (P1-10) into Library / Organize / Track / System so the twelve screens read as four
-   * ideas rather than one flat list, and the active item carries a leading accent bar — the
-   * "you are here" cue a soft pill alone never quite lands.
+   * ideas rather than one flat list, and the active item carries an accent bar on the edge
+   * facing the content — the "you are here" cue a soft pill alone never quite lands.
    *
    * The brand block on top is not decoration: it is the only place in the shell that names
    * the product, and the mark is the VectorCraft master inlined (`Mark.svelte`), so it
@@ -107,7 +107,7 @@
   >
     {#if active}
       <!-- The "you are here" bar: flush to the rail edge, accent-filled. -->
-      <span class="absolute inset-y-1.5 start-0 w-[3px] rounded-full bg-accent" aria-hidden="true"></span>
+      <span class="absolute inset-y-1.5 end-0 w-[3px] rounded-full bg-accent" aria-hidden="true"></span>
     {/if}
     <Icon class="size-4.5 shrink-0" strokeWidth={1.75} />
     {#if !collapsed}
@@ -117,7 +117,7 @@
 {/snippet}
 
 <nav
-  class="z-20 flex h-full shrink-0 flex-col border-e border-border-1 bg-surface-1 transition-[inline-size] duration-[var(--dur-base)] ease-[var(--ease)]"
+  class="z-20 flex h-full shrink-0 flex-col border-s border-border-1 bg-surface-1 transition-[inline-size] duration-[var(--dur-base)] ease-[var(--ease)]"
   style="inline-size: {collapsed ? 'var(--rail)' : 'var(--drawer)'}"
   aria-label={t("app.name")}
 >

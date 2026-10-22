@@ -39,8 +39,9 @@
   <TitleBar />
 
   <div class="flex min-h-0 flex-1">
-    <Sidebar {currentPath} />
-
+    <!-- `<main>` comes first in the DOM so it is the first thing a screen reader reaches,
+         and in an RTL flex row the first child is the right-most one — so the rail lands on
+         the left (the side the user asked for) while the content keeps its right-hand start. -->
     <main class="min-w-0 flex-1 overflow-y-auto" id="main">
       <!-- `key` forces a remount on route change so the enter animation replays; the
            transition itself is capped at 120 ms (docs/04-ux-design.md §5.5). -->
@@ -64,6 +65,8 @@
         </div>
       {/key}
     </main>
+
+    <Sidebar {currentPath} />
   </div>
 
   <Toasts />
