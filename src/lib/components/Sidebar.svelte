@@ -20,6 +20,7 @@
   import { locale, translatorFor, type MessageKey } from "../i18n";
   import { activeHref, isActive } from "../router";
   import { preferences, setPreferences } from "../settings";
+  import Mark from "./Mark.svelte";
 
   /**
    * Sidebar — the persistent navigation rail (docs/04-ux-design.md §1).
@@ -29,6 +30,10 @@
    * (P1-10) into Library / Organize / Track / System so the twelve screens read as four
    * ideas rather than one flat list, and the active item carries a leading accent bar — the
    * "you are here" cue a soft pill alone never quite lands.
+   *
+   * The brand block on top is not decoration: it is the only place in the shell that names
+   * the product, and the mark is the VectorCraft master inlined (`Mark.svelte`), so it
+   * themes with the app — ink pages on paper, paper pages on ink.
    */
 
   interface Props {
@@ -98,7 +103,7 @@
     aria-current={active ? "page" : undefined}
     class="relative flex items-center gap-[var(--sp-3)] rounded-[var(--r-md)] px-[var(--sp-3)] py-2 text-[var(--fs-base)] transition-colors {active
       ? 'bg-accent-soft font-medium text-accent-soft-ink'
-      : 'text-ink-2 hover:bg-surface-2 hover:text-ink-1'}"
+      : 'text-ink-2 hover:bg-surface-2 hover:text-ink-1 active:bg-surface-3'}"
   >
     {#if active}
       <!-- The "you are here" bar: flush to the rail edge, accent-filled. -->
@@ -114,8 +119,21 @@
 <nav
   class="z-20 flex h-full shrink-0 flex-col border-e border-border-1 bg-surface-1 transition-[inline-size] duration-[var(--dur-base)] ease-[var(--ease)]"
   style="inline-size: {collapsed ? 'var(--rail)' : 'var(--drawer)'}"
-  aria-label={t("nav.group.library")}
+  aria-label={t("app.name")}
 >
+  <!-- Brand. When the rail is 3.75rem wide the wordmark cannot fit, so only the mark shows,
+       centred — the same mark the title bar and the empty states carry. -->
+  <div
+    class="flex shrink-0 items-center gap-[var(--sp-3)] px-[var(--sp-3)] pt-[var(--sp-4)] pb-[var(--sp-3)] {collapsed
+      ? 'justify-center border-b border-border-1'
+      : ''}"
+  >
+    <Mark class="size-7 shrink-0" title={t("app.name")} />
+    {#if !collapsed}
+      <span class="truncate text-[var(--fs-md)] font-semibold text-ink-1">{t("app.name")}</span>
+    {/if}
+  </div>
+
   <div class="flex flex-1 flex-col overflow-y-auto p-[var(--sp-2)]">
     {#each GROUPS as group (group.labelKey)}
       <div class="flex flex-col gap-0.5">

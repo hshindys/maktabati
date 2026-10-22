@@ -38,7 +38,7 @@ export interface Preferences {
 export const DEFAULT_PREFERENCES: Preferences = {
   locale: "ar",
   theme: "light",
-  accent: "green",
+  accent: "gold",
   digits: "arabic-indic",
   calendar: "both",
   sidebarCollapsed: false,
