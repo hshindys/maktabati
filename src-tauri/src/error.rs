@@ -161,6 +161,7 @@ fn storage_details(e: &maktabati_storage::StorageError) -> Option<serde_json::Va
         })),
         S::NotFound { kind, id } => Some(json!({ "kind": kind, "id": id })),
         S::Duplicate { kind, key } => Some(json!({ "kind": kind, "key": key })),
+        S::FileSourceMissing { path } => Some(json!({ "path": path })),
         // `Sqlite`/`Io`/`Serde`/`Migration`/`Busy` carry their detail in the message already.
         _ => None,
     }
@@ -168,6 +169,18 @@ fn storage_details(e: &maktabati_storage::StorageError) -> Option<serde_json::Va
 
 /// Convenience alias so every command has one obvious error type.
 pub type CmdResult<T> = Result<T, AppErrorDto>;
+
+/// An OS-level failure that no domain or storage type owns — opening an attachment with the
+/// desktop, revealing it in the file manager.
+///
+/// Built straight from [`AppErrorDto`] rather than added to [`AppError`]: `AppError` is for
+/// *our* data being wrong, and an external program declining to launch is not that. The code is
+/// still namespaced and still gets an `i18n_key`, because the webview switches on `code` and
+/// never on the English text.
+#[must_use]
+pub fn os_failure(code: &str, message: impl Into<String>) -> AppErrorDto {
+    AppErrorDto::new(code, message).with_i18n_key(format!("error.{code}"))
+}
 
 /// Turn a `Result<_, E>` into a [`CmdResult`], where `AppError` knows how to build from `E`.
 pub trait IntoCmdResult<T> {

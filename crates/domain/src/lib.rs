@@ -19,7 +19,7 @@
 //! | [`json`] | `Json` — open-ended JSON that is safe to export to TypeScript |
 //! | [`rating`] | Half-star ratings stored as `0..=10` |
 //! | [`enums`] | All stored enumerations, mirroring the SQL `CHECK` constraints |
-//! | [`book`], [`author`], … | Entities and their write inputs |
+//! | [`book`], [`author`], [`file`], … | Entities and their write inputs |
 //! | [`rules`] | Cross-entity business rules (status transitions, aggregates, dedupe) |
 
 #![forbid(unsafe_code)]
@@ -29,6 +29,7 @@ pub mod book;
 pub mod category;
 pub mod enums;
 pub mod error;
+pub mod file;
 pub mod ids;
 pub mod isbn;
 pub mod json;
@@ -50,6 +51,7 @@ pub use book::{AuthorCredit, Book, BookInput, BookStatus};
 pub use category::{Category, CategoryInput};
 pub use enums::*;
 pub use error::DomainError;
+pub use file::{BookFile, BookFileInput};
 pub use isbn::Isbn;
 pub use json::Json;
 pub use language::{Language, LanguageInput};

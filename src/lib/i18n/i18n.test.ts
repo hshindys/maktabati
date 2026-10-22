@@ -106,6 +106,12 @@ describe("error keys", () => {
     "error.storage.unique_violation",
     "error.storage.foreign_key_violation",
     "error.storage.constraint_violation",
+    // crates/storage/src/error.rs — attachments (M8)
+    "error.storage.file_source_missing",
+    // src-tauri/src/commands/files.rs — desktop hand-off failures
+    "error.files.missing",
+    "error.files.open_failed",
+    "error.files.reveal_failed",
     // the catch-all for anything thrown without a domain/storage type
     "error.internal",
     // frontend-owned: a command invoked with no shell behind it (api.ts, browser preview)

@@ -443,6 +443,58 @@ Json[] |
 	 *  [`AppErrorDto`] when validation fails, the tag does not exist, or the name collides.
 	 */
 	tagUpdate: (id: string, input: TagInput) => typedError<Tag, AppErrorDto>(__TAURI_INVOKE("tag_update", { id, input })),
+	/**
+	 *  Attach a file to a book, copying it into the library or just remembering where it is.
+	 * 
+	 *  `source_path` must be absolute: the dialog returns one, and a relative path would be
+	 *  resolved against whatever the app's working directory happens to be — which is not where the
+	 *  user thinks their file lives.
+	 * 
+	 *  # Errors
+	 * 
+	 *  * `storage.file_source_missing` when `source_path` is not a readable file.
+	 *  * `storage.not_found` when `book_id` names no book.
+	 *  * `storage.duplicate` when copy mode already holds these exact bytes.
+	 */
+	fileAttach: (bookId: string, kind: FileKind, storageMode: StorageMode, sourcePath: string, mime: string | null, pageCount: number | null) => typedError<BookFile, AppErrorDto>(__TAURI_INVOKE("file_attach", { bookId, kind, storageMode, sourcePath, mime, pageCount })),
+	/**
+	 *  Remove an attachment.
+	 * 
+	 *  A copied blob is deleted only when no other row shares its hash; a reference deletes nothing
+	 *  on disk, because the file belongs to the user and not to the library.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when the row does not exist.
+	 */
+	fileDelete: (id: string) => typedError<null, AppErrorDto>(__TAURI_INVOKE("file_delete", { id })),
+	/**
+	 *  Every attachment on a book, oldest first.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when the query fails.
+	 */
+	fileList: (bookId: string) => typedError<BookFile[], AppErrorDto>(__TAURI_INVOKE("file_list", { bookId })),
+	/**
+	 *  Open an attachment with the system's default application.
+	 * 
+	 *  # Errors
+	 * 
+	 *  * `storage.not_found` when the attachment is gone.
+	 *  * `files.missing` when the path is recorded but the bytes are not there — a copied blob
+	 *    deleted from under the library, or a reference whose file has been moved.
+	 *  * `files.open_failed` when the desktop declines to launch a handler.
+	 */
+	fileOpen: (id: string) => typedError<null, AppErrorDto>(__TAURI_INVOKE("file_open", { id })),
+	/**
+	 *  Reveal an attachment in the file manager.
+	 * 
+	 *  # Errors
+	 * 
+	 *  As [`file_open`], except the reported failure code is `files.reveal_failed`.
+	 */
+	fileReveal: (id: string) => typedError<null, AppErrorDto>(__TAURI_INVOKE("file_reveal", { id })),
 };
 
 /* Types */
@@ -644,6 +696,38 @@ export type BookDetail = {
 	tags: string[],
 };
 
+/**  An attachment belonging to a book. */
+export type BookFile = {
+	/**  UUID v7. */
+	id: string,
+	/**  Owning book. */
+	book_id: string,
+	/**  What kind of file it is. */
+	kind: FileKind,
+	/**  Name the file had when the user picked it. */
+	original_name: string,
+	/**  Whether the library owns the bytes. */
+	storage_mode: StorageMode,
+	/**  Path under `<data_dir>/files/`, set in copy mode. */
+	rel_path: string | null,
+	/**  Absolute path, set in reference mode. */
+	abs_path: string | null,
+	/**  Lower-case hex SHA-256 of the bytes. */
+	sha256: string,
+	/**  Size in bytes. */
+	size_bytes: number,
+	/**  MIME type as reported by the picker. */
+	mime: string | null,
+	/**  Page count, when the picker could read it. */
+	page_count: number | null,
+	/**  Last reading position marker. */
+	reader_position: string | null,
+	/**  When the attachment was added, epoch ms UTC. */
+	added_at: number,
+	/**  When the attachment row last changed, epoch ms UTC. */
+	updated_at: number,
+};
+
 /**  Physical or digital format of a copy. */
 export type BookFormat = "print" | "ebook" | "audiobook" | "pdf" | "other";
 
@@ -782,6 +866,9 @@ export type CoverSource = "manual" | "openlibrary" | "googlebooks" | "embedded" 
 
 /**  Writing direction of a language. */
 export type Direction = "rtl" | "ltr";
+
+/**  Attachment file kind. */
+export type FileKind = "epub" | "pdf" | "mobi" | "azw3" | "txt" | "audio" | "other";
 
 /**
  *  Arbitrary JSON, mirroring [`serde_json::Value`] but safe to export to TypeScript.
@@ -992,6 +1079,13 @@ export type SeriesInput = {
 	/**  Description. */
 	description: string | null,
 };
+
+/**  How an attachment is stored. */
+export type StorageMode = 
+/**  Copied into the library, content-addressed by SHA-256. */
+"copy" | 
+/**  Left where the user put it; only the path and hash are recorded. */
+"reference";
 
 /**
  *  A free-form label (الوسم) the user attaches to books.

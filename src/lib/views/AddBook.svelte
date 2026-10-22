@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Check, TriangleAlert } from "@lucide/svelte";
+  import { Check, FileText, TriangleAlert } from "@lucide/svelte";
 
   import Button from "../components/Button.svelte";
   import Combobox from "../components/Combobox.svelte";
@@ -12,8 +12,9 @@
   import { locale, translatorFor, type MessageKey } from "../i18n";
   import { canonicalIsbn, isValidIsbn } from "../isbn";
   import { messageFor } from "../errors";
-  import { clearDraft, EMPTY_DRAFT, loadDraft, saveDraft, type BookDraft, type EntityRef } from "../draft";
+  import { clearDraft, EMPTY_DRAFT, loadDraft, saveDraft, type BookDraft, type EntityRef, type SourceMode } from "../draft";
   import { addBookOpen, closeAddBook } from "../wizard";
+  import { fileName, pickFiles } from "../pickFile";
   import { notifySaved, pushToast } from "../toast";
   import type {
     Author,
@@ -22,22 +23,29 @@
     BookFormat,
     BookInput,
     Category,
+    FileKind,
     Language,
     Publisher,
     ReadingStatus,
     Series,
+    StorageMode,
     Tag,
   } from "@/bindings";
 
   /**
-   * Add book — the four-step wizard of docs/04-ux-design.md §4.5, opened as a modal from
-   * any view (Dashboard CTA, Library empty state, `Ctrl+N`).
+   * Add book — the wizard of docs/04-ux-design.md §4.5, opened as a modal from any view
+   * (Dashboard CTA, Library empty state, `Ctrl+N`).
    *
    * The draft lives in `localStorage` (`draft.ts`), so a closed window costs nothing;
    * entities picked in the comboboxes are resolved to ids at save time, creating what the
    * user typed but the library does not have yet. Every failure surfaces as a message —
    * validation, duplicate, or a rejected write — and a save with possible duplicates only
    * proceeds when the user says "save anyway".
+   *
+   * The files step sits *before* review for one reason: a file cannot be attached until the
+   * book exists, so what review shows is a promise rather than a result. `submit` attaches
+   * each picked file after `book_create` succeeds, and a failed attach reports without
+   * undoing the book that was just saved.
    *
    * The cover drop-zone is deliberately absent until `crates/files` can ingest one: a
    * control that cannot deliver a cover would be a lie in the UI.
@@ -49,10 +57,13 @@
     "wizard.steps.source",
     "wizard.steps.details",
     "wizard.steps.classify",
+    "wizard.steps.files",
     "wizard.steps.review",
   ];
   const FORMATS: BookFormat[] = ["print", "ebook", "audiobook", "pdf", "other"];
   const STATUSES: ReadingStatus[] = ["to_read", "reading", "finished", "paused", "abandoned"];
+  /** Step 1's two entry paths, in the order they are shown. */
+  const SOURCE_MODES: SourceMode[] = ["manual", "isbn"];
 
   let draft = $state<BookDraft>(loadDraft());
   let step = $derived(draft.step);
@@ -71,6 +82,14 @@
   let dupMatches = $state<Book[]>([]);
   let saveErrors = $state<string[]>([]);
   let saving = $state(false);
+
+  /**
+   * How picked files are stored. One control rather than a per-row switch: the choice is
+   * about the *library*, not about one file, and a row that quietly disagreed with the
+   * setting below it would be a bug waiting to be noticed.
+   */
+  let fileMode = $state<StorageMode>("copy");
+  let picking = $state(false);
 
   $effect(() => {
     saveDraft(draft);
@@ -417,18 +436,75 @@
       };
 
       const res = await api.createBook(input);
-      if (res.status === "ok") {
-        notifySaved();
-        clearDraft();
-        draft = { ...EMPTY_DRAFT };
-        dupMatches = [];
-        closeAddBook();
-      } else {
+      if (res.status !== "ok") {
         saveErrors = [messageFor(res.error, t)];
+        return;
+      }
+
+      // The book exists now, so the picked files can be attached. A failed attach is a
+      // failure *of the attachment*, not of the book: the book stays, the file is not on
+      // it, and the message names which. The draft is cleared either way — the book is in
+      // the library and the file can be attached again from its page.
+      const bookId = res.data.id;
+      const failed: string[] = [];
+      for (const file of draft.files) {
+        const attach = await api.attachFile(
+          bookId,
+          file.kind,
+          file.storageMode,
+          file.path,
+          null,
+          null,
+        );
+        if (attach.status !== "ok") failed.push(`${fileName(file.path)}: ${messageFor(attach.error, t)}`);
+      }
+
+      notifySaved();
+      clearDraft();
+      draft = { ...EMPTY_DRAFT };
+      dupMatches = [];
+      if (failed.length > 0) {
+        saveErrors = [t("wizard.files.attachFailed"), ...failed];
+      } else {
+        closeAddBook();
       }
     } finally {
       saving = false;
     }
+  }
+
+  /** The label a `FileKind` renders as — the kind's own vocabulary, not the book format's. */
+  const kindLabel = (kind: FileKind): string => t(`wizard.fileKind.${kind}` as MessageKey);
+
+  async function pickFile(): Promise<void> {
+    if (picking) return;
+    picking = true;
+    try {
+      const picked = await pickFiles(t("wizard.files.pick"), {
+        books: t("wizard.files.filterBooks"),
+        audio: t("wizard.files.filterAudio"),
+      });
+      if (picked === null) return;
+      // A path already on the list is the same file twice. In copy mode that would hit
+      // `ux_files_sha_copy` and come back as a duplicate the user never asked for.
+      const known = new Set(draft.files.map((f) => f.path));
+      draft.files = [
+        ...draft.files,
+        ...picked.filter((f) => !known.has(f.path)).map((f) => ({ ...f, storageMode: fileMode })),
+      ];
+    } finally {
+      picking = false;
+    }
+  }
+
+  function removeFile(index: number): void {
+    draft.files = draft.files.filter((_, i) => i !== index);
+  }
+
+  /** The storage select rewrites every row: one setting, one list, no silent disagreement. */
+  function setFileMode(next: StorageMode): void {
+    fileMode = next;
+    draft.files = draft.files.map((f) => ({ ...f, storageMode: next }));
   }
 
   function next(): void {
@@ -442,8 +518,8 @@
         return;
       }
     }
-    draft.step = Math.min(4, draft.step + 1);
-    if (draft.step === 4) void checkDuplicates();
+    draft.step = Math.min(5, draft.step + 1);
+    if (draft.step === 5) void checkDuplicates();
   }
 
   function back(): void {
@@ -456,7 +532,7 @@
   <header class="flex items-center justify-between px-6 pt-5 pb-3">
     <h2 id="add-book-title" class="text-[var(--fs-md)] font-semibold">{t("wizard.title")}</h2>
     <span class="text-[var(--fs-sm)] text-ink-3" aria-live="polite">
-      {t("wizard.stepOf", { n: step, total: 4 })}
+      {t("wizard.stepOf", { n: step, total: 5 })}
     </span>
   </header>
 
@@ -516,30 +592,57 @@
            cover backend (`crates/files` ingest + the cover commands), because a control
            that cannot store a cover would be a lie in the UI. -->
 
-      <Field
-        label={t("wizard.isbn")}
-        for="wiz-isbn"
-        hint={t("wizard.isbn.hint")}
-        error={isbnInvalid ? t("wizard.isbn.invalid") : null}
-      >
-        <input
-          id="wiz-isbn"
-          bind:value={draft.isbn}
-          placeholder="978-0-306-40615-7"
-          class="bidi-ltr h-9 w-full rounded-[var(--r-md)] border bg-surface-1 px-[var(--sp-3)] font-mono text-[var(--fs-base)] outline-none focus:border-accent {isbnInvalid
-            ? 'border-danger/60'
-            : 'border-border-2'}"
-        />
-      </Field>
-
-      <div class="flex flex-wrap items-center gap-3">
-        <span
-          class="rounded-full border border-border-1 bg-surface-2 px-2.5 py-1 text-[var(--fs-sm)] text-ink-2"
-        >
-          {t("wizard.source.manual")}
+      <!-- Two entry paths, stated up front. `manual` is the default because it is the common
+           case: most of a personal library has no ISBN on the spine, and a wizard that opens
+           on a number field reads as a wall even when the number is optional. -->
+      <div class="flex flex-col gap-[var(--sp-2)]">
+        <span class="text-[var(--fs-sm)] font-medium text-ink-2">
+          {t("wizard.source.label")}
         </span>
-        <span class="text-[var(--fs-xs)] text-ink-3">{t("wizard.source.hint")}</span>
+        <div
+          class="flex rounded-[var(--r-md)] border border-border-1 bg-surface-1 p-0.5"
+          role="radiogroup"
+          aria-label={t("wizard.source.label")}
+        >
+          {#each SOURCE_MODES as mode (mode)}
+            <button
+              type="button"
+              role="radio"
+              aria-checked={draft.sourceMode === mode}
+              onclick={() => (draft.sourceMode = mode)}
+              class="flex-1 rounded-[var(--r-sm)] px-[var(--sp-3)] py-1.5 text-[var(--fs-sm)] transition-colors {draft.sourceMode ===
+              mode
+                ? 'bg-accent text-accent-fg'
+                : 'text-ink-2 hover:bg-surface-2'}"
+            >
+              {mode === "isbn" ? t("wizard.source.isbn") : t("wizard.source.manual")}
+            </button>
+          {/each}
+        </div>
+        <span class="text-[var(--fs-xs)] text-ink-3">
+          {draft.sourceMode === "isbn"
+            ? t("wizard.source.isbnHint")
+            : t("wizard.source.manualHint")}
+        </span>
       </div>
+
+      {#if draft.sourceMode === "isbn"}
+        <Field
+          label={t("wizard.isbn")}
+          for="wiz-isbn"
+          hint={t("wizard.isbn.hint")}
+          error={isbnInvalid ? t("wizard.isbn.invalid") : null}
+        >
+          <input
+            id="wiz-isbn"
+            bind:value={draft.isbn}
+            placeholder="978-0-306-40615-7"
+            class="bidi-ltr h-9 w-full rounded-[var(--r-md)] border bg-surface-1 px-[var(--sp-3)] font-mono text-[var(--fs-base)] outline-none focus:border-accent {isbnInvalid
+              ? 'border-danger/60'
+              : 'border-border-2'}"
+          />
+        </Field>
+      {/if}
 
     {:else if step === 2}
       <Field label={t("wizard.field.title")} required for="wiz-title">
@@ -710,7 +813,80 @@
         ></textarea>
       </Field>
 
-    {:else}
+    {:else if step === 4}
+      <!-- Files: what will be attached, and how. The attach itself happens in `submit`,
+           after the book exists — this step only records the choice. -->
+      <div class="flex flex-col gap-[var(--sp-4)]">
+        <div>
+          <span class="text-[var(--fs-sm)] text-ink-2">{t("wizard.files.title")}</span>
+          <p class="mt-1 text-[var(--fs-sm)] text-ink-3">{t("wizard.files.body")}</p>
+        </div>
+
+        {#if draft.files.length === 0}
+          <p
+            class="rounded-[var(--r-md)] border border-border-1 bg-surface-2 px-[var(--sp-4)] py-[var(--sp-3)] text-[var(--fs-sm)] text-ink-3"
+          >
+            {t("wizard.files.none")}
+          </p>
+        {:else}
+          <ul class="flex flex-col gap-2">
+            {#each draft.files as file, i (file.path)}
+              <li
+                class="flex flex-wrap items-center gap-2 rounded-[var(--r-md)] border border-border-1 bg-surface-1 px-[var(--sp-3)] py-2"
+              >
+                <FileText class="size-4 shrink-0 text-ink-3 no-mirror" strokeWidth={1.75} />
+                <span class="min-w-0 flex-1 truncate text-[var(--fs-base)] text-ink-1" dir="auto">
+                  {fileName(file.path)}
+                </span>
+                <span
+                  class="rounded-[var(--r-full)] border border-border-2 bg-surface-2 px-2 py-0.5 text-[var(--fs-sm)] text-ink-2"
+                >
+                  {kindLabel(file.kind)}
+                </span>
+                <button
+                  type="button"
+                  class="text-[var(--fs-sm)] text-ink-3 transition-colors hover:text-danger"
+                  onclick={() => removeFile(i)}
+                >
+                  {t("common.delete")}
+                </button>
+              </li>
+            {/each}
+          </ul>
+        {/if}
+
+        <div class="flex flex-wrap items-center gap-2.5">
+          <Button variant="secondary" loading={picking} onclick={() => void pickFile()}>
+            {#snippet iconStart()}
+              <FileText class="size-4 no-mirror" strokeWidth={1.75} />
+            {/snippet}
+            {t("wizard.files.pick")}
+          </Button>
+          {#if draft.files.length > 0}
+            <span class="text-[var(--fs-sm)] text-ink-3">
+              {t("wizard.files.willAttach", { n: draft.files.length })}
+            </span>
+          {/if}
+        </div>
+
+        <Field
+          label={t("wizard.files.storageMode")}
+          for="wiz-file-mode"
+          hint={t("wizard.files.mode.hint")}
+        >
+          <select
+            id="wiz-file-mode"
+            value={fileMode}
+            onchange={(e) => setFileMode(e.currentTarget.value as StorageMode)}
+            class="h-9 w-full rounded-[var(--r-md)] border border-border-2 bg-surface-1 px-[var(--sp-3)] text-[var(--fs-base)] outline-none focus:border-accent"
+          >
+            <option value="copy">{t("wizard.files.mode.copy")}</option>
+            <option value="reference">{t("wizard.files.mode.reference")}</option>
+          </select>
+        </Field>
+      </div>
+
+    {:else if step === 5}
       <!-- Review: terms at the start, values at the end — the meta table of the book page. -->
       <div class="flex flex-col gap-[var(--sp-4)] sm:flex-row">
         <dl class="min-w-0 flex-1 text-[var(--fs-base)]">
@@ -764,6 +940,12 @@
             )}
           {/if}
           {@render row(t("wizard.field.status"), t(`status.${draft.status}` as MessageKey))}
+          {#if draft.files.length > 0}
+            {@render row(
+              t("wizard.steps.files"),
+              draft.files.map((f) => fileName(f.path)).join(" · "),
+            )}
+          {/if}
           {#if draft.description.trim()}
             {@render row(t("wizard.field.description"), draft.description)}
           {/if}
@@ -811,7 +993,7 @@
       {#if step > 1}
         <Button onclick={back} disabled={saving}>{t("common.back")}</Button>
       {/if}
-      {#if step < 4}
+      {#if step < 5}
         <Button variant="primary" onclick={next} disabled={saving}>{t("common.next")}</Button>
       {:else}
         <Button variant="primary" loading={saving} onclick={() => void submit(false)}>

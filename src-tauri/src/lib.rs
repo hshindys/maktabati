@@ -87,7 +87,14 @@ macro_rules! commands {
             crate::commands::catalogue::tag_get,
             crate::commands::catalogue::tag_list,
             crate::commands::catalogue::tag_search,
-            crate::commands::catalogue::tag_update
+            crate::commands::catalogue::tag_update,
+            // Attachments (M8): one command per repo function, plus the two that hand a
+            // resolved path to the desktop — see `commands::files`.
+            crate::commands::files::file_attach,
+            crate::commands::files::file_delete,
+            crate::commands::files::file_list,
+            crate::commands::files::file_open,
+            crate::commands::files::file_reveal
         ]
     };
 }
@@ -410,6 +417,11 @@ mod tests {
             "tag_list",
             "tag_search",
             "tag_update",
+            "file_attach",
+            "file_delete",
+            "file_list",
+            "file_open",
+            "file_reveal",
         ] {
             assert!(
                 text.contains(cmd),

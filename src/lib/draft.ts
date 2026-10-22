@@ -9,7 +9,17 @@
  * but not created yet" and is resolved against the backend at save time.
  */
 
+import type { FileKind, StorageMode } from "@/bindings";
+
 const STORAGE_KEY = "maktabati.draft.book.v1";
+
+/**
+ * Which of step 1's two entry paths the user is on.
+ *
+ * `manual` is the default and the honest one: most of a personal library has no ISBN on the
+ * spine, so a wizard that opens on a number field reads as a wall. `isbn` shows the field.
+ */
+export type SourceMode = "manual" | "isbn";
 
 /** A catalogue entry picked in a combobox — or typed but not yet created. */
 export interface EntityRef {
@@ -18,10 +28,25 @@ export interface EntityRef {
   name: string;
 }
 
-/** Everything the wizard collects, as raw strings — parsing happens once, at save. */
+/**
+ * A file the user picked for this book, held until the save pass can attach it.
+ *
+ * The book does not exist until the save succeeds, so the wizard cannot attach anything
+ * yet — it can only remember what to attach. `path` is what `file_attach` is handed; the
+ * name, hash and id are the backend's to decide.
+ */
+export interface DraftFile {
+  path: string;
+  kind: FileKind;
+  storageMode: StorageMode;
+}
+
+/** Everything the wizard collects — typed fields as strings, parsed once at save. */
 export interface BookDraft {
   step: number;
   isbn: string;
+  /** Step 1's entry path; the ISBN field is only rendered for `"isbn"`. */
+  sourceMode: SourceMode;
   title: string;
   subtitle: string;
   authors: EntityRef[];
@@ -38,11 +63,14 @@ export interface BookDraft {
   status: string;
   rating: number;
   description: string;
+  /** Files picked for this book; attached by the save pass, after the book exists. */
+  files: DraftFile[];
 }
 
 export const EMPTY_DRAFT: BookDraft = {
   step: 1,
   isbn: "",
+  sourceMode: "manual",
   title: "",
   subtitle: "",
   authors: [],
@@ -59,6 +87,7 @@ export const EMPTY_DRAFT: BookDraft = {
   status: "to_read",
   rating: 0,
   description: "",
+  files: [],
 };
 
 function str(v: unknown): string {
@@ -85,6 +114,28 @@ function int(v: unknown, min: number, max: number): number {
   return typeof v === "number" && Number.isFinite(v) && v >= min && v <= max ? Math.round(v) : 0;
 }
 
+/** The two storage modes `repo::file` accepts — a stale draft must not carry a third. */
+const STORAGE_MODES: StorageMode[] = ["copy", "reference"];
+
+/** Every `FileKind` the enum defines, so a draft holding a renamed kind drops it. */
+const FILE_KINDS: FileKind[] = ["epub", "pdf", "mobi", "azw3", "txt", "audio", "other"];
+
+function file(v: unknown): DraftFile | null {
+  if (typeof v !== "object" || v === null) return null;
+  const o = v as Record<string, unknown>;
+  const path = str(o.path).trim();
+  if (!path) return null;
+  const kind = FILE_KINDS.includes(o.kind as FileKind) ? (o.kind as FileKind) : "other";
+  const storageMode = STORAGE_MODES.includes(o.storageMode as StorageMode)
+    ? (o.storageMode as StorageMode)
+    : "copy";
+  return { path, kind, storageMode };
+}
+
+function fileList(v: unknown): DraftFile[] {
+  return Array.isArray(v) ? v.map(file).filter((f): f is DraftFile => f !== null) : [];
+}
+
 /**
  * Merge a persisted value over the empty draft, **discarding anything unrecognised**.
  *
@@ -93,10 +144,11 @@ function int(v: unknown, min: number, max: number): number {
  */
 export function reconcile(raw: unknown): BookDraft {
   const obj = (typeof raw === "object" && raw !== null ? raw : {}) as Record<string, unknown>;
-  const step = typeof obj.step === "number" && obj.step >= 1 && obj.step <= 4 ? obj.step : 1;
+  const step = typeof obj.step === "number" && obj.step >= 1 && obj.step <= 5 ? obj.step : 1;
   return {
     step,
     isbn: str(obj.isbn),
+    sourceMode: obj.sourceMode === "isbn" ? "isbn" : "manual",
     title: str(obj.title),
     subtitle: str(obj.subtitle),
     authors: refList(obj.authors),
@@ -113,6 +165,7 @@ export function reconcile(raw: unknown): BookDraft {
     status: str(obj.status) || EMPTY_DRAFT.status,
     rating: int(obj.rating, 0, 10),
     description: str(obj.description),
+    files: fileList(obj.files),
   };
 }
 

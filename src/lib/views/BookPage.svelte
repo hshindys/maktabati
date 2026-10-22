@@ -1,23 +1,43 @@
 <script lang="ts">
-  import { ArrowLeft, ArrowRight, FileText, Quote, StickyNote, TriangleAlert } from "@lucide/svelte";
+  import {
+    ArrowLeft,
+    ArrowRight,
+    ExternalLink,
+    FileText,
+    FolderOpen,
+    Paperclip,
+    Quote,
+    StickyNote,
+    Trash2,
+    TriangleAlert,
+  } from "@lucide/svelte";
   import { onMount } from "svelte";
+  import { ask } from "@tauri-apps/plugin-dialog";
 
   import {
+    attachFile,
+    deleteFile,
     getBookDetail,
     listAuthors,
     listCategories,
+    listFiles,
     listPublishers,
     listSeries,
     listTags,
+    openFile,
+    revealFile,
   } from "../api";
   import Button from "../components/Button.svelte";
   import Card from "../components/Card.svelte";
   import CoverPlaceholder from "../components/CoverPlaceholder.svelte";
   import EmptyState from "../components/EmptyState.svelte";
+  import Field from "../components/Field.svelte";
   import ProgressBar from "../components/ProgressBar.svelte";
   import Stars from "../components/Stars.svelte";
   import { direction, locale, translatorFor, type MessageKey } from "../i18n";
+  import { fileName, pickFiles } from "../pickFile";
   import { messageFor } from "../errors";
+  import { toast } from "../toast";
   import { formatDate, formatNumber, type DigitStyle } from "../format";
   import { preferences } from "../settings";
   import { route } from "../router";
@@ -26,13 +46,16 @@
     Author,
     AuthorCredit,
     BookDetail,
+    BookFile,
     BookFormat,
     BookSource,
     Category,
     Condition,
+    FileKind,
     Publisher,
     ReadingStatus,
     Series,
+    StorageMode,
     Tag,
   } from "@/bindings";
 
@@ -45,9 +68,14 @@
    * lists rather than issuing a query per relation — the difference between one round trip
    * and five on a 50k-book machine.
    *
-   * Three tabs (notes, quotes, files) have no backend yet. They render their designed empty
-   * state with a "later milestone" note rather than a fake list, because a placeholder that
-   * pretends to hold data is worse than one that says it is empty.
+   * Two tabs (notes, quotes) have no backend yet. They render their designed empty state with
+   * a "later milestone" note rather than a fake list, because a placeholder that pretends to
+   * hold data is worse than one that says it is empty.
+   *
+   * The files tab is the exception: `book_files` and `repo::file` exist, so it lists real
+   * attachments, opens them with the system handler, and asks before removing one. It loads
+   * when the tab opens rather than with the page — a book page is opened far more often than
+   * its attachments are looked at.
    */
 
   type TabKey = "overview" | "details" | "reading" | "organize" | "notes" | "quotes" | "files";
@@ -117,6 +145,116 @@
   }
 
   onMount(() => void load());
+
+  // ── Attachments ────────────────────────────────────────────────────────────────────────
+  //
+  // Loaded on demand when the files tab opens, and re-read by both mutating paths. A failed
+  // read leaves the list alone and says why in a toast; a half-updated list is worse than an
+  // empty one, because it looks like the truth.
+
+  let files = $state<BookFile[]>([]);
+  let filesLoading = $state(false);
+  let filesFailed = $state(false);
+  let fileMode = $state<StorageMode>("copy");
+  let picking = $state(false);
+  let deleting = $state(false);
+
+  async function reloadFiles(): Promise<void> {
+    const res = await listFiles(id);
+    if (res.status === "ok") {
+      files = res.data;
+      filesFailed = false;
+      return;
+    }
+    filesFailed = true;
+    toast.error(messageFor(res.error, t));
+  }
+
+  $effect(() => {
+    // `tab` and `id` are the only inputs, so switching tabs and changing book both re-run
+    // the query; the cleanup cancels the response from the tab the user just left.
+    if (tab !== "files" || id.length === 0) return;
+    let cancelled = false;
+    filesLoading = true;
+    listFiles(id).then((res) => {
+      if (cancelled) return;
+      filesLoading = false;
+      files = res.status === "ok" ? res.data : [];
+      filesFailed = res.status !== "ok";
+    });
+    return () => {
+      cancelled = true;
+    };
+  });
+
+  /** The label a `FileKind` renders as — the kind's own vocabulary, not the book format's. */
+  const kindLabel = (kind: FileKind): string => t(`wizard.fileKind.${kind}` as MessageKey);
+
+  async function attachPicked(): Promise<void> {
+    if (picking || id.length === 0) return;
+    picking = true;
+    try {
+      const picked = await pickFiles(t("book.files.add"), {
+        books: t("wizard.files.filterBooks"),
+        audio: t("wizard.files.filterAudio"),
+      });
+      if (picked === null) return;
+      // `copy` mode stores bytes, not the source path, so the only thing to compare is the
+      // name. A second copy of the same file would come back as a duplicate the user never
+      // asked for.
+      const known = new Set(files.map((f) => f.original_name.toLocaleLowerCase()));
+      const fresh = picked.filter((f) => !known.has(fileName(f.path).toLocaleLowerCase()));
+      if (fresh.length === 0) return;
+
+      let attached = 0;
+      const failed: string[] = [];
+      for (const file of fresh) {
+        const res = await attachFile(id, file.kind, fileMode, file.path, null, null);
+        if (res.status === "ok") attached += 1;
+        else failed.push(`${fileName(file.path)}: ${messageFor(res.error, t)}`);
+      }
+      if (attached > 0) toast.success(t("toast.attached"));
+      if (failed.length > 0) toast.error(failed.join(" · "));
+      await reloadFiles();
+    } finally {
+      picking = false;
+    }
+  }
+
+  async function removeFile(row: BookFile): Promise<void> {
+    if (deleting) return;
+    // A native question, not an undo affordance: removing an attachment can discard the only
+    // copy of some bytes, and the OS dialog is the one place that is taken seriously.
+    let confirmed = false;
+    try {
+      confirmed = await ask(t("book.files.deleteConfirm"), { kind: "warning" });
+    } catch {
+      return; // no shell — a preview has nothing to delete
+    }
+    if (!confirmed) return;
+
+    deleting = true;
+    try {
+      const res = await deleteFile(row.id);
+      toast[res.status === "ok" ? "success" : "error"](
+        res.status === "ok" ? t("toast.deleted") : messageFor(res.error, t),
+      );
+      await reloadFiles();
+    } finally {
+      deleting = false;
+    }
+  }
+
+  /** Open and reveal go through the commands, which resolve the stored path from the row. */
+  async function openAttachment(row: BookFile): Promise<void> {
+    const res = await openFile(row.id);
+    if (res.status !== "ok") toast.error(messageFor(res.error, t));
+  }
+
+  async function revealAttachment(row: BookFile): Promise<void> {
+    const res = await revealFile(row.id);
+    if (res.status !== "ok") toast.error(messageFor(res.error, t));
+  }
 
   // ── Name resolution ────────────────────────────────────────────────────────────────────
   //
@@ -473,12 +611,106 @@
           />
         </Card>
       {:else}
+        <!-- Files (M8): the one tab with a backend behind it. The empty state is the designed
+             one; the list is real, and every row's actions go through a command. -->
         <Card>
-          <EmptyState
-            title={t("book.files.empty")}
-            body="{t("book.files.body")} {t("book.soon")}"
-            compact
-          />
+          <div class="flex flex-wrap items-center justify-between gap-[var(--sp-3)]">
+            {@render sectionTitle(t("book.files.title"))}
+            <Button variant="secondary" loading={picking} onclick={() => void attachPicked()}>
+              {#snippet iconStart()}
+                <Paperclip class="size-4 no-mirror" strokeWidth={1.75} />
+              {/snippet}
+              {t("book.files.add")}
+            </Button>
+          </div>
+
+          {#if filesLoading}
+            <ul class="mt-[var(--sp-4)] flex flex-col gap-2">
+              {#each [0, 1] as i (i)}
+                <li class="h-10 animate-pulse rounded-[var(--r-md)] border border-border-1 bg-surface-2"></li>
+              {/each}
+            </ul>
+          {:else if filesFailed}
+            <p class="mt-[var(--sp-4)] text-[var(--fs-base)] text-ink-3">{t("book.files.empty")}</p>
+          {:else if files.length === 0}
+            <div class="mt-[var(--sp-4)]">
+              <EmptyState title={t("book.files.empty")} body={t("book.files.body")} compact />
+            </div>
+          {:else}
+            <ul class="mt-[var(--sp-4)] flex flex-col gap-2">
+              {#each files as row (row.id)}
+                <li
+                  class="flex flex-wrap items-center gap-2 rounded-[var(--r-md)] border border-border-1 bg-surface-1 px-[var(--sp-3)] py-2"
+                >
+                  <FileText class="size-4 shrink-0 text-ink-3 no-mirror" strokeWidth={1.75} />
+                  <span class="min-w-0 flex-1 truncate text-[var(--fs-base)] text-ink-1" dir="auto">
+                    {row.original_name}
+                  </span>
+                  <span
+                    class="rounded-[var(--r-full)] border border-border-2 bg-surface-2 px-2 py-0.5 text-[var(--fs-sm)] text-ink-2"
+                  >
+                    {kindLabel(row.kind)}
+                  </span>
+                  <span
+                    class="rounded-[var(--r-full)] border border-border-2 bg-surface-2 px-2 py-0.5 text-[var(--fs-sm)] text-ink-2"
+                  >
+                    {row.storage_mode === "copy"
+                      ? t("wizard.files.mode.copy")
+                      : t("wizard.files.mode.reference")}
+                  </span>
+
+                  <div class="flex items-center gap-1">
+                    <button
+                      type="button"
+                      aria-label={t("book.files.open")}
+                      title={t("book.files.open")}
+                      onclick={() => void openAttachment(row)}
+                      class="inline-flex items-center justify-center rounded-[var(--r-md)] border border-border-2 bg-surface-1 p-1.5 text-ink-2 transition-colors hover:text-ink-1"
+                    >
+                      <ExternalLink class="size-4 no-mirror" strokeWidth={1.75} />
+                    </button>
+                    <button
+                      type="button"
+                      aria-label={t("book.files.reveal")}
+                      title={t("book.files.reveal")}
+                      onclick={() => void revealAttachment(row)}
+                      class="inline-flex items-center justify-center rounded-[var(--r-md)] border border-border-2 bg-surface-1 p-1.5 text-ink-2 transition-colors hover:text-ink-1"
+                    >
+                      <FolderOpen class="size-4 no-mirror" strokeWidth={1.75} />
+                    </button>
+                    <button
+                      type="button"
+                      aria-label={t("common.delete")}
+                      title={t("common.delete")}
+                      disabled={deleting}
+                      onclick={() => void removeFile(row)}
+                      class="inline-flex items-center justify-center rounded-[var(--r-md)] border border-border-2 bg-surface-1 p-1.5 text-ink-2 transition-colors hover:border-danger/50 hover:text-danger disabled:opacity-50"
+                    >
+                      <Trash2 class="size-4 no-mirror" strokeWidth={1.75} />
+                    </button>
+                  </div>
+                </li>
+              {/each}
+            </ul>
+          {/if}
+
+          <div class="mt-[var(--sp-5)]">
+            <Field
+              label={t("wizard.files.storageMode")}
+              for="book-file-mode"
+              hint={t("wizard.files.mode.hint")}
+            >
+              <select
+                id="book-file-mode"
+                value={fileMode}
+                onchange={(e) => (fileMode = e.currentTarget.value as StorageMode)}
+                class="h-9 w-full rounded-[var(--r-md)] border border-border-2 bg-surface-1 px-[var(--sp-3)] text-[var(--fs-base)] outline-none focus:border-accent"
+              >
+                <option value="copy">{t("wizard.files.mode.copy")}</option>
+                <option value="reference">{t("wizard.files.mode.reference")}</option>
+              </select>
+            </Field>
+          </div>
         </Card>
       {/if}
     </div>

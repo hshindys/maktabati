@@ -58,6 +58,17 @@ pub enum StorageError {
         key: String,
     },
 
+    /// The path the user chose for an attachment does not point at a readable file.
+    ///
+    /// Distinct from [`StorageError::NotFound`]: that one means *a record we own is gone*, this
+    /// one means *the user's own file is gone or was never there*, which is what the UI has to
+    /// explain and what the user has to fix.
+    #[error("source file `{path}` not found")]
+    FileSourceMissing {
+        /// The path exactly as the user supplied it.
+        path: String,
+    },
+
     /// A file-system operation failed while opening or backing up the database.
     #[error("io error: {0}")]
     Io(#[from] std::io::Error),
@@ -78,6 +89,7 @@ impl StorageError {
             Self::Domain(d) => d.code(),
             Self::Serde(_) => "storage.serialization",
             Self::NotFound { .. } => "storage.not_found",
+            Self::FileSourceMissing { .. } => "storage.file_source_missing",
             Self::Duplicate { .. } => "storage.duplicate",
             Self::Io(_) => "storage.io",
             Self::Busy => "storage.busy",
@@ -137,6 +149,14 @@ pub fn not_found(kind: &str, id: &str) -> StorageError {
     StorageError::NotFound {
         kind: kind.to_owned(),
         id: id.to_owned(),
+    }
+}
+
+/// Translate an unreadable attachment path into [`StorageError::FileSourceMissing`].
+#[must_use]
+pub fn file_source_missing(path: &str) -> StorageError {
+    StorageError::FileSourceMissing {
+        path: path.to_owned(),
     }
 }
 

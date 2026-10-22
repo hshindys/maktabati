@@ -14,13 +14,16 @@ import type {
   AppErrorDto,
   AppInfo,
   AuthorInput,
+  BookFile,
   BookInput,
   CategoryInput,
+  FileKind,
   LanguageInput,
   LibraryHealth,
   LibrarySummary,
   PublisherInput,
   SeriesInput,
+  StorageMode,
   TagInput,
 } from "@/bindings";
 
@@ -336,3 +339,40 @@ export const findBooksByIsbn = (isbn: string) => run((c) => c.bookFindByIsbn(isb
  */
 export const findDuplicateBooks = (input: BookInput, excludeId?: string | null) =>
   run((c) => c.bookFindDuplicates(input, excludeId ?? null));
+
+// ── Files (attachments) ──────────────────────────────────────────────────────────────────
+
+/**
+ * Attach a file to a book.
+ *
+ * `storageMode` is the whole design decision the wizard makes: `"copy"` lays the bytes down in
+ * `<data_dir>/files/` so the library owns them (and refuses a second copy of identical bytes),
+ * `"reference"` remembers the user's own path and copies nothing — so deleting it deletes nothing
+ * either. `kind` only drives the picker's filter and the row's label.
+ */
+export const attachFile = (
+  bookId: string,
+  kind: FileKind,
+  storageMode: StorageMode,
+  sourcePath: string,
+  mime?: string | null,
+  pageCount?: number | null,
+) =>
+  run((c) =>
+    c.fileAttach(bookId, kind, storageMode, sourcePath, mime ?? null, pageCount ?? null),
+  );
+
+/** Every attachment on a book, oldest first. */
+export const listFiles = (bookId: string) => run((c) => c.fileList(bookId));
+
+/** Remove an attachment. A copied blob survives while any other row shares its hash. */
+export const deleteFile = (id: string) => run((c) => c.fileDelete(id));
+
+/** Open an attachment with the system's default application. */
+export const openFile = (id: string) => run((c) => c.fileOpen(id));
+
+/** Reveal an attachment in the file manager. */
+export const revealFile = (id: string) => run((c) => c.fileReveal(id));
+
+/** Shape of one attachment row, for pages that render them. */
+export type { BookFile, FileKind, StorageMode };
