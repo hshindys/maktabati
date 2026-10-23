@@ -8,6 +8,7 @@ on:
 
 # Two jobs run on Linux (the primary target) and Windows (packaging target). macOS is a
 # `workflow_dispatch`-only addition until the signing story exists — see docs/05-roadmap.md.
+# macOS builds produce a `.dmg` (no signing/notarization yet).
 env:
   CARGO_TERM_COLOR: always
   RUSTFLAGS: -D warnings
@@ -79,6 +80,52 @@ jobs:
 
       - name: Deny known-vulnerable dependencies
         run: cargo deny check advisories bans sources
+
+  macos:
+    name: macOS (DMG)
+    runs-on: macos-latest
+    if: github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+
+      - name: Cache cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: cargo-macos-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: cargo-macos-
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Build (DMG)
+        run: npm run tauri build
+
+      - name: Upload DMG
+        uses: actions/upload-artifact@v4
+        with:
+          name: maktabati-macos-dmg
+          path: src-tauri/target/release/bundle/dmg/*.dmg
 
   frontend:
     name: Frontend

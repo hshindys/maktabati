@@ -12,6 +12,7 @@
   import BookPage from "./lib/views/BookPage.svelte";
   import Placeholder from "./lib/views/Placeholder.svelte";
   import AddBook from "./lib/views/AddBook.svelte";
+import ImportView from "./lib/views/Import.svelte";
 
   /**
    * App shell — title bar, sidebar, routed main region, toasts.
@@ -55,9 +56,9 @@
             <SettingsView />
           {:else if currentPath === "/dev/gallery"}
             <Gallery />
+          {:else if currentPath === "/import"}
+            <ImportView />
           {:else if currentPath.startsWith("/book/")}
-            <!-- A detail page, not a section: `/book/:id` keeps المكتبة lit in the rail via
-                 `activeHref`, so it is matched before the placeholder fallback. -->
             <BookPage />
           {:else}
             <Placeholder path={currentPath} pattern={$route.pattern} />

@@ -2415,6 +2415,7 @@ dependencies = [
  "maktabati-domain",
  "serde",
  "serde_json",
+ "specta",
  "tempfile",
  "thiserror 2.0.21",
  "tracing",

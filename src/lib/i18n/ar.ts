@@ -23,6 +23,7 @@ export const ar = {
   "nav.lending": "الإعارات",
   "nav.goals": "الأهداف",
   "nav.transfer": "استيراد / تصدير",
+  "nav.import": "استيراد Goodreads",
   "nav.settings": "الإعدادات",
   "nav.gallery": "معرض المكوّنات",
   "nav.group.library": "المكتبة",

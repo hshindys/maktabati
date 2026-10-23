@@ -94,7 +94,9 @@ macro_rules! commands {
             crate::commands::files::file_delete,
             crate::commands::files::file_list,
             crate::commands::files::file_open,
-            crate::commands::files::file_reveal
+            crate::commands::files::file_reveal,
+            // Import (Goodreads phase 1)
+            crate::commands::import::goodreads_parse
         ]
     };
 }

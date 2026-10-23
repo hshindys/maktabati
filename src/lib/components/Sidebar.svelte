@@ -2,6 +2,7 @@
   import {
     ArrowLeftRight,
     BookOpen,
+    Download,
     FolderTree,
     HandCoins,
     LayoutDashboard,
@@ -62,6 +63,7 @@
       items: [
         { href: "/", key: "nav.dashboard", icon: LayoutDashboard },
         { href: "/library", key: "nav.library", icon: Library },
+        { href: "/import", key: "nav.import", icon: Download },
         { href: "/reading", key: "nav.reading", icon: BookOpen },
       ],
     },

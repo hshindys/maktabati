@@ -495,6 +495,7 @@ Json[] |
 	 *  As [`file_open`], except the reported failure code is `files.reveal_failed`.
 	 */
 	fileReveal: (id: string) => typedError<null, AppErrorDto>(__TAURI_INVOKE("file_reveal", { id })),
+	goodreadsParse: (text: string) => typedError<GoodreadsRow[], AppErrorDto>(__TAURI_INVOKE("goodreads_parse", { text })),
 };
 
 /* Types */
@@ -869,6 +870,28 @@ export type Direction = "rtl" | "ltr";
 
 /**  Attachment file kind. */
 export type FileKind = "epub" | "pdf" | "mobi" | "azw3" | "txt" | "audio" | "other";
+
+/**  One row from a Goodreads export, normalised for Maktabati. */
+export type GoodreadsRow = {
+	/**  Goodreads' own book id (kept for de-dup / re-import). */
+	goodreads_id: string,
+	title: string,
+	author: string,
+	isbn10: string | null,
+	isbn13: string | null,
+	/**  0..=5, `None` when unrated. */
+	rating: number | null,
+	/**  Maktabati reading status: "read" | "reading" | "to_read" | "unread". */
+	status: string,
+	page_count: number | null,
+	publication_year: number | null,
+	/**  ISO-ish "YYYY-MM-DD" as exported; `None` when blank. */
+	date_read: string | null,
+	tags: string[],
+	review: string | null,
+	/**  Human-readable problems with this row (non-fatal). */
+	warnings: string[],
+};
 
 /**
  *  Arbitrary JSON, mirroring [`serde_json::Value`] but safe to export to TypeScript.

@@ -9,6 +9,7 @@
 
 pub mod catalogue;
 pub mod files;
+pub mod import;
 
 use std::sync::Arc;
 

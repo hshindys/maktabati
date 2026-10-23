@@ -23,6 +23,7 @@ export const en: Record<MessageKey, string> = {
   "nav.lending": "Lending",
   "nav.goals": "Goals",
   "nav.transfer": "Import / Export",
+  "nav.import": "Goodreads Import",
   "nav.settings": "Settings",
   "nav.gallery": "Component gallery",
   "nav.group.library": "Library",
