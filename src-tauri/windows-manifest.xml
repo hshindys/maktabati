@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!--
-  Manifest for this crate's *test* binaries on Windows (MSVC).
+  Manifest for every binary this crate builds on Windows (MSVC): the main app and all
+  cargo test binaries. tauri_build's default manifest is suppressed in build.rs (two
+  manifests in one binary make MSVC's linker fail with CVT1100) and this file supplies
+  the same Common-Controls v6 dependency instead.
 
-  The main binary gets the identical Common-Controls v6 dependency from tauri_build; cargo
-  test binaries get no manifest, and the loader then hands them comctl32 v5 — which lacks
-  TaskDialogIndirect, a symbol tauri-plugin-dialog pulls in. The test process dies before
-  any test runs with exit code 0xc0000139 (STATUS_ENTRYPOINT_NOT_FOUND). build.rs embeds
-  this file into test binaries only, never the main binary (a second manifest there makes
-  the linker fail with CVT1100).
+  Why test binaries need it: without a manifest the loader hands them comctl32 v5, which
+  lacks TaskDialogIndirect — a symbol tauri-plugin-dialog pulls in — so the test process
+  dies before any test runs with exit code 0xc0000139 (STATUS_ENTRYPOINT_NOT_FOUND).
 
   See https://github.com/tauri-apps/tauri/issues/13419 and tauri-build's own
   windows-app-manifest.xml, which this mirrors.
