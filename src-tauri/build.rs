@@ -38,5 +38,8 @@ fn embed_manifest_for_tests() {
     println!("cargo:rerun-if-changed={}", manifest.display());
     println!("cargo:rustc-link-arg-tests=/MANIFEST:EMBED");
     // `Display` of a `Path` is lossy but valid for the linker, so no Unicode case is special.
-    println!("cargo:rustc-link-arg-tests=/MANIFESTINPUT:{}", manifest.display());
+    println!(
+        "cargo:rustc-link-arg-tests=/MANIFESTINPUT:{}",
+        manifest.display()
+    );
 }
