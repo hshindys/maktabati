@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  Manifest for this crate's *test* binaries on Windows (MSVC).
+
+  The main binary gets the identical Common-Controls v6 dependency from tauri_build; cargo
+  test binaries get no manifest, and the loader then hands them comctl32 v5 — which lacks
+  TaskDialogIndirect, a symbol tauri-plugin-dialog pulls in. The test process dies before
+  any test runs with exit code 0xc0000139 (STATUS_ENTRYPOINT_NOT_FOUND). build.rs embeds
+  this file into test binaries only, never the main binary (a second manifest there makes
+  the linker fail with CVT1100).
+
+  See https://github.com/tauri-apps/tauri/issues/13419 and tauri-build's own
+  windows-app-manifest.xml, which this mirrors.
+-->
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+  <assemblyIdentity version="0.1.0.0" processorArchitecture="*" name="Maktabati" type="win32"/>
+  <dependency>
+    <dependentAssembly>
+      <assemblyIdentity
+        type="win32"
+        name="Microsoft.Windows.Common-Controls"
+        version="6.0.0.0"
+        processorArchitecture="*"
+        publicKeyToken="6595b64144ccf1df"
+        language="*"
+      />
+    </dependentAssembly>
+  </dependency>
+  <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">
+    <application>
+      <!-- Windows 10 / 11 -->
+      <supportedOS Id="{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}"/>
+    </application>
+  </compatibility>
+</assembly>

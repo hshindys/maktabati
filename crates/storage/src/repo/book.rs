@@ -6,7 +6,7 @@
 
 use maktabati_domain::{
     text::normalize, AuthorCredit, AuthorRole, Book, BookFormat, BookInput, BookSource, BookStatus,
-    Condition, CoverSource, Isbn,
+    Condition, CoverSource, DomainError, Isbn,
 };
 use rusqlite::OptionalExtension;
 use serde::{Deserialize, Serialize};
@@ -14,7 +14,7 @@ use specta::Type;
 
 use crate::conn::{now_ms, Db};
 use crate::error::not_found;
-use crate::Result;
+use crate::{Result, StorageError};
 
 /// Columns in the order [`from_row`] reads them. `box` is quoted because it sits close enough
 /// to SQL's type names to be worth not gambling on.
@@ -526,6 +526,124 @@ pub fn search(db: &Db, query: &str, limit: usize) -> Result<Vec<Book>> {
         let rows = stmt.query_map(rusqlite::params![needle, trimmed, limit as i64], from_row)?;
         rows.collect::<rusqlite::Result<Vec<_>>>()
             .map_err(Into::into)
+    })
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Cover image + quick status — the two per-book actions the book page drives
+// ─────────────────────────────────────────────────────────────────────────────
+
+/// Image file extensions accepted for a hand-picked cover.
+const COVER_EXTS: [&str; 4] = ["jpg", "jpeg", "png", "webp"];
+
+fn invalid_cover_ext(got: &str) -> StorageError {
+    DomainError::InvalidEnum {
+        field: "cover".to_owned(),
+        got: got.to_owned(),
+    }
+    .into()
+}
+
+/// Set a book's cover image from a file the user picked.
+///
+/// The bytes are **copied** into `<data_dir>/covers/<book_id>.<ext>` — the library owns
+/// its covers like its attachments, so a cover cannot break because an external screenshot
+/// was deleted. Any files a previous cover left under the same id are removed first
+/// (covers are keyed by book id, not content, so a re-pick replaces instead of deduping).
+///
+/// Order of operations: the file is placed first, then the row — if the row update fails,
+/// the copy is an orphan that the next pick overwrites, whereas the reverse order would
+/// leave a cover pointing at bytes that were never written.
+///
+/// # Errors
+///
+/// * [`crate::StorageError::NotFound`] when the id is unknown.
+/// * [`crate::StorageError::Domain`] with `validation.invalid_enum` when the extension is
+///   not one of [`COVER_EXTS`].
+/// * [`crate::StorageError::Io`] on copy/creation failure.
+/// * [`crate::StorageError::Sqlite`] on statement failure.
+pub fn set_cover(
+    db: &Db,
+    data_dir: &std::path::Path,
+    book_id: &str,
+    source_path: &str,
+) -> Result<Book> {
+    let ext = std::path::Path::new(source_path)
+        .extension()
+        .and_then(std::ffi::OsStr::to_str)
+        .map(|e| e.to_ascii_lowercase())
+        .ok_or_else(|| invalid_cover_ext(source_path))?;
+    if !COVER_EXTS.contains(&ext.as_str()) {
+        return Err(invalid_cover_ext(&ext));
+    }
+
+    let covers_dir = data_dir.join("covers");
+    // Drop any previous cover for this book (possibly a different extension) first.
+    if let Ok(entries) = std::fs::read_dir(&covers_dir) {
+        for entry in entries.flatten() {
+            if entry.path().file_stem().is_some_and(|stem| stem == book_id) {
+                let _ = std::fs::remove_file(entry.path());
+            }
+        }
+    }
+    std::fs::create_dir_all(&covers_dir)?;
+
+    let rel_path = format!("covers/{book_id}.{ext}");
+    std::fs::copy(source_path, data_dir.join(&rel_path))?;
+
+    let book = db.transact(|conn| {
+        let mut book = read_row(conn, book_id)?;
+        book.cover_path = Some(rel_path.clone());
+        book.cover_source = Some(CoverSource::Manual);
+        update_row(conn, &book)?;
+        Ok(book)
+    })?;
+    Ok(book)
+}
+
+/// Clear a book's cover: the row is nulled and any `covers/<id>.*` bytes are deleted.
+///
+/// File deletion is best effort — a stubborn file (locked, permissions) does not fail the
+/// command, because the row is already clean and the next cover pick overwrites it anyway.
+///
+/// # Errors
+///
+/// * [`crate::StorageError::NotFound`] when the id is unknown.
+/// * [`crate::StorageError::Sqlite`] on statement failure.
+/// * [`crate::StorageError::Io`] when creating the covers dir failed.
+pub fn remove_cover(db: &Db, data_dir: &std::path::Path, book_id: &str) -> Result<Book> {
+    let book = db.transact(|conn| {
+        let mut book = read_row(conn, book_id)?;
+        book.cover_path = None;
+        book.cover_source = None;
+        update_row(conn, &book)?;
+        Ok(book)
+    })?;
+    if let Ok(entries) = std::fs::read_dir(data_dir.join("covers")) {
+        for entry in entries.flatten() {
+            if entry.path().file_stem().is_some_and(|stem| stem == book_id) {
+                let _ = std::fs::remove_file(entry.path());
+            }
+        }
+    }
+    Ok(book)
+}
+
+/// Change only the reading status ("mark as read"), leaving every other field —
+/// credits, acquisition facts, ISBNs, cover — exactly as it is, which is what a
+/// quick action on the book page means.
+///
+/// # Errors
+///
+/// * [`crate::StorageError::NotFound`] when the id is unknown.
+/// * [`crate::StorageError::Sqlite`] on statement failure.
+pub fn set_status(db: &Db, id: &str, status: BookStatus) -> Result<Book> {
+    db.transact(|conn| {
+        let mut book = read_row(conn, id)?;
+        book.reading_status = status;
+        book.updated_at = now_ms();
+        update_row(conn, &book)?;
+        Ok(book)
     })
 }
 
@@ -1155,5 +1273,93 @@ mod tests {
 
         // Nothing matches garbage.
         assert_eq!(search(&db, "zzzzzz", 10).unwrap(), vec![]);
+    }
+
+    #[test]
+    fn cover_set_replace_and_remove() {
+        let db = seeded_db();
+        let created = create(&db, full_input()).unwrap();
+        let dir = tempfile::tempdir().unwrap();
+        let jpg = dir.path().join("one.jpg");
+        std::fs::write(&jpg, b"jpeg bytes").unwrap();
+        let webp = dir.path().join("two.webp");
+        std::fs::write(&webp, b"webp bytes").unwrap();
+
+        let with_cover = set_cover(&db, dir.path(), &created.id, jpg.to_str().unwrap()).unwrap();
+        assert_eq!(
+            with_cover.cover_path.as_deref(),
+            Some(format!("covers/{}.jpg", created.id).as_str())
+        );
+        assert_eq!(with_cover.cover_source, Some(CoverSource::Manual));
+        let jpg_file = dir
+            .path()
+            .join("covers")
+            .join(format!("{0}.jpg", created.id));
+        assert!(jpg_file.is_file());
+
+        // A different extension replaces the record *and* the old bytes are gone.
+        let replaced = set_cover(&db, dir.path(), &created.id, webp.to_str().unwrap()).unwrap();
+        assert_eq!(
+            replaced.cover_path.as_deref(),
+            Some(format!("covers/{}.webp", created.id).as_str())
+        );
+        assert!(!jpg_file.exists());
+
+        let cleared = remove_cover(&db, dir.path(), &created.id).unwrap();
+        assert_eq!(cleared.cover_path, None);
+        assert_eq!(cleared.cover_source, None);
+        assert!(!dir
+            .path()
+            .join("covers")
+            .join(format!("{0}.webp", created.id))
+            .exists());
+    }
+
+    #[test]
+    fn cover_rejects_non_image_files_and_unknown_books() {
+        let db = seeded_db();
+        // Start with no cover at all — `full_input()` ships one, and the assertions
+        // below must be able to distinguish "rejected, untouched" from "already there".
+        let created = create(
+            &db,
+            BookInput {
+                cover_path: None,
+                cover_source: None,
+                ..full_input()
+            },
+        )
+        .unwrap();
+        let dir = tempfile::tempdir().unwrap();
+        let exe = dir.path().join("virus.exe");
+        std::fs::write(&exe, b"not an image").unwrap();
+
+        let err = set_cover(&db, dir.path(), &created.id, exe.to_str().unwrap()).unwrap_err();
+        assert_eq!(err.code(), "validation.invalid_enum");
+        // No row was touched.
+        assert_eq!(get(&db, &created.id).unwrap().cover_path, None);
+
+        let png = dir.path().join("cover.png");
+        std::fs::write(&png, b"png bytes").unwrap();
+        assert!(matches!(
+            set_cover(&db, dir.path(), "no-such-book", png.to_str().unwrap()).unwrap_err(),
+            StorageError::NotFound { .. }
+        ));
+        // The failed write did not leave an orphan row pointing at it.
+        assert_eq!(get(&db, &created.id).unwrap().cover_path, None);
+    }
+
+    #[test]
+    fn status_quick_update_touches_only_the_status() {
+        let db = seeded_db();
+        let created = create(&db, full_input()).unwrap();
+
+        let updated = set_status(&db, &created.id, BookStatus::Finished).unwrap();
+        assert_eq!(updated.reading_status, BookStatus::Finished);
+
+        // Every other field is exactly as the create left it.
+        let reread = get(&db, &created.id).unwrap();
+        assert_eq!(reread.title, created.title);
+        assert_eq!(reread.rating, created.rating);
+        assert_eq!(reread.language_code, created.language_code);
     }
 }

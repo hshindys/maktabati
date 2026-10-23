@@ -74,7 +74,7 @@ epub = "2"
 lopdf = "0.45"
 
 # --- tauri ---
-tauri = { version = "2", features = ["tray-icon", "image-png"] }
+tauri = { version = "2", features = ["tray-icon", "image-png", "protocol-asset"] }
 tauri-plugin-dialog = "2"
 tauri-plugin-opener = "2"
 tauri-plugin-fs = "2"

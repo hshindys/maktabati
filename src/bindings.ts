@@ -139,6 +139,37 @@ Json[] |
 	isbn13: string | null,
 } | null, AppErrorDto>(__TAURI_INVOKE("metadata_enrich_search", { title, author })),
 	/**
+	 *  Copy a picked image into the library and set it as the book's cover.
+	 * 
+	 *  `source_path` must be absolute (the file dialog returns one) and must end in one of
+	 *  `jpg`, `jpeg`, `png`, `webp` — validated in the repo, not trusted from the webview.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`](crate::error::AppErrorDto) when the book is gone, the extension is not
+	 *  an image one, or a copy/update failed.
+	 */
+	coverSet: (bookId: string, sourcePath: string) => typedError<Book, AppErrorDto>(__TAURI_INVOKE("cover_set", { bookId, sourcePath })),
+	/**
+	 *  Clear the book's cover and delete its copied bytes.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`](crate::error::AppErrorDto) when the book is gone or the update failed.
+	 */
+	coverRemove: (bookId: string) => typedError<Book, AppErrorDto>(__TAURI_INVOKE("cover_remove", { bookId })),
+	/**
+	 *  Absolute filesystem path of a book's cover, for `convertFileSrc` in the webview.
+	 * 
+	 *  `Ok(None)` when the book has no cover **or** the recorded file is gone from disk — the
+	 *  honest miss renders the generated placeholder instead of a broken image.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`](crate::error::AppErrorDto) when the query fails.
+	 */
+	coverUrl: (bookId: string) => typedError<string | null, AppErrorDto>(__TAURI_INVOKE("cover_url", { bookId })),
+	/**
 	 *  IPC surface for the Settings → Hermes card.
 	 * 
 	 *  Starts the loopback server. Fails with `hermes.bind` when the port is taken or the
@@ -316,6 +347,18 @@ Json[] |
 	 *  [`AppErrorDto`] when the query fails.
 	 */
 	bookList: () => typedError<Book[], AppErrorDto>(__TAURI_INVOKE("book_list")),
+	/**
+	 *  Quick status change ("mark as read"), touching only `reading_status`.
+	 * 
+	 *  The edit modal covers a status change too, but a one-tap control on the book page must
+	 *  not have to round-trip a full `BookInput` — the same call an edit would make anyway with
+	 *  everything else unchanged, minus the risk of clobbering what another modal has open.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when the book does not exist.
+	 */
+	bookStatusSet: (id: string, status: ReadingStatus) => typedError<Book, AppErrorDto>(__TAURI_INVOKE("book_status_set", { id, status })),
 	/**
 	 *  Update a book and its relations from an edited form.
 	 * 

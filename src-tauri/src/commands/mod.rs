@@ -8,6 +8,7 @@
 //! build when the Rust surface changes without the generated file being refreshed (ADR-0002).
 
 pub mod catalogue;
+pub mod cover;
 pub mod enrich;
 pub mod files;
 pub mod hermes;

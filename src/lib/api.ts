@@ -430,6 +430,24 @@ export const hermesStatus = () => run((c) => c.hermesStatus());
 /** Shape of a Hermes status answer. */
 export type HermesStatus = import("@/bindings").HermesStatus;
 
+// ── Book covers ──────────────────────────────────────────────────────────────────────────
+
+/** Copy a picked image into the library and set it as the book's cover. */
+export const setCover = (bookId: string, sourcePath: string) =>
+  run((c) => c.coverSet(bookId, sourcePath));
+
+/** Clear the cover and delete its copied bytes. */
+export const removeCover = (bookId: string) => run((c) => c.coverRemove(bookId));
+
+/** Absolute path of the cover (for `convertFileSrc`); `ok(null)` = no cover on disk. */
+export const coverUrl = (bookId: string) => run((c) => c.coverUrl(bookId));
+
+// ── Quick reading-status change ──────────────────────────────────────────────────────────
+
+/** Change only the reading status — the "mark as read" tap on the book page. */
+export const setBookStatus = (bookId: string, status: ReadingStatus) =>
+  run((c) => c.bookStatusSet(bookId, status));
+
 // ── Goodreads import ─────────────────────────────────────────────────────────────────────
 
 /** Parse a Goodreads "Export Library" CSV into rows, entirely offline. */

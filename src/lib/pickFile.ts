@@ -95,3 +95,25 @@ export async function pickFiles(
   const paths = Array.isArray(picked) ? picked : [picked];
   return paths.filter((p) => p.trim().length > 0).map((p) => ({ path: p, kind: kindFromPath(p) }));
 }
+
+/**
+ * Ask for a single image, as cover picking does.
+ *
+ * `cover_set` validates the extension again in the repo — the filter pre-sorts what the
+ * dialog shows, the repo still guards what it accepts. `null` again means "cancelled or
+ * no shell": a user who dismissed the dialog sees nothing change, an error for closing
+ * a window would be worse than silence.
+ */
+export async function pickImage(title: string, imageLabel: string): Promise<string | null> {
+  try {
+    const picked = await open({
+      title,
+      multiple: false,
+      directory: false,
+      filters: [{ name: imageLabel, extensions: ["jpg", "jpeg", "png", "webp"] }],
+    });
+    return typeof picked === "string" && picked.trim().length > 0 ? picked : null;
+  } catch {
+    return null;
+  }
+}

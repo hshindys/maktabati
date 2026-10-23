@@ -5,7 +5,7 @@
   import { listBooks } from "../api";
   import Button from "../components/Button.svelte";
   import Card from "../components/Card.svelte";
-  import CoverPlaceholder from "../components/CoverPlaceholder.svelte";
+  import BookCover from "../components/BookCover.svelte";
   import EmptyState from "../components/EmptyState.svelte";
   import Stars from "../components/Stars.svelte";
   import { locale, translatorFor } from "../i18n";
@@ -199,7 +199,7 @@
               class="group flex flex-col gap-[var(--sp-2)] rounded-[var(--r-lg)] p-[var(--sp-2)] transition-colors hover:bg-surface-2"
             >
               <span class="flex justify-center overflow-hidden rounded-[var(--r-md)] transition-transform duration-[var(--dur-base)] group-hover:-translate-y-0.5">
-                <CoverPlaceholder title={book.title} language={book.language_code} height={180} />
+                <BookCover title={book.title} language={book.language_code} coverPath={book.cover_path} height={180} />
               </span>
               <span class="bidi-auto line-clamp-2 text-[var(--fs-base)] font-medium text-ink-1">
                 {book.title}
@@ -220,7 +220,7 @@
               href="#/book/{book.id}"
               class="flex items-center gap-[var(--sp-4)] rounded-[var(--r-lg)] border border-border-1 bg-surface-1 p-[var(--sp-3)] transition-colors hover:border-border-2 hover:bg-surface-2"
             >
-              <CoverPlaceholder title={book.title} language={book.language_code} height={56} />
+              <BookCover title={book.title} language={book.language_code} coverPath={book.cover_path} height={56} />
               <span class="flex min-w-0 flex-1 flex-col">
                 <span class="bidi-auto truncate text-[var(--fs-base)] font-medium text-ink-1">
                   {book.title}

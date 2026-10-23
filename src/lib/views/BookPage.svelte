@@ -5,6 +5,7 @@
     ExternalLink,
     FileText,
     FolderOpen,
+    ImagePlus,
     Paperclip,
     Pencil,
     Quote as QuoteIcon,
@@ -29,17 +30,20 @@
     listSeries,
     listTags,
     openFile,
+    removeCover,
     revealFile,
+    setBookStatus,
+    setCover,
   } from "../api";
   import Button from "../components/Button.svelte";
   import Card from "../components/Card.svelte";
-  import CoverPlaceholder from "../components/CoverPlaceholder.svelte";
+  import BookCover from "../components/BookCover.svelte";
   import EmptyState from "../components/EmptyState.svelte";
   import Field from "../components/Field.svelte";
   import ProgressBar from "../components/ProgressBar.svelte";
   import Stars from "../components/Stars.svelte";
   import { direction, locale, translatorFor, type MessageKey } from "../i18n";
-  import { fileName, pickFiles } from "../pickFile";
+  import { fileName, pickFiles, pickImage } from "../pickFile";
   import { messageFor } from "../errors";
   import { toast } from "../toast";
   import { formatDate, formatNumber, type DigitStyle } from "../format";
@@ -51,6 +55,7 @@
     AppErrorDto,
     Author,
     AuthorCredit,
+    Book,
     BookDetail,
     BookFile,
     BookFormat,
@@ -184,6 +189,74 @@
       }
     } finally {
       bookDeleting = false;
+    }
+  }
+
+  // ── Quick status and cover — the two one-tap actions the header drives ─────────────────
+  //
+  // The edit modal can change the status too, but "mark as read" is the tap a user makes
+  // most, so it gets a control without opening a modal: `book_status_set` touches only
+  // `reading_status` and cannot clobber what a modal might still be holding. The cover
+  // buttons complement it: `cover_set` copies the picked file into the library, so the
+  // image survives the original being deleted, and both actions update the local detail
+  // in place instead of refetching the page.
+
+  let coverBusy = $state(false);
+
+  /** Replace `detail` with the fresh book a mutation returned, keeping the page's lists. */
+  function applyBook(next: Book): void {
+    detail = detail === null ? detail : { ...detail, book: next };
+  }
+
+  async function quickStatus(status: ReadingStatus): Promise<void> {
+    if (detail === null) return;
+    const res = await setBookStatus(id, status);
+    if (res.status === "ok") {
+      applyBook(res.data);
+      toast.success(t("toast.statusUpdated"));
+    } else {
+      toast.error(messageFor(res.error, t));
+    }
+  }
+
+  async function pickCover(): Promise<void> {
+    if (detail === null || coverBusy) return;
+    const path = await pickImage(t("book.cover.pick.title"), t("book.cover.pick.filter"));
+    if (path === null) return; // cancelled, or a preview with no shell
+    coverBusy = true;
+    try {
+      const res = await setCover(id, path);
+      if (res.status === "ok") {
+        applyBook(res.data);
+        toast.success(t("toast.coverUpdated"));
+      } else {
+        toast.error(messageFor(res.error, t));
+      }
+    } finally {
+      coverBusy = false;
+    }
+  }
+
+  async function removeBookCover(): Promise<void> {
+    if (detail === null || coverBusy) return;
+    let confirmed = false;
+    try {
+      confirmed = await ask(t("book.cover.removeConfirm"), { kind: "warning" });
+    } catch {
+      return; // no shell — a preview has no cover to remove
+    }
+    if (!confirmed) return;
+    coverBusy = true;
+    try {
+      const res = await removeCover(id);
+      if (res.status === "ok") {
+        applyBook(res.data);
+        toast.success(t("toast.coverRemoved"));
+      } else {
+        toast.error(messageFor(res.error, t));
+      }
+    } finally {
+      coverBusy = false;
     }
   }
 
@@ -393,6 +466,8 @@
   const dateOf = (ms: number) => formatDate(ms, $locale, $preferences.calendar, digits);
   const formatLabel = (f: BookFormat) => t(`wizard.format.${f}`);
   const statusLabel = (s: ReadingStatus) => t(`status.${s}`);
+  /** The five statuses, in display order — the quick and edit selects share one order. */
+  const STATUSES: ReadingStatus[] = ["to_read", "reading", "finished", "paused", "abandoned"];
   const conditionLabel = (c: Condition) => t(`condition.${c}`);
   const sourceLabel = (s: BookSource) => t(`source.${s}`);
   /** Price is stored in minor units; only render it when both halves are present. */
@@ -509,7 +584,41 @@
     {@const book = detail.book}
     <!-- Header: cover, title block, status and rating. -->
     <header class="flex flex-wrap items-start gap-[var(--sp-5)]">
-      <CoverPlaceholder title={book.title} language={book.language_code} height={280} />
+      <!-- The cover: the real image when the book has one, the generated spine otherwise.
+           The pick/remove buttons live on the cover itself and stay visible while focused
+           (`focus-within`), not hover-only — a keyboard or touch user must reach them. -->
+      <div class="group relative shrink-0">
+        <BookCover
+          title={book.title}
+          language={book.language_code}
+          coverPath={book.cover_path}
+          height={280}
+        />
+        <div
+          class="absolute inset-x-0 bottom-0 flex justify-center gap-1.5 pb-[var(--sp-2)] opacity-0 transition-opacity group-focus-within:opacity-100 group-hover:opacity-100"
+        >
+          <button
+            type="button"
+            aria-label={book.cover_path === null ? t("book.cover.set") : t("book.cover.replace")}
+            title={book.cover_path === null ? t("book.cover.set") : t("book.cover.replace")}
+            onclick={() => void pickCover()}
+            class="inline-flex items-center justify-center rounded-[var(--r-md)] border border-border-2 bg-surface-1 p-2 text-ink-2 transition-colors hover:text-ink-1"
+          >
+            <ImagePlus class="size-4 no-mirror" strokeWidth={1.75} />
+          </button>
+          {#if book.cover_path !== null}
+            <button
+              type="button"
+              aria-label={t("book.cover.remove")}
+              title={t("book.cover.remove")}
+              onclick={() => void removeBookCover()}
+              class="inline-flex items-center justify-center rounded-[var(--r-md)] border border-border-2 bg-surface-1 p-2 text-ink-2 transition-colors hover:border-danger/50 hover:text-danger"
+            >
+              <Trash2 class="size-4 no-mirror" strokeWidth={1.75} />
+            </button>
+          {/if}
+        </div>
+      </div>
 
       <div class="flex min-w-[16rem] flex-1 flex-col gap-[var(--sp-3)]">
         <div class="flex items-start justify-between gap-[var(--sp-3)]">
@@ -561,15 +670,26 @@
         {/if}
 
         <div class="flex flex-wrap items-center gap-[var(--sp-3)]">
-          <span
-            class="rounded-[var(--r-full)] px-2.5 py-0.5 text-[var(--fs-sm)] font-medium {book.reading_status === 'finished'
+          <!-- The status doubles as the quick control: the tap a reader makes most is
+               "mark as read", so sitting it in the badge row needs no modal round-trip.
+               `book_status_set` touches only `reading_status`, never the edit form's
+               fields. -->
+          <label class="sr-only" for="quick-status">{t("book.quickStatus")}</label>
+          <select
+            id="quick-status"
+            value={book.reading_status}
+            onchange={(e) => void quickStatus(e.currentTarget.value as ReadingStatus)}
+            class="h-8 cursor-pointer rounded-[var(--r-full)] border-none px-2.5 py-0.5 text-[var(--fs-sm)] font-medium outline-none focus:border-accent {book
+              .reading_status === 'finished'
               ? 'bg-success-soft text-success'
               : book.reading_status === 'reading'
                 ? 'bg-accent-soft text-accent-soft-ink'
                 : 'bg-surface-2 text-ink-2'}"
           >
-            {statusLabel(book.reading_status)}
-          </span>
+            {#each STATUSES as s (s)}
+              <option value={s}>{t(`status.${s}` as MessageKey)}</option>
+            {/each}
+          </select>
 
           {#if book.rating !== null}
             <Stars value={book.rating} readonly size="md" label={t("book.rating.label")} />

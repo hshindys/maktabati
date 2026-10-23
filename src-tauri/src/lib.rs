@@ -46,6 +46,10 @@ macro_rules! commands {
             // Enrichment (Hermes): pure suggestions — no command here ever writes.
             crate::commands::enrich::metadata_enrich,
             crate::commands::enrich::metadata_enrich_search,
+            // Covers: pick/clear a book's cover image; cover_url feeds the asset protocol.
+            crate::commands::cover::cover_set,
+            crate::commands::cover::cover_remove,
+            crate::commands::cover::cover_url,
             // Hermes HTTP admin API: toggle + status for the Settings card.
             crate::commands::hermes::hermes_start,
             crate::commands::hermes::hermes_stop,
@@ -71,6 +75,7 @@ macro_rules! commands {
             crate::commands::catalogue::book_find_duplicates,
             crate::commands::catalogue::book_get,
             crate::commands::catalogue::book_list,
+            crate::commands::catalogue::book_status_set,
             crate::commands::catalogue::book_update,
             crate::commands::catalogue::category_children,
             crate::commands::catalogue::category_create,
@@ -401,6 +406,9 @@ mod tests {
             "backup_library",
             "metadata_enrich",
             "metadata_enrich_search",
+            "cover_set",
+            "cover_remove",
+            "cover_url",
             "hermes_start",
             "hermes_stop",
             "hermes_status",
@@ -422,6 +430,7 @@ mod tests {
             "book_find_duplicates",
             "book_get",
             "book_list",
+            "book_status_set",
             "book_update",
             "category_children",
             "category_create",

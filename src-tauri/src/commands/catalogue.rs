@@ -633,6 +633,26 @@ pub async fn book_update(
     blocking(db, move |db| repo::book::update(db, &id, input)).await
 }
 
+/// Quick status change ("mark as read"), touching only `reading_status`.
+///
+/// The edit modal covers a status change too, but a one-tap control on the book page must
+/// not have to round-trip a full `BookInput` — the same call an edit would make anyway with
+/// everything else unchanged, minus the risk of clobbering what another modal has open.
+///
+/// # Errors
+///
+/// [`AppErrorDto`] when the book does not exist.
+#[specta::specta]
+#[tauri::command]
+pub async fn book_status_set(
+    state: State<'_, AppState>,
+    id: String,
+    status: maktabati_domain::ReadingStatus,
+) -> CmdResult<Book> {
+    let db = Arc::clone(&state.db);
+    blocking(db, move |db| repo::book::set_status(db, &id, status)).await
+}
+
 /// Delete a book with its cycles, links, notes, files and search row.
 ///
 /// # Errors

@@ -35,6 +35,10 @@
     "security": {
       "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' asset: http://asset.localhost blob: data:; font-src 'self' data:; connect-src 'self' ipc: http://ipc.localhost ws://localhost:1420; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'",
       "freezePrototype": true,
+      "assetProtocol": {
+        "enable": true,
+        "scope": ["$APPDATA/covers/*"]
+      },
       "capabilities": ["default"]
     }
   },
