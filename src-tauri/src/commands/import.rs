@@ -1,6 +1,6 @@
 //! Import helpers — preview parsers for external library exports.
 
-use maktabati_metadata::goodreads::{GoodreadsRow, parse_goodreads_csv};
+use maktabati_metadata::goodreads::{parse_goodreads_csv, GoodreadsRow};
 
 use crate::error::{AppErrorDto, CmdResult};
 

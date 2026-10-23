@@ -22,6 +22,8 @@ describe("catalogues", () => {
       "wizard.format.pdf",
       "book.isbn10",
       "book.isbn13",
+      // The import table's column header: same rationale as book.isbn13.
+      "import.col.isbn",
     ]);
     const suspicious = Object.keys(ar).filter(
       (k) => ar[k as keyof typeof ar] === en[k as keyof typeof en] && !allowedIdentical.has(k),
@@ -114,6 +116,13 @@ describe("error keys", () => {
     "error.files.reveal_failed",
     // the catch-all for anything thrown without a domain/storage type
     "error.internal",
+    // src-tauri/src/commands/enrich.rs — Open Library fetch failures (Hermes)
+    "error.enrich.invalid_isbn",
+    "error.enrich.network",
+    "error.enrich.empty_request",
+    // src-tauri/src/commands/hermes.rs — HTTP server toggle failures
+    "error.hermes.bind",
+    "error.hermes.running",
     // frontend-owned: a command invoked with no shell behind it (api.ts, browser preview)
     "error.shell.unavailable",
     // frontend-owned: the read path catching a native invoke failure (api.ts, P0-5)

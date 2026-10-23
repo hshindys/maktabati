@@ -22,6 +22,9 @@ import type {
   LibraryHealth,
   LibrarySummary,
   PublisherInput,
+  Quote,
+  QuoteInput,
+  QuoteWithBook,
   SeriesInput,
   StorageMode,
   TagInput,
@@ -376,3 +379,61 @@ export const revealFile = (id: string) => run((c) => c.fileReveal(id));
 
 /** Shape of one attachment row, for pages that render them. */
 export type { BookFile, FileKind, StorageMode };
+
+// ── Quotes (الاقتباسات) ──────────────────────────────────────────────────────────────────
+
+/** Create a quote on a book. */
+export const createQuote = (bookId: string, input: QuoteInput) =>
+  run((c) => c.quoteCreate(bookId, input));
+/** List a book's quotes, newest first. */
+export const listBookQuotes = (bookId: string) => run((c) => c.quoteList(bookId));
+/** List every quote in the library, with owning book title + first author. */
+export const listAllQuotes = () => run((c) => c.quoteListAll());
+/** Edit a quote (full input replace). */
+export const updateQuote = (id: string, input: QuoteInput) =>
+  run((c) => c.quoteUpdate(id, input));
+/** Delete a quote. */
+export const deleteQuote = (id: string) => run((c) => c.quoteDelete(id));
+
+/** Shape of one quote row. */
+export type { Quote, QuoteWithBook };
+/** Highlight palette (reader palette, shared with quotes). */
+export type QuoteColor = import("@/bindings").QuoteColor;
+
+// ── Storage: backup ──────────────────────────────────────────────────────────────────────
+
+/** Write a verified SQLite copy into `backups/manual-<stamp>.db`; returns the absolute path. */
+export const backupLibrary = () => run((c) => c.backupLibrary());
+
+// ── Enrichment (Open Library suggestions) ────────────────────────────────────────────────
+
+/**
+ * Suggest metadata for an ISBN. **No writes** — the caller answers the
+ * i18n-prompted import/merge/discard question before anything is applied.
+ * `ok(null)` = Open Library has no such record (an honest miss, not an error).
+ */
+export const enrichByIsbn = (isbn: string) => run((c) => c.metadataEnrich(isbn));
+
+/** Same, but by title (+ optional author) through Open Library's search index. */
+export const enrichByTitleAuthor = (title: string, author: string) =>
+  run((c) => c.metadataEnrichSearch(title, author));
+
+// ── Hermes (loopback HTTP admin API) ─────────────────────────────────────────────────────
+
+/** Start the loopback server (127.0.0.1:17321); errors surface `hermes.bind`. */
+export const hermesStart = () => run((c) => c.hermesStart());
+/** Stop the server; idempotent. */
+export const hermesStop = () => run((c) => c.hermesStop());
+/** Report the server state for the Settings card. */
+export const hermesStatus = () => run((c) => c.hermesStatus());
+
+/** Shape of a Hermes status answer. */
+export type HermesStatus = import("@/bindings").HermesStatus;
+
+// ── Goodreads import ─────────────────────────────────────────────────────────────────────
+
+/** Parse a Goodreads "Export Library" CSV into rows, entirely offline. */
+export const parseGoodreads = (text: string) => run((c) => c.goodreadsParse(text));
+
+/** Shape of one parsed Goodreads row. */
+export type GoodreadsRow = import("@/bindings").GoodreadsRow;

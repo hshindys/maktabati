@@ -101,7 +101,9 @@ fn insert_row(conn: &rusqlite::Connection, file: &BookFile) -> Result<()> {
 /// instead of "no such book".
 fn book_exists(conn: &rusqlite::Connection, book_id: &str) -> Result<bool> {
     let found: Option<String> = conn
-        .query_row("SELECT id FROM books WHERE id = ?1", [book_id], |r| r.get(0))
+        .query_row("SELECT id FROM books WHERE id = ?1", [book_id], |r| {
+            r.get(0)
+        })
         .optional()?;
     Ok(found.is_some())
 }
@@ -237,10 +239,13 @@ mod tests {
         let db = Db::open(&dir.path().join("l.db")).unwrap();
         crate::migrate::apply(&db, || Ok(())).unwrap();
         db.write(crate::seed::apply).unwrap();
-        let book = crate::repo::book::create(&db, BookInput {
-            title: "مقدمة".into(),
-            ..Default::default()
-        })
+        let book = crate::repo::book::create(
+            &db,
+            BookInput {
+                title: "مقدمة".into(),
+                ..Default::default()
+            },
+        )
         .unwrap();
         let data = dir.path().join("data");
         (dir, db, data, book.id)
@@ -263,7 +268,12 @@ mod tests {
         let source = dir.path().join("a.epub");
         std::fs::write(&source, b"book-bytes").unwrap();
 
-        let attached = attach(&db, &data, file_input(&book_id, source.to_str().unwrap(), StorageMode::Copy)).unwrap();
+        let attached = attach(
+            &db,
+            &data,
+            file_input(&book_id, source.to_str().unwrap(), StorageMode::Copy),
+        )
+        .unwrap();
         assert!(attached.rel_path.is_some());
         assert!(attached.abs_path.is_none());
         assert_eq!(attached.size_bytes, 10);
@@ -280,7 +290,12 @@ mod tests {
         let source = dir.path().join("b.pdf");
         std::fs::write(&source, b"pdf-bytes").unwrap();
 
-        let attached = attach(&db, &data, file_input(&book_id, source.to_str().unwrap(), StorageMode::Reference)).unwrap();
+        let attached = attach(
+            &db,
+            &data,
+            file_input(&book_id, source.to_str().unwrap(), StorageMode::Reference),
+        )
+        .unwrap();
         assert!(attached.rel_path.is_none());
         assert_eq!(attached.abs_path.as_deref(), Some(source.to_str().unwrap()));
         assert!(
@@ -297,9 +312,21 @@ mod tests {
         std::fs::write(&a, b"same-bytes").unwrap();
         std::fs::write(&b, b"same-bytes").unwrap();
 
-        attach(&db, &data, file_input(&book_id, a.to_str().unwrap(), StorageMode::Copy)).unwrap();
-        let second = attach(&db, &data, file_input(&book_id, b.to_str().unwrap(), StorageMode::Copy));
-        assert!(second.is_err(), "ux_files_sha_copy must reject the second copy");
+        attach(
+            &db,
+            &data,
+            file_input(&book_id, a.to_str().unwrap(), StorageMode::Copy),
+        )
+        .unwrap();
+        let second = attach(
+            &db,
+            &data,
+            file_input(&book_id, b.to_str().unwrap(), StorageMode::Copy),
+        );
+        assert!(
+            second.is_err(),
+            "ux_files_sha_copy must reject the second copy"
+        );
         assert_eq!(second.unwrap_err().code(), "storage.duplicate");
     }
 
@@ -307,8 +334,7 @@ mod tests {
     fn attaching_a_missing_file_names_the_source() {
         let (_dir, db, data, book_id) = library();
         let missing = "/definitely/not/here.epub";
-        let err = attach(&db, &data, file_input(&book_id, missing, StorageMode::Copy))
-            .unwrap_err();
+        let err = attach(&db, &data, file_input(&book_id, missing, StorageMode::Copy)).unwrap_err();
         assert_eq!(err.code(), "storage.file_source_missing");
         match err {
             StorageError::FileSourceMissing { path } => assert_eq!(path, missing),
@@ -321,8 +347,12 @@ mod tests {
         let (dir, db, data, _book_id) = library();
         let source = dir.path().join("a.epub");
         std::fs::write(&source, b"x").unwrap();
-        let err = attach(&db, &data, file_input("no-such-book", source.to_str().unwrap(), StorageMode::Copy))
-            .unwrap_err();
+        let err = attach(
+            &db,
+            &data,
+            file_input("no-such-book", source.to_str().unwrap(), StorageMode::Copy),
+        )
+        .unwrap_err();
         assert_eq!(err.code(), "storage.not_found");
     }
 
@@ -331,11 +361,19 @@ mod tests {
         let (dir, db, data, book_id) = library();
         let source = dir.path().join("keep.pdf");
         std::fs::write(&source, b"keep").unwrap();
-        let attached = attach(&db, &data, file_input(&book_id, source.to_str().unwrap(), StorageMode::Reference)).unwrap();
+        let attached = attach(
+            &db,
+            &data,
+            file_input(&book_id, source.to_str().unwrap(), StorageMode::Reference),
+        )
+        .unwrap();
 
         delete(&db, &data, &attached.id).unwrap();
         assert!(list_for_book(&db, &book_id).unwrap().is_empty());
-        assert!(source.is_file(), "reference mode must never delete the user's file");
+        assert!(
+            source.is_file(),
+            "reference mode must never delete the user's file"
+        );
         assert!(get(&db, &attached.id).is_err());
     }
 
@@ -347,13 +385,26 @@ mod tests {
         std::fs::write(&a, b"shared").unwrap();
         std::fs::write(&b, b"shared").unwrap();
 
-        let first = attach(&db, &data, file_input(&book_id, a.to_str().unwrap(), StorageMode::Reference)).unwrap();
+        let first = attach(
+            &db,
+            &data,
+            file_input(&book_id, a.to_str().unwrap(), StorageMode::Reference),
+        )
+        .unwrap();
         // Reference rows share the hash too, so a copy-mode attach of the same bytes must not be
         // rejected — the unique index is partial (`WHERE storage_mode = 'copy'`).
-        let second = attach(&db, &data, file_input(&book_id, b.to_str().unwrap(), StorageMode::Copy)).unwrap();
+        let second = attach(
+            &db,
+            &data,
+            file_input(&book_id, b.to_str().unwrap(), StorageMode::Copy),
+        )
+        .unwrap();
 
         delete(&db, &data, &first.id).unwrap();
-        assert!(files::blob_exists(&data, &second.sha256), "still owned by the copy row");
+        assert!(
+            files::blob_exists(&data, &second.sha256),
+            "still owned by the copy row"
+        );
         delete(&db, &data, &second.id).unwrap();
         assert!(!files::blob_exists(&data, &second.sha256));
     }

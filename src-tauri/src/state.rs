@@ -17,6 +17,9 @@ pub struct AppState {
     pub data_dir: PathBuf,
     /// Resolved `CARGO_PKG_VERSION` of the app crate.
     pub app_version: String,
+    /// Optional Hermes HTTP admin server (`crate::commands::hermes`) — owns the
+    /// graceful-shutdown sender while the loopback listener is up.
+    pub hermes: crate::commands::hermes::HermesState,
 }
 
 impl std::fmt::Debug for AppState {
@@ -24,7 +27,7 @@ impl std::fmt::Debug for AppState {
         f.debug_struct("AppState")
             .field("db", &self.db)
             .field("data_dir", &self.data_dir)
-            .field("app_version", &self.app_version)
+            .field("hermes_running", &self.hermes.running())
             .finish()
     }
 }

@@ -8,8 +8,11 @@
 //! build when the Rust surface changes without the generated file being refreshed (ADR-0002).
 
 pub mod catalogue;
+pub mod enrich;
 pub mod files;
+pub mod hermes;
 pub mod import;
+pub mod quotes;
 
 use std::sync::Arc;
 
@@ -291,6 +294,34 @@ pub async fn settings_all(state: State<'_, AppState>) -> CmdResult<Vec<(String, 
     blocking(db, move |db| {
         repo::settings::all(db)
             .map(|pairs| pairs.into_iter().map(|(k, v)| (k, Json::from(v))).collect())
+    })
+    .await
+}
+
+/// Write a verified SQLite copy of the library into `backups/manual-<stamp>.db`.
+///
+/// The Settings → Storage screen's "back up now" button: the same online-backup path the
+/// pre-migration hook uses ([`Db::backup_to`]), aimed at a file the user can then restore
+/// from or take off-machine. Returns the absolute path written.
+///
+/// # Errors
+///
+/// [`AppErrorDto`] when the backups directory cannot be created or the backup fails.
+#[specta::specta]
+#[tauri::command]
+pub async fn backup_library(state: State<'_, AppState>) -> CmdResult<String> {
+    let dest = state
+        .data_dir
+        .join("backups")
+        .join(format!("manual-{}.db", conn::now_ms()));
+    blocking(Arc::clone(&state.db), move |db| {
+        let backups = dest
+            .parent()
+            .ok_or_else(|| maktabati_storage::StorageError::Migration("bad backup path".into()))?;
+        std::fs::create_dir_all(backups)?;
+        db.backup_to(&dest)?;
+        tracing::info!(dest = %dest.display(), "manual backup written");
+        Ok(dest.display().to_string())
     })
     .await
 }

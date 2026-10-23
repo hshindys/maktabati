@@ -51,6 +51,11 @@ tracing-subscriber = { workspace = true }
 tracing-appender = { workspace = true }
 directories = { workspace = true }
 
+# Hermes HTTP admin server + Open Library enrichment.
+tokio = { workspace = true }
+reqwest = { workspace = true }
+axum = { workspace = true }
+
 [features]
 default = []
 # Enables the in-app component gallery route (#/dev/gallery).

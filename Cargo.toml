@@ -46,8 +46,10 @@ tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
 tracing-appender = "0.2"
 
 # --- async runtime / http ---
-tokio = { version = "1", features = ["rt-multi-thread", "macros", "time", "sync", "fs", "io-util"] }
-reqwest = { version = "0.13", default-features = false, features = ["json", "rustls-tls", "gzip", "brotli"] }
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "time", "sync", "fs", "io-util", "net"] }
+reqwest = { version = "0.13", default-features = false, features = ["json", "rustls", "gzip", "brotli", "query"] }
+# Hermes HTTP admin API (loopback only). Defaults are fine: hyper's HTTP/1 + JSON + query.
+axum = "0.8"
 
 # --- storage ---
 rusqlite = { version = "0.40", features = ["bundled", "backup", "serde_json"] }

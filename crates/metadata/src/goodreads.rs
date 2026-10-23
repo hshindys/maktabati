@@ -25,6 +25,12 @@ pub struct GoodreadsRow {
     pub publication_year: Option<i32>,
     /// ISO-ish "YYYY-MM-DD" as exported; `None` when blank.
     pub date_read: Option<String>,
+    /// Publishing house, exactly as Goodreads spells it (`None` when the column is absent).
+    pub publisher: Option<String>,
+    /// Physical binding as exported ("Hardcover", "Kindle Edition"…); map with
+    /// [`binding_to_format`].
+    pub binding: Option<String>,
+    /// Bookshelves the user filed the row on (excluding the exclusive shelf characters).
     pub tags: Vec<String>,
     pub review: Option<String>,
     /// Human-readable problems with this row (non-fatal).
@@ -53,7 +59,9 @@ pub fn parse_goodreads_csv(text: &str) -> Result<Vec<GoodreadsRow>, ParseError> 
     }
     let header = &rows[0];
     let idx = |name: &str| -> Option<usize> {
-        header.iter().position(|h| h.trim().eq_ignore_ascii_case(name))
+        header
+            .iter()
+            .position(|h| h.trim().eq_ignore_ascii_case(name))
     };
     let col_title = idx("Title").ok_or(ParseError::MissingColumn("Title"))?;
     let col_author = idx("Author").ok_or(ParseError::MissingColumn("Author"))?;
@@ -68,15 +76,16 @@ pub fn parse_goodreads_csv(text: &str) -> Result<Vec<GoodreadsRow>, ParseError> 
     let col_shelves = idx("Bookshelves");
     let col_exclusive = idx("Exclusive Shelf");
     let col_review = idx("My Review");
+    let col_publisher = idx("Publisher");
+    let col_binding = idx("Binding");
 
     let mut out = Vec::new();
     for (lineno, r) in rows.iter().skip(1).enumerate() {
         if r.iter().all(|c| c.trim().is_empty()) {
             continue;
         }
-        let get = |i: Option<usize>| -> String {
-            i.and_then(|i| r.get(i)).cloned().unwrap_or_default()
-        };
+        let get =
+            |i: Option<usize>| -> String { i.and_then(|i| r.get(i)).cloned().unwrap_or_default() };
         let title = get(Some(col_title)).trim().to_string();
         let author = get(Some(col_author)).trim().to_string();
         if title.is_empty() {
@@ -90,16 +99,17 @@ pub fn parse_goodreads_csv(text: &str) -> Result<Vec<GoodreadsRow>, ParseError> 
         let rating = parse_rating(&get(col_rating), &mut warnings);
         let status = map_status(&get(col_exclusive));
         let page_count = parse_u32(&get(col_pages));
-        let publication_year = parse_i32(&get(col_year))
-            .or_else(|| parse_i32(&get(col_orig_year)));
+        let publication_year = parse_i32(&get(col_year)).or_else(|| parse_i32(&get(col_orig_year)));
         let date_read = nonempty(get(col_date_read));
         let tags: Vec<String> = get(col_shelves)
-            .split(|c: char| c == ',' || c == ';')
+            .split([',', ';'])
             .map(str::trim)
             .filter(|s| !s.is_empty())
             .map(String::from)
             .collect();
         let review = nonempty(get(col_review));
+        let publisher = nonempty(get(col_publisher));
+        let binding = nonempty(get(col_binding));
         if author.is_empty() {
             warnings.push(format!("row {}: missing author", lineno + 2));
         }
@@ -114,6 +124,8 @@ pub fn parse_goodreads_csv(text: &str) -> Result<Vec<GoodreadsRow>, ParseError> 
             page_count,
             publication_year,
             date_read,
+            publisher,
+            binding,
             tags,
             review,
             warnings,
@@ -140,17 +152,20 @@ fn parse_rating(s: &str, warnings: &mut Vec<String>) -> Option<u8> {
     if s.is_empty() {
         return None;
     }
-    match s.parse::<u8>() {
-        Ok(n) if n <= 5 => Some(n),
-        Ok(n) => {
-            warnings.push(format!("rating out of range: {n}"));
-            None
-        }
+    // Goodreads exports ratings as decimals ("4.0", "5.0"); tolerate both.
+    let n: f64 = match s.parse() {
+        Ok(v) => v,
         Err(_) => {
             warnings.push(format!("bad rating: {s}"));
-            None
+            return None;
         }
+    };
+    let rounded = n.round();
+    if !(0.0..=5.0).contains(&rounded) {
+        warnings.push(format!("rating out of range: {n}"));
+        return None;
     }
+    Some(rounded as u8)
 }
 
 fn map_status(shelf: &str) -> String {
@@ -177,6 +192,37 @@ fn nonempty(s: String) -> Option<String> {
         None
     } else {
         Some(t)
+    }
+}
+
+/// Map a Goodreads `Binding` value onto a Maktabati book-format literal
+/// (one of `domain::BookFormat`'s stored strings, `None` when unmappable).
+///
+/// Goodreads knows several paper bindings (Hardcover, Paperback, Mass Market Paperback…) —
+/// all of them are the same *print* format to Maktabati, which keeps the physical detail in
+/// a note the caller may add. Anything audiobook/ebook-like maps to its own format.
+#[must_use]
+pub fn binding_to_format(binding: Option<&str>) -> Option<&'static str> {
+    let b = binding?.trim().to_lowercase();
+    if b.is_empty() {
+        return None;
+    }
+    let audio = b.contains("audio") || b.contains("cd") || b.contains("cassette");
+    let ebook = b.contains("kindle")
+        || b.contains("nook")
+        || b.contains("ebook")
+        || b.contains("e-book")
+        || b.contains("digital");
+    let pdf = b.contains("pdf");
+    if audio {
+        Some("audiobook")
+    } else if pdf {
+        Some("pdf")
+    } else if ebook {
+        Some("ebook")
+    } else {
+        // Hardcover, Paperback, Mass Market Paperback, Spiral-bound… all print.
+        Some("print")
     }
 }
 
@@ -246,7 +292,11 @@ fn parse_csv(text: &str) -> Result<Vec<Vec<String>>, String> {
         rows.push(row);
     }
     // drop a trailing empty row
-    if rows.last().map(|r| r.iter().all(|c| c.is_empty())).unwrap_or(false) {
+    if rows
+        .last()
+        .map(|r| r.iter().all(|c| c.is_empty()))
+        .unwrap_or(false)
+    {
         rows.pop();
     }
     Ok(rows)
@@ -274,8 +324,35 @@ mod tests {
         assert_eq!(r.page_count, Some(352));
         assert_eq!(r.publication_year, Some(1999));
         assert_eq!(r.date_read.as_deref(), Some("2024/01/15"));
+        assert_eq!(r.publisher.as_deref(), Some("Addison-Wesley"));
+        assert_eq!(r.binding.as_deref(), Some("Hardcover"));
         assert_eq!(r.tags, vec!["tech".to_string(), "favorites".to_string()]);
         assert_eq!(r.review.as_deref(), Some("Great book"));
+    }
+
+    #[test]
+    fn publisher_and_binding_are_optional() {
+        let rows = parse_goodreads_csv(FIXTURE).unwrap();
+        let r = &rows[1];
+        assert_eq!(r.publisher, None);
+        assert_eq!(r.binding, None);
+    }
+
+    #[test]
+    fn binding_maps_onto_book_formats() {
+        assert_eq!(binding_to_format(Some("Hardcover")), Some("print"));
+        assert_eq!(
+            binding_to_format(Some("Mass Market Paperback")),
+            Some("print")
+        );
+        assert_eq!(binding_to_format(Some("Kindle Edition")), Some("ebook"));
+        assert_eq!(
+            binding_to_format(Some("Audible Audio CD")),
+            Some("audiobook")
+        );
+        assert_eq!(binding_to_format(Some("PDF eBook")), Some("pdf"));
+        assert_eq!(binding_to_format(Some("")), None);
+        assert_eq!(binding_to_format(None), None);
     }
 
     #[test]

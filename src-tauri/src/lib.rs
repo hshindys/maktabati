@@ -42,6 +42,20 @@ macro_rules! commands {
             crate::commands::settings_all,
             crate::commands::settings_get,
             crate::commands::settings_set,
+            crate::commands::backup_library,
+            // Enrichment (Hermes): pure suggestions — no command here ever writes.
+            crate::commands::enrich::metadata_enrich,
+            crate::commands::enrich::metadata_enrich_search,
+            // Hermes HTTP admin API: toggle + status for the Settings card.
+            crate::commands::hermes::hermes_start,
+            crate::commands::hermes::hermes_stop,
+            crate::commands::hermes::hermes_status,
+            // Quotes (الاقتباسات): one command per repo::quote function.
+            crate::commands::quotes::quote_create,
+            crate::commands::quotes::quote_list,
+            crate::commands::quotes::quote_list_all,
+            crate::commands::quotes::quote_update,
+            crate::commands::quotes::quote_delete,
             // Catalogue CRUD (M3): one command per repo function, minus the Rust-only
             // `find_by_name_norm` — see `commands::catalogue`.
             crate::commands::catalogue::author_create,
@@ -270,11 +284,20 @@ pub fn run() -> anyhow::Result<()> {
             let db = open_database(&data_dir)?;
             tracing::info!(data_dir = %data_dir.display(), "database ready");
 
-            app.manage(AppState {
+            let app_state = AppState {
                 db: Arc::new(db),
-                data_dir,
+                data_dir: data_dir.clone(),
                 app_version: env!("CARGO_PKG_VERSION").to_owned(),
-            });
+                hermes: Default::default(),
+            };
+            // Hermes is opt-in: only spawn a listener when the user turned it back on.
+            // Failures are logged, never fatal — the Settings toggle stays available.
+            crate::commands::hermes::autostart_if_enabled(
+                Arc::clone(&app_state.db),
+                app_state.hermes.inner.clone(),
+            );
+
+            app.manage(app_state);
 
             install_tray(app)?;
             Ok(())
@@ -375,6 +398,17 @@ mod tests {
             "settings_all",
             "settings_get",
             "settings_set",
+            "backup_library",
+            "metadata_enrich",
+            "metadata_enrich_search",
+            "hermes_start",
+            "hermes_stop",
+            "hermes_status",
+            "quote_create",
+            "quote_list",
+            "quote_list_all",
+            "quote_update",
+            "quote_delete",
             "author_create",
             "author_delete",
             "author_get",

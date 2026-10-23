@@ -60,6 +60,20 @@ pub(crate) fn check_year(field: &str, year: Option<i32>) -> Result<()> {
     Ok(())
 }
 
+/// Reject an optional page number that is not positive (`None` = "not supplied").
+pub(crate) fn check_page(field: &str, page: Option<i32>) -> Result<()> {
+    if let Some(p) = page {
+        if p <= 0 {
+            return Err(DomainError::OutOfRange {
+                field: field.into(),
+                got: p.to_string(),
+                expected: "> 0".into(),
+            });
+        }
+    }
+    Ok(())
+}
+
 /// Reject a death year earlier than the birth year (both optional).
 pub(crate) fn check_lifespan(birth: Option<i32>, death: Option<i32>) -> Result<()> {
     if let (Some(b), Some(d)) = (birth, death) {

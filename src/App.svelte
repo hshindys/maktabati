@@ -13,6 +13,7 @@
   import Placeholder from "./lib/views/Placeholder.svelte";
   import AddBook from "./lib/views/AddBook.svelte";
 import ImportView from "./lib/views/Import.svelte";
+import QuotesView from "./lib/views/Quotes.svelte";
 
   /**
    * App shell — title bar, sidebar, routed main region, toasts.
@@ -56,6 +57,8 @@ import ImportView from "./lib/views/Import.svelte";
             <SettingsView />
           {:else if currentPath === "/dev/gallery"}
             <Gallery />
+          {:else if currentPath === "/quotes"}
+            <QuotesView />
           {:else if currentPath === "/import"}
             <ImportView />
           {:else if currentPath.startsWith("/book/")}

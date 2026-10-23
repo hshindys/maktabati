@@ -32,7 +32,10 @@ pub use maktabati_domain::file::limits::FILES_SUBDIR;
 /// named also decides how it is hashed: the name is the hash, so the two cannot drift apart.
 #[must_use]
 pub fn sha256_hex(bytes: &[u8]) -> String {
-    Sha256::digest(bytes).iter().map(|b| format!("{b:02x}")).collect()
+    Sha256::digest(bytes)
+        .iter()
+        .map(|b| format!("{b:02x}"))
+        .collect()
 }
 
 /// Read a file and return its bytes together with their SHA-256.
@@ -74,7 +77,11 @@ pub fn hash_file(path: &Path) -> std::io::Result<(u64, String)> {
         hasher.update(&buf[..n]);
     }
 
-    let hash = hasher.finalize().iter().map(|b| format!("{b:02x}")).collect();
+    let hash = hasher
+        .finalize()
+        .iter()
+        .map(|b| format!("{b:02x}"))
+        .collect();
     Ok((total, hash))
 }
 
@@ -130,7 +137,10 @@ mod tests {
 
     #[test]
     fn hashes_are_lower_case_hex_and_deterministic() {
-        assert_eq!(sha256_hex(b""), "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+        assert_eq!(
+            sha256_hex(b""),
+            "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        );
         assert_eq!(sha256_hex(b"abc"), sha256_hex(b"abc"));
         assert_ne!(sha256_hex(b"abc"), sha256_hex(b"abd"));
     }
@@ -157,7 +167,10 @@ mod tests {
 
         // Storing the same content again is a no-op, not an error.
         store_blob(&data, &hash, &source).unwrap();
-        assert_eq!(read_and_hash(&blob_path(&data, &hash)).unwrap().0, b"book-bytes");
+        assert_eq!(
+            read_and_hash(&blob_path(&data, &hash)).unwrap().0,
+            b"book-bytes"
+        );
 
         remove_blob(&data, &hash).unwrap();
         assert!(!blob_exists(&data, &hash));

@@ -47,6 +47,13 @@
   --color-star: var(--star-filled);
   --color-star-empty: var(--star-empty);
 
+  --color-quote-yellow: var(--quote-yellow);
+  --color-quote-green: var(--quote-green);
+  --color-quote-blue: var(--quote-blue);
+  --color-quote-pink: var(--quote-pink);
+  --color-quote-red: var(--quote-red);
+  --color-quote-purple: var(--quote-purple);
+
   --font-ui: Inter, Cairo, Tajawal, "IBM Plex Sans Arabic", system-ui, sans-serif;
   --font-read: "IBM Plex Sans Arabic", Inter, Cairo, system-ui, sans-serif;
   --font-naskh: Amiri, "IBM Plex Sans Arabic", Georgia, serif;
@@ -192,6 +199,15 @@
   --info: #2a5f8f;
   --info-soft: #e4eef7;
   --star-filled: #c99a17;
+
+  /* Reader/quote highlight palette (domain::QuoteColor). Accent-independent dots that
+   * keep enough contrast on all three themes without a per-theme override. */
+  --quote-yellow: #d9a517;
+  --quote-green: #3d8f57;
+  --quote-blue: #2a5f8f;
+  --quote-pink: #c05f8d;
+  --quote-red: #b03a2e;
+  --quote-purple: #7a4a9f;
 
   /* Type scale — 1.200 minor third on a 16px base */
   --fs-xs: 0.75rem;    /* 12px */

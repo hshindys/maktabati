@@ -10,6 +10,7 @@ pub mod category;
 pub mod file;
 pub mod language;
 pub mod publisher;
+pub mod quote;
 pub mod series;
 pub mod settings;
 pub mod summary;

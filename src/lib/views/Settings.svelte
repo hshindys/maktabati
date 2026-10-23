@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { DatabaseBackup, Server, TriangleAlert } from "@lucide/svelte";
+  import { onMount } from "svelte";
+
   import { locale, translatorFor, type MessageKey } from "../i18n";
   import {
     ACCENTS,
@@ -13,7 +16,22 @@
     type ThemeChoice,
   } from "../settings";
   import Card from "../components/Card.svelte";
+  import Button from "../components/Button.svelte";
   import Mark from "../components/Mark.svelte";
+  import {
+    backupLibrary,
+    getAppInfo,
+    getLibraryHealth,
+    hermesStart,
+    hermesStatus,
+    hermesStop,
+    setSetting,
+  } from "../api";
+  import type { AppErrorDto, AppInfo, LibraryHealth } from "@/bindings";
+  import type { HermesStatus } from "../api";
+  import { messageFor } from "../errors";
+  import { formatNumber } from "../format";
+  import { toast } from "../toast";
 
   /**
    * Settings → Appearance & language.
@@ -21,6 +39,10 @@
    * Every control here is a **live preview**: changing it updates `<html data-theme>` and
    * `<html dir>` immediately, with no save button and no reload. That is the whole point of
    * having one token layer — a preference change is a CSS variable change, not a re-render.
+
+   * Storage, Hermes and About are live reads of the real backend (`app_info`,
+   * `library_health`, `backup_library`), loaded with the page; outside the shell they
+   * keep their designed empty values instead of pretending.
    */
 
   let t = $derived(translatorFor($locale));
@@ -60,6 +82,73 @@
     hijri: "settings.calendar.hijri",
     both: "settings.calendar.both",
   };
+
+  // ── Storage, Hermes and About — live reads, not placeholders ───────────────────────────
+
+  let info = $state<AppInfo | null>(null);
+  let infoError = $state<AppErrorDto | null>(null);
+  let health = $state<LibraryHealth | null>(null);
+  let healthBusy = $state(false);
+  let hermes = $state<HermesStatus | null>(null);
+  let hermesBusy = $state(false);
+
+  /** Human size for the health card; MB granularity is right for a local database. */
+  const sizeOf = (bytes: number): string => {
+    const mb = bytes / (1024 * 1024);
+    return mb >= 1 ? `${formatNumber(mb, { digits: $preferences.digits })} MB` : `${formatNumber(bytes, { digits: $preferences.digits })} B`;
+  };
+
+  async function reloadInfo(): Promise<void> {
+    const res = await getAppInfo();
+    if (res.status === "ok") {
+      info = res.data;
+      infoError = null;
+    } else {
+      infoError = res.error;
+    }
+  }
+
+  async function reloadHealth(): Promise<void> {
+    healthBusy = true;
+    const res = await getLibraryHealth();
+    health = res.status === "ok" ? res.data : null;
+    healthBusy = false;
+  }
+
+  async function reloadHermes(): Promise<void> {
+    const res = await hermesStatus();
+    if (res.status === "ok") hermes = res.data;
+  }
+
+  async function runBackup(): Promise<void> {
+    const res = await backupLibrary();
+    if (res.status === "ok") toast.success(t("toast.backupDone"));
+    else toast.error(messageFor(res.error, t));
+  }
+
+  async function toggleHermes(): Promise<void> {
+    if (hermesBusy || hermes === null) return;
+    hermesBusy = true;
+    try {
+      const target = hermes.running ? hermesStop() : hermesStart();
+      const res = await target;
+      if (res.status === "ok") {
+        hermes = res.data;
+        await setSetting("hermes.server.enabled", hermes.running);
+        toast.success(t(hermes.running ? "toast.hermesStarted" : "toast.hermesStopped"));
+      } else {
+        toast.error(messageFor(res.error, t));
+      }
+    } finally {
+      hermesBusy = false;
+    }
+  }
+
+  onMount(() => {
+    void reloadInfo();
+    void reloadHealth();
+    void reloadHermes();
+  });
 
   let heading = "section";
 </script>
@@ -197,6 +286,80 @@
     </p>
   </Card>
 
+  <!-- Storage: backup now + live health numbers. -->
+  <Card>
+    <div class="flex flex-wrap items-center justify-between gap-[var(--sp-3)]">
+      <h2 class="flex items-center gap-2 text-[var(--fs-md)] font-semibold">
+        <DatabaseBackup class="size-5 shrink-0 text-ink-3 no-mirror" strokeWidth={1.75} />
+        {t("settings.storage")}
+      </h2>
+      <Button variant="secondary" loading={healthBusy && health === null} onclick={() => void runBackup()}>
+        {t("settings.backupNow")}
+      </Button>
+    </div>
+
+    {#if infoError !== null}
+      <p role="alert" class="mt-[var(--sp-3)] bidi-auto text-[var(--fs-sm)] text-danger" dir="auto">
+        {messageFor(infoError, t)}
+      </p>
+    {:else if info === null}
+      <p class="mt-[var(--sp-3)] text-[var(--fs-sm)] text-ink-3">{t("common.loading")}</p>
+    {:else}
+      <dl class="mt-[var(--sp-3)] grid grid-cols-2 gap-[var(--sp-3)] sm:grid-cols-3">
+        <div class="flex flex-col gap-0.5">
+          <dt class="text-[var(--fs-sm)] text-ink-3">{t("settings.health.dbSize")}</dt>
+          <dd class="tnum bidi-ltr text-[var(--fs-base)] text-ink-1">{sizeOf(health?.db_bytes ?? 0)}</dd>
+        </div>
+        <div class="flex flex-col gap-0.5">
+          <dt class="text-[var(--fs-sm)] text-ink-3">{t("settings.about.dataDir")}</dt>
+          <dd class="tnum bidi-ltr text-[var(--fs-base)] text-ink-1">{sizeOf(info.data_dir_bytes)}</dd>
+        </div>
+        <div class="flex flex-col gap-0.5">
+          <dt class="text-[var(--fs-sm)] text-ink-3">{t("settings.health.integrity")}</dt>
+          <dd class="text-[var(--fs-base)] {health === null || health.integrity_ok ? 'text-ink-1' : 'text-danger'}">
+            {health === null ? t("common.loading") : health.integrity_ok ? t("settings.health.ok") : t("settings.health.notOk")}
+          </dd>
+        </div>
+      </dl>
+      {#if health !== null && !health.integrity_ok}
+        <p role="alert" class="mt-[var(--sp-2)] flex items-center gap-2 text-[var(--fs-sm)] text-danger">
+          <TriangleAlert class="size-4 no-mirror" strokeWidth={2} />
+          <span class="bidi-ltr" dir="ltr">{health.integrity}</span>
+        </p>
+      {/if}
+      <p class="mt-[var(--sp-2)] text-[var(--fs-sm)] text-ink-3">{t("settings.backupDone")}</p>
+    {/if}
+  </Card>
+
+  <!-- Hermes: the opt-in loopback API. The setting persists; the button reflects the live state. -->
+  <Card>
+    <div class="flex flex-wrap items-center justify-between gap-[var(--sp-3)]">
+      <div class="min-w-[14rem] flex-1">
+        <h2 class="flex items-center gap-2 text-[var(--fs-md)] font-semibold">
+          <Server class="size-5 shrink-0 text-ink-3 no-mirror" strokeWidth={1.75} />
+          {t("settings.hermes")}
+        </h2>
+        <p class="mt-1 text-[var(--fs-sm)] text-ink-3">{t("settings.hermes.body")}</p>
+      </div>
+      <div class="flex items-center gap-[var(--sp-3)]">
+        <span class="rounded-[var(--r-full)] border border-border-2 px-2.5 py-0.5 text-[var(--fs-sm)] {hermes?.running === true ? 'bg-success-soft text-success' : 'text-ink-2'}">
+          {t(hermes?.running === true ? "settings.hermes.state.running" : "settings.hermes.state.stopped")}
+        </span>
+        <Button
+          variant={hermes?.running === true ? "secondary" : "primary"}
+          loading={hermesBusy}
+          disabled={hermes === null}
+          onclick={() => void toggleHermes()}
+        >
+          {t(hermes?.running === true ? "settings.hermes.stop" : "settings.hermes.start")}
+        </Button>
+      </div>
+    </div>
+    {#if hermes?.running === true}
+      <p class="mt-[var(--sp-2)] bidi-ltr tnum text-[var(--fs-sm)] text-ink-3" dir="ltr">http://{hermes.addr}</p>
+    {/if}
+  </Card>
+
   <!-- About -->
   <Card>
     <div class="flex items-center gap-[var(--sp-4)]">
@@ -207,6 +370,28 @@
       </div>
     </div>
     <p class="mt-[var(--sp-4)] text-[var(--fs-sm)] text-ink-2">{t("about.noTelemetry")}</p>
+    {#if info !== null}
+      <dl class="mt-[var(--sp-4)] grid grid-cols-1 gap-[var(--sp-2)] sm:grid-cols-2">
+        <div class="flex flex-col gap-0.5">
+          <dt class="text-[var(--fs-sm)] text-ink-3">{t("settings.about.version")}</dt>
+          <dd class="tnum bidi-ltr text-[var(--fs-base)] text-ink-1">{info.version}</dd>
+        </div>
+        <div class="flex flex-col gap-0.5">
+          <dt class="text-[var(--fs-sm)] text-ink-3">{t("settings.about.schema")}</dt>
+          <dd class="tnum bidi-ltr text-[var(--fs-base)] text-ink-1">{info.schema_version} / {info.embedded_migrations}</dd>
+        </div>
+        <div class="flex flex-col gap-0.5">
+          <dt class="text-[var(--fs-sm)] text-ink-3">{t("settings.about.platform")}</dt>
+          <dd class="tnum bidi-ltr text-[var(--fs-base)] text-ink-1">{info.platform}</dd>
+        </div>
+        <div class="flex flex-col gap-0.5">
+          <dt class="text-[var(--fs-sm)] text-ink-3">{t("settings.about.dataDir")}</dt>
+          <dd class="break-all text-[var(--fs-sm)] text-ink-1" dir="ltr">{info.data_dir}</dd>
+        </div>
+      </dl>
+    {:else if infoError !== null}
+      <p class="mt-[var(--sp-4)] text-[var(--fs-sm)] text-ink-3">{t("common.loading")}</p>
+    {/if}
   </Card>
 </div>
 

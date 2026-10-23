@@ -491,6 +491,44 @@ pub fn find_by_isbn(db: &Db, isbn: &str) -> Result<Vec<Book>> {
     })
 }
 
+/// Full-text-ish search used by the Hermes HTTP API (`GET /books?query=…`).
+///
+/// LIKE probes over the normalized mirrors rather than `fts_book`: the FTS index is
+/// populated by the-search milestone's sync triggers, while this must work on any
+/// database that only ever used the wizard. Digits alone match ISBNs exactly; words
+/// match titles and author names case- and diacritics-insensitively. An empty query
+/// returns the most recently added books, like the "all books" list.
+///
+/// # Errors
+///
+/// [`crate::StorageError::Sqlite`] on query failure.
+pub fn search(db: &Db, query: &str, limit: usize) -> Result<Vec<Book>> {
+    let trimmed = query.trim();
+    if trimmed.is_empty() {
+        return list(db).map(|mut books| {
+            if books.len() > limit {
+                books.truncate(limit);
+            }
+            books
+        });
+    }
+    let needle = format!("%{}%", normalize(trimmed));
+    let sql = format!(
+        "SELECT {COLUMNS} FROM books b \
+         WHERE b.title_norm LIKE ?1 \
+            OR b.isbn13 = ?2 OR b.isbn10 = ?2 \
+            OR EXISTS (SELECT 1 FROM book_authors ba JOIN authors a ON a.id = ba.author_id \
+                       WHERE ba.book_id = b.id AND a.name_norm LIKE ?1) \
+         ORDER BY b.created_at DESC, b.id DESC LIMIT ?3"
+    );
+    db.read(|conn| {
+        let mut stmt = conn.prepare(&sql)?;
+        let rows = stmt.query_map(rusqlite::params![needle, trimmed, limit as i64], from_row)?;
+        rows.collect::<rusqlite::Result<Vec<_>>>()
+            .map_err(Into::into)
+    })
+}
+
 /// Normalized name mirrors for the authors a form is crediting. An author the form names but
 /// the database has lost simply contributes nothing here — the caller validates that
 /// separately, and this is only a similarity probe.
@@ -1073,5 +1111,49 @@ mod tests {
 
         let detail = detail(&db, &created.id).unwrap();
         assert_eq!(detail.categories, vec![root.id]);
+    }
+
+    #[test]
+    fn search_matches_titles_authors_and_isbns() {
+        let db = seeded_db();
+        let hunt = author_named(&db, "Andrew Hunt");
+        let created = create(
+            &db,
+            BookInput {
+                authors: vec![credit(&hunt)],
+                ..full_input()
+            },
+        )
+        .unwrap();
+
+        // Title match, diacritics/punctuation-insensitive via the norm mirrors.
+        let hits = search(&db, "مقدمة في الحضارة", 10).unwrap();
+        assert_eq!(
+            hits.iter().map(|b| &b.id).collect::<Vec<_>>(),
+            vec![&created.id]
+        );
+
+        // Partial author name.
+        let hits = search(&db, "hunt", 10).unwrap();
+        assert_eq!(hits.len(), 1);
+
+        // ISBN-13 match (already stored normalized).
+        let hits = search(&db, "9789953210551", 10).unwrap();
+        assert_eq!(hits.len(), 1);
+
+        // Substring of a word.
+        let hits = search(&db, "الحضار", 10).unwrap();
+        assert_eq!(hits.len(), 1);
+
+        // Empty query falls back to "recent books".
+        let hits = search(&db, "", 10).unwrap();
+        assert_eq!(hits.len(), 1);
+
+        // Limit is honoured.
+        let hits = search(&db, "مقدمة", 0).unwrap();
+        assert_eq!(hits, vec![]);
+
+        // Nothing matches garbage.
+        assert_eq!(search(&db, "zzzzzz", 10).unwrap(), vec![]);
     }
 }

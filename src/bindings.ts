@@ -77,6 +77,137 @@ Json[] |
 	 */
 	settingsSet: (key: string, value: Json) => typedError<null, AppErrorDto>(__TAURI_INVOKE("settings_set", { key, value })),
 	/**
+	 *  Write a verified SQLite copy of the library into `backups/manual-<stamp>.db`.
+	 * 
+	 *  The Settings → Storage screen's "back up now" button: the same online-backup path the
+	 *  pre-migration hook uses ([`Db::backup_to`]), aimed at a file the user can then restore
+	 *  from or take off-machine. Returns the absolute path written.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when the backups directory cannot be created or the backup fails.
+	 */
+	backupLibrary: () => typedError<string, AppErrorDto>(__TAURI_INVOKE("backup_library")),
+	/**
+	 *  Suggest book metadata for an ISBN, straight from Open Library.
+	 * 
+	 *  **No writes.** The suggestion is returned to the webview, i18n-prompted
+	 *  (import / merge / discard), and only then applied by whoever owns the decision.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`](crate::error::AppErrorDto) on network failures or an invalid ISBN.
+	 *  `Ok(None)` = Open Library has no such record.
+	 */
+	metadataEnrich: (isbn: string) => typedError<{
+	title: string,
+	subtitle: string | null,
+	/**  Author names, in the order Open Library lists them. */
+	authors: string[],
+	/**  Publisher names, plain (the caller matches / creates rows). */
+	publishers: string[],
+	/**  Blurb or publisher's note, merged into one text when several are present. */
+	description: string | null,
+	/**  Largest available cover image URL (`None` when the record has none). */
+	cover_url: string | null,
+	publication_year: number | null,
+	page_count: number | null,
+	/**  Digits only, normalized. */
+	isbn13: string | null,
+} | null, AppErrorDto>(__TAURI_INVOKE("metadata_enrich", { isbn })),
+	/**
+	 *  Suggest metadata by title (+ optional author) when no ISBN is known.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`](crate::error::AppErrorDto) on network failures; an empty title.
+	 */
+	metadataEnrichSearch: (title: string, author: string) => typedError<{
+	title: string,
+	subtitle: string | null,
+	/**  Author names, in the order Open Library lists them. */
+	authors: string[],
+	/**  Publisher names, plain (the caller matches / creates rows). */
+	publishers: string[],
+	/**  Blurb or publisher's note, merged into one text when several are present. */
+	description: string | null,
+	/**  Largest available cover image URL (`None` when the record has none). */
+	cover_url: string | null,
+	publication_year: number | null,
+	page_count: number | null,
+	/**  Digits only, normalized. */
+	isbn13: string | null,
+} | null, AppErrorDto>(__TAURI_INVOKE("metadata_enrich_search", { title, author })),
+	/**
+	 *  IPC surface for the Settings → Hermes card.
+	 * 
+	 *  Starts the loopback server. Fails with `hermes.bind` when the port is taken or the
+	 *  server already runs.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`](crate::error::AppErrorDto) on bind/already-running failures.
+	 */
+	hermesStart: () => typedError<HermesStatus, AppErrorDto>(__TAURI_INVOKE("hermes_start")),
+	/**
+	 *  Stops the server if it is up. Idempotent.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`](crate::error::AppErrorDto) when the internal state is poisoned.
+	 */
+	hermesStop: () => typedError<HermesStatus, AppErrorDto>(__TAURI_INVOKE("hermes_stop")),
+	/**
+	 *  Report whether the server is running, for the Settings card.
+	 * 
+	 *  # Errors
+	 * 
+	 *  Never in practice; the signature matches its siblings.
+	 */
+	hermesStatus: () => typedError<HermesStatus, AppErrorDto>(__TAURI_INVOKE("hermes_status")),
+	/**
+	 *  Create a quote on a book.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`](crate::error::AppErrorDto) when the book does not exist, the input fails
+	 *  validation, or the write fails.
+	 */
+	quoteCreate: (bookId: string, input: QuoteInput) => typedError<Quote, AppErrorDto>(__TAURI_INVOKE("quote_create", { bookId, input })),
+	/**
+	 *  List a book's quotes, newest first.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`](crate::error::AppErrorDto) when the query fails.
+	 */
+	quoteList: (bookId: string) => typedError<Quote[], AppErrorDto>(__TAURI_INVOKE("quote_list", { bookId })),
+	/**
+	 *  List every quote in the library with the owning book's title and first author.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`](crate::error::AppErrorDto) when the query fails.
+	 */
+	quoteListAll: () => typedError<QuoteWithBook[], AppErrorDto>(__TAURI_INVOKE("quote_list_all")),
+	/**
+	 *  Edit a quote.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`](crate::error::AppErrorDto) when the id is unknown, validation fails, or the
+	 *  write fails.
+	 */
+	quoteUpdate: (id: string, input: QuoteInput) => typedError<Quote, AppErrorDto>(__TAURI_INVOKE("quote_update", { id, input })),
+	/**
+	 *  Delete a quote.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`](crate::error::AppErrorDto) when the id is unknown or the write fails.
+	 */
+	quoteDelete: (id: string) => typedError<null, AppErrorDto>(__TAURI_INVOKE("quote_delete", { id })),
+	/**
 	 *  Create an author from the wizard's inline form.
 	 * 
 	 *  # Errors
@@ -868,6 +999,30 @@ export type CoverSource = "manual" | "openlibrary" | "googlebooks" | "embedded" 
 /**  Writing direction of a language. */
 export type Direction = "rtl" | "ltr";
 
+/**
+ *  An enrichment *suggestion* parsed from an Open Library response.
+ * 
+ *  Deliberately a projection — never a full `BookInput` — because `/enrich`
+ *  must not write: the caller answers a discriminative i18n prompt (import vs.
+ *  merge vs. discard) and maps these fields onto whatever it decides.
+ */
+export type EnrichedBook = {
+	title: string,
+	subtitle: string | null,
+	/**  Author names, in the order Open Library lists them. */
+	authors: string[],
+	/**  Publisher names, plain (the caller matches / creates rows). */
+	publishers: string[],
+	/**  Blurb or publisher's note, merged into one text when several are present. */
+	description: string | null,
+	/**  Largest available cover image URL (`None` when the record has none). */
+	cover_url: string | null,
+	publication_year: number | null,
+	page_count: number | null,
+	/**  Digits only, normalized. */
+	isbn13: string | null,
+};
+
 /**  Attachment file kind. */
 export type FileKind = "epub" | "pdf" | "mobi" | "azw3" | "txt" | "audio" | "other";
 
@@ -887,10 +1042,26 @@ export type GoodreadsRow = {
 	publication_year: number | null,
 	/**  ISO-ish "YYYY-MM-DD" as exported; `None` when blank. */
 	date_read: string | null,
+	/**  Publishing house, exactly as Goodreads spells it (`None` when the column is absent). */
+	publisher: string | null,
+	/**
+	 *  Physical binding as exported ("Hardcover", "Kindle Edition"…); map with
+	 *  [`binding_to_format`].
+	 */
+	binding: string | null,
+	/**  Bookshelves the user filed the row on (excluding the exclusive shelf characters). */
 	tags: string[],
 	review: string | null,
 	/**  Human-readable problems with this row (non-fatal). */
 	warnings: string[],
+};
+
+/**  What the IPC status/toggle endpoints answer with. */
+export type HermesStatus = {
+	/**  Server currently accepting connections. */
+	running: boolean,
+	/**  The loopback address, as text, e.g. `127.0.0.1:17321`. */
+	addr: string,
 };
 
 /**
@@ -1065,6 +1236,67 @@ export type PublisherInput = {
 	notes: string | null,
 	/**  Cover path. */
 	cover_path: string | null,
+};
+
+/**
+ *  A passage lifted from a book.
+ * 
+ *  `source`, `file_id` and `position_ref` stay storage-level for now: the reader (M6) is what
+ *  will quote from attachments; a hand-entered quote needs none of them.
+ */
+export type Quote = {
+	/**  UUID v7. */
+	id: string,
+	/**  The book the passage was lifted from. */
+	book_id: string,
+	/**  Passage as written. */
+	text: string,
+	/**  Normalized mirror (search + duplicate detection), same contract as `books.title_norm`. */
+	text_norm: string,
+	/**  The user's own annotation. */
+	note: string | null,
+	/**  Page in the copy the user read. */
+	page: number | null,
+	/**  Chapter label, as printed («الفصل الرابع», `Ch. 3`…). */
+	chapter: string | null,
+	/**  Highlight colour (reader palette). */
+	color: QuoteColor,
+	/**  Creation timestamp, epoch ms UTC. */
+	created_at: number,
+	/**  Last edit timestamp, epoch ms UTC. */
+	updated_at: number,
+};
+
+/**  Highlight colour used by the reader and by quotes. */
+export type QuoteColor = "yellow" | "green" | "blue" | "pink" | "red" | "purple";
+
+/**  Input for creating or editing a [`Quote`]. */
+export type QuoteInput = {
+	/**  Passage (required). */
+	text: string,
+	/**  The user's annotation. */
+	note: string | null,
+	/**  Page in the copy. */
+	page: number | null,
+	/**  Chapter label. */
+	chapter: string | null,
+	/**  Highlight colour; defaults to yellow. */
+	color: QuoteColor | null,
+};
+
+/**
+ *  A quote with the two book facts the global quotes screen renders.
+ * 
+ *  The join is presentation-facing, like [`crate::repo::book::BookDetail`]: [`Quote`] stays
+ *  pure and the screen never joins per row.
+ */
+export type QuoteWithBook = {
+	/**  The quote itself. */
+	quote: Quote,
+	/**  The book's title. */
+	book_title: string,
+	/**  First author credited on the book, if any (display order). */
+	book_author: string | null,
 };
 
 /**

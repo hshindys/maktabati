@@ -6,7 +6,8 @@
     FileText,
     FolderOpen,
     Paperclip,
-    Quote,
+    Pencil,
+    Quote as QuoteIcon,
     StickyNote,
     Trash2,
     TriangleAlert,
@@ -16,9 +17,12 @@
 
   import {
     attachFile,
+    deleteBook,
     deleteFile,
+    deleteQuote,
     getBookDetail,
     listAuthors,
+    listBookQuotes,
     listCategories,
     listFiles,
     listPublishers,
@@ -40,7 +44,9 @@
   import { toast } from "../toast";
   import { formatDate, formatNumber, type DigitStyle } from "../format";
   import { preferences } from "../settings";
-  import { route } from "../router";
+  import { go, route } from "../router";
+  import BookEdit from "./BookEdit.svelte";
+  import QuoteEdit from "./QuoteEdit.svelte";
   import type {
     AppErrorDto,
     Author,
@@ -53,6 +59,7 @@
     Condition,
     FileKind,
     Publisher,
+    Quote,
     ReadingStatus,
     Series,
     StorageMode,
@@ -68,9 +75,11 @@
    * lists rather than issuing a query per relation — the difference between one round trip
    * and five on a 50k-book machine.
    *
-   * Two tabs (notes, quotes) have no backend yet. They render their designed empty state with
-   * a "later milestone" note rather than a fake list, because a placeholder that pretends to
-   * hold data is worse than one that says it is empty.
+   * Two tabs behave differently on purpose: quotes have a real chain now (repo → commands →
+   * this tab), loaded when their tab opens like the files tab below. Notes still have no
+   * backend and render their designed empty state with a "later milestone" note rather than a
+   * fake list, because a placeholder that pretends to hold data is worse than one that says
+   * it is empty.
    *
    * The files tab is the exception: `book_files` and `repo::file` exist, so it lists real
    * attachments, opens them with the system handler, and asks before removing one. It loads
@@ -86,7 +95,7 @@
     { key: "reading", icon: StickyNote, labelKey: "book.tab.reading" },
     { key: "organize", icon: StickyNote, labelKey: "book.tab.organize" },
     { key: "notes", icon: StickyNote, labelKey: "book.tab.notes" },
-    { key: "quotes", icon: Quote, labelKey: "book.tab.quotes" },
+    { key: "quotes", icon: QuoteIcon, labelKey: "book.tab.quotes" },
     { key: "files", icon: FileText, labelKey: "book.tab.files" },
   ];
 
@@ -145,6 +154,38 @@
   }
 
   onMount(() => void load());
+
+  // ── Edit and delete the book itself ────────────────────────────────────────────────────
+  //
+  // `book_update`/`book_delete` exist and are tested; the page is the place the user looks
+  // for them. Delete walks the same native-confirm path an attachment delete does — the
+  // whole record (quotes, notes, files) goes with the book and only a confirm stands guard.
+
+  let editOpen = $state(false);
+  let bookDeleting = false;
+
+  async function removeBook(): Promise<void> {
+    if (bookDeleting || detail === null) return;
+    let confirmed = false;
+    try {
+      confirmed = await ask(t("book.deleteConfirm"), { kind: "warning" });
+    } catch {
+      return; // no shell — a preview has nothing to delete
+    }
+    if (!confirmed) return;
+    bookDeleting = true;
+    try {
+      const res = await deleteBook(id);
+      if (res.status === "ok") {
+        toast.success(t("toast.bookDeleted"));
+        go("/library");
+      } else {
+        toast.error(messageFor(res.error, t));
+      }
+    } finally {
+      bookDeleting = false;
+    }
+  }
 
   // ── Attachments ────────────────────────────────────────────────────────────────────────
   //
@@ -255,6 +296,74 @@
     const res = await revealFile(row.id);
     if (res.status !== "ok") toast.error(messageFor(res.error, t));
   }
+
+  // ── Quotes ─────────────────────────────────────────────────────────────────────────────
+  //
+  // Same shape as the attachments block: loaded when the tab opens, re-read by both
+  // mutating paths, and a native confirm before the destructive one. `quote_create` needs a
+  // book id, which this page already owns — that is why a quote is added here and not from
+  // the browser.
+
+  let quotes = $state<Quote[]>([]);
+  let quotesEditing = $state<Quote | null>(null);
+  let quoteEditorOpen = $state(false);
+  let quoteWorking = $state(false);
+
+  async function reloadQuotes(): Promise<void> {
+    const res = await listBookQuotes(id);
+    if (res.status === "ok") quotes = res.data;
+    else toast.error(messageFor(res.error, t));
+  }
+
+  $effect(() => {
+    // Same discipline as the files tab above: run when the tab opens, cancel stale answers.
+    if (tab !== "quotes" || id.length === 0) return;
+    let cancelled = false;
+    listBookQuotes(id).then((res) => {
+      if (cancelled) return;
+      if (res.status === "ok") quotes = res.data;
+      else toast.error(messageFor(res.error, t));
+    });
+    return () => {
+      cancelled = true;
+    };
+  });
+
+  function openQuoteEditor(row: Quote | null): void {
+    quotesEditing = row;
+    quoteEditorOpen = true;
+  }
+
+  async function removeQuote(row: Quote): Promise<void> {
+    if (quoteWorking) return;
+    let confirmed = false;
+    try {
+      confirmed = await ask(t("book.quotes.deleteConfirm"), { kind: "warning" });
+    } catch {
+      return; // no shell — a preview has nothing to delete
+    }
+    if (!confirmed) return;
+    quoteWorking = true;
+    try {
+      const res = await deleteQuote(row.id);
+      toast[res.status === "ok" ? "success" : "error"](
+        res.status === "ok" ? t("toast.quoteDeleted") : messageFor(res.error, t),
+      );
+      await reloadQuotes();
+    } finally {
+      quoteWorking = false;
+    }
+  }
+
+  /** The colour dot's Tailwind classes — one per domain value, named in `@theme`. */
+  const COLOR_CLASS: Record<Quote["color"], string> = {
+    yellow: "bg-quote-yellow",
+    green: "bg-quote-green",
+    blue: "bg-quote-blue",
+    pink: "bg-quote-pink",
+    red: "bg-quote-red",
+    purple: "bg-quote-purple",
+  };
 
   // ── Name resolution ────────────────────────────────────────────────────────────────────
   //
@@ -403,18 +512,43 @@
       <CoverPlaceholder title={book.title} language={book.language_code} height={280} />
 
       <div class="flex min-w-[16rem] flex-1 flex-col gap-[var(--sp-3)]">
-        <div>
-          <h1 class="bidi-auto text-[var(--fs-2xl)] font-semibold leading-tight" dir="auto">
-            {book.title}
-          </h1>
-          {#if book.subtitle !== null}
-            <p class="bidi-auto mt-1 text-[var(--fs-lg)] font-light text-ink-2" dir="auto">{book.subtitle}</p>
-          {/if}
-          {#if book.original_title !== null}
-            <p class="bidi-auto mt-1 text-[var(--fs-base)] text-ink-3" dir="auto">
-              {t("book.originalTitle")}: {book.original_title}
-            </p>
-          {/if}
+        <div class="flex items-start justify-between gap-[var(--sp-3)]">
+          <div class="min-w-0">
+            <h1 class="bidi-auto text-[var(--fs-2xl)] font-semibold leading-tight" dir="auto">
+              {book.title}
+            </h1>
+            {#if book.subtitle !== null}
+              <p class="bidi-auto mt-1 text-[var(--fs-lg)] font-light text-ink-2" dir="auto">{book.subtitle}</p>
+            {/if}
+            {#if book.original_title !== null}
+              <p class="bidi-auto mt-1 text-[var(--fs-base)] text-ink-3" dir="auto">
+                {t("book.originalTitle")}: {book.original_title}
+              </p>
+            {/if}
+          </div>
+
+          <!-- Edit and delete live in the header: the two actions a book page is looked
+               for, next to the row that names the book. -->
+          <div class="flex shrink-0 items-center gap-1.5">
+            <button
+              type="button"
+              aria-label={t("book.edit")}
+              title={t("book.edit")}
+              onclick={() => (editOpen = true)}
+              class="inline-flex items-center justify-center rounded-[var(--r-md)] border border-border-2 bg-surface-1 p-2 text-ink-2 transition-colors hover:border-border-2 hover:text-ink-1"
+            >
+              <Pencil class="size-4 no-mirror" strokeWidth={1.75} />
+            </button>
+            <button
+              type="button"
+              aria-label={t("book.delete")}
+              title={t("book.delete")}
+              onclick={() => void removeBook()}
+              class="inline-flex items-center justify-center rounded-[var(--r-md)] border border-border-2 bg-surface-1 p-2 text-ink-2 transition-colors hover:border-danger/50 hover:text-danger"
+            >
+              <Trash2 class="size-4 no-mirror" strokeWidth={1.75} />
+            </button>
+          </div>
         </div>
 
         {#if detail.authors.length > 0}
@@ -604,11 +738,72 @@
         </Card>
       {:else if tab === "quotes"}
         <Card>
-          <EmptyState
-            title={t("book.quotes.empty")}
-            body="{t("book.quotes.body")} {t("book.soon")}"
-            compact
-          />
+          <div class="flex flex-wrap items-center justify-between gap-[var(--sp-3)]">
+            {@render sectionTitle(t("book.tab.quotes"))}
+            <Button variant="secondary" onclick={() => openQuoteEditor(null)}>
+              {#snippet iconStart()}
+                <QuoteIcon class="size-4 no-mirror" strokeWidth={1.75} />
+              {/snippet}
+              {t("book.quotes.add")}
+            </Button>
+          </div>
+
+          {#if quotes.length === 0}
+            <div class="mt-[var(--sp-3)]">
+              <EmptyState title={t("book.quotes.empty")} body={t("book.quotes.body")} compact />
+            </div>
+          {:else}
+            <ul class="flex flex-col gap-[var(--sp-3)]">
+              {#each quotes as row (row.id)}
+                <li class="rounded-[var(--r-md)] border border-border-1 bg-surface-1 p-[var(--sp-3)]">
+                  <span class="flex items-start gap-[var(--sp-2)]">
+                    <span class="mt-1.5 size-2.5 shrink-0 rounded-full {COLOR_CLASS[row.color]}" aria-hidden="true"></span>
+                    <blockquote class="bidi-auto min-w-0 flex-1 text-[var(--fs-base)] leading-relaxed text-ink-1" dir="auto">
+                      {row.text}
+                    </blockquote>
+                  </span>
+                  <span class="mt-[var(--sp-2)] flex flex-wrap items-center gap-[var(--sp-2)] text-[var(--fs-sm)] text-ink-3">
+                    {#if row.page !== null}
+                      <span class="bidi-ltr tnum">{num(row.page)}</span>
+                    {/if}
+                    {#if row.chapter !== null}
+                      <span class="bidi-auto" dir="auto">{row.chapter}</span>
+                    {/if}
+                    {#if row.page !== null || row.chapter !== null}
+                      <span aria-hidden="true">·</span>
+                    {/if}
+                    <span>{dateOf(row.created_at)}</span>
+                    <span class="ms-auto flex items-center gap-1">
+                      <button
+                        type="button"
+                        aria-label={t("common.edit")}
+                        title={t("common.edit")}
+                        onclick={() => openQuoteEditor(row)}
+                        class="inline-flex items-center justify-center rounded-[var(--r-md)] border border-border-2 bg-surface-1 p-1.5 text-ink-2 transition-colors hover:text-ink-1"
+                      >
+                        <Pencil class="size-3.5 no-mirror" strokeWidth={1.75} />
+                      </button>
+                      <button
+                        type="button"
+                        aria-label={t("common.delete")}
+                        title={t("common.delete")}
+                        disabled={quoteWorking}
+                        onclick={() => void removeQuote(row)}
+                        class="inline-flex items-center justify-center rounded-[var(--r-md)] border border-border-2 bg-surface-1 p-1.5 text-ink-2 transition-colors hover:border-danger/50 hover:text-danger disabled:opacity-50"
+                      >
+                        <Trash2 class="size-3.5 no-mirror" strokeWidth={1.75} />
+                      </button>
+                    </span>
+                  </span>
+                  {#if row.note !== null}
+                    <p class="bidi-auto mt-[var(--sp-2)] border-t border-border-1 pt-[var(--sp-2)] text-[var(--fs-sm)] text-ink-2" dir="auto">
+                      {row.note}
+                    </p>
+                  {/if}
+                </li>
+              {/each}
+            </ul>
+          {/if}
         </Card>
       {:else}
         <!-- Files (M8): the one tab with a backend behind it. The empty state is the designed
@@ -716,3 +911,30 @@
     </div>
   {/if}
 </div>
+
+{#if detail !== null}
+  <BookEdit
+    open={editOpen}
+    {detail}
+    {authors}
+    {publishers}
+    {seriesList}
+    {categories}
+    {tags}
+    onclose={() => (editOpen = false)}
+    onsaved={() => void load()}
+  />
+{/if}
+
+<!-- Quote add/edit lives on the page, not in the tab: an editor that closes when the
+     *tab* switches would eat the user's work. `bookId` anchors a new quote to this book. -->
+<QuoteEdit
+  open={quoteEditorOpen}
+  bookId={id}
+  quote={quotesEditing}
+  onclose={() => (quoteEditorOpen = false)}
+  onsaved={() => {
+    toast.success(t("toast.quoteSaved"));
+    void reloadQuotes();
+  }}
+/>

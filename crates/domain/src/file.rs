@@ -115,7 +115,7 @@ impl BookFile {
         check_len("original_name", &name, limits::NAME)?;
         check_opt_len("mime", input.mime.as_deref(), limits::MIME)?;
 
-        if size_bytes < 0 || size_bytes > limits::SIZE {
+        if !(0..=limits::SIZE).contains(&size_bytes) {
             return Err(DomainError::OutOfRange {
                 field: "size_bytes".into(),
                 got: size_bytes.to_string(),
@@ -127,7 +127,10 @@ impl BookFile {
         // reference mode keeps the user's path. Exactly one of the two is set, and the database
         // does not enforce that — the invariant belongs to the writer, and this is the only one.
         let (rel_path, abs_path) = match input.storage_mode {
-            StorageMode::Copy => (Some(format!("{}.{}", input.kind.as_str(), &sha256[..12])), None),
+            StorageMode::Copy => (
+                Some(format!("{}.{}", input.kind.as_str(), &sha256[..12])),
+                None,
+            ),
             StorageMode::Reference => (None, Some(input.source_path.trim().to_owned())),
         };
 
@@ -141,7 +144,12 @@ impl BookFile {
             abs_path,
             sha256,
             size_bytes,
-            mime: input.mime.as_deref().map(str::trim).filter(|s| !s.is_empty()).map(str::to_owned),
+            mime: input
+                .mime
+                .as_deref()
+                .map(str::trim)
+                .filter(|s| !s.is_empty())
+                .map(str::to_owned),
             page_count: input.page_count,
             reader_position: None,
             added_at: now_ms,
@@ -186,7 +194,10 @@ mod tests {
         assert_eq!(f.sha256, "deadbeef".repeat(8));
         assert_eq!(f.size_bytes, 1234);
         assert!(f.rel_path.as_deref().unwrap().starts_with("epub."));
-        assert!(f.abs_path.is_none(), "copy mode must not record the user's path");
+        assert!(
+            f.abs_path.is_none(),
+            "copy mode must not record the user's path"
+        );
         assert_eq!(f.reader_position, None);
         assert_eq!(f.added_at, 100);
         assert_eq!(f.updated_at, 100);
@@ -235,7 +246,10 @@ mod tests {
     fn abs_path_in_follows_the_storage_mode() {
         let data = std::path::Path::new("/tmp/library");
         let copy = BookFile::new(&input(), "a.epub", "ab".repeat(32), 1, 1).unwrap();
-        assert_eq!(copy.abs_path_in(data), Some(data.join("files").join("ab".repeat(32))));
+        assert_eq!(
+            copy.abs_path_in(data),
+            Some(data.join("files").join("ab".repeat(32)))
+        );
 
         let mut i = input();
         i.storage_mode = StorageMode::Reference;
