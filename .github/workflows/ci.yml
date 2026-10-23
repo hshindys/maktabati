@@ -78,6 +78,12 @@ jobs:
             exit 1
           fi
 
+      # Prebuilt binary — `cargo install cargo-deny` would add minutes for every cold run.
+      - name: Install cargo-deny
+        uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-deny@0.20.2
+
       - name: Deny known-vulnerable dependencies
         run: cargo deny check advisories bans sources
 
