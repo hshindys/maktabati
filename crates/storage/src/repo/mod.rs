@@ -9,6 +9,7 @@ pub mod book;
 pub mod category;
 pub mod file;
 pub mod language;
+pub mod note;
 pub mod publisher;
 pub mod quote;
 pub mod series;
@@ -24,7 +25,7 @@ pub mod tag;
 mod schema_conformance {
     use maktabati_domain::{
         AuthorRole, BookFormat, BookSource, Condition, CoverSource, CustomColumnType, FileKind,
-        QuoteColor, ReadingStatus, ShelfKind, StorageMode,
+        NoteBlockType, QuoteColor, ReadingStatus, ShelfKind, StorageMode,
     };
 
     use crate::conn::Db;
@@ -114,6 +115,13 @@ mod schema_conformance {
         check(
             "QuoteColor",
             &QuoteColor::ALL
+                .iter()
+                .map(|e| e.as_str())
+                .collect::<Vec<_>>(),
+        );
+        check(
+            "NoteBlockType",
+            &NoteBlockType::ALL
                 .iter()
                 .map(|e| e.as_str())
                 .collect::<Vec<_>>(),

@@ -239,6 +239,88 @@ Json[] |
 	 */
 	quoteDelete: (id: string) => typedError<null, AppErrorDto>(__TAURI_INVOKE("quote_delete", { id })),
 	/**
+	 *  List note pages, newest-edited first (pinned on top); a `bookId` narrows to a book.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`](crate::dto) when the query fails.
+	 */
+	notePageList: (bookId: string | null) => typedError<NotePage[], AppErrorDto>(__TAURI_INVOKE("note_page_list", { bookId })),
+	/**
+	 *  Fetch one note page by id.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`](crate::dto) when no page has that id.
+	 */
+	notePageGet: (id: string) => typedError<NotePage, AppErrorDto>(__TAURI_INVOKE("note_page_get", { id })),
+	/**
+	 *  Create a note page, optionally anchored to a book and/or a parent page.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`](crate::dto) when the input fails validation or the anchors are unknown.
+	 */
+	notePageCreate: (input: NotePageInput) => typedError<NotePage, AppErrorDto>(__TAURI_INVOKE("note_page_create", { input })),
+	/**
+	 *  Edit a note page's title, icon and pin; its anchors and template marks stay.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`](crate::dto) when the page is missing or the input fails validation.
+	 */
+	notePageUpdate: (id: string, input: NotePageInput) => typedError<NotePage, AppErrorDto>(__TAURI_INVOKE("note_page_update", { id, input })),
+	/**
+	 *  Delete a note page; nested pages and blocks cascade with it.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`](crate::dto) when no page has that id.
+	 */
+	notePageDelete: (id: string) => typedError<null, AppErrorDto>(__TAURI_INVOKE("note_page_delete", { id })),
+	/**
+	 *  List a page's blocks in content order.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`](crate::dto) when the query fails.
+	 */
+	noteBlockList: (pageId: string) => typedError<NoteBlock[], AppErrorDto>(__TAURI_INVOKE("note_block_list", { pageId })),
+	/**
+	 *  Insert a block after `afterBlockId` (`null` = first), shifting the rest down.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`](crate::dto) when the page or anchor is unknown, the anchor lives on
+	 *  another page, or the payload fails validation.
+	 */
+	noteBlockInsert: (pageId: string, afterBlockId: string | null, input: NoteBlockInput) => typedError<NoteBlock, AppErrorDto>(__TAURI_INVOKE("note_block_insert", { pageId, afterBlockId, input })),
+	/**
+	 *  Edit a block's kind or payload.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`](crate::dto) when the block is missing or the payload fails validation.
+	 */
+	noteBlockUpdate: (blockId: string, input: NoteBlockInput) => typedError<NoteBlock, AppErrorDto>(__TAURI_INVOKE("note_block_update", { blockId, input })),
+	/**
+	 *  Move a block to sit after `afterBlockId` (`null` = first).
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`](crate::dto) when the block or anchor is unknown, or the anchor lives
+	 *  on another page.
+	 */
+	noteBlockMove: (blockId: string, afterBlockId: string | null) => typedError<NoteBlock, AppErrorDto>(__TAURI_INVOKE("note_block_move", { blockId, afterBlockId })),
+	/**
+	 *  Delete a block; the page keeps its remaining sequence.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`](crate::dto) when no block has that id.
+	 */
+	noteBlockDelete: (blockId: string) => typedError<null, AppErrorDto>(__TAURI_INVOKE("note_block_delete", { blockId })),
+	/**
 	 *  Create an author from the wizard's inline form.
 	 * 
 	 *  # Errors
@@ -1251,6 +1333,104 @@ export type LibrarySummary = {
 	year: number,
 	/**  Highest applied migration version — surfaced in diagnostics so support can see the schema. */
 	schema_version: number,
+};
+
+/**  A note block: one typed piece of content in a [`NotePage`]. */
+export type NoteBlock = {
+	/**  UUID v7. */
+	id: string,
+	/**  The page the block belongs to (fixed for the block's life). */
+	page_id: string,
+	/**  Reserved for nested blocks; v1 always writes `None`. */
+	parent_block_id: string | null,
+	/**
+	 *  Sequential ordering among the page's blocks. The column is TEXT (an upgrade path
+	 *  to fractional indexing), v1 stores decimal integers and orders by numeric value.
+	 */
+	position: string,
+	/**  The block's kind (the 16-value schema enum). */
+	block_type: NoteBlockType,
+	/**  The open-ended payload per kind — at minimum `{"text": …}` for every text kind. */
+	payload: Json,
+	/**  Bumped every write. */
+	rev: number,
+	/**  Creation timestamp, epoch ms UTC. */
+	created_at: number,
+	/**  Last edit timestamp, epoch ms UTC. */
+	updated_at: number,
+};
+
+/**
+ *  Input for creating or editing a [`NoteBlock`].
+ * 
+ *  The payload is an open object so richer kinds stay forward-compatible; the only shape
+ *  the domain enforces is "an object" plus "a `text` member, when present, is a string"
+ *  — every text kind the v1 editor writes, and nothing the validator could wrong-guess.
+ */
+export type NoteBlockInput = {
+	/**  The block's kind. */
+	block_type: NoteBlockType,
+	/**  The payload (an object; `text` when present is the content). */
+	payload: Json,
+};
+
+/**
+ *  The kind of a note block (كل أنواع `note_block` في القيد الست عشري للمخطط).
+ * 
+ *  The v1 editor surfaces the text kinds (paragraph, headings, lists, todo, quote,
+ *  code, divider); the table/image kinds are declared here so the database CHECK and
+ *  the wire contract stay complete while the UI grows into them.
+ */
+export type NoteBlockType = "paragraph" | "heading_1" | "heading_2" | "heading_3" | "bulleted_list" | "numbered_list" | "todo" | "quote" | "code" | "callout" | "toggle" | "table" | "divider" | "image" | "page_link" | "bookmark";
+
+/**  A note document: a page, optionally anchored to a book and/or a parent page. */
+export type NotePage = {
+	/**  UUID v7. */
+	id: string,
+	/**  The book the page documents, if it lives on a book's notes tab. */
+	book_id: string | null,
+	/**  The page this page nests under; `None` at the top level. */
+	parent_page_id: string | null,
+	/**  Title as written; may be empty (an untitled page is a real state). */
+	title: string,
+	/**  Normalized mirror of the title (search), same contract as `books.title_norm`. */
+	title_norm: string,
+	/**  Optional icon identifier. */
+	icon: string | null,
+	/**  `true` for pages cloned from a template; v1 never sets it. */
+	is_template: boolean,
+	/**  Which template the page came from (when [`NotePage::is_template`]). */
+	template_key: string | null,
+	/**  Pinned pages float to the top of the notes screen. */
+	is_pinned: boolean,
+	/**  Sibling ordering. */
+	position: number,
+	/**  Bumped every write, so a later sync can detect concurrent edits. */
+	rev: number,
+	/**  Creation timestamp, epoch ms UTC. */
+	created_at: number,
+	/**  Last edit timestamp, epoch ms UTC. */
+	updated_at: number,
+};
+
+/**
+ *  Input for creating or editing a [`NotePage`].
+ * 
+ *  `book_id` and `parent_page_id` only mean anything on **create** — the editor never
+ *  re-anchors an existing page, and the storage layer keeps the stored values on update,
+ *  so an input that carries them there is ignored rather than a silent surprise.
+ */
+export type NotePageInput = {
+	/**  Page title (may be blank — an untitled page shows its first block's text later). */
+	title: string,
+	/**  Icon identifier. */
+	icon: string | null,
+	/**  The book this page documents (create only). */
+	book_id: string | null,
+	/**  The page this page nests under (create only). */
+	parent_page_id: string | null,
+	/**  Pin the page to the top of the notes screen. */
+	is_pinned: boolean,
 };
 
 /**  A publishing house. */

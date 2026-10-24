@@ -13,6 +13,7 @@ pub mod enrich;
 pub mod files;
 pub mod hermes;
 pub mod import;
+pub mod notes;
 pub mod quotes;
 
 use std::sync::Arc;

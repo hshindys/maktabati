@@ -187,6 +187,32 @@ string_enum! {
     }
 }
 
+string_enum! {
+    /// The kind of a note block (كل أنواع `note_block` في القيد الست عشري للمخطط).
+    ///
+    /// The v1 editor surfaces the text kinds (paragraph, headings, lists, todo, quote,
+    /// code, divider); the table/image kinds are declared here so the database CHECK and
+    /// the wire contract stay complete while the UI grows into them.
+    NoteBlockType {
+        Paragraph => "paragraph",
+        Heading1 => "heading_1",
+        Heading2 => "heading_2",
+        Heading3 => "heading_3",
+        BulletedList => "bulleted_list",
+        NumberedList => "numbered_list",
+        Todo => "todo",
+        Quote => "quote",
+        Code => "code",
+        Callout => "callout",
+        Toggle => "toggle",
+        Table => "table",
+        Divider => "divider",
+        Image => "image",
+        PageLink => "page_link",
+        Bookmark => "bookmark",
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

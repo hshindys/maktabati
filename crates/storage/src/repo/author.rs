@@ -411,12 +411,12 @@ mod tests {
         use maktabati_domain::enums::{AuthorRole, Direction};
         use maktabati_domain::language::LanguageInput;
 
-        let source = create(&db, input("أحمد فكري")).unwrap();
-        let target = create(&db, input("عبد الله")).unwrap();
+        let source = create(db, input("أحمد فكري")).unwrap();
+        let target = create(db, input("عبد الله")).unwrap();
 
         // `book::create` validates the language code must exist; the fixture needs one.
         crate::repo::language::create(
-            &db,
+            db,
             LanguageInput {
                 code: "ar".to_owned(),
                 name_ar: "العربية".to_owned(),
@@ -430,7 +430,7 @@ mod tests {
 
         let make_book = |title: &str, credit: AuthorCredit| {
             crate::repo::book::create(
-                &db,
+                db,
                 BookInput {
                     title: title.to_owned(),
                     authors: vec![credit],
