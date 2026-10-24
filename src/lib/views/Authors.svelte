@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Pencil, Trash2, TriangleAlert, Users } from "@lucide/svelte";
+  import { GitMerge, Pencil, Trash2, TriangleAlert, Users } from "@lucide/svelte";
   import { onMount } from "svelte";
   import { ask } from "@tauri-apps/plugin-dialog";
 
@@ -12,6 +12,7 @@
     createAuthor,
     deleteAuthor,
     listAuthors,
+    mergeAuthor,
     updateAuthor,
   } from "../api";
   import { locale, translatorFor } from "../i18n";
@@ -34,9 +35,11 @@
    * author only drops their credits (the junction rows) — the books stay, which the
    * confirm dialog says in one clause.
    *
-   * Merge duplicates (the design's later step) is deliberately absent: merging is a
-   * rewrite of junction rows by id that needs its own screen, and a button that does
-   * nothing is worse than no button.
+   * Merge folds one author into another when the same person is catalogued twice: the
+   * credits move, the source name goes away, and the books keep their rows. The target
+   * is picked from the loaded roster — the pair must both exist here before the backend
+   * will accept the merge — and the confirm names both ends, because "merge" on the
+   * wrong pair is an edit of three books by surprise.
    */
 
   let authors = $state<Author[]>([]);
@@ -172,6 +175,60 @@
       working = false;
     }
   }
+
+  // ── Merge duplicates ──────────────────────────────────────────────────────────
+
+  /** The duplicate that gets folded away; `null` means the picker is closed. */
+  let mergeSource = $state<Author | null>(null);
+  let mergeOpen = $state(false);
+  let mergeQuery = $state("");
+  let mergeTarget = $state<Author | null>(null);
+  let merging = $state(false);
+
+  /** Every other author is a candidate; the source merging into itself is refused by both ends. */
+  let mergeCandidates = $derived.by(() => {
+    if (mergeSource === null) return [];
+    const needle = mergeQuery.trim().toLowerCase();
+    return authors.filter(
+      (a) => a.id !== mergeSource?.id && (needle.length === 0 || a.name.toLowerCase().includes(needle)),
+    );
+  });
+
+  function openMerge(row: Author): void {
+    mergeSource = row;
+    mergeTarget = null;
+    mergeQuery = "";
+    mergeOpen = true;
+  }
+
+  async function doMerge(): Promise<void> {
+    if (merging) return;
+    const source = mergeSource;
+    const target = mergeTarget;
+    if (source === null || target === null) return;
+    let confirmed = false;
+    try {
+      confirmed = await ask(t("authors.mergeConfirm", { source: source.name, target: target.name }), {
+        kind: "warning",
+      });
+    } catch {
+      return; // no shell — a preview has nothing to merge
+    }
+    if (!confirmed) return;
+    merging = true;
+    try {
+      const res = await mergeAuthor(source.id, target.id);
+      if (res.status === "ok") {
+        mergeOpen = false;
+        toast.success(t("toast.saved"));
+      } else {
+        toast.error(messageFor(res.error, t));
+      }
+      await load();
+    } finally {
+      merging = false;
+    }
+  }
 </script>
 
 <div class="mx-auto flex max-w-5xl flex-col gap-[var(--sp-4)] px-[var(--sp-6)] py-[var(--sp-5)]">
@@ -250,6 +307,15 @@
                   class="inline-flex items-center justify-center rounded-[var(--r-md)] border border-border-2 bg-surface-1 p-1.5 text-ink-2 transition-colors hover:text-ink-1"
                 >
                   <Pencil class="size-3.5 no-mirror" strokeWidth={1.75} />
+                </button>
+                <button
+                  type="button"
+                  aria-label={t("authors.merge")}
+                  title={t("authors.merge")}
+                  onclick={() => openMerge(row)}
+                  class="inline-flex items-center justify-center rounded-[var(--r-md)] border border-border-2 bg-surface-1 p-1.5 text-ink-2 transition-colors hover:text-ink-1"
+                >
+                  <GitMerge class="size-3.5 no-mirror" strokeWidth={1.75} />
                 </button>
                 <button
                   type="button"
@@ -346,4 +412,56 @@
       <Button type="submit" variant="primary" loading={saving}>{t("common.save")}</Button>
     </div>
   </form>
+</Modal>
+
+<Modal open={mergeOpen} onclose={() => (merging ? undefined : (mergeOpen = false))} labelledBy="merge-form-title">
+  <h2 id="merge-form-title" class="border-b border-border-1 px-6 py-4 text-[var(--fs-lg)] font-semibold text-ink-1">
+    {t("authors.merge.title")}
+  </h2>
+
+  <div class="flex flex-col gap-[var(--sp-4)] overflow-y-auto px-6 py-5">
+    <p class="bidi-auto text-[var(--fs-base)] text-ink-2" dir="auto">
+      {t("authors.merge.hint", { source: mergeSource?.name ?? "" })}
+    </p>
+
+    <input
+      type="search"
+      bind:value={mergeQuery}
+      placeholder={t("authors.search")}
+      autocomplete="off"
+      class="bidi-auto h-9 w-full rounded-[var(--r-md)] border border-border-2 bg-surface-1 px-[var(--sp-3)] text-[var(--fs-base)] text-ink-1 outline-none focus:border-accent"
+    />
+
+    <ul class="flex max-h-72 flex-col gap-1 overflow-y-auto">
+      {#each mergeCandidates as row (row.id)}
+        <li>
+          <button
+            type="button"
+            onclick={() => (mergeTarget = row)}
+            aria-pressed={mergeTarget?.id === row.id}
+            class="flex w-full items-center gap-[var(--sp-2)] rounded-[var(--r-md)] border px-[var(--sp-3)] py-[var(--sp-2)] text-start transition-colors {mergeTarget?.id === row.id
+              ? 'border-accent bg-accent-soft text-ink-1'
+              : 'border-border-1 bg-surface-1 text-ink-2 hover:border-border-2 hover:text-ink-1'}"
+          >
+            <span class="bidi-auto min-w-0 flex-1 truncate text-[var(--fs-base)]" dir="auto">{row.name}</span>
+            {#if mergeTarget?.id === row.id}
+              <span class="text-ink-3 text-[var(--fs-sm)]">{t("authors.merge.picked")}</span>
+            {/if}
+          </button>
+        </li>
+      {/each}
+    </ul>
+
+    <div class="flex items-center justify-end gap-[var(--sp-2)] border-t border-border-1 pt-[var(--sp-4)]">
+      <Button variant="ghost" disabled={merging} onclick={() => (mergeOpen = false)}>{t("common.cancel")}</Button>
+      <Button
+        variant="primary"
+        disabled={mergeTarget === null}
+        loading={merging}
+        onclick={() => void doMerge()}
+      >
+        {t("authors.merge.go")}
+      </Button>
+    </div>
+  </div>
 </Modal>

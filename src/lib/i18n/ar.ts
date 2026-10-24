@@ -200,6 +200,12 @@ export const ar = {
   "authors.empty.title": "لا مؤلفين بعد",
   "authors.empty.body": "أضف مؤلفاً هنا، أو من نافذة تعديل الكتاب عند إسناده له — وستجمع هذه القائمة كل من وثّقته مكتبتك.",
   "authors.deleteConfirm": "حذف هذا المؤلف؟ تُحذف أسماؤه من كتبه فقط، أما الكتب فتبقى في مكتبتك.",
+  "authors.merge": "دمج",
+  "authors.merge.title": "دمج التكرارات",
+  "authors.merge.hint": "اختر المؤلف الذي يبقى باسمه؛ تنتقل كل كتب «{source}» إلى اسمه ويختفي الاسم المكرر.",
+  "authors.merge.picked": "مختار",
+  "authors.merge.go": "تنفيذ الدمج",
+  "authors.mergeConfirm": "دمج «{source}» في «{target}»؟ تُنسب كل كتب «{source}» إلى «{target}» ويحذف الاسم المكرر — الكتب تبقى في مكتبتك.",
 
   "author.form.add": "إضافة مؤلف",
   "author.form.edit": "تعديل بيانات المؤلف",

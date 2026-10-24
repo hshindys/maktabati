@@ -200,6 +200,12 @@ export const en: Record<MessageKey, string> = {
   "authors.empty.title": "No authors yet",
   "authors.empty.body": "Add an author here, or from a book's edit form when crediting one — this list gathers everyone your library records.",
   "authors.deleteConfirm": "Delete this author? Only their name is taken off their books; the books stay in your library.",
+  "authors.merge": "Merge",
+  "authors.merge.title": "Merge duplicates",
+  "authors.merge.hint": "Pick the author whose name is kept; every book of “{source}” moves to their name and the duplicate disappears.",
+  "authors.merge.picked": "picked",
+  "authors.merge.go": "Merge",
+  "authors.mergeConfirm": "Merge “{source}” into “{target}”? All of “{source}”'s books are re-credited to “{target}” and the duplicate name is deleted — the books stay in your library.",
 
   "author.form.add": "Add author",
   "author.form.edit": "Edit author",
