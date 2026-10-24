@@ -31,7 +31,7 @@ fn client() -> Option<reqwest::Client> {
 /// Only digits survive (`978-0-14-…` and `=9780140328721` both become clean keys).
 /// `None` when what remains is neither 10 nor 13 digits — i.e. not something the
 /// Open Library "bibkey" will accept.
-fn clean_isbn(raw: &str) -> Option<String> {
+pub(crate) fn clean_isbn(raw: &str) -> Option<String> {
     let digits: String = raw.chars().filter(char::is_ascii_digit).collect();
     match digits.len() {
         10 | 13 => Some(digits),

@@ -5,6 +5,7 @@
     ExternalLink,
     FileText,
     FolderOpen,
+    ImageDown,
     ImagePlus,
     Paperclip,
     Pencil,
@@ -35,6 +36,7 @@
     listTags,
     openFile,
     removeCover,
+    fetchCover,
     revealFile,
     setBookStatus,
     setCover,
@@ -258,6 +260,29 @@
       if (res.status === "ok") {
         applyBook(res.data);
         toast.success(t("toast.coverRemoved"));
+      } else {
+        toast.error(messageFor(res.error, t));
+      }
+    } finally {
+      coverBusy = false;
+    }
+  }
+
+  // Grab the cover from the internet by the book's ISBN (Open Library, then Google
+  // Books). A miss (`ok(null)`) is an *answer*, not a failure: both providers responded
+  // and neither had this edition, which deserves its own toast, not a generic error.
+  async function grabCover(): Promise<void> {
+    if (detail === null || coverBusy) return;
+    coverBusy = true;
+    try {
+      const res = await fetchCover(id);
+      if (res.status === "ok") {
+        if (res.data !== null) {
+          applyBook(res.data);
+          toast.success(t("toast.coverFetched"));
+        } else {
+          toast.info(t("toast.coverNoneFound"));
+        }
       } else {
         toast.error(messageFor(res.error, t));
       }
@@ -699,6 +724,20 @@
               class="inline-flex items-center justify-center rounded-[var(--r-md)] border border-border-2 bg-surface-1 p-2 text-ink-2 transition-colors hover:border-danger/50 hover:text-danger"
             >
               <Trash2 class="size-4 no-mirror" strokeWidth={1.75} />
+            </button>
+          {/if}
+          {#if book.isbn13 !== null || book.isbn10 !== null}
+            <!-- Grab the cover from the internet (Open Library, then Google Books) by the
+                 ISBN. Hidden for ISBN-less books: a button that always errors is a lie. -->
+            <button
+              type="button"
+              disabled={coverBusy}
+              aria-label={t("book.cover.fetch")}
+              title={t("book.cover.fetch")}
+              onclick={() => void grabCover()}
+              class="inline-flex items-center justify-center rounded-[var(--r-md)] border border-border-2 bg-surface-1 p-2 text-ink-2 transition-colors hover:text-ink-1 disabled:opacity-50"
+            >
+              <ImageDown class="size-4 no-mirror" strokeWidth={1.75} />
             </button>
           {/if}
         </div>

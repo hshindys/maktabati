@@ -64,3 +64,4 @@ gallery = []
 [dev-dependencies]
 tempfile = { workspace = true }
 pretty_assertions = { workspace = true }
+wiremock = { workspace = true }

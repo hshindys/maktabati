@@ -118,6 +118,9 @@ describe("error keys", () => {
     "error.internal",
     // src-tauri/src/commands/enrich.rs — Open Library fetch failures (Hermes)
     "error.enrich.invalid_isbn",
+    // src-tauri/src/commands/cover.rs — internet cover-fetch failures
+    "error.cover.network",
+    "error.cover.no_isbn",
     "error.enrich.network",
     "error.enrich.empty_request",
     // src-tauri/src/commands/hermes.rs — HTTP server toggle failures

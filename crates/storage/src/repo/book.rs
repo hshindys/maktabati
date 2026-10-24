@@ -576,6 +576,38 @@ pub fn set_cover(
     if !COVER_EXTS.contains(&ext.as_str()) {
         return Err(invalid_cover_ext(&ext));
     }
+    let bytes = std::fs::read(source_path)?;
+    set_cover_bytes(db, data_dir, book_id, &bytes, &ext, CoverSource::Manual)
+}
+
+/// Set a book's cover from image **bytes** already in memory — the fetch path.
+///
+/// [`set_cover`](self::set_cover) reads a picked file and lands here; `cover_fetch`
+/// (an HTTP download) lands here too, with the provider recorded as
+/// [`CoverSource::OpenLibrary`] / [`CoverSource::GoogleBooks`] instead of manual.
+/// The write policy is identical to the pick path: old cover bytes are dropped first,
+/// then the file, then the row — see that function's contract.
+///
+/// # Errors
+///
+/// * [`crate::StorageError::NotFound`] when the id is unknown.
+/// * [`crate::StorageError::Domain`] with `validation.invalid_enum` when `ext` is
+///   not one of [`COVER_EXTS`] (the caller is trusted for the extension only in the
+///   sense that both in-tree callers derive it from file magic bytes or a file dialog).
+/// * [`crate::StorageError::Io`] on creation/writing failure.
+/// * [`crate::StorageError::Sqlite`] on statement failure.
+pub fn set_cover_bytes(
+    db: &Db,
+    data_dir: &std::path::Path,
+    book_id: &str,
+    bytes: &[u8],
+    ext: &str,
+    source: CoverSource,
+) -> Result<Book> {
+    let ext = ext.to_ascii_lowercase();
+    if !COVER_EXTS.contains(&ext.as_str()) {
+        return Err(invalid_cover_ext(&ext));
+    }
 
     let covers_dir = data_dir.join("covers");
     // Drop any previous cover for this book (possibly a different extension) first.
@@ -589,12 +621,12 @@ pub fn set_cover(
     std::fs::create_dir_all(&covers_dir)?;
 
     let rel_path = format!("covers/{book_id}.{ext}");
-    std::fs::copy(source_path, data_dir.join(&rel_path))?;
+    std::fs::write(data_dir.join(&rel_path), bytes)?;
 
     let book = db.transact(|conn| {
         let mut book = read_row(conn, book_id)?;
         book.cover_path = Some(rel_path.clone());
-        book.cover_source = Some(CoverSource::Manual);
+        book.cover_source = Some(source);
         update_row(conn, &book)?;
         Ok(book)
     })?;
@@ -1346,6 +1378,51 @@ mod tests {
         ));
         // The failed write did not leave an orphan row pointing at it.
         assert_eq!(get(&db, &created.id).unwrap().cover_path, None);
+    }
+
+    #[test]
+    fn cover_set_bytes_records_the_provenance_vendor() {
+        let db = seeded_db();
+        let created = create(&db, full_input()).unwrap();
+        let dir = tempfile::tempdir().unwrap();
+
+        // The fetch path writes bytes it downloaded, with the provider as the source
+        // instead of `manual` — that provenance is what makes "re-fetch" meaningful.
+        let grabbed =
+            set_cover_bytes(&db, dir.path(), &created.id, b"\xff\xd8\xff-ol-jpeg", "jpg", CoverSource::OpenLibrary).unwrap();
+        assert_eq!(
+            grabbed.cover_path.as_deref(),
+            Some(format!("covers/{}.jpg", created.id).as_str())
+        );
+        assert_eq!(grabbed.cover_source, Some(CoverSource::OpenLibrary));
+        assert!(dir
+            .path()
+            .join("covers")
+            .join(format!("{0}.jpg", created.id))
+            .is_file());
+
+        // A later manual pick wins the bytes and the provenance (same replace policy).
+        let manual = set_cover_bytes(&db, dir.path(), &created.id, b"png bytes", "png", CoverSource::Manual).unwrap();
+        assert_eq!(&manual.cover_path.unwrap()[..5], "cover");
+        assert_eq!(manual.cover_source, Some(CoverSource::Manual));
+        assert!(!dir
+            .path()
+            .join("covers")
+            .join(format!("{0}.jpg", created.id))
+            .exists());
+
+        // Bad extensions are rejected exactly as in the pick path.
+        assert_eq!(
+            set_cover_bytes(&db, dir.path(), &created.id, b"x", "exe", CoverSource::GoogleBooks)
+                .unwrap_err()
+                .code(),
+            "validation.invalid_enum"
+        );
+        assert!(matches!(
+            set_cover_bytes(&db, dir.path(), "no-such-book", b"x", "jpg", CoverSource::OpenLibrary)
+                .unwrap_err(),
+            StorageError::NotFound { .. }
+        ));
     }
 
     #[test]

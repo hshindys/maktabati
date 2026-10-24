@@ -151,6 +151,105 @@ Json[] |
 	 */
 	coverSet: (bookId: string, sourcePath: string) => typedError<Book, AppErrorDto>(__TAURI_INVOKE("cover_set", { bookId, sourcePath })),
 	/**
+	 *  Fetch a cover for a book from the internet and install it as the book's cover.
+	 * 
+	 *  Providers, in order: Open Library's covers endpoint (`isbn13`, else `isbn10`), then
+	 *  a Google Books lookup — the fallback where small-run Arabic editions usually live.
+	 *  The image is validated by magic numbers, saved as `covers/<book_id>.<ext>` exactly
+	 *  like a picked cover (old bytes replaced, library-owned copy), and its provenance is
+	 *  recorded as [`CoverSource::OpenLibrary`] or [`CoverSource::GoogleBooks`] so the
+	 *  settings disk report stays honest about where each cover came from.
+	 * 
+	 *  `Ok(None)` = both providers answered but neither had a cover — a miss, which the UI
+	 *  reports as "no cover found online", distinct from a network error.
+	 * 
+	 *  # Errors
+	 * 
+	 *  * [`AppErrorDto`](crate::error::AppErrorDto) `cover.no_isbn` when the book carries no
+	 *    ISBN at all (the button is disabled for those, but the IPC stays honest).
+	 *  * `enrich.invalid_isbn` when the ISBN field holds only junk.
+	 *  * `cover.network` when the lookup chain failed at the transport level.
+	 *  * Storage errors from [`repo::book::set_cover_bytes`].
+	 */
+	coverFetch: (bookId: string) => typedError<{
+	/**  UUID v7. */
+	id: string,
+	/**  Primary title, exactly as entered. */
+	title: string,
+	/**  Subtitle. */
+	subtitle: string | null,
+	/**  Title in the original script (for translated works). */
+	original_title: string | null,
+	/**  Normalized mirror of `title` (search + duplicate detection). */
+	title_norm: string,
+	/**  Primary language code. */
+	language_code: string,
+	/**  Validated ISBN-10 (digits only). */
+	isbn10: string | null,
+	/**  Validated ISBN-13 (digits only). */
+	isbn13: string | null,
+	/**  Edition statement (`الطبعة الثالثة`, `3rd ed.`…). */
+	edition: string | null,
+	/**  Year of this edition's publication. */
+	publication_year: number | null,
+	/**  Page count. */
+	page_count: number | null,
+	/**  Format of the copy. */
+	format: BookFormat,
+	/**  Blurb / summary. */
+	description: string | null,
+	/**  Series membership. */
+	series_id: string | null,
+	/**  Order within the series (`f32` so `1.5` novellas are expressible). */
+	series_order: number | null,
+	/**  Publishing house (one per book in v1, like `series_id`). */
+	publisher_id: string | null,
+	/**  Physical location: room. */
+	room: string | null,
+	/**  Physical location: shelf. */
+	shelf: string | null,
+	/**  Physical location: box. */
+	box_name: string | null,
+	/**  Acquisition date (`YYYY-MM-DD`). */
+	acquired_date: string | null,
+	/**  Where the copy came from. */
+	acquired_from: string | null,
+	/**  Acquisition price in minor units. */
+	price_minor: number | null,
+	/**  Acquisition currency (ISO-4217). */
+	price_currency: string | null,
+	/**  Physical condition. */
+	condition: Condition | null,
+	/**  Relative cover path under `covers/`. */
+	cover_path: string | null,
+	/**  Relative thumbnail path. */
+	cover_thumb: string | null,
+	/**  Provenance of the cover. */
+	cover_source: CoverSource | null,
+	/**  Current reading status (denormalized for indexed filtering). */
+	reading_status: ReadingStatus,
+	/**  Overall rating in half-star units (`0..=10`). */
+	rating: number | null,
+	/**  Current page while reading. */
+	current_page: number | null,
+	/**  Derived progress percentage. */
+	progress_pct: number,
+	/**  How the record entered the library. */
+	source: BookSource,
+	/**
+	 *  External identifiers (Open Library / Google Books keys) as JSON.
+	 * 
+	 *  [`Json`] rather than `serde_json::Value`: same bytes on the wire and in the database,
+	 *  but a *named* type on the TS side — `Value` expands structurally at every use site and
+	 *  would make the binding export recurse forever (ADR-0013).
+	 */
+	external_ids: Json | null,
+	/**  Creation timestamp, epoch ms UTC. */
+	created_at: number,
+	/**  Last update timestamp, epoch ms UTC. */
+	updated_at: number,
+} | null, AppErrorDto>(__TAURI_INVOKE("cover_fetch", { bookId })),
+	/**
 	 *  Clear the book's cover and delete its copied bytes.
 	 * 
 	 *  # Errors

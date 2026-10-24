@@ -472,6 +472,10 @@ export type HermesStatus = import("@/bindings").HermesStatus;
 export const setCover = (bookId: string, sourcePath: string) =>
   run((c) => c.coverSet(bookId, sourcePath));
 
+/** Fetch a cover from the internet (Open Library, then Google Books) by the book's ISBN.
+ *  `ok(null)` = both providers answered but neither had the cover (a miss, not a failure). */
+export const fetchCover = (bookId: string) => run((c) => c.coverFetch(bookId));
+
 /** Clear the cover and delete its copied bytes. */
 export const removeCover = (bookId: string) => run((c) => c.coverRemove(bookId));
 
