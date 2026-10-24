@@ -12,8 +12,11 @@
   import BookPage from "./lib/views/BookPage.svelte";
   import Placeholder from "./lib/views/Placeholder.svelte";
   import AddBook from "./lib/views/AddBook.svelte";
-import ImportView from "./lib/views/Import.svelte";
-import QuotesView from "./lib/views/Quotes.svelte";
+  import ImportView from "./lib/views/Import.svelte";
+  import QuotesView from "./lib/views/Quotes.svelte";
+  import AuthorsView from "./lib/views/Authors.svelte";
+  import PublishersView from "./lib/views/Publishers.svelte";
+  import SeriesView from "./lib/views/Series.svelte";
 
   /**
    * App shell — title bar, sidebar, routed main region, toasts.
@@ -61,6 +64,12 @@ import QuotesView from "./lib/views/Quotes.svelte";
             <QuotesView />
           {:else if currentPath === "/import"}
             <ImportView />
+          {:else if currentPath === "/authors"}
+            <AuthorsView />
+          {:else if currentPath === "/publishers"}
+            <PublishersView />
+          {:else if currentPath === "/series"}
+            <SeriesView />
           {:else if currentPath.startsWith("/book/")}
             <BookPage />
           {:else}

@@ -32,6 +32,7 @@ export const ROUTES = [
   "/quotes",
   "/authors",
   "/publishers",
+  "/series",
   "/taxonomy",
   "/lending",
   "/goals",

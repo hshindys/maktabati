@@ -1,6 +1,7 @@
 <script lang="ts">
   import {
     ArrowLeftRight,
+    BookCopy,
     BookOpen,
     Download,
     FolderTree,
@@ -74,6 +75,7 @@
         { href: "/quotes", key: "nav.quotes", icon: Quote },
         { href: "/authors", key: "nav.authors", icon: Users },
         { href: "/publishers", key: "nav.publishers", icon: Store },
+        { href: "/series", key: "nav.series", icon: BookCopy },
         { href: "/taxonomy", key: "nav.categories", icon: FolderTree },
       ],
     },
