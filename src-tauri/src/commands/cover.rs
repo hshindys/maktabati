@@ -143,7 +143,11 @@ pub(crate) async fn grab_openlibrary_isbn(
     let url = format!("{base_url}/b/isbn/{isbn}-L.jpg?default=false");
     let response = match client.get(&url).send().await {
         Ok(r) => r,
-        Err(e) => return Err(cover_network(format!("Open Library covers request failed: {e}"))),
+        Err(e) => {
+            return Err(cover_network(format!(
+                "Open Library covers request failed: {e}"
+            )))
+        }
     };
     // A miss is 404 — a miss, not an outage.
     if response.status() == reqwest::StatusCode::NOT_FOUND {
@@ -157,7 +161,11 @@ pub(crate) async fn grab_openlibrary_isbn(
     }
     let bytes = match response.bytes().await {
         Ok(b) => b,
-        Err(e) => return Err(cover_network(format!("Open Library cover body failed: {e}"))),
+        Err(e) => {
+            return Err(cover_network(format!(
+                "Open Library cover body failed: {e}"
+            )))
+        }
     };
     Ok(image_ext_from(&bytes).map(|ext| (bytes.to_vec(), ext)))
 }
@@ -195,7 +203,11 @@ pub(crate) async fn grab_googlebooks_isbn(
     }
     let payload: serde_json::Value = match response.json().await {
         Ok(v) => v,
-        Err(e) => return Err(cover_network(format!("Google Books body was not JSON: {e}"))),
+        Err(e) => {
+            return Err(cover_network(format!(
+                "Google Books body was not JSON: {e}"
+            )))
+        }
     };
     let Some(thumbnail) = payload
         .pointer("/items/0/volumeInfo/imageLinks/thumbnail")
@@ -232,7 +244,11 @@ pub(crate) async fn grab_cover(
     digits: &str,
 ) -> Result<Option<(Vec<u8>, &'static str, maktabati_domain::CoverSource)>, AppErrorDto> {
     if let Some((bytes, ext)) = grab_openlibrary_isbn(client, OPENLIBRARY_BASE, digits).await? {
-        return Ok(Some((bytes, ext, maktabati_domain::CoverSource::OpenLibrary)));
+        return Ok(Some((
+            bytes,
+            ext,
+            maktabati_domain::CoverSource::OpenLibrary,
+        )));
     }
     Ok(grab_googlebooks_isbn(client, GOOGLEBOOKS_BASE, digits)
         .await?
@@ -270,13 +286,11 @@ pub async fn cover_fetch(state: State<'_, AppState>, book_id: String) -> CmdResu
         .or(book.isbn10.clone())
         .filter(|raw| !raw.trim().is_empty());
     let Some(raw) = raw_isbn else {
-        return Err(
-            AppErrorDto::new(
-                "cover.no_isbn",
-                format!("book {book_id} has no ISBN to fetch a cover with"),
-            )
-            .with_i18n_key("error.cover.no_isbn"),
-        );
+        return Err(AppErrorDto::new(
+            "cover.no_isbn",
+            format!("book {book_id} has no ISBN to fetch a cover with"),
+        )
+        .with_i18n_key("error.cover.no_isbn"));
     };
     let digits = crate::commands::enrich::clean_isbn(&raw).ok_or_else(|| {
         AppErrorDto::new(
@@ -286,24 +300,27 @@ pub async fn cover_fetch(state: State<'_, AppState>, book_id: String) -> CmdResu
         .with_i18n_key("error.enrich.invalid_isbn")
     })?;
 
-    let client = client().ok_or_else(|| cover_network("could not build the HTTP client".to_owned()))?;
+    let client =
+        client().ok_or_else(|| cover_network("could not build the HTTP client".to_owned()))?;
     let Some((bytes, ext, source)) = grab_cover(&client, &digits).await? else {
         return Ok(None);
     };
 
     let data_dir = state.data_dir.clone();
     let id = book_id.clone();
-    blocking(
-        db,
-        move |db| repo::book::set_cover_bytes(db, &data_dir, &id, &bytes, ext, source),
-    )
+    blocking(db, move |db| {
+        repo::book::set_cover_bytes(db, &data_dir, &id, &bytes, ext, source)
+    })
     .await
     .map(Some)
 }
 
 #[cfg(test)]
 mod tests {
-    use super::{grab_googlebooks_isbn, grab_openlibrary_isbn, image_ext_from, GOOGLEBOOKS_BASE, OPENLIBRARY_BASE};
+    use super::{
+        grab_googlebooks_isbn, grab_openlibrary_isbn, image_ext_from, GOOGLEBOOKS_BASE,
+        OPENLIBRARY_BASE,
+    };
     use crate::error::AppErrorDto;
     use maktabati_domain::CoverSource;
     #[allow(unused_imports)]
@@ -319,7 +336,9 @@ mod tests {
         assert_eq!(image_ext_from(JPEG), Some("jpg"));
         assert_eq!(image_ext_from(PNG), Some("png"));
         // A RIFF container with the WAVE form is not a WebP even though it starts RIFF.
-        let wav = [b'R', b'I', b'F', b'F', 0, 0, 0, 0, b'W', b'A', b'V', b'E', 0];
+        let wav = [
+            b'R', b'I', b'F', b'F', 0, 0, 0, 0, b'W', b'A', b'V', b'E', 0,
+        ];
         assert_eq!(image_ext_from(&wav), None);
         assert_eq!(image_ext_from(GIF_PLACEHOLDER), None); // the blank OL placeholder
         assert_eq!(image_ext_from(b"<html>not an image</html>"), None);
@@ -346,12 +365,18 @@ mod tests {
 
         // 404 = provider miss.
         server
-            .register(Mock::given(method("GET")).and(path("/b/isbn/9999999999999-L.jpg")).respond_with(ResponseTemplate::new(404)))
+            .register(
+                Mock::given(method("GET"))
+                    .and(path("/b/isbn/9999999999999-L.jpg"))
+                    .respond_with(ResponseTemplate::new(404)),
+            )
             .await;
-        assert!(grab_openlibrary_isbn(&client, &server.uri(), "9999999999999")
-            .await
-            .unwrap()
-            .is_none());
+        assert!(
+            grab_openlibrary_isbn(&client, &server.uri(), "9999999999999")
+                .await
+                .unwrap()
+                .is_none()
+        );
 
         // The blank 1×1 GIF placeholder is a miss too, not a cover.
         server
@@ -361,10 +386,12 @@ mod tests {
                     .respond_with(ResponseTemplate::new(200).set_body_bytes(GIF_PLACEHOLDER)),
             )
             .await;
-        assert!(grab_openlibrary_isbn(&client, &server.uri(), "8888888888888")
-            .await
-            .unwrap()
-            .is_none());
+        assert!(
+            grab_openlibrary_isbn(&client, &server.uri(), "8888888888888")
+                .await
+                .unwrap()
+                .is_none()
+        );
     }
 
     #[tokio::test]
@@ -410,44 +437,41 @@ mod tests {
         let client = reqwest::Client::new();
 
         // No items at all (unknown ISBN): a miss.
-        api.register(
-            Mock::given(method("GET"))
-                .respond_with(ResponseTemplate::new(200).set_body_json(serde_json::json!({"items": []}))),
-        )
+        api.register(Mock::given(method("GET")).respond_with(
+            ResponseTemplate::new(200).set_body_json(serde_json::json!({"items": []})),
+        ))
         .await;
-        assert!(
-            grab_googlebooks_isbn(&client, &api.uri(), "9780000000002")
-                .await
-                .unwrap()
-                .is_none()
-        );
+        assert!(grab_googlebooks_isbn(&client, &api.uri(), "9780000000002")
+            .await
+            .unwrap()
+            .is_none());
 
         // An item with no imageLinks block (Google is happy to omit it): a miss.
         api.register(
-            Mock::given(method("GET"))
-                .respond_with(ResponseTemplate::new(200).set_body_json(serde_json::json!({"items": [{"volumeInfo": {"title": "x"}}]}))),
+            Mock::given(method("GET")).respond_with(
+                ResponseTemplate::new(200)
+                    .set_body_json(serde_json::json!({"items": [{"volumeInfo": {"title": "x"}}]})),
+            ),
         )
         .await;
-        assert!(
-            grab_googlebooks_isbn(&client, &api.uri(), "9780000000003")
-                .await
-                .unwrap()
-                .is_none()
-        );
+        assert!(grab_googlebooks_isbn(&client, &api.uri(), "9780000000003")
+            .await
+            .unwrap()
+            .is_none());
 
         // A 400 (the volumes API errors verbosely but is still JSON): a miss, not a
         // crash — the command treats "no cover" as the answer.
         api.register(
-            Mock::given(method("GET"))
-                .respond_with(ResponseTemplate::new(400).set_body_json(serde_json::json!({"error": {"message": "bad"}}))),
+            Mock::given(method("GET")).respond_with(
+                ResponseTemplate::new(400)
+                    .set_body_json(serde_json::json!({"error": {"message": "bad"}})),
+            ),
         )
         .await;
-        assert!(
-            grab_googlebooks_isbn(&client, &api.uri(), "9780000000004")
-                .await
-                .unwrap()
-                .is_none()
-        );
+        assert!(grab_googlebooks_isbn(&client, &api.uri(), "9780000000004")
+            .await
+            .unwrap()
+            .is_none());
     }
 
     #[tokio::test]
@@ -463,8 +487,10 @@ mod tests {
                 .respond_with(ResponseTemplate::new(200).set_body_bytes(JPEG)),
         )
         .await;
-        let (bytes, ext, source) =
-            grab_cover_at(&client, &ol.uri(), &gg.uri(), "9781111000009").await.unwrap().unwrap();
+        let (bytes, ext, source) = grab_cover_at(&client, &ol.uri(), &gg.uri(), "9781111000009")
+            .await
+            .unwrap()
+            .unwrap();
         assert_eq!(ext, "jpg");
         assert_eq!(source, CoverSource::OpenLibrary);
         assert_eq!(bytes, JPEG);
@@ -478,9 +504,7 @@ mod tests {
         .await;
         gg.register(
             Mock::given(method("GET"))
-                .respond_with(ResponseTemplate::new(200).set_body_json(
-                    serde_json::json!({}),
-                )),
+                .respond_with(ResponseTemplate::new(200).set_body_json(serde_json::json!({}))),
         )
         .await;
         // (The generic GG json above has no items, exercising the *miss* side too.)

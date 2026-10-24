@@ -1388,8 +1388,15 @@ mod tests {
 
         // The fetch path writes bytes it downloaded, with the provider as the source
         // instead of `manual` — that provenance is what makes "re-fetch" meaningful.
-        let grabbed =
-            set_cover_bytes(&db, dir.path(), &created.id, b"\xff\xd8\xff-ol-jpeg", "jpg", CoverSource::OpenLibrary).unwrap();
+        let grabbed = set_cover_bytes(
+            &db,
+            dir.path(),
+            &created.id,
+            b"\xff\xd8\xff-ol-jpeg",
+            "jpg",
+            CoverSource::OpenLibrary,
+        )
+        .unwrap();
         assert_eq!(
             grabbed.cover_path.as_deref(),
             Some(format!("covers/{}.jpg", created.id).as_str())
@@ -1402,7 +1409,15 @@ mod tests {
             .is_file());
 
         // A later manual pick wins the bytes and the provenance (same replace policy).
-        let manual = set_cover_bytes(&db, dir.path(), &created.id, b"png bytes", "png", CoverSource::Manual).unwrap();
+        let manual = set_cover_bytes(
+            &db,
+            dir.path(),
+            &created.id,
+            b"png bytes",
+            "png",
+            CoverSource::Manual,
+        )
+        .unwrap();
         assert_eq!(&manual.cover_path.unwrap()[..5], "cover");
         assert_eq!(manual.cover_source, Some(CoverSource::Manual));
         assert!(!dir
@@ -1413,14 +1428,28 @@ mod tests {
 
         // Bad extensions are rejected exactly as in the pick path.
         assert_eq!(
-            set_cover_bytes(&db, dir.path(), &created.id, b"x", "exe", CoverSource::GoogleBooks)
-                .unwrap_err()
-                .code(),
+            set_cover_bytes(
+                &db,
+                dir.path(),
+                &created.id,
+                b"x",
+                "exe",
+                CoverSource::GoogleBooks
+            )
+            .unwrap_err()
+            .code(),
             "validation.invalid_enum"
         );
         assert!(matches!(
-            set_cover_bytes(&db, dir.path(), "no-such-book", b"x", "jpg", CoverSource::OpenLibrary)
-                .unwrap_err(),
+            set_cover_bytes(
+                &db,
+                dir.path(),
+                "no-such-book",
+                b"x",
+                "jpg",
+                CoverSource::OpenLibrary
+            )
+            .unwrap_err(),
             StorageError::NotFound { .. }
         ));
     }
