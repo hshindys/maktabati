@@ -8,6 +8,7 @@
     ImagePlus,
     Paperclip,
     Pencil,
+    Plus,
     Quote as QuoteIcon,
     StickyNote,
     Trash2,
@@ -18,14 +19,17 @@
 
   import {
     attachFile,
+    createNotePage,
     deleteBook,
     deleteFile,
+    deleteNotePage,
     deleteQuote,
     getBookDetail,
     listAuthors,
     listBookQuotes,
     listCategories,
     listFiles,
+    listNotePages,
     listPublishers,
     listSeries,
     listTags,
@@ -40,6 +44,7 @@
   import BookCover from "../components/BookCover.svelte";
   import EmptyState from "../components/EmptyState.svelte";
   import Field from "../components/Field.svelte";
+  import Modal from "../components/Modal.svelte";
   import ProgressBar from "../components/ProgressBar.svelte";
   import Stars from "../components/Stars.svelte";
   import { direction, locale, translatorFor, type MessageKey } from "../i18n";
@@ -63,6 +68,7 @@
     Category,
     Condition,
     FileKind,
+    NotePage,
     Publisher,
     Quote,
     ReadingStatus,
@@ -425,6 +431,84 @@
       await reloadQuotes();
     } finally {
       quoteWorking = false;
+    }
+  }
+
+  // ── Notes ──────────────────────────────────────────────────────────────────────────────
+  //
+  // Same shape as the quotes block: loaded when the tab opens, re-read by both mutating
+  // paths. A note page anchors to this book at creation (`book_id` binds for its life);
+  // the editor at `/notes/:pageId` owns everything after that — this tab is the front
+  // door: list, open, add, remove.
+
+  let notePages = $state<NotePage[]>([]);
+  let noteWorking = $state(false);
+  let noteEditorOpen = $state(false);
+  let noteSaving = $state(false);
+  let noteTitle = $state("");
+  let noteFormError = $state<string | null>(null);
+
+  $effect(() => {
+    // Same discipline as the quotes tab above: run when the tab opens, cancel stale answers.
+    if (tab !== "notes" || id.length === 0) return;
+    let cancelled = false;
+    listNotePages(id).then((res) => {
+      if (cancelled) return;
+      if (res.status === "ok") notePages = res.data;
+      else toast.error(messageFor(res.error, t));
+    });
+    return () => {
+      cancelled = true;
+    };
+  });
+
+  function openNoteEditor(row: NotePage): void {
+    go(`/notes/${row.id}`);
+  }
+
+  async function addNotePage(): Promise<void> {
+    if (noteSaving || detail === null) return;
+    noteSaving = true;
+    noteFormError = null;
+    try {
+      const res = await createNotePage({
+        title: noteTitle.trim(),
+        icon: null,
+        book_id: detail.book.id,
+        parent_page_id: null,
+        is_pinned: false,
+      });
+      if (res.status === "ok") {
+        noteEditorOpen = false;
+        toast.success(t("toast.saved"));
+        go(`/notes/${res.data.id}`);
+        return;
+      }
+      noteFormError = messageFor(res.error, t);
+    } finally {
+      noteSaving = false;
+    }
+  }
+
+  async function removeNotePage(row: NotePage): Promise<void> {
+    if (noteWorking) return;
+    let confirmed = false;
+    try {
+      const pageName = row.title.trim().length > 0 ? row.title : t("notes.untitled");
+      confirmed = await ask(t("notes.deleteConfirm", { name: pageName }), { kind: "warning" });
+    } catch {
+      return; // no shell — a preview has nothing to delete
+    }
+    if (!confirmed) return;
+    noteWorking = true;
+    try {
+      const res = await deleteNotePage(row.id);
+      toast[res.status === "ok" ? "success" : "error"](
+        res.status === "ok" ? t("toast.deleted") : messageFor(res.error, t),
+      );
+      if (res.status === "ok") notePages = notePages.filter((p) => p.id !== row.id);
+    } finally {
+      noteWorking = false;
     }
   }
 
@@ -850,11 +934,52 @@
         </Card>
       {:else if tab === "notes"}
         <Card>
-          <EmptyState
-            title={t("book.notes.empty")}
-            body="{t("book.notes.body")} {t("book.soon")}"
-            compact
-          />
+          <div class="flex flex-wrap items-center justify-between gap-[var(--sp-3)]">
+            {@render sectionTitle(t("book.tab.notes"))}
+            <Button variant="secondary" onclick={() => { noteTitle = ""; noteFormError = null; noteEditorOpen = true; }}>
+              {#snippet iconStart()}
+                <Plus class="size-4 no-mirror" strokeWidth={1.75} />
+              {/snippet}
+              {t("book.notes.add")}
+            </Button>
+          </div>
+
+          {#if notePages.length === 0}
+            <div class="mt-[var(--sp-3)]">
+              <EmptyState title={t("book.notes.empty")} body={t("book.notes.body")} compact />
+            </div>
+          {:else}
+            <ul class="mt-[var(--sp-3)] flex flex-col gap-[var(--sp-2)]">
+              {#each notePages as row (row.id)}
+                <li class="flex items-center gap-[var(--sp-2)] rounded-[var(--r-md)] border border-border-1 bg-surface-1 p-[var(--sp-2)]">
+                  <button
+                    type="button"
+                    onclick={() => openNoteEditor(row)}
+                    class="flex min-w-0 flex-1 items-center gap-[var(--sp-2)] text-start"
+                  >
+                    {#if row.is_pinned}
+                      <StickyNote class="size-4 shrink-0 text-accent no-mirror" strokeWidth={1.5} aria-hidden="true" />
+                    {:else}
+                      <StickyNote class="size-4 shrink-0 text-ink-3 no-mirror" strokeWidth={1.5} aria-hidden="true" />
+                    {/if}
+                    <span class="bidi-auto min-w-0 flex-1 truncate text-[var(--fs-base)] text-ink-1" dir="auto">
+                      {row.title.trim().length > 0 ? row.title : t("notes.untitled")}
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    aria-label={t("common.delete")}
+                    title={t("common.delete")}
+                    disabled={noteWorking}
+                    onclick={() => void removeNotePage(row)}
+                    class="inline-flex items-center justify-center rounded-[var(--r-md)] p-1.5 text-ink-3 transition-colors hover:text-danger disabled:opacity-50"
+                  >
+                    <Trash2 class="size-3.5 no-mirror" strokeWidth={1.75} />
+                  </button>
+                </li>
+              {/each}
+            </ul>
+          {/if}
         </Card>
       {:else if tab === "quotes"}
         <Card>
@@ -1058,3 +1183,33 @@
     void reloadQuotes();
   }}
 />
+
+<!-- Add-note modal: one field, because a page's identity is its title — the rest is the
+     editor's job the moment the page exists. -->
+<Modal open={noteEditorOpen} onclose={() => (noteSaving ? undefined : (noteEditorOpen = false))} labelledBy="book-note-form-title">
+  <h2 id="book-note-form-title" class="border-b border-border-1 px-6 py-4 text-[var(--fs-lg)] font-semibold text-ink-1">
+    {t("book.notes.add")}
+  </h2>
+
+  <form class="flex flex-col gap-[var(--sp-4)] overflow-y-auto px-6 py-5" onsubmit={(e) => { e.preventDefault(); void addNotePage(); }}>
+    <Field label={t("notes.title")} for="book-note-title" hint={t("notes.title.hint")}>
+      <input
+        id="book-note-title"
+        bind:value={noteTitle}
+        maxlength={300}
+        class="bidi-auto h-9 w-full rounded-[var(--r-md)] border border-border-2 bg-surface-1 px-[var(--sp-3)] text-[var(--fs-base)] text-ink-1 outline-none focus:border-accent"
+      />
+    </Field>
+
+    {#if noteFormError !== null}
+      <p role="alert" class="bidi-auto rounded-[var(--r-md)] bg-danger-soft px-[var(--sp-3)] py-[var(--sp-2)] text-[var(--fs-sm)] text-danger" dir="auto">
+        {noteFormError}
+      </p>
+    {/if}
+
+    <div class="flex items-center justify-end gap-[var(--sp-2)] border-t border-border-1 pt-[var(--sp-4)]">
+      <Button variant="ghost" disabled={noteSaving} onclick={() => (noteEditorOpen = false)}>{t("common.cancel")}</Button>
+      <Button type="submit" variant="primary" loading={noteSaving}>{t("notes.form.create")}</Button>
+    </div>
+  </form>
+</Modal>

@@ -18,6 +18,8 @@
   import PublishersView from "./lib/views/Publishers.svelte";
   import SeriesView from "./lib/views/Series.svelte";
   import TaxonomyView from "./lib/views/Taxonomy.svelte";
+  import NotesView from "./lib/views/Notes.svelte";
+  import NoteEditor from "./lib/views/NoteEditor.svelte";
 
   /**
    * App shell — title bar, sidebar, routed main region, toasts.
@@ -73,6 +75,10 @@
             <SeriesView />
           {:else if currentPath === "/taxonomy"}
             <TaxonomyView />
+          {:else if currentPath === "/notes"}
+            <NotesView />
+          {:else if currentPath.startsWith("/notes/")}
+            <NoteEditor />
           {:else if currentPath.startsWith("/book/")}
             <BookPage />
           {:else}

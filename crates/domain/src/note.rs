@@ -201,7 +201,6 @@ impl NoteBlockInput {
     ///
     /// # Errors
     ///
-    /// * [`crate::DomainError::EmptyField`] when `text` is blank.
     /// * [`crate::DomainError::TooLong`] when `text` overflows its cap.
     /// * [`crate::DomainError::InvalidTransition`] when the payload is not an object or
     ///   its `text` member is not a string.
@@ -224,11 +223,9 @@ impl NoteBlockInput {
             };
             let text = s.trim().to_owned();
             check_len("text", &text, limits::TEXT)?;
-            if text.is_empty() {
-                return Err(crate::DomainError::EmptyField {
-                    field: "text".into(),
-                });
-            }
+            // An empty text stays legal: "add a block, then type" is how editors work,
+            // and an empty block is still visible (its kind shows) and deletable —
+            // refusing it here would only force the UI to fake content.
             map.insert("text".to_owned(), Json::String(text));
         }
         Ok((block_type, Json::Object(map)))
@@ -276,7 +273,7 @@ impl NoteBlock {
     }
 }
 
-/// The payload rules now live directly in [`NoteBlockInput::prepare`].
+// The payload rules now live directly in [`NoteBlockInput::prepare`].
 
 #[cfg(test)]
 use crate::DomainError;
@@ -390,14 +387,12 @@ mod tests {
             obj(&[("text", serde_json::Value::String("شقّ التعريفات".into()))])
         );
 
-        // Empty text is a blank block in spirit — refused, so the editor cannot grow rows
-        // of invisible blocks.
-        let err = text_input("   ").prepare().unwrap_err();
+        // A blank text stays legal — an empty block is visible and deletable, the same
+        // state "add a block" creates before the user types.
+        let (_, empty) = text_input("   ").prepare().unwrap();
         assert_eq!(
-            err,
-            DomainError::EmptyField {
-                field: "text".into()
-            }
+            empty,
+            obj(&[("text", serde_json::Value::String(String::new()))])
         );
 
         let err = text_input(&"أ".repeat(limits::TEXT + 1))

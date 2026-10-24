@@ -28,6 +28,8 @@ import type {
   SeriesInput,
   StorageMode,
   TagInput,
+  NoteBlockInput,
+  NotePageInput,
 } from "@/bindings";
 
 /** Reading status, mirroring `domain::enums::ReadingStatus`. */
@@ -402,6 +404,37 @@ export const deleteQuote = (id: string) => run((c) => c.quoteDelete(id));
 export type { Quote, QuoteWithBook };
 /** Highlight palette (reader palette, shared with quotes). */
 export type QuoteColor = import("@/bindings").QuoteColor;
+
+// ── Notes (الملاحظات) ─────────────────────────────────────────────────────────────────────
+
+/** Create a note page (the `bookId`/`parentId` anchors bind at creation, never after). */
+export const createNotePage = (input: NotePageInput) => run((c) => c.notePageCreate(input));
+/** Fetch one note page by id. */
+export const getNotePage = (id: string) => run((c) => c.notePageGet(id));
+/** List note pages, pinned first then newest edit; a `bookId` narrows to one book. */
+export const listNotePages = (bookId?: string | null) => run((c) => c.notePageList(bookId ?? null));
+/** Edit a page's title, icon and pin; anchors and position are fixed. */
+export const updateNotePage = (id: string, input: NotePageInput) =>
+  run((c) => c.notePageUpdate(id, input));
+/** Delete a page; nested pages and its blocks cascade with it. */
+export const deleteNotePage = (id: string) => run((c) => c.notePageDelete(id));
+
+/** List a page's blocks in content order. */
+export const listNoteBlocks = (pageId: string) => run((c) => c.noteBlockList(pageId));
+/** Insert a block after `afterBlockId` (`null` = first). */
+export const insertNoteBlock = (pageId: string, afterBlockId: string | null, input: NoteBlockInput) =>
+  run((c) => c.noteBlockInsert(pageId, afterBlockId, input));
+/** Edit a block's kind or payload. */
+export const updateNoteBlock = (blockId: string, input: NoteBlockInput) =>
+  run((c) => c.noteBlockUpdate(blockId, input));
+/** Move a block to sit after `afterBlockId` (`null` = first). */
+export const moveNoteBlock = (blockId: string, afterBlockId: string | null) =>
+  run((c) => c.noteBlockMove(blockId, afterBlockId));
+/** Delete a block. */
+export const deleteNoteBlock = (blockId: string) => run((c) => c.noteBlockDelete(blockId));
+
+/** Shapes of the notes surface. */
+export type { NotePage, NoteBlock, NoteBlockType } from "@/bindings";
 
 // ── Storage: backup ──────────────────────────────────────────────────────────────────────
 

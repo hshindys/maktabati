@@ -42,6 +42,7 @@ export const ROUTES = [
   "/settings/diagnostics",
   "/dev/gallery",
   "/book/:id",
+  "/notes/:pageId",
 ] as const;
 
 export type RoutePattern = (typeof ROUTES)[number];
