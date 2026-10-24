@@ -271,6 +271,18 @@ Json[] |
 	 */
 	authorList: () => typedError<Author[], AppErrorDto>(__TAURI_INVOKE("author_list")),
 	/**
+	 *  Merge one author into another and delete the source.
+	 * 
+	 *  Every credit the source carries moves to the target; a `(book, role)` credit the
+	 *  target already has is dropped as the duplicate. The books stay, so a click that
+	 *  reached the wrong pair can be recovered by re-editing the books — never by data loss.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when either author is missing, source equals target, or the write failed.
+	 */
+	authorMerge: (sourceId: string, targetId: string) => typedError<Author, AppErrorDto>(__TAURI_INVOKE("author_merge", { sourceId, targetId })),
+	/**
 	 *  Substring search over the normalised name, for autocomplete.
 	 * 
 	 *  An empty query or a non-positive limit returns nothing.

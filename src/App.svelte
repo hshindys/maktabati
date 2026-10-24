@@ -17,6 +17,7 @@
   import AuthorsView from "./lib/views/Authors.svelte";
   import PublishersView from "./lib/views/Publishers.svelte";
   import SeriesView from "./lib/views/Series.svelte";
+  import TaxonomyView from "./lib/views/Taxonomy.svelte";
 
   /**
    * App shell — title bar, sidebar, routed main region, toasts.
@@ -70,6 +71,8 @@
             <PublishersView />
           {:else if currentPath === "/series"}
             <SeriesView />
+          {:else if currentPath === "/taxonomy"}
+            <TaxonomyView />
           {:else if currentPath.startsWith("/book/")}
             <BookPage />
           {:else}

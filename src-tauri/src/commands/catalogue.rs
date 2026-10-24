@@ -95,6 +95,29 @@ pub async fn author_delete(state: State<'_, AppState>, id: String) -> CmdResult<
     blocking(db, move |db| repo::author::delete(db, &id)).await
 }
 
+/// Merge one author into another and delete the source.
+///
+/// Every credit the source carries moves to the target; a `(book, role)` credit the
+/// target already has is dropped as the duplicate. The books stay, so a click that
+/// reached the wrong pair can be recovered by re-editing the books — never by data loss.
+///
+/// # Errors
+///
+/// [`AppErrorDto`] when either author is missing, source equals target, or the write failed.
+#[specta::specta]
+#[tauri::command]
+pub async fn author_merge(
+    state: State<'_, AppState>,
+    source_id: String,
+    target_id: String,
+) -> CmdResult<Author> {
+    let db = Arc::clone(&state.db);
+    blocking(db, move |db| {
+        repo::author::merge(db, &source_id, &target_id)
+    })
+    .await
+}
+
 /// Substring search over the normalised name, for autocomplete.
 ///
 /// An empty query or a non-positive limit returns nothing.

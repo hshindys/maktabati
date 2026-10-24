@@ -152,6 +152,57 @@ pub fn delete(db: &Db, id: &str) -> Result<()> {
     })
 }
 
+/// Merge one author into another and delete the source.
+///
+/// Every credit on the source author moves to the target (`book_authors.author_id` is
+/// rewritten); where the target already carries that exact `(book, role)` credit the
+/// duplicate source row is dropped instead of crashing on the primary key. The source
+/// author row itself goes with the merge — the books stay.
+///
+/// Self-merge is refused up front: `source == target` is a caller mistake, not a no-op,
+/// and returning the target silently would make the click look like it did something.
+///
+/// # Errors
+///
+/// * [`crate::StorageError::NotFound`] when either author is unknown (`storage.not_found`).
+/// * [`crate::StorageError::Domain`] with `validation.invalid_transition` when source equals target.
+/// * [`crate::StorageError::Sqlite`] on query failure.
+pub fn merge(db: &Db, source_id: &str, target_id: &str) -> Result<Author> {
+    use maktabati_domain::DomainError;
+
+    if source_id == target_id {
+        return Err(DomainError::InvalidTransition {
+            detail: format!("merging author {source_id} into itself"),
+        }
+        .into());
+    }
+    // Both rows must exist *before* anything moves, so a wrong id aborts instead of
+    // leaving half the credits migrated (`NOT EXISTS` also covers the source's only row).
+    let target = get(db, target_id)?;
+    get(db, source_id)?;
+
+    db.write(|conn| {
+        // Credits the target already carries (same book, same role): the merge must not
+        // crash on `(book_id, author_id, role)` primary keys — drop the stale duplicate.
+        conn.execute(
+            "DELETE FROM book_authors
+              WHERE author_id = ?1
+                AND EXISTS (SELECT 1 FROM book_authors keep
+                             WHERE keep.book_id = book_authors.book_id
+                               AND keep.author_id = ?2
+                               AND keep.role = book_authors.role)",
+            rusqlite::params![source_id, target_id],
+        )?;
+        conn.execute(
+            "UPDATE book_authors SET author_id = ?2 WHERE author_id = ?1",
+            rusqlite::params![source_id, target_id],
+        )?;
+        conn.execute("DELETE FROM authors WHERE id = ?1", [source_id])?;
+        Ok(())
+    })?;
+    Ok(target)
+}
+
 /// Find an author by its normalized-name mirror.
 ///
 /// `name_norm` is expected to already be normalized (`maktabati_domain::text::normalize`)
@@ -348,5 +399,131 @@ mod tests {
         assert_eq!(like_pattern("100%"), "%100\\%%");
         assert_eq!(like_pattern("a_b"), "%a\\_b%");
         assert_eq!(like_pattern("back\\slash"), "%back\\\\slash%");
+    }
+
+    // ── merge ─────────────────────────────────────────────────────────────────
+
+    /// Two authors plus three books credited through `book_authors`, so the merge has real
+    /// junction rows to move: one book credited to the source alone, one credited to both
+    /// (the primary-key clash case), one to the target alone.
+    fn seeded_authors_and_books(db: &Db) -> (String, String, String, String, String) {
+        use maktabati_domain::book::{AuthorCredit, BookInput};
+        use maktabati_domain::enums::{AuthorRole, Direction};
+        use maktabati_domain::language::LanguageInput;
+
+        let source = create(&db, input("أحمد فكري")).unwrap();
+        let target = create(&db, input("عبد الله")).unwrap();
+
+        // `book::create` validates the language code must exist; the fixture needs one.
+        crate::repo::language::create(
+            &db,
+            LanguageInput {
+                code: "ar".to_owned(),
+                name_ar: "العربية".to_owned(),
+                name_en: "Arabic".to_owned(),
+                direction: Direction::Rtl,
+                position: 0,
+                ..Default::default()
+            },
+        )
+        .unwrap();
+
+        let make_book = |title: &str, credit: AuthorCredit| {
+            crate::repo::book::create(
+                &db,
+                BookInput {
+                    title: title.to_owned(),
+                    authors: vec![credit],
+                    ..Default::default()
+                },
+            )
+            .unwrap()
+            .id
+        };
+
+        let only_source = make_book(
+            "الكتاب الأول",
+            AuthorCredit {
+                author_id: source.id.clone(),
+                role: AuthorRole::Author,
+            },
+        );
+        let shared = make_book(
+            "الكتاب الثاني",
+            AuthorCredit {
+                author_id: source.id.clone(),
+                role: AuthorRole::Author,
+            },
+        );
+        let only_target = make_book(
+            "الكتاب الثالث",
+            AuthorCredit {
+                author_id: target.id.clone(),
+                role: AuthorRole::Author,
+            },
+        );
+        (source.id, target.id, only_source, shared, only_target)
+    }
+
+    #[test]
+    fn merge_moves_credits_deduplicates_and_removes_the_source() {
+        let db = test_db();
+        let (source, target, only_source, shared, only_target) = seeded_authors_and_books(&db);
+
+        let merged = merge(&db, &source, &target).unwrap();
+        assert_eq!(merged.id, target);
+
+        // The source author is gone; the target keeps its row intact.
+        assert!(matches!(
+            get(&db, &source).unwrap_err(),
+            StorageError::NotFound { .. }
+        ));
+        assert_eq!(get(&db, &target).unwrap().name, "عبد الله");
+
+        // Every book keeps exactly one credit row, whose author is the target — including
+        // the book the two authors shared, which would have crashed on the primary key.
+        let book_credits = |book_id: &str| -> Vec<String> {
+            db.write(|conn| {
+                let mut stmt =
+                    conn.prepare("SELECT author_id FROM book_authors WHERE book_id = ?1")?;
+                let rows = stmt
+                    .query_map([book_id], |r| r.get(0))?
+                    .collect::<rusqlite::Result<Vec<_>>>()?;
+                Ok(rows)
+            })
+            .unwrap()
+        };
+        for book in [&only_source, &shared, &only_target] {
+            assert_eq!(book_credits(book), vec![target.clone()], "book {book}");
+        }
+    }
+
+    #[test]
+    fn merge_refuses_self_merge_and_unknown_authors() {
+        let db = test_db();
+        let (source, target, only_source, shared, _) = seeded_authors_and_books(&db);
+
+        let err = merge(&db, &source, &source).unwrap_err();
+        assert_eq!(err.code(), "validation.invalid_transition");
+
+        let err = merge(&db, "no-such-author", &target).unwrap_err();
+        assert!(matches!(err, StorageError::NotFound { .. }));
+
+        // Refused merges moved nothing: both authors still exist with their credits.
+        assert!(get(&db, &source).is_ok());
+        assert!(get(&db, &target).is_ok());
+        let credits = |book_id: &str| -> Vec<String> {
+            db.write(|conn| {
+                let mut stmt =
+                    conn.prepare("SELECT author_id FROM book_authors WHERE book_id = ?1")?;
+                let rows = stmt
+                    .query_map([book_id], |r| r.get(0))?
+                    .collect::<rusqlite::Result<Vec<_>>>()?;
+                Ok(rows)
+            })
+            .unwrap()
+        };
+        assert_eq!(credits(&only_source), vec![source.clone()]);
+        assert_eq!(credits(&shared), vec![source.clone()]);
     }
 }

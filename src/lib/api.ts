@@ -231,6 +231,9 @@ export const updateAuthor = (id: string, input: AuthorInput) =>
   run((c) => c.authorUpdate(id, input));
 /** Delete an author and its book credits; the books themselves remain. */
 export const deleteAuthor = (id: string) => run((c) => c.authorDelete(id));
+/** Merge `sourceId` into `targetId`: the credits move, the source row goes, the books stay. */
+export const mergeAuthor = (sourceId: string, targetId: string) =>
+  run((c) => c.authorMerge(sourceId, targetId));
 /** Substring search over the normalised name, for autocomplete (20 rows unless `limit` says). */
 export const searchAuthors = (query: string, limit?: number) =>
   run((c) => c.authorSearch(query, limit ?? null));
