@@ -1,8 +1,9 @@
 <script lang="ts">
-  import { Grid3x3, List, Rows3, TriangleAlert } from "@lucide/svelte";
+  import { Grid3x3, List, ImageDown, Rows3, TriangleAlert } from "@lucide/svelte";
+  import { Channel } from "@tauri-apps/api/core";
   import { onMount } from "svelte";
 
-  import { listBooks } from "../api";
+  import { listBooks, fetchMissingCovers } from "../api";
   import Button from "../components/Button.svelte";
   import Card from "../components/Card.svelte";
   import BookCover from "../components/BookCover.svelte";
@@ -12,8 +13,9 @@
   import { messageFor } from "../errors";
   import { formatNumber } from "../format";
   import { preferences } from "../settings";
+  import { toast } from "../toast";
   import { openAddBook } from "../wizard";
-  import type { AppErrorDto, Book } from "@/bindings";
+  import type { AppErrorDto, Book, CoverBulkProgress } from "@/bindings";
 
   /**
    * Library browser — the screen the app is judged on (docs/04-ux-design.md §4.2).
@@ -112,6 +114,48 @@
     const status = t(`status.${b.reading_status}`);
     return year.length > 0 ? `${status} · ${year}` : status;
   };
+
+  // ── Bulk cover fetch ────────────────────────────────────────────────────────────────────
+  //
+  // One politeness-paced backend pass over every ISBN-bearing book that lacks a cover;
+  // Open Library, then Google Books — the same chain the per-book "grab" button runs, so a
+  // manual cover is never touched and a provider miss never lies about being a failure.
+  // Progress streams back over the channel; the report decides the toasts.
+
+  const missingCovers = $derived(books.filter((b) => b.cover_path === null));
+  let coverBulkRunning = $state(false);
+  let coverBulkProgress = $state<CoverBulkProgress | null>(null);
+
+  async function runBulkCoverFetch(): Promise<void> {
+    coverBulkRunning = true;
+    coverBulkProgress = null;
+    const channel = new Channel<CoverBulkProgress>();
+    channel.onmessage = (p) => (coverBulkProgress = p);
+    try {
+      const res = await fetchMissingCovers(channel);
+      if (res.status !== "ok") {
+        toast.error(messageFor(res.error, t));
+        return;
+      }
+      const r = res.data;
+      if (r.stopped !== null) {
+        // A network or storage failure stopped the pass mid-queue; say so and tell the
+        // user how far it got. Re-running is safe — it picks up where this one left off.
+        toast.error(t("toast.coverBulk.stopped", { done: num(r.fetched + r.missed) }));
+      } else if (r.fetched > 0 && r.missed > 0) {
+        toast.success(t("toast.coverBulk.doneWithMissed", { fetched: num(r.fetched), missed: num(r.missed) }));
+      } else if (r.fetched > 0) {
+        toast.success(t("toast.coverBulk.done", { fetched: num(r.fetched) }));
+      } else if (r.missed > 0) {
+        toast.warning(t("toast.coverBulk.noneFound", { missed: num(r.missed) }));
+      }
+    } finally {
+      coverBulkRunning = false;
+      coverBulkProgress = null;
+      // Refresh in place: newly installed covers appear without a manual reload.
+      await load();
+    }
+  }
 </script>
 
 <div class="flex min-h-full flex-col">
@@ -154,6 +198,22 @@
           </button>
         {/each}
       </div>
+
+      {#if missingCovers.length > 0}
+        <!-- Fill every coverless, ISBN-bearing book in one paced pass; gone when done. -->
+        <Button size="sm" loading={coverBulkRunning} onclick={() => void runBulkCoverFetch()}>
+          {#if coverBulkProgress !== null}
+            <ImageDown class="size-4 no-mirror" strokeWidth={1.75} />
+            {t("library.covers.fetching", {
+              done: num(coverBulkProgress.done),
+              total: num(coverBulkProgress.total),
+            })}
+          {:else}
+            <ImageDown class="size-4 no-mirror" strokeWidth={1.75} />
+            {t("library.covers.fetchMissing")}
+          {/if}
+        </Button>
+      {/if}
 
       <Button variant="primary" size="sm" onclick={openAddBook}>{t("common.add")}</Button>
     </div>

@@ -26,26 +26,43 @@ pub struct MigrationFile {
     pub sql: &'static str,
     /// SHA-256 of `sql`, lower-case hex.
     pub checksum: String,
+    /// Apply with `PRAGMA foreign_keys` OFF (empty databases to rebuild a table that is a
+    /// foreign-key parent; see `0003`'s header). The SQL itself still runs in exactly one
+    /// transaction, which the runner verifies with `PRAGMA foreign_key_check` before
+    /// restoring foreign keys.
+    pub foreign_keys_off: bool,
 }
 
 /// Every migration embedded in the binary, in application order.
 pub fn embedded() -> Vec<MigrationFile> {
-    let files: [(&str, i64, &str, &'static str); 2] = [
-        ("init", 1, "init", crate::migrations::M0001_INIT),
+    // The trailing flag marks migrations that must be applied with `PRAGMA foreign_keys`
+    // switched OFF (a table rebuild's `DROP TABLE` runs an implicit FK-checked DELETE;
+    // 0003 rebuilds `books`, parent of fifteen child tables). See the file's header.
+    let files: [(&str, i64, &str, &'static str, bool); 3] = [
+        ("init", 1, "init", crate::migrations::M0001_INIT, false),
         (
             "book_publisher",
             2,
             "book_publisher",
             crate::migrations::M0002_BOOK_PUBLISHER,
+            false,
+        ),
+        (
+            "cover_sources",
+            3,
+            "cover_sources",
+            crate::migrations::M0003_COVER_SOURCES,
+            true,
         ),
     ];
     let mut out: Vec<MigrationFile> = files
         .into_iter()
-        .map(|(_, version, name, sql)| MigrationFile {
+        .map(|(_, version, name, sql, foreign_keys_off)| MigrationFile {
             version,
             name: name.to_owned(),
             sql,
             checksum: sha256_hex(sql),
+            foreign_keys_off,
         })
         .collect();
     out.sort_by_key(|m| m.version);
@@ -211,25 +228,116 @@ pub(crate) fn apply_from(
 
     let mut version = start;
     for file in pending {
-        db.transact(|conn| {
-            conn.execute_batch(file.sql)?;
-            conn.execute(
-                "INSERT INTO _migrations (version, name, checksum, applied_at)
-                 VALUES (?1, ?2, ?3, ?4)",
-                rusqlite::params![
-                    file.version,
-                    file.name,
-                    file.checksum,
-                    crate::conn::now_ms()
-                ],
-            )?;
-            Ok(())
-        })?;
+        if file.foreign_keys_off {
+            apply_with_foreign_keys_off(db, file)?;
+            version = file.version;
+            tracing::info!(version = file.version, name = %file.name, "migration applied");
+            continue;
+        }
+        apply_in_transaction(db, file)?;
         version = file.version;
         tracing::info!(version = file.version, name = %file.name, "migration applied");
     }
 
     Ok(version)
+}
+
+/// Apply one ordinary migration: the batch plus the `_migrations` row in a single
+/// transaction.
+///
+/// # Errors
+///
+/// [`StorageError::Sqlite`] when the batch or the metadata insert fails (rolled back).
+fn apply_in_transaction(db: &Db, file: &MigrationFile) -> Result<()> {
+    db.transact(|conn| {
+        conn.execute_batch(file.sql)?;
+        record_migration(conn, file)?;
+        Ok(())
+    })
+}
+
+/// Apply a migration that must run with foreign keys off — a table rebuild.
+///
+/// `PRAGMA foreign_keys` cannot be toggled inside a transaction, so the pragma is flipped
+/// around the migration's own transaction, all on the one connection `Db::write` hands
+/// out: OFF before it, ON after it. Inside the transaction (where the rebuild happens)
+/// `PRAGMA foreign_key_check` must answer no violations before the batch commits — a
+/// rebuild that leaves a dangling reference fails the migration instead of corrupting.
+/// The connection must not go through `Db::transact`, which would take a second, unrelated
+/// pooled connection.
+///
+/// # Errors
+///
+/// * [`StorageError::Sqlite`] for the pragma flips, the batch itself, the metadata insert
+///   or a `foreign_key_check` that reports violations (all rolled back before the error).
+fn apply_with_foreign_keys_off(db: &Db, file: &MigrationFile) -> Result<()> {
+    db.write(|conn| {
+        conn.pragma_update(None, "foreign_keys", "OFF")
+            .map_err(StorageError::from)?;
+
+        let rebuild: Result<()> = (|| {
+            let tx = conn.unchecked_transaction().map_err(StorageError::from)?;
+            if let Err(e) = apply_batch_and_check(&tx, file) {
+                let _ = tx.rollback();
+                return Err(e);
+            }
+            tx.commit().map_err(StorageError::from)
+        })();
+
+        // Enforcement comes back on however the rebuild ended; the pragma failure is only
+        // surfaced when there is no more specific error to report.
+        if let Err(pragma_err) = conn.pragma_update(None, "foreign_keys", "ON") {
+            if rebuild.is_ok() {
+                return Err(StorageError::from(pragma_err));
+            }
+        }
+        rebuild
+    })
+}
+
+/// Check that the rebuild violated no foreign key, then record the migration row.
+///
+/// `PRAGMA foreign_key_check` answers one row per violation (first column: the violated
+/// table's name), so an empty mapping means the rebuild is consistent.
+///
+/// # Errors
+///
+/// [`StorageError::Sqlite`] when the batch fails, the check itself fails, or violations
+/// exist (the caller rolls back).
+fn apply_batch_and_check(conn: &rusqlite::Connection, file: &MigrationFile) -> Result<()> {
+    conn.execute_batch(file.sql).map_err(StorageError::from)?;
+    let violations: std::result::Result<Vec<String>, rusqlite::Error> = conn
+        .prepare("PRAGMA foreign_key_check")
+        .map_err(StorageError::from)?
+        .query_map([], |row| row.get::<_, String>(0))
+        .map_err(StorageError::from)?
+        .collect();
+    if let Some(table) = violations.map_err(StorageError::from)?.first() {
+        return Err(StorageError::Sqlite(rusqlite::Error::SqliteFailure(
+            rusqlite::ffi::Error::new(rusqlite::ffi::SQLITE_CONSTRAINT),
+            Some(format!("rebuild left foreign-key violations in `{table}`")),
+        )));
+    }
+    record_migration(conn, file)
+}
+
+/// Write the `_migrations` row that claims this file as applied.
+///
+/// # Errors
+///
+/// [`StorageError::Sqlite`] when the insert fails.
+fn record_migration(conn: &rusqlite::Connection, file: &MigrationFile) -> Result<()> {
+    conn.execute(
+        "INSERT INTO _migrations (version, name, checksum, applied_at)
+         VALUES (?1, ?2, ?3, ?4)",
+        rusqlite::params![
+            file.version,
+            file.name,
+            file.checksum,
+            crate::conn::now_ms()
+        ],
+    )?;
+    Ok(())
 }
 
 #[cfg(test)]
@@ -332,6 +440,7 @@ mod tests {
                 name: "never".into(),
                 sql: "CREATE TABLE never_applied (id INTEGER PRIMARY KEY);",
                 checksum: sha256_hex("never"),
+                foreign_keys_off: false,
             },
         ];
 
@@ -456,5 +565,146 @@ mod tests {
             Ok(())
         });
         assert!(err.is_err(), "unknown language code must be rejected");
+    }
+
+    /// The 0003 upgrade path: a real v2 library survives the `books` rebuild unharmed.
+    #[test]
+    fn cover_source_rebuild_preserves_rows_children_and_indexes() {
+        let db = test_db();
+
+        // Bring the database to version 2 exactly as a pre-0003 user has it.
+        db.write(|c| {
+            c.execute_batch(MIGRATIONS_TABLE)?;
+            c.execute_batch(crate::migrations::M0001_INIT)?;
+            c.execute(
+                "INSERT INTO _migrations (version, name, checksum, applied_at) VALUES (1,'init',?1,7)",
+                rusqlite::params![sha256_hex(crate::migrations::M0001_INIT)],
+            )?;
+            c.execute_batch(crate::migrations::M0002_BOOK_PUBLISHER)?;
+            c.execute(
+                "INSERT INTO _migrations (version, name, checksum, applied_at) VALUES (2,'book_publisher',?1,7)",
+                rusqlite::params![sha256_hex(crate::migrations::M0002_BOOK_PUBLISHER)],
+            )?;
+            // Two books: one with an OpenLibrary cover, one with none; a publisher, an
+            // author via the junction, and a quote referencing the first book.
+            c.execute_batch("INSERT INTO publishers (id, name, name_norm, created_at, updated_at)
+                             VALUES ('p1','دار النشر','دار النشر',1,1);
+                             INSERT INTO authors (id, name, name_norm, created_at, updated_at)
+                             VALUES ('a1','روالد داهل','روالد داهل',1,1);
+                             INSERT INTO languages (code, name_ar, name_en, direction)
+                             VALUES ('ar','العربية','Arabic','rtl');
+                             INSERT INTO books (id, title, title_norm, language_code,
+                                                cover_path, cover_source,
+                                                source, created_at, updated_at, publisher_id)
+                             VALUES ('b1','ت','ت','ar','covers/b1.jpg','openlibrary',
+                                     'manual',1,1,'p1');
+                             INSERT INTO books (id, title, title_norm, language_code,
+                                                source, created_at, updated_at)
+                             VALUES ('b2','ك','ك','ar','manual',1,1);
+                             INSERT INTO book_authors (book_id, author_id)
+                             VALUES ('b1','a1');
+                             INSERT INTO quotes (id, book_id, text, text_norm, created_at, updated_at)
+                             VALUES ('q1','b1','اقتباس','اقتباس',1,1);")?;
+            Ok(())
+        })
+        .unwrap();
+
+        let version = apply(&db, || Ok(())).unwrap();
+        assert_eq!(version, 3);
+
+        db.read(|c| {
+            // Rows survive column for column.
+            let (cover_path, cover_source, publisher_id): (String, String, String) = c
+                .query_row(
+                    "SELECT cover_path, cover_source, publisher_id FROM books WHERE id='b1'",
+                    [],
+                    |r| Ok((r.get(0)?, r.get(1)?, r.get(2)?)),
+                )
+                .unwrap();
+            assert_eq!(
+                (
+                    cover_path.as_str(),
+                    cover_source.as_str(),
+                    publisher_id.as_str()
+                ),
+                ("covers/b1.jpg", "openlibrary", "p1")
+            );
+            // Children and their FKs survived: the quote still reaches the book row.
+            let n: i64 = c
+                .query_row(
+                    "SELECT COUNT(*) FROM quotes q JOIN books b ON b.id = q.book_id
+                     WHERE q.id='q1' AND b.title='ت'",
+                    [],
+                    |r| r.get(0),
+                )
+                .unwrap();
+            assert_eq!(n, 1, "quotes must still join books");
+            // The junction row survived.
+            let n: i64 = c
+                .query_row(
+                    "SELECT COUNT(*) FROM book_authors WHERE book_id='b1'",
+                    [],
+                    |r| r.get(0),
+                )
+                .unwrap();
+            assert_eq!(n, 1, "book_authors must survive the rebuild");
+            // The new CHECK vocabulary is live: both new sources are accepted...
+            c.execute("UPDATE books SET cover_source='amazon' WHERE id='b1'", [])
+                .unwrap();
+            c.execute(
+                "UPDATE books SET cover_source='internet_archive' WHERE id='b2'",
+                [],
+            )
+            .unwrap();
+            // ...and junk is not.
+            assert!(
+                c.execute(
+                    "UPDATE books SET cover_source=' nonsense' WHERE id='b1'",
+                    [],
+                )
+                .is_err(),
+                "the widened CHECK must still reject unknown sources"
+            );
+            // The dropped-and-recreated indexes are back.
+            for index in [
+                "ux_books_isbn13",
+                "ux_books_isbn10",
+                "ix_books_title_norm",
+                "ix_books_status",
+                "ix_books_year",
+                "ix_books_rating",
+                "ix_books_progress",
+                "ix_books_updated",
+                "ix_books_created",
+                "ix_books_series",
+                "ix_books_loc",
+            ] {
+                let n: i64 = c
+                    .query_row(
+                        "SELECT COUNT(*) FROM sqlite_master WHERE type='index' AND name=?1",
+                        [index],
+                        |r| r.get(0),
+                    )
+                    .unwrap();
+                assert_eq!(n, 1, "index `{index}` missing after the rebuild");
+            }
+            Ok(())
+        })
+        .unwrap();
+
+        // Foreign-key enforcement is back on after the rebuild.
+        let err = db.write(|c| {
+            c.execute(
+                "INSERT INTO books (id, title, title_norm, language_code, reading_status,
+                                    progress_pct, source, created_at, updated_at)
+                 VALUES ('b3','t','t','no_such_lang','to_read',0,'manual',1,1)",
+                [],
+            )?;
+            Ok(())
+        });
+        assert!(
+            err.is_err(),
+            "foreign keys must be enforced again after the rebuild"
+        );
     }
 }

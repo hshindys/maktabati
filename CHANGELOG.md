@@ -18,6 +18,49 @@ Everything below is one working session across the OPENCODE-BRIEF phase list
   `app_info` (version, schema/migrations, platform, data dir) instead of i18n keys that
   nothing rendered.
 
+### Bulk cover fetch
+
+- **`cover_fetch_missing`**: one politeness-paced pass (250 ms between books) that installs
+  Open Library → Google Books → Amazon → Internet Archive covers for **every** book
+  lacking one (ISBN-bearing or title-searched), reusing per-book `cover_fetch`'s tested
+  provider chain; a provider miss is a handled book, a
+  transport/storage failure stops the pass and is surfaced in the report (`stopped`). Manual
+  covers are never touched. Progress streams to the webview over a Tauri channel
+  (`done/total/fetched/missed`); the final report counts misses, no-ISBN books, and junk-ISBN
+  books so nothing is silently unfetchable.
+- **Library**: a "Fetch missing covers" button appears whenever any book lacks a cover and
+  shows a live counter while the pass runs; results land as toasts (ar + en), including
+  honest warnings for books that need an ISBN added first.
+- **Two more keyless providers** joined the chain, taking it to four sources per book:
+  - **Amazon** (`images-na.ssl-images-amazon.com`, ISBN-10-keyed product images) — the
+    host has *no miss answer* (even nonsense ISBNs get a valid-JPEG placeholder back), so
+    a hit must measure **portrait** via a new minimal JPEG/PNG dimension parser; ISBN-13s
+    of the 978 family are converted to their 10-digit twin, each candidate asked in turn.
+  - **Internet Archive** (`archive.org`) — for both ISBN lookups and (as the last title
+    fallback) `title:`/`creator:` searches, `mediatype:(texts)`, popular-first; the miss
+    answer is a redirect to the archive's grey `notfound.png`, caught by the final URL so
+    that valid-but-wrong PNG is never stored as a cover.
+  - Chain order: Open Library → Google Books → Amazon → Internet Archive (ISBN path);
+    Open Library → Google Books → Internet Archive (title-search path).
+- **Author-drop retry ladder** on the title-search path (2026-10-26): each provider is
+  tried once **with** the author hint, and on a miss once title-only — transliterated
+  Arabic author names vary enough that a correct `author:` narrowing can hide a
+  correct title hit. Verified live probes against every Arabic-market API candidate came
+  up with no keyless, legitimate source (Jamalon unreachable, Neelwafurat needs WebForms
+  scraping, Goodreads API retired, Wikipedia page images are false positives), so the
+  residual ISBN-less/no-author editions are the intended target of the manual path:
+- **Find cover online assist** (BookPage, cover-less books only): two one-tap buttons
+  open the title+(author) search in the system browser — **Google Images** and
+  **Goodreads** — via the already-granted `opener` plugin, so a cover the catalogs never
+  had can still be picked by hand (Google Images → "Add cover image"), rather than the
+  miss being a dead end.
+- **Schema**: migration `0003_cover_sources` rebuilds `books` to widen the
+  `cover_source` CHECK with `amazon` and `internet_archive` (SQLite cannot alter a
+  CHECK in place). The runner gained a `foreign_keys_off` migration mode for the
+  rebuild — `PRAGMA foreign_keys` flipped around the migration's single transaction,
+  verified with `PRAGMA foreign_key_check` before commit — since `DROP TABLE` runs an
+  FK-checked implicit DELETE and `books` parents fifteen child tables.
+
 ### Phase 2 — Goodreads import completed
 
 - **Parser** (`crates/metadata/src/goodreads.rs`): reads the `Publisher` and `Binding`

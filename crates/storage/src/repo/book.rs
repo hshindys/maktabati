@@ -425,6 +425,46 @@ pub fn list(db: &Db) -> Result<Vec<Book>> {
     })
 }
 
+/// Books with **no cover**, oldest-added first — the bulk cover-fetch queue.
+///
+/// Oldest first is what makes a batched pass resumable: the head of the queue is always
+/// where the previous pass stopped, so batches make forward progress in a stable order.
+/// The command partitions this result; the repo stays a plain filter for tests to prove.
+///
+/// # Errors
+///
+/// [`crate::StorageError::Sqlite`] on query failure.
+pub fn list_missing_covers(db: &Db) -> Result<Vec<Book>> {
+    db.read(|conn| {
+        let sql = format!(
+            "SELECT {COLUMNS} FROM books WHERE cover_path IS NULL ORDER BY created_at ASC, id ASC"
+        );
+        let mut stmt = conn.prepare(&sql)?;
+        let rows = stmt.query_map([], from_row)?;
+        rows.collect::<rusqlite::Result<Vec<_>>>()
+            .map_err(Into::into)
+    })
+}
+
+/// The first credited author on a book, by name — the narrowing hint for a
+/// cover-by-title search when the row carries no usable ISBN.
+///
+/// # Errors
+///
+/// [`crate::StorageError::Sqlite`] on query failure.
+pub fn first_author_name(db: &Db, book_id: &str) -> Result<Option<String>> {
+    db.read(|conn| {
+        conn.query_row(
+            "SELECT a.name FROM book_authors ba JOIN authors a ON a.id = ba.author_id \
+             WHERE ba.book_id = ?1 ORDER BY ba.position LIMIT 1",
+            [book_id],
+            |row| row.get(0),
+        )
+        .optional()
+        .map_err(Into::into)
+    })
+}
+
 /// Edit a book in place and replace its credits, categories and tags.
 ///
 /// `id` and `created_at` are preserved — an edit never moves a book's identity or its place
@@ -1155,6 +1195,48 @@ mod tests {
 
         let listed: Vec<String> = list(&db).unwrap().into_iter().map(|b| b.id).collect();
         assert_eq!(listed, vec![second.id, first.id]);
+    }
+
+    #[test]
+    fn the_missing_covers_queue_is_oldest_first_and_drops_covered_books() {
+        let db = seeded_db();
+        let first = create(
+            &db,
+            BookInput {
+                title: "الأول".into(),
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        std::thread::sleep(std::time::Duration::from_millis(2));
+        let second = create(
+            &db,
+            BookInput {
+                title: "الثاني".into(),
+                ..Default::default()
+            },
+        )
+        .unwrap();
+
+        // Oldest first — resumable batching depends on a stable head.
+        let queue: Vec<String> = list_missing_covers(&db)
+            .unwrap()
+            .into_iter()
+            .map(|b| b.id)
+            .collect();
+        assert_eq!(queue, vec![first.id.clone(), second.id.clone()]);
+
+        // A book that gains a cover leaves the queue for good.
+        let dir = tempfile::tempdir().unwrap();
+        let jpg = dir.path().join("c.jpg");
+        std::fs::write(&jpg, b"jpeg bytes").unwrap();
+        set_cover(&db, dir.path(), &first.id, jpg.to_str().unwrap()).unwrap();
+        let queue: Vec<String> = list_missing_covers(&db)
+            .unwrap()
+            .into_iter()
+            .map(|b| b.id)
+            .collect();
+        assert_eq!(queue, vec![second.id.clone()]);
     }
 
     #[test]

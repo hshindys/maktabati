@@ -2,6 +2,7 @@
   import {
     ArrowLeft,
     ArrowRight,
+    BookOpen,
     ExternalLink,
     FileText,
     FolderOpen,
@@ -11,12 +12,14 @@
     Pencil,
     Plus,
     Quote as QuoteIcon,
+    Search,
     StickyNote,
     Trash2,
     TriangleAlert,
   } from "@lucide/svelte";
   import { onMount } from "svelte";
   import { ask } from "@tauri-apps/plugin-dialog";
+  import { invoke } from "@tauri-apps/api/core";
 
   import {
     attachFile,
@@ -288,6 +291,30 @@
       }
     } finally {
       coverBusy = false;
+    }
+  }
+
+  // ── Search the cover online — the assist when every catalog API runs dry ───────────────
+  //
+  // The bulk chain (Open Library, Google Books, Internet Archive) can exhaust itself with
+  // no answer — Arabic-market editions with no ISBN and often no credited author are
+  // largely invisible to every catalog API. Rather than a dead end, the page offers
+  // one-tap searches in a real browser (Google Images for pictures, Goodreads for the
+  // record); the operator picks an image there and drops it with "Add cover image".
+  // `plugin:opener|open_url` is already granted in the capability list.
+  async function searchCoverOnline(engine: "google" | "goodreads"): Promise<void> {
+    if (detail === null) return;
+    const title = detail.book.title;
+    const firstAuthor = detail.authors.length > 0 ? authorName(detail.authors[0]) : "";
+    const q = firstAuthor.length > 0 ? `${title} ${firstAuthor}` : title;
+    const url =
+      engine === "google"
+        ? `https://www.google.com/search?q=${encodeURIComponent(q)}&udm=2`
+        : `https://www.goodreads.com/search?q=${encodeURIComponent(q)}`;
+    try {
+      await invoke("plugin:opener|open_url", { url });
+    } catch {
+      toast.error(t("error.shell.invoke_failed"));
     }
   }
 
@@ -726,18 +753,37 @@
               <Trash2 class="size-4 no-mirror" strokeWidth={1.75} />
             </button>
           {/if}
-          {#if book.isbn13 !== null || book.isbn10 !== null}
-            <!-- Grab the cover from the internet (Open Library, then Google Books) by the
-                 ISBN. Hidden for ISBN-less books: a button that always errors is a lie. -->
+          <button
+            type="button"
+            disabled={coverBusy}
+            aria-label={t("book.cover.fetch")}
+            title={t("book.cover.fetch")}
+            onclick={() => void grabCover()}
+            class="inline-flex items-center justify-center rounded-[var(--r-md)] border border-border-2 bg-surface-1 p-2 text-ink-2 transition-colors hover:text-ink-1 disabled:opacity-50"
+          >
+            <ImageDown class="size-4 no-mirror" strokeWidth={1.75} />
+          </button>
+          {#if book.cover_path === null}
+            <!-- The catalog chain answers "no" for some editions — most often Arabic-market
+                 books with no ISBN. When it does, these open the same search in a real
+                 browser (opener plugin): pick a picture there, then use the pick button. -->
             <button
               type="button"
-              disabled={coverBusy}
-              aria-label={t("book.cover.fetch")}
-              title={t("book.cover.fetch")}
-              onclick={() => void grabCover()}
-              class="inline-flex items-center justify-center rounded-[var(--r-md)] border border-border-2 bg-surface-1 p-2 text-ink-2 transition-colors hover:text-ink-1 disabled:opacity-50"
+              aria-label={t("book.cover.searchImages")}
+              title={t("book.cover.searchImages")}
+              onclick={() => void searchCoverOnline("google")}
+              class="inline-flex items-center justify-center rounded-[var(--r-md)] border border-border-2 bg-surface-1 p-2 text-ink-2 transition-colors hover:text-ink-1"
             >
-              <ImageDown class="size-4 no-mirror" strokeWidth={1.75} />
+              <Search class="size-4 no-mirror" strokeWidth={1.75} />
+            </button>
+            <button
+              type="button"
+              aria-label={t("book.cover.searchGoodreads")}
+              title={t("book.cover.searchGoodreads")}
+              onclick={() => void searchCoverOnline("goodreads")}
+              class="inline-flex items-center justify-center rounded-[var(--r-md)] border border-border-2 bg-surface-1 p-2 text-ink-2 transition-colors hover:text-ink-1"
+            >
+              <BookOpen class="size-4 no-mirror" strokeWidth={1.75} />
             </button>
           {/if}
         </div>

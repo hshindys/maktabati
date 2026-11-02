@@ -49,6 +49,8 @@ macro_rules! commands {
             // Covers: pick/clear/fetch a book's cover image; cover_url feeds the asset protocol.
             crate::commands::cover::cover_set,
             crate::commands::cover::cover_fetch,
+            // Bulk pass: fetch covers for every ISBN-bearing book that lacks one.
+            crate::commands::cover::cover_fetch_missing,
             crate::commands::cover::cover_remove,
             crate::commands::cover::cover_url,
             // Hermes HTTP admin API: toggle + status for the Settings card.
@@ -273,19 +275,34 @@ pub fn run() -> anyhow::Result<()> {
             // as "the app is broken". Detect it here, where we can still say what is wrong:
             // a log line in the file the docs point at, plus a dialog that names the fix.
             if cfg!(debug_assertions) {
-                let dev_up = std::net::TcpStream::connect_timeout(
-                    &std::net::SocketAddr::from(([127, 0, 0, 1], 1420)),
-                    std::time::Duration::from_millis(300),
-                )
-                .is_ok();
+                // `localhost` is a *name* with two answers. Node ≥17 resolves it per its own
+                // table — recent Vite binds `[::1]:1420` only, older/borrowed setups bind
+                // `127.0.0.1`. Probing one stack would flag a healthy IPv6-only server as
+                // dead and scare the user with the blank-window dialog on every launch, so
+                // both stacks get asked before we call anything broken.
+                let probe = |addr| {
+                    std::net::TcpStream::connect_timeout(
+                        &addr,
+                        std::time::Duration::from_millis(300),
+                    )
+                    .is_ok()
+                };
+                let dev_up = probe(std::net::SocketAddr::from(([127, 0, 0, 1], 1420)))
+                    || probe("[::1]:1420".parse::<std::net::SocketAddr>().unwrap_or(
+                        std::net::SocketAddr::new(
+                            std::net::IpAddr::V6(std::net::Ipv6Addr::LOCALHOST),
+                            1420,
+                        ),
+                    ));
                 if !dev_up {
                     tracing::error!(
-                        "dev server not reachable on 127.0.0.1:1420 — the window will render \
-                         blank; run `npm run tauri dev`, or `npm run dev` in another terminal"
+                        "dev server not reachable on 127.0.0.1:1420 or [::1]:1420 — the window \
+                         will render blank; run `npm run tauri dev`, or `npm run dev` in another \
+                         terminal"
                     );
                     eprintln!(
-                        "maktabati: no Vite dev server on 127.0.0.1:1420 — the window will be \
-                         blank. Run `npm run tauri dev`."
+                        "maktabati: no Vite dev server on 127.0.0.1:1420 or [::1]:1420 — the \
+                         window will be blank. Run `npm run tauri dev`."
                     );
                     app.dialog()
                         .message(
@@ -420,6 +437,7 @@ mod tests {
             "metadata_enrich_search",
             "cover_set",
             "cover_fetch",
+            "cover_fetch_missing",
             "cover_remove",
             "cover_url",
             "hermes_start",

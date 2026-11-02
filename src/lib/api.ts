@@ -10,6 +10,8 @@
  *    throwing — which is what makes the component gallery usable during design review.
  */
 
+import type { Channel } from "@tauri-apps/api/core";
+
 import type {
   AppErrorDto,
   AppInfo,
@@ -475,6 +477,19 @@ export const setCover = (bookId: string, sourcePath: string) =>
 /** Fetch a cover from the internet (Open Library, then Google Books) by the book's ISBN.
  *  `ok(null)` = both providers answered but neither had the cover (a miss, not a failure). */
 export const fetchCover = (bookId: string) => run((c) => c.coverFetch(bookId));
+
+/**
+ * Fetch covers for every ISBN-bearing book that lacks one, in one politeness-paced pass.
+ *
+ * Progress arrives over the channel (`done/total/fetched/missed`) while it runs; the final
+ * report carries whole-pass totals, including the books this chain cannot help (no ISBN,
+ * junk ISBN) and `stopped` when a transport/storage failure cut the pass short.
+ */
+export const fetchMissingCovers = (onProgress: Channel<import("@/bindings").CoverBulkProgress>) =>
+  run((c) => c.coverFetchMissing(onProgress));
+
+/** Live progress shape of the bulk pass. */
+export type { CoverBulkProgress, CoverBulkReport } from "@/bindings";
 
 /** Clear the cover and delete its copied bytes. */
 export const removeCover = (bookId: string) => run((c) => c.coverRemove(bookId));

@@ -31,16 +31,21 @@ mod schema_conformance {
     use crate::conn::Db;
     use crate::migrate;
 
-    /// Every value the Rust enums can produce must appear in `0001_init.sql`.
+    /// Every value the Rust enums can produce must appear in the embedded DDL.
+    ///
+    /// `0003` rewrites `books.cover_source`'s CHECK, so the vocabulary is spread over
+    /// several files — the guard reads them all in application order.
     #[test]
     fn every_rust_enum_variant_exists_in_the_ddl() {
-        let sql = crate::migrations::M0001_INIT;
+        let sql = crate::migrations::M0001_INIT.to_owned()
+            + crate::migrations::M0002_BOOK_PUBLISHER
+            + crate::migrations::M0003_COVER_SOURCES;
 
         let check = |name: &str, values: &[&str]| {
             for v in values {
                 assert!(
                     sql.contains(v),
-                    "enum {name} variant `{v}` has no CHECK constraint in 0001_init.sql"
+                    "enum {name} variant `{v}` has no CHECK constraint in the DDL"
                 );
             }
         };

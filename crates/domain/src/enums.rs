@@ -110,6 +110,10 @@ string_enum! {
         Manual => "manual",
         OpenLibrary => "openlibrary",
         GoogleBooks => "googlebooks",
+        /// Amazon's ISBN-keyed product-image host (`images-na.ssl-images-amazon.com`).
+        Amazon => "amazon",
+        /// Internet Archive: the image of the matching scanned item (`archive.org`).
+        InternetArchive => "internet_archive",
         Embedded => "embedded",
         Generated => "generated",
     }
