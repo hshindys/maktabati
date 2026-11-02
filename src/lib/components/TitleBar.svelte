@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Languages, Lock, Maximize2, Minus, Minimize2, Moon, Search, Sun, X } from "@lucide/svelte";
+  import { Languages, Maximize2, Minus, Minimize2, Moon, Search, Sun, X } from "@lucide/svelte";
   import { onMount } from "svelte";
 
   import Mark from "./Mark.svelte";
@@ -13,6 +13,13 @@
    * buttons and the global search entry. Everything inside the drag region carries
    * `titlebar-no-drag` so it stays clickable.
    */
+
+  interface Props {
+    /** Opens the search palette — App.svelte owns it, like the add-book wizard. */
+    onsearch?: () => void;
+  }
+
+  let { onsearch = () => {} }: Props = $props();
 
   let t = $derived(translatorFor($locale));
 
@@ -102,14 +109,12 @@
     <span class="text-[var(--fs-base)] font-semibold text-ink-1">{t("app.name")}</span>
   </div>
 
-  <!-- Global search entry. The palette itself lands with the library milestone. -->
+  <!-- Global search entry — the entry point into SearchPalette, which App.svelte owns. -->
   <div class="titlebar-no-drag mx-auto w-full max-w-[34rem] px-[var(--sp-3)]">
     <button
       type="button"
       class="flex h-7 w-full items-center gap-[var(--sp-2)] rounded-[var(--r-md)] border border-border-1 bg-surface-1 px-[var(--sp-3)] text-start text-[var(--fs-sm)] text-ink-3 transition-colors hover:border-border-2 hover:text-ink-2"
-      onclick={() => {
-        /* opened by Ctrl/Cmd+K once the palette lands */
-      }}
+      onclick={onsearch}
     >
       <Search class="size-3.5 shrink-0 no-mirror" strokeWidth={1.75} />
       <span class="flex-1 truncate">{t("shell.search")}</span>
@@ -141,16 +146,6 @@
       aria-label="{t("shell.theme")}: {t(`shell.theme.${resolveTheme($preferences.theme)}`)}"
     >
       <ThemeIcon class="size-4 no-mirror" strokeWidth={1.75} />
-    </button>
-
-    <button
-      type="button"
-      class="grid size-8 place-items-center rounded-[var(--r-sm)] text-ink-2 transition-colors hover:bg-surface-3 hover:text-ink-1"
-      title={t("shell.lock")}
-      aria-label={t("shell.lock")}
-      disabled
-    >
-      <Lock class="size-4 no-mirror" strokeWidth={1.75} />
     </button>
 
     <!-- Window controls. Only rendered under Tauri — a browser preview has its own chrome. -->

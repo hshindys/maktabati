@@ -5,13 +5,14 @@
   import { countFor, getLibrarySummary, listBooks, EMPTY_SUMMARY, type ReadingStatus } from "../api";
   import Button from "../components/Button.svelte";
   import Card from "../components/Card.svelte";
+  import BookCover from "../components/BookCover.svelte";
   import CoverPlaceholder from "../components/CoverPlaceholder.svelte";
   import KpiCard from "../components/KpiCard.svelte";
   import Mark from "../components/Mark.svelte";
   import ProgressBar from "../components/ProgressBar.svelte";
   import { locale, translatorFor } from "../i18n";
   import { messageFor } from "../errors";
-  import { formatDate, formatNumber, gregorianYear, type DigitStyle } from "../format";
+  import { formatDate, formatNumber, formatPercent, gregorianYear, type DigitStyle } from "../format";
   import { preferences } from "../settings";
   import { go } from "../router";
   import { openAddBook } from "../wizard";
@@ -34,6 +35,7 @@
   let summary = $state<LibrarySummary>(EMPTY_SUMMARY);
   /** The six most recently added books — the shelf the "recently added" strip shows. */
   let recent = $state<Book[]>([]);
+  let readingBook = $state<Book | null>(null);
   let loadError = $state<AppErrorDto | null>(null);
   let loading = $state(true);
 
@@ -53,6 +55,12 @@
       booksRes.status === "ok"
         ? [...booksRes.data].sort((a, b) => b.created_at - a.created_at).slice(0, 6)
         : [];
+    readingBook =
+      booksRes.status === "ok"
+        ? booksRes.data
+            .filter((book) => book.reading_status === "reading")
+            .sort((a, b) => b.updated_at - a.updated_at)[0] ?? null
+        : null;
     loading = false;
   }
 
@@ -207,6 +215,58 @@
         {/snippet}
       </KpiCard>
     </div>
+
+    {#if readingBook}
+      <Card>
+        <div class="mb-[var(--sp-4)] flex items-center justify-between gap-[var(--sp-3)]">
+          <h2 class="text-[var(--fs-md)] font-semibold">{t("dashboard.currentlyReading")}</h2>
+          <a
+            href="#/book/{readingBook.id}"
+            class="text-[var(--fs-sm)] font-medium text-accent hover:underline"
+          >
+            {t("dashboard.continueReading")}
+          </a>
+        </div>
+        <div class="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-[var(--sp-4)] sm:gap-[var(--sp-5)]">
+          <a href="#/book/{readingBook.id}" aria-label={readingBook.title} class="shrink-0">
+            <BookCover
+              title={readingBook.title}
+              language={readingBook.language_code}
+              coverPath={readingBook.cover_path}
+              height={144}
+            />
+          </a>
+          <div class="min-w-0">
+            <a
+              href="#/book/{readingBook.id}"
+              class="bidi-auto line-clamp-2 text-[var(--fs-lg)] font-semibold text-ink-1 hover:text-accent"
+            >
+              {readingBook.title}
+            </a>
+            {#if readingBook.current_page !== null}
+              <p class="mt-[var(--sp-2)] text-[var(--fs-sm)] text-ink-2">
+                {#if readingBook.page_count !== null}
+                  {t("dashboard.pagePosition", {
+                    current: num(readingBook.current_page),
+                    total: num(readingBook.page_count),
+                  })}
+                {:else}
+                  {t("book.currentPage")}: {num(readingBook.current_page)}
+                {/if}
+              </p>
+            {/if}
+            <div class="mt-[var(--sp-4)]">
+              <ProgressBar
+                value={readingBook.progress_pct}
+                label={t("book.progress")}
+                showValue
+                displayValue={formatPercent(readingBook.progress_pct, { digits })}
+              />
+            </div>
+          </div>
+        </div>
+      </Card>
+    {/if}
 
     <!-- Secondary stats -->
     <div class="grid gap-[var(--sp-4)] lg:grid-cols-2">

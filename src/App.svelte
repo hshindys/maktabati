@@ -1,4 +1,5 @@
 <script lang="ts">
+  import SearchPalette from "./lib/components/SearchPalette.svelte";
   import Sidebar from "./lib/components/Sidebar.svelte";
   import TitleBar from "./lib/components/TitleBar.svelte";
   import Toasts from "./lib/components/Toasts.svelte";
@@ -26,17 +27,26 @@
    *
    * The shell is deliberately the only place that knows about layout; views render into
    * `<main>` and never manage their own chrome, which is what keeps the RTL mirroring
-   * consistent across all thirteen screens. It also owns the two app-wide affordances
-   * that belong to no route: the toasts and the add-book wizard (`Ctrl+N`, docs/04 §4.5).
+   * consistent across all thirteen screens. It also owns the three app-wide affordances
+   * that belong to no route: the toasts, the add-book wizard (`Ctrl+N`, docs/04 §4.5) and
+   * the search palette (`Ctrl+K`).
    */
 
   let currentPath = $derived($route.path);
+  let paletteOpen = $state(false);
 
   function onKeydown(e: KeyboardEvent) {
-    // Ctrl/Cmd+N opens the wizard from anywhere — the shortcut the design gives it.
-    if ((e.ctrlKey || e.metaKey) && !e.altKey && e.key.toLowerCase() === "n") {
+    if ((!e.ctrlKey && !e.metaKey) || e.altKey) return;
+    const key = e.key.toLowerCase();
+
+    // Ctrl/Cmd+N opens the wizard, Ctrl/Cmd+K the search palette — both shortcuts the
+    // shell advertises (the title-bar field wears the Ctrl+K badge).
+    if (key === "n") {
       e.preventDefault();
       openAddBook();
+    } else if (key === "k") {
+      e.preventDefault();
+      paletteOpen = true;
     }
   }
 </script>
@@ -44,7 +54,7 @@
 <svelte:window onkeydown={onKeydown} />
 
 <div class="flex h-screen flex-col overflow-hidden bg-surface-0 text-ink-1">
-  <TitleBar />
+  <TitleBar onsearch={() => (paletteOpen = true)} />
 
   <div class="flex min-h-0 flex-1">
     <!-- `<main>` comes first in the DOM so it is the first thing a screen reader reaches,
@@ -95,4 +105,7 @@
 
   <!-- The wizard is a modal, not a route: one instance for the whole app. -->
   <AddBook />
+
+  <!-- Same idea: the search palette is opened by Ctrl/Cmd+K or the title-bar field. -->
+  <SearchPalette open={paletteOpen} onclose={() => (paletteOpen = false)} />
 </div>

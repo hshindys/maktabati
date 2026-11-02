@@ -40,7 +40,6 @@ export const ar = {
   "shell.theme.dark": "داكن",
   "shell.theme.sepia": "سيبيا",
   "shell.theme.system": "حسب النظام",
-  "shell.lock": "قفل المكتبة",
   "shell.collapse": "طيّ الشريط الجانبي",
   "shell.expand": "توسيع الشريط الجانبي",
   "shell.minimize": "تصغير",
@@ -57,6 +56,7 @@ export const ar = {
   "dashboard.kpi.streak": "أيام متتالية",
   "dashboard.kpi.goal": "هدف",
   "dashboard.currentlyReading": "أقرأ الآن",
+  "dashboard.pagePosition": "الصفحة {current} من {total}",
   "dashboard.recentlyAdded": "أضيف مؤخراً",
   "dashboard.finishedThisMonth": "أنهيت هذا الشهر",
   "dashboard.topRated": "الأعلى تقييماً",
@@ -607,6 +607,9 @@ export const ar = {
   "toast.backupDone": "أُنشئت النسخة الاحتياطية",
   "toast.hermesStarted": "بدأت الخدمة المحلية",
   "toast.hermesStopped": "أُوقفت الخدمة المحلية",
+
+  "palette.noResults": "لا توجد كتب مطابقة",
+  "palette.unavailable": "المعاينة بلا مكتبة — افتح التطبيق للبحث",
 } as const;
 
 /** Every key that must exist in every locale. */

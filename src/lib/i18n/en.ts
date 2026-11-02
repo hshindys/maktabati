@@ -40,7 +40,6 @@ export const en: Record<MessageKey, string> = {
   "shell.theme.dark": "Dark",
   "shell.theme.sepia": "Sepia",
   "shell.theme.system": "System",
-  "shell.lock": "Lock library",
   "shell.collapse": "Collapse sidebar",
   "shell.expand": "Expand sidebar",
   "shell.minimize": "Minimize",
@@ -57,6 +56,7 @@ export const en: Record<MessageKey, string> = {
   "dashboard.kpi.streak": "day streak",
   "dashboard.kpi.goal": "Goal",
   "dashboard.currentlyReading": "Currently reading",
+  "dashboard.pagePosition": "Page {current} of {total}",
   "dashboard.recentlyAdded": "Recently added",
   "dashboard.finishedThisMonth": "Finished this month",
   "dashboard.topRated": "Top rated",
@@ -607,4 +607,7 @@ export const en: Record<MessageKey, string> = {
   "toast.backupDone": "Backup written",
   "toast.hermesStarted": "Local server started",
   "toast.hermesStopped": "Local server stopped",
+
+  "palette.noResults": "No matching books",
+  "palette.unavailable": "The preview has no library — search runs in the installed app",
 };

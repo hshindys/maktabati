@@ -256,7 +256,7 @@
           <li>
             <a
               href="#/book/{book.id}"
-              class="group flex flex-col gap-[var(--sp-2)] rounded-[var(--r-lg)] p-[var(--sp-2)] transition-colors hover:bg-surface-2"
+              class="group flex h-full min-w-0 flex-col gap-[var(--sp-2)] rounded-[var(--r-lg)] p-[var(--sp-2)] transition-colors hover:bg-surface-2"
             >
               <span class="flex justify-center overflow-hidden rounded-[var(--r-md)] transition-transform duration-[var(--dur-base)] group-hover:-translate-y-0.5">
                 <BookCover title={book.title} language={book.language_code} coverPath={book.cover_path} height={180} />
@@ -264,10 +264,16 @@
               <span class="bidi-auto line-clamp-2 text-[var(--fs-base)] font-medium text-ink-1">
                 {book.title}
               </span>
-              <span class="bidi-auto text-[var(--fs-sm)] text-ink-3">{metaOf(book)}</span>
-              {#if book.rating !== null}
-                <Stars value={book.rating} readonly size="sm" label={t("book.rating.label")} />
-              {/if}
+              <!--
+                The meta line and the stars sit in one bottom-pinned block, so every card in a
+                grid row shares a baseline no matter how far its title wrapped above. The stars
+                always render (0 = five empty stars) so a book without a rating keeps the row
+                instead of collapsing it and pushing the card below out of line.
+              -->
+              <span class="mt-auto flex flex-col gap-[var(--sp-2)]">
+                <span class="bidi-auto text-[var(--fs-sm)] text-ink-3">{metaOf(book)}</span>
+                <Stars value={book.rating ?? 0} readonly size="sm" label={t("book.rating.label")} />
+              </span>
             </a>
           </li>
         {/each}

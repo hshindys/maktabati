@@ -143,7 +143,7 @@
       <div class="flex flex-col gap-0.5">
         {#if !collapsed}
           <div
-            class="px-[var(--sp-3)] pt-[var(--sp-3)] pb-1 text-[10px] font-semibold text-ink-3"
+            class="px-[var(--sp-3)] pt-[var(--sp-3)] pb-1.5 text-[var(--fs-xs)] font-semibold text-ink-2"
             aria-hidden="true"
           >
             {t(group.labelKey)}
