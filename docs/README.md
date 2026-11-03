@@ -12,6 +12,7 @@ Personal Library Manager · local-first desktop app · Rust workspace + Tauri 2 
 | 3 | [Data model](03-data-model.md) | ER diagram, full DDL, indexes, FTS design, Arabic normalization, migrations |
 | 4 | [UX design](04-ux-design.md) | IA, screens, wireframes, design system, themes, RTL rules, a11y, shortcuts |
 | 5 | [Roadmap](05-roadmap.md) | 13 milestones with acceptance criteria, effort, risks |
+| Reference | [Hermes API](06-hermes-api.md) | Local bearer-token flow and request requirements for agent clients |
 
 ## Decision records — [`adr/`](adr/)
 

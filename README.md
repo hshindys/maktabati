@@ -8,7 +8,7 @@
 
 ## Status
 
-In active development. Milestones `M0`–`M3` are complete: research and specs, the domain/storage core, the Tauri shell, and the catalogue — 92 typed backend commands plus the four-step add-book wizard (live ISBN validation, duplicate warning, draft persistence). Manual backups can be listed, verified and safely restored; the library can be exported to JSON or per-table CSV, and notes to Markdown. Server-side Arabic-aware FTS5 search now covers books, notes, quotes and authors, including the Ctrl+K palette and Hermes book queries. Cover ingest is not part of M3; it moves to the `files` crate in M8. See [`docs/05-roadmap.md`](docs/05-roadmap.md) for what is done and what is next.
+In active development. Milestones `M0`–`M3` are complete: research and specs, the domain/storage core, the Tauri shell, and the catalogue — 92 typed backend commands plus the four-step add-book wizard (live ISBN validation, duplicate warning, draft persistence). Manual backups can be listed, verified and safely restored; the library can be exported to JSON or per-table CSV, and notes to Markdown. Server-side Arabic-aware FTS5 search now covers books, notes, quotes and authors, including the Ctrl+K palette and Hermes book queries. The optional Hermes API is loopback-only, bearer-token protected, and rejects browser-origin requests; see the [agent-client token flow](docs/06-hermes-api.md). Cover ingest is not part of M3; it moves to the `files` crate in M8. See [`docs/05-roadmap.md`](docs/05-roadmap.md) for what is done and what is next.
 
 ## Why
 

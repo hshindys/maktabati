@@ -248,6 +248,22 @@ pub async fn library_summary(
 // Settings
 // ─────────────────────────────────────────────────────────────────────────────
 
+fn is_secret_setting(key: &str) -> bool {
+    key == hermes::TOKEN_SETTING_KEY
+}
+
+fn reject_secret_setting(key: &str) -> CmdResult<()> {
+    if is_secret_setting(key) {
+        Err(AppErrorDto::new(
+            "settings.secret",
+            "Sensitive settings require their dedicated command.",
+        )
+        .with_i18n_key("error.settings.secret"))
+    } else {
+        Ok(())
+    }
+}
+
 /// Read one non-secret setting as raw JSON, or `null` when unset.
 ///
 /// The payload is [`Json`] rather than `serde_json::Value`: the built-in specta impl for `Value`
@@ -260,6 +276,7 @@ pub async fn library_summary(
 #[specta::specta]
 #[tauri::command]
 pub async fn settings_get(state: State<'_, AppState>, key: String) -> CmdResult<Option<Json>> {
+    reject_secret_setting(&key)?;
     let db = Arc::clone(&state.db);
     blocking(db, move |db| {
         repo::settings::all(db).map(|pairs| {
@@ -280,13 +297,14 @@ pub async fn settings_get(state: State<'_, AppState>, key: String) -> CmdResult<
 #[specta::specta]
 #[tauri::command]
 pub async fn settings_set(state: State<'_, AppState>, key: String, value: Json) -> CmdResult<()> {
+    reject_secret_setting(&key)?;
     let db = Arc::clone(&state.db);
     // The storage layer owns `serde_json::Value`; the conversion is lossless (see `domain::json`).
     let value = value.into_value();
     blocking(db, move |db| repo::settings::set(db, &key, &value)).await
 }
 
-/// Read every setting, as shown on the Settings → Diagnostics page.
+/// Read all non-secret settings, as shown on the Settings → Diagnostics page.
 ///
 /// # Errors
 ///
@@ -296,8 +314,13 @@ pub async fn settings_set(state: State<'_, AppState>, key: String, value: Json) 
 pub async fn settings_all(state: State<'_, AppState>) -> CmdResult<Vec<(String, Json)>> {
     let db = Arc::clone(&state.db);
     blocking(db, move |db| {
-        repo::settings::all(db)
-            .map(|pairs| pairs.into_iter().map(|(k, v)| (k, Json::from(v))).collect())
+        repo::settings::all(db).map(|pairs| {
+            pairs
+                .into_iter()
+                .filter(|(key, _)| !is_secret_setting(key))
+                .map(|(key, value)| (key, Json::from(value)))
+                .collect()
+        })
     })
     .await
 }
@@ -352,6 +375,14 @@ mod tests {
     #[test]
     fn file_size_of_missing_file_is_zero() {
         assert_eq!(file_size(std::path::Path::new("/nope.bin")), 0);
+    }
+
+    #[test]
+    fn hermes_token_cannot_be_accessed_through_generic_settings() {
+        assert!(is_secret_setting(hermes::TOKEN_SETTING_KEY));
+        assert!(!is_secret_setting("hermes.server.enabled"));
+        assert!(reject_secret_setting(hermes::TOKEN_SETTING_KEY).is_err());
+        assert!(reject_secret_setting("hermes.server.enabled").is_ok());
     }
 
     #[test]

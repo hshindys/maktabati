@@ -64,6 +64,7 @@ macro_rules! commands {
             crate::commands::hermes::hermes_start,
             crate::commands::hermes::hermes_stop,
             crate::commands::hermes::hermes_status,
+            crate::commands::hermes::hermes_token_regenerate,
             // Quotes (الاقتباسات): one command per repo::quote function.
             crate::commands::quotes::quote_create,
             crate::commands::quotes::quote_list,
@@ -337,7 +338,7 @@ pub fn run() -> anyhow::Result<()> {
             // Failures are logged, never fatal — the Settings toggle stays available.
             crate::commands::hermes::autostart_if_enabled(
                 Arc::clone(&app_state.db),
-                app_state.hermes.inner.clone(),
+                app_state.hermes.clone(),
             );
 
             app.manage(app_state);
@@ -459,6 +460,7 @@ mod tests {
             "hermes_start",
             "hermes_stop",
             "hermes_status",
+            "hermes_token_regenerate",
             "quote_create",
             "quote_list",
             "quote_list_all",

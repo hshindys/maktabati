@@ -482,6 +482,8 @@ export const hermesStart = () => run((c) => c.hermesStart());
 export const hermesStop = () => run((c) => c.hermesStop());
 /** Report the server state for the Settings card. */
 export const hermesStatus = () => run((c) => c.hermesStatus());
+/** Rotate the bearer token and immediately revoke the previous token. */
+export const hermesTokenRegenerate = () => run((c) => c.hermesTokenRegenerate());
 
 /** Shape of a Hermes status answer. */
 export type HermesStatus = import("@/bindings").HermesStatus;

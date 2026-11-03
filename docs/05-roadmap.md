@@ -187,6 +187,10 @@ book/note/quote/author FTS indexes; a bounded server-side search command; the de
 palette; and Hermes book queries sharing the indexed implementation. The full M5 milestone remains
 in progress because query syntax, publisher entity results, virtualization, and shelves remain.
 
+**Task 3 delivered:** the optional Hermes loopback API now requires a persisted, randomly
+generated bearer token on every route except `/health`, rejects non-loopback hosts and browser
+origins, and documents the token flow for local agent clients. M5 remains in progress.
+
 **Acceptance criteria**
 - [x] Search tests cover diacritics, alef/yaa/taa-marbuta folding, and mixed Arabic+English
 - [ ] **Property tests:** normalization idempotence plus 40+ Arabic fixtures

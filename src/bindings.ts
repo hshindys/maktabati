@@ -32,7 +32,7 @@ export const commands = {
 	 */
 	librarySummary: (year: number | null) => typedError<LibrarySummary, AppErrorDto>(__TAURI_INVOKE("library_summary", { year })),
 	/**
-	 *  Read every setting, as shown on the Settings → Diagnostics page.
+	 *  Read all non-secret settings, as shown on the Settings → Diagnostics page.
 	 * 
 	 *  # Errors
 	 * 
@@ -332,14 +332,8 @@ Json[] |
 	 *  [`AppErrorDto`](crate::error::AppErrorDto) when the internal state is poisoned.
 	 */
 	hermesStop: () => typedError<HermesStatus, AppErrorDto>(__TAURI_INVOKE("hermes_stop")),
-	/**
-	 *  Report whether the server is running, for the Settings card.
-	 * 
-	 *  # Errors
-	 * 
-	 *  Never in practice; the signature matches its siblings.
-	 */
 	hermesStatus: () => typedError<HermesStatus, AppErrorDto>(__TAURI_INVOKE("hermes_status")),
+	hermesTokenRegenerate: () => typedError<HermesStatus, AppErrorDto>(__TAURI_INVOKE("hermes_token_regenerate")),
 	/**
 	 *  Create a quote on a book.
 	 * 
@@ -1403,6 +1397,7 @@ export type HermesStatus = {
 	running: boolean,
 	/**  The loopback address, as text, e.g. `127.0.0.1:17321`. */
 	addr: string,
+	token: string | null,
 };
 
 /**

@@ -5,8 +5,17 @@ All notable changes to Maktabati are documented here. Format loosely follows
 
 ## [Unreleased] — 2026-10-23
 
-Everything below is one working session across the OPENCODE-BRIEF phase list
-(Phases 0–5). Left uncommitted on purpose.
+Task-specific changes are committed separately; this changelog tracks completed work.
+
+### Task 3 — Secure Hermes HTTP API
+
+- **Authentication**: Hermes now generates and persists a cryptographically random bearer
+  token on enable. Every route except `/health` requires the token; all requests must have an
+  allowed loopback `Host`, and requests carrying `Origin` are rejected.
+- **Settings**: the Hermes panel shows, copies and can regenerate the token; generic settings
+  access excludes the secret. Added tests for missing/wrong tokens, invalid hosts, browser
+  origins and accepted loopback requests.
+- Documented the local agent-client flow in [`docs/06-hermes-api.md`](docs/06-hermes-api.md).
 
 ### Task 2 — Real search
 

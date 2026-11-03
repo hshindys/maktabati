@@ -26,6 +26,7 @@
     hermesStart,
     hermesStatus,
     hermesStop,
+    hermesTokenRegenerate,
     listBackups,
     restoreBackup,
     setSetting,
@@ -95,6 +96,7 @@
   let creatingBackup = $state(false);
   let hermes = $state<HermesStatus | null>(null);
   let hermesBusy = $state(false);
+  let hermesTokenBusy = $state(false);
   let backups = $state<BackupInfo[]>([]);
   let backupBusy = $state(false);
   let verifyingBackup = $state<string | null>(null);
@@ -131,6 +133,7 @@
   async function reloadHermes(): Promise<void> {
     const res = await hermesStatus();
     if (res.status === "ok") hermes = res.data;
+    else toast.error(messageFor(res.error, t));
   }
 
   async function runBackup(): Promise<void> {
@@ -209,6 +212,44 @@
       }
     } finally {
       hermesBusy = false;
+    }
+  }
+
+  async function copyHermesToken(): Promise<void> {
+    const token = hermes?.token;
+    if (token == null) return;
+    try {
+      await navigator.clipboard.writeText(token);
+      toast.success(t("toast.hermesTokenCopied"));
+    } catch (error) {
+      console.error("Hermes token copy failed", error);
+      toast.error(t("toast.hermesTokenCopyFailed"));
+    }
+  }
+
+  async function regenerateHermesToken(): Promise<void> {
+    if (hermesTokenBusy) return;
+    let confirmed = false;
+    try {
+      confirmed = await ask(t("settings.hermes.token.regenerateConfirm"), { kind: "warning" });
+    } catch (error) {
+      console.error("Hermes token confirmation dialog failed", error);
+      toast.error(t("transfer.dialog.failed"));
+      return;
+    }
+    if (!confirmed) return;
+
+    hermesTokenBusy = true;
+    try {
+      const res = await hermesTokenRegenerate();
+      if (res.status === "ok") {
+        hermes = res.data;
+        toast.success(t("toast.hermesTokenRegenerated"));
+      } else {
+        toast.error(messageFor(res.error, t));
+      }
+    } finally {
+      hermesTokenBusy = false;
     }
   }
 
@@ -490,6 +531,28 @@
     </div>
     {#if hermes?.running === true}
       <p class="mt-[var(--sp-2)] bidi-ltr tnum text-[var(--fs-sm)] text-ink-3" dir="ltr">http://{hermes.addr}</p>
+    {/if}
+    {#if hermes?.token != null}
+      <div class="mt-[var(--sp-4)]">
+        <p class="mb-[var(--sp-2)] text-[var(--fs-sm)] font-medium text-ink-2">{t("settings.hermes.token.label")}</p>
+        <div class="flex flex-wrap items-center gap-[var(--sp-2)]">
+          <code class="min-w-0 flex-1 break-all rounded-[var(--r-md)] bg-surface-2 px-[var(--sp-3)] py-[var(--sp-2)] text-[var(--fs-sm)] text-ink-1" dir="ltr">{hermes.token}</code>
+          <Button
+            variant="secondary"
+            disabled={hermesTokenBusy}
+            onclick={() => void copyHermesToken()}
+          >
+            {t("settings.hermes.token.copy")}
+          </Button>
+          <Button
+            variant="secondary"
+            loading={hermesTokenBusy}
+            onclick={() => void regenerateHermesToken()}
+          >
+            {t("settings.hermes.token.regenerate")}
+          </Button>
+        </div>
+      </div>
     {/if}
   </Card>
 

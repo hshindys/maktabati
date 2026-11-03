@@ -21,13 +21,17 @@ use std::collections::HashMap;
 use std::net::SocketAddr;
 use std::sync::{Arc, Mutex};
 
-use axum::extract::{Path, Query, State as AxumState};
-use axum::http::StatusCode;
+use axum::extract::{Path, Query, Request, State as AxumState};
+use axum::http::{header, HeaderMap, StatusCode};
+use axum::middleware::{self, Next};
+use axum::response::{IntoResponse, Response};
 use axum::routing::{get, post};
 use axum::Json;
 use serde::{Deserialize, Serialize};
 use specta::Type;
+use subtle::ConstantTimeEq;
 use tauri::State;
+use tokio::sync::RwLock;
 
 use maktabati_domain::BookInput;
 use maktabati_storage::StorageError;
@@ -40,6 +44,7 @@ use crate::state::AppState;
 /// public interface would hand the catalogue to the LAN. Compile-check the value with the
 /// parse at [`server_addr`].
 const LOOPBACK_PORT: u16 = 17321;
+pub(crate) const TOKEN_SETTING_KEY: &str = "hermes.server.token";
 
 /// The address the server binds, for the status DTO and tooltips.
 #[must_use]
@@ -51,11 +56,13 @@ pub fn server_addr() -> SocketAddr {
 
 /// Server-side handle for the graceful shutdown. The sender is owned by the state;
 /// dropping/sending closes the server on the next accept loop tick.
-#[derive(Debug, Default)]
+#[derive(Debug, Clone, Default)]
 pub struct HermesState {
     /// `Some` while the server owns a bound listener. `Arc` so the auto-start spawn in
     /// `lib.rs` no longer has to borrow from the managed state.
     pub inner: Arc<Mutex<Inner>>,
+    token: Arc<RwLock<Option<String>>>,
+    operation: Arc<tokio::sync::Mutex<()>>,
 }
 
 /// The mutable half of [`HermesState`].
@@ -79,12 +86,14 @@ pub struct HermesStatus {
     pub running: bool,
     /// The loopback address, as text, e.g. `127.0.0.1:17321`.
     pub addr: String,
+    pub token: Option<String>,
 }
 
-fn status_of(state: &HermesState) -> HermesStatus {
+fn status_of(state: &HermesState, token: Option<String>) -> HermesStatus {
     HermesStatus {
         running: state.running(),
         addr: server_addr().to_string(),
+        token,
     }
 }
 
@@ -93,6 +102,55 @@ fn status_of(state: &HermesState) -> HermesStatus {
 // ─────────────────────────────────────────────────────────────────────────────
 
 type DbState = AxumState<Arc<maktabati_storage::Db>>;
+
+#[derive(Clone)]
+struct RequestGuard {
+    token: Arc<RwLock<Option<String>>>,
+    port: u16,
+}
+
+fn valid_host(headers: &HeaderMap, port: u16) -> bool {
+    let Some(host) = headers
+        .get(header::HOST)
+        .and_then(|value| value.to_str().ok())
+    else {
+        return false;
+    };
+    let loopback = format!("127.0.0.1:{port}");
+    let localhost = format!("localhost:{port}");
+    host.eq_ignore_ascii_case(&loopback) || host.eq_ignore_ascii_case(&localhost)
+}
+
+async fn guard_request(
+    AxumState(guard): AxumState<RequestGuard>,
+    request: Request,
+    next: Next,
+) -> Response {
+    let headers = request.headers();
+    if !valid_host(headers, guard.port) || headers.contains_key(header::ORIGIN) {
+        return StatusCode::FORBIDDEN.into_response();
+    }
+
+    if request.uri().path() != "/health" {
+        let candidate = headers
+            .get(header::AUTHORIZATION)
+            .and_then(|value| value.to_str().ok())
+            .and_then(|value| value.strip_prefix("Bearer "));
+        let authorized = if let Some(candidate) = candidate {
+            let expected = guard.token.read().await;
+            expected
+                .as_deref()
+                .is_some_and(|expected| bool::from(expected.as_bytes().ct_eq(candidate.as_bytes())))
+        } else {
+            false
+        };
+        if !authorized {
+            return StatusCode::UNAUTHORIZED.into_response();
+        }
+    }
+
+    next.run(request).await
+}
 
 /// Status-code map for [`StorageError`] at the HTTP boundary. Mirrors `error.rs`'s
 /// stable codes — `message` is developer English, the caller never parses it.
@@ -220,13 +278,21 @@ async fn enrich_endpoint(
     Ok(Json(suggestion))
 }
 
-/// Assemble the router. Test-runnable without any listener.
-pub fn build_router(db: Arc<maktabati_storage::Db>) -> axum::Router {
+/// Assemble the guarded router. Test-runnable without any listener.
+pub fn build_router(
+    db: Arc<maktabati_storage::Db>,
+    token: Arc<RwLock<Option<String>>>,
+    port: u16,
+) -> axum::Router {
     axum::Router::new()
         .route("/health", get(health))
         .route("/books", get(books_list).post(book_create))
         .route("/books/{id}", get(book_get).patch(book_patch))
         .route("/enrich", post(enrich_endpoint))
+        .layer(middleware::from_fn_with_state(
+            RequestGuard { token, port },
+            guard_request,
+        ))
         .with_state(db)
 }
 
@@ -238,7 +304,11 @@ pub fn build_router(db: Arc<maktabati_storage::Db>) -> axum::Router {
 /// bind → lock → hand the listener to the serve task → tag running; the check-and-set
 /// window between bind and lock is closed by re-checking `Inner` (the only way another
 /// launch could have got there is an earlier `launch` that failed its own bind anyway).
-async fn launch(db: Arc<maktabati_storage::Db>, hermes: &Arc<Mutex<Inner>>) -> Result<(), String> {
+async fn launch(
+    db: Arc<maktabati_storage::Db>,
+    token: Arc<RwLock<Option<String>>>,
+    hermes: &Arc<Mutex<Inner>>,
+) -> Result<(), String> {
     if hermes.lock().is_ok_and(|inner| inner.shutdown.is_some()) {
         return Err("already running".to_owned());
     }
@@ -249,7 +319,7 @@ async fn launch(db: Arc<maktabati_storage::Db>, hermes: &Arc<Mutex<Inner>>) -> R
         .map_err(|e| format!("could not bind {addr}: {e}"))?;
 
     let (tx, mut rx) = tokio::sync::watch::channel(false);
-    let router = build_router(db);
+    let router = build_router(db, token, addr.port());
 
     let mut inner = hermes.lock().map_err(|e| format!("poisoned state: {e}"))?;
     if inner.shutdown.is_some() {
@@ -282,6 +352,58 @@ fn stop(hermes: &Arc<Mutex<Inner>>) -> Result<bool, String> {
     Ok(was_running)
 }
 
+fn generate_token() -> Result<String, AppErrorDto> {
+    let mut bytes = [0_u8; 32];
+    getrandom::fill(&mut bytes).map_err(|error| {
+        AppErrorDto::new(
+            "hermes.token.random",
+            format!("secure random token generation failed: {error}"),
+        )
+        .with_i18n_key("error.hermes.token.random")
+    })?;
+    Ok(hex::encode(bytes))
+}
+
+fn get_or_create_token(
+    db: &maktabati_storage::Db,
+    candidate: &str,
+) -> maktabati_storage::Result<String> {
+    if let Some(token) = maktabati_storage::repo::settings::get::<String>(db, TOKEN_SETTING_KEY)? {
+        return Ok(token);
+    }
+    maktabati_storage::repo::settings::set(db, TOKEN_SETTING_KEY, &candidate)?;
+    Ok(candidate.to_owned())
+}
+
+async fn ensure_token(db: Arc<maktabati_storage::Db>) -> CmdResult<String> {
+    let existing = super::blocking(Arc::clone(&db), |db| {
+        maktabati_storage::repo::settings::get::<String>(db, TOKEN_SETTING_KEY)
+    })
+    .await?;
+    if let Some(token) = existing {
+        return Ok(token);
+    }
+
+    let candidate = generate_token()?;
+    super::blocking(db, move |db| get_or_create_token(db, &candidate)).await
+}
+
+async fn read_token(db: Arc<maktabati_storage::Db>) -> CmdResult<Option<String>> {
+    super::blocking(db, |db| {
+        maktabati_storage::repo::settings::get::<String>(db, TOKEN_SETTING_KEY)
+    })
+    .await
+}
+
+async fn store_token(db: Arc<maktabati_storage::Db>, token: String) -> CmdResult<String> {
+    let persisted = token.clone();
+    super::blocking(db, move |db| {
+        maktabati_storage::repo::settings::set(db, TOKEN_SETTING_KEY, &persisted)?;
+        Ok(token)
+    })
+    .await
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // IPC commands
 // ─────────────────────────────────────────────────────────────────────────────
@@ -297,7 +419,15 @@ fn stop(hermes: &Arc<Mutex<Inner>>) -> Result<bool, String> {
 #[specta::specta]
 #[tauri::command]
 pub async fn hermes_start(state: State<'_, AppState>) -> CmdResult<HermesStatus> {
-    let result = launch(Arc::clone(&state.db), &state.hermes.inner).await;
+    let _operation = state.hermes.operation.lock().await;
+    let token = ensure_token(Arc::clone(&state.db)).await?;
+    *state.hermes.token.write().await = Some(token.clone());
+    let result = launch(
+        Arc::clone(&state.db),
+        Arc::clone(&state.hermes.token),
+        &state.hermes.inner,
+    )
+    .await;
     result.map_err(|message| {
         let code = if message == "already running" {
             "hermes.running"
@@ -307,7 +437,7 @@ pub async fn hermes_start(state: State<'_, AppState>) -> CmdResult<HermesStatus>
         AppErrorDto::new(code, format!("hermes start failed: {message}"))
             .with_i18n_key(format!("error.{code}"))
     })?;
-    Ok(status_of(&state.hermes))
+    Ok(status_of(&state.hermes, Some(token)))
 }
 
 /// Stops the server if it is up. Idempotent.
@@ -318,19 +448,30 @@ pub async fn hermes_start(state: State<'_, AppState>) -> CmdResult<HermesStatus>
 #[specta::specta]
 #[tauri::command]
 pub async fn hermes_stop(state: State<'_, AppState>) -> CmdResult<HermesStatus> {
+    let _operation = state.hermes.operation.lock().await;
     let _ = stop(&state.hermes.inner).map_err(|message| AppErrorDto::new("internal", message))?;
-    Ok(status_of(&state.hermes))
+    Ok(status_of(
+        &state.hermes,
+        state.hermes.token.read().await.clone(),
+    ))
 }
 
-/// Report whether the server is running, for the Settings card.
-///
-/// # Errors
-///
-/// Never in practice; the signature matches its siblings.
+#[specta::specta]
+#[tauri::command]
+pub async fn hermes_token_regenerate(state: State<'_, AppState>) -> CmdResult<HermesStatus> {
+    let _operation = state.hermes.operation.lock().await;
+    let token = generate_token()?;
+    let token = store_token(Arc::clone(&state.db), token).await?;
+    *state.hermes.token.write().await = Some(token.clone());
+    Ok(status_of(&state.hermes, Some(token)))
+}
+
 #[specta::specta]
 #[tauri::command]
 pub async fn hermes_status(state: State<'_, AppState>) -> CmdResult<HermesStatus> {
-    Ok(status_of(&state.hermes))
+    let _operation = state.hermes.operation.lock().await;
+    let token = read_token(Arc::clone(&state.db)).await?;
+    Ok(status_of(&state.hermes, token))
 }
 
 /// Read the Settings→Hermes auto-start preference and spawn a server start if it is on.
@@ -339,14 +480,29 @@ pub async fn hermes_status(state: State<'_, AppState>) -> CmdResult<HermesStatus
 /// is already up by then, so the spawn lands on the same runtime commands use. Failures
 /// (port taken, mostly) are logged — a failed auto-start must not take the app down, the
 /// toggle remains available in Settings.
-pub fn autostart_if_enabled(db: Arc<maktabati_storage::Db>, hermes: Arc<Mutex<Inner>>) {
+pub fn autostart_if_enabled(db: Arc<maktabati_storage::Db>, hermes: HermesState) {
     let enabled: Option<bool> =
-        maktabati_storage::repo::settings::get(&db, "hermes.server.enabled").unwrap_or(None);
+        match maktabati_storage::repo::settings::get(&db, "hermes.server.enabled") {
+            Ok(enabled) => enabled,
+            Err(error) => {
+                tracing::error!("hermes auto-start preference could not be read: {error}");
+                return;
+            }
+        };
     if enabled != Some(true) {
         return;
     }
     tauri::async_runtime::spawn(async move {
-        if let Err(e) = launch(db, &hermes).await {
+        let _operation = hermes.operation.lock().await;
+        let token = match ensure_token(Arc::clone(&db)).await {
+            Ok(token) => token,
+            Err(error) => {
+                tracing::error!("hermes auto-start token initialization failed: {error:?}");
+                return;
+            }
+        };
+        *hermes.token.write().await = Some(token);
+        if let Err(e) = launch(db, Arc::clone(&hermes.token), &hermes.inner).await {
             tracing::error!("hermes auto-start failed: {e}");
         }
     });
@@ -363,7 +519,13 @@ mod tests {
     use maktabati_storage::{migrate, seed};
     use pretty_assertions::assert_eq;
 
-    async fn serve_test_router() -> (tempfile::TempDir, String, tokio::task::JoinHandle<()>) {
+    async fn serve_test_router() -> (
+        tempfile::TempDir,
+        String,
+        String,
+        reqwest::Client,
+        tokio::task::JoinHandle<()>,
+    ) {
         let dir = tempfile::tempdir().unwrap();
         let db = Db::open(&dir.path().join("t.db")).unwrap();
         migrate::apply(&db, || Ok(())).unwrap();
@@ -372,16 +534,27 @@ mod tests {
 
         let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
         let addr = listener.local_addr().unwrap();
-        let router = build_router(db);
+        let token = "test-token".to_owned();
+        let token_state = Arc::new(RwLock::new(Some(token.clone())));
+        let router = build_router(db, token_state, addr.port());
+        let mut headers = HeaderMap::new();
+        headers.insert(
+            header::AUTHORIZATION,
+            format!("Bearer {token}").parse().unwrap(),
+        );
+        let client = reqwest::Client::builder()
+            .default_headers(headers)
+            .build()
+            .unwrap();
         let server = tokio::spawn(async move {
             let _ = axum::serve(listener, router).await;
         });
-        (dir, format!("http://{addr}"), server)
+        (dir, format!("http://{addr}"), token, client, server)
     }
 
     #[tokio::test]
     async fn health_reports_app_and_version() {
-        let (dir, base, server) = serve_test_router().await;
+        let (dir, base, _, _, server) = serve_test_router().await;
         let health: serde_json::Value = reqwest::get(format!("{base}/health"))
             .await
             .unwrap()
@@ -396,9 +569,88 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn books_lists_searches_and_404s() {
-        let (dir, base, server) = serve_test_router().await;
+    async fn protected_routes_reject_missing_and_wrong_tokens() {
+        let (dir, base, token, _, server) = serve_test_router().await;
         let client = reqwest::Client::new();
+
+        let missing = client.get(format!("{base}/books")).send().await.unwrap();
+        assert_eq!(missing.status(), StatusCode::UNAUTHORIZED);
+
+        let wrong = client
+            .get(format!("{base}/books"))
+            .bearer_auth(format!("{token}-wrong"))
+            .send()
+            .await
+            .unwrap();
+        assert_eq!(wrong.status(), StatusCode::UNAUTHORIZED);
+
+        drop(dir);
+        server.abort();
+    }
+
+    #[tokio::test]
+    async fn request_guard_rejects_bad_hosts_and_browser_origins() {
+        let (dir, base, _, client, server) = serve_test_router().await;
+
+        let bad_host = client
+            .get(format!("{base}/books"))
+            .header(header::HOST, "evil.example:17321")
+            .send()
+            .await
+            .unwrap();
+        assert_eq!(bad_host.status(), StatusCode::FORBIDDEN);
+
+        let browser_origin = client
+            .get(format!("{base}/books"))
+            .header(header::ORIGIN, "https://example.com")
+            .send()
+            .await
+            .unwrap();
+        assert_eq!(browser_origin.status(), StatusCode::FORBIDDEN);
+
+        drop(dir);
+        server.abort();
+    }
+
+    #[tokio::test]
+    async fn valid_bearer_token_is_accepted_for_loopback_hosts() {
+        let (dir, base, _, client, server) = serve_test_router().await;
+
+        let response = client.get(format!("{base}/books")).send().await.unwrap();
+        assert_eq!(response.status(), StatusCode::OK);
+
+        let port = base.rsplit(':').next().unwrap();
+        let localhost = client
+            .get(format!("{base}/books"))
+            .header(header::HOST, format!("localhost:{port}"))
+            .send()
+            .await
+            .unwrap();
+        assert_eq!(localhost.status(), StatusCode::OK);
+
+        drop(dir);
+        server.abort();
+    }
+
+    #[test]
+    fn secure_tokens_are_persisted_and_reused() {
+        let dir = tempfile::tempdir().unwrap();
+        let db = Db::open(&dir.path().join("t.db")).unwrap();
+        migrate::apply(&db, || Ok(())).unwrap();
+
+        let generated = generate_token().unwrap();
+        assert_eq!(generated.len(), 64);
+        assert!(generated.bytes().all(|byte| byte.is_ascii_hexdigit()));
+        assert_eq!(get_or_create_token(&db, &generated).unwrap(), generated);
+        assert_eq!(
+            get_or_create_token(&db, "a-different-token").unwrap(),
+            generated
+        );
+    }
+
+    #[tokio::test]
+    async fn books_lists_searches_and_404s() {
+        let (dir, base, _, client, server) = serve_test_router().await;
 
         // Empty query = recent list; the fresh library has none.
         let response = client
@@ -425,8 +677,7 @@ mod tests {
 
     #[tokio::test]
     async fn create_validates_like_the_ipc_surface() {
-        let (dir, base, server) = serve_test_router().await;
-        let client = reqwest::Client::new();
+        let (dir, base, _, client, server) = serve_test_router().await;
 
         // Blank title → the same validation error the wizard gets.
         let response = client
@@ -447,8 +698,7 @@ mod tests {
 
     #[tokio::test]
     async fn enrich_suggests_without_writing() {
-        let (dir, base, server) = serve_test_router().await;
-        let client = reqwest::Client::new();
+        let (dir, base, _, client, server) = serve_test_router().await;
 
         // A malformed ISBN is rejected *locally* (no network, no feasibility).
         let response = client
@@ -507,14 +757,18 @@ mod tests {
         migrate::apply(&db, || Ok(())).unwrap();
         db.write(seed::apply).unwrap();
         let hermes = HermesState::default();
+        let token = Arc::new(RwLock::new(Some("test-token".to_owned())));
 
         assert!(!hermes.running());
-        launch(Arc::new(db), &hermes.inner).await.unwrap();
+        launch(Arc::new(db), Arc::clone(&token), &hermes.inner)
+            .await
+            .unwrap();
         assert!(hermes.running());
         // A second launch is refused.
         assert_eq!(
             launch(
                 Arc::new(Db::open(&dir.path().join("other.db")).unwrap()),
+                token,
                 &hermes.inner
             )
             .await

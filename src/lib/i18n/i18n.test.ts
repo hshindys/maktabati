@@ -125,6 +125,8 @@ describe("error keys", () => {
     // src-tauri/src/commands/hermes.rs — HTTP server toggle failures
     "error.hermes.bind",
     "error.hermes.running",
+    "error.hermes.token.random",
+    "error.settings.secret",
     // frontend-owned: a command invoked with no shell behind it (api.ts, browser preview)
     "error.shell.unavailable",
     // frontend-owned: the read path catching a native invoke failure (api.ts, P0-5)
