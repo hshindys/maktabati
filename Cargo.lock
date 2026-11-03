@@ -2651,11 +2651,13 @@ dependencies = [
 name = "maktabati-backup"
 version = "0.1.0"
 dependencies = [
- "maktabati-domain",
+ "hex",
+ "maktabati-storage",
+ "rusqlite",
  "serde",
  "serde_json",
+ "specta",
  "tempfile",
- "thiserror 2.0.21",
  "tracing",
 ]
 
@@ -2706,12 +2708,10 @@ dependencies = [
 name = "maktabati-notes"
 version = "0.1.0"
 dependencies = [
- "maktabati-domain",
- "serde",
+ "maktabati-storage",
+ "rusqlite",
  "serde_json",
  "tempfile",
- "thiserror 2.0.21",
- "tracing",
 ]
 
 [[package]]

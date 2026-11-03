@@ -1,5 +1,6 @@
 <script lang="ts">
   import { DatabaseBackup, Server, TriangleAlert } from "@lucide/svelte";
+  import { ask } from "@tauri-apps/plugin-dialog";
   import { onMount } from "svelte";
 
   import { locale, translatorFor, type MessageKey } from "../i18n";
@@ -25,10 +26,13 @@
     hermesStart,
     hermesStatus,
     hermesStop,
+    listBackups,
+    restoreBackup,
     setSetting,
+    verifyBackup,
   } from "../api";
   import type { AppErrorDto, AppInfo, LibraryHealth } from "@/bindings";
-  import type { HermesStatus } from "../api";
+  import type { BackupInfo, BackupVerification, HermesStatus } from "../api";
   import { messageFor } from "../errors";
   import { formatNumber } from "../format";
   import { toast } from "../toast";
@@ -88,15 +92,26 @@
   let info = $state<AppInfo | null>(null);
   let infoError = $state<AppErrorDto | null>(null);
   let health = $state<LibraryHealth | null>(null);
-  let healthBusy = $state(false);
+  let creatingBackup = $state(false);
   let hermes = $state<HermesStatus | null>(null);
   let hermesBusy = $state(false);
+  let backups = $state<BackupInfo[]>([]);
+  let backupBusy = $state(false);
+  let verifyingBackup = $state<string | null>(null);
+  let restoringBackup = $state<string | null>(null);
+  let backupReports = $state<Record<string, BackupVerification>>({});
 
   /** Human size for the health card; MB granularity is right for a local database. */
   const sizeOf = (bytes: number): string => {
     const mb = bytes / (1024 * 1024);
     return mb >= 1 ? `${formatNumber(mb, { digits: $preferences.digits })} MB` : `${formatNumber(bytes, { digits: $preferences.digits })} B`;
   };
+  const backupDate = (timestamp: number): string =>
+    new Intl.DateTimeFormat($locale === "ar" ? "ar" : "en", {
+      dateStyle: "medium",
+      timeStyle: "short",
+      numberingSystem: $preferences.digits === "western" ? "latn" : "arab",
+    }).format(timestamp);
 
   async function reloadInfo(): Promise<void> {
     const res = await getAppInfo();
@@ -109,10 +124,8 @@
   }
 
   async function reloadHealth(): Promise<void> {
-    healthBusy = true;
     const res = await getLibraryHealth();
     health = res.status === "ok" ? res.data : null;
-    healthBusy = false;
   }
 
   async function reloadHermes(): Promise<void> {
@@ -121,9 +134,64 @@
   }
 
   async function runBackup(): Promise<void> {
+    creatingBackup = true;
     const res = await backupLibrary();
-    if (res.status === "ok") toast.success(t("toast.backupDone"));
-    else toast.error(messageFor(res.error, t));
+    if (res.status === "ok") {
+      toast.success(t("toast.backupDone"));
+      await reloadBackups();
+    } else toast.error(messageFor(res.error, t));
+    creatingBackup = false;
+  }
+
+  async function reloadBackups(): Promise<void> {
+    backupBusy = true;
+    const res = await listBackups();
+    if (res.status === "ok") {
+      backups = res.data;
+      backupReports = {};
+    } else {
+      toast.error(messageFor(res.error, t));
+    }
+    backupBusy = false;
+  }
+
+  async function verifySavedBackup(backup: BackupInfo): Promise<void> {
+    verifyingBackup = backup.path;
+    const res = await verifyBackup(backup.path);
+    if (res.status === "ok") {
+      backupReports[backup.path] = res.data;
+    } else {
+      toast.error(messageFor(res.error, t));
+    }
+    verifyingBackup = null;
+  }
+
+  async function restoreSavedBackup(backup: BackupInfo): Promise<void> {
+    let confirmed = false;
+    try {
+      confirmed = await ask(
+        t("settings.backups.restoreConfirm", {
+          backup: backup.name,
+          database: info?.db_path ?? "library.db",
+        }),
+        { kind: "warning" },
+      );
+    } catch (error) {
+      console.error("Backup restore confirmation dialog failed", error);
+      toast.error(t("transfer.dialog.failed"));
+      return;
+    }
+    if (!confirmed) return;
+
+    restoringBackup = backup.path;
+    const res = await restoreBackup(backup.path);
+    if (res.status === "ok") {
+      toast.success(t("settings.backups.restored", { path: res.data.safety_snapshot }));
+      await Promise.all([reloadBackups(), reloadHealth(), reloadInfo()]);
+    } else {
+      toast.error(messageFor(res.error, t));
+    }
+    restoringBackup = null;
   }
 
   async function toggleHermes(): Promise<void> {
@@ -148,6 +216,7 @@
     void reloadInfo();
     void reloadHealth();
     void reloadHermes();
+    void reloadBackups();
   });
 
   let heading = "section";
@@ -293,7 +362,12 @@
         <DatabaseBackup class="size-5 shrink-0 text-ink-3 no-mirror" strokeWidth={1.75} />
         {t("settings.storage")}
       </h2>
-      <Button variant="secondary" loading={healthBusy && health === null} onclick={() => void runBackup()}>
+      <Button
+        variant="secondary"
+        loading={creatingBackup}
+        disabled={creatingBackup || restoringBackup !== null}
+        onclick={() => void runBackup()}
+      >
         {t("settings.backupNow")}
       </Button>
     </div>
@@ -328,6 +402,65 @@
         </p>
       {/if}
       <p class="mt-[var(--sp-2)] text-[var(--fs-sm)] text-ink-3">{t("settings.backupDone")}</p>
+      <div class="mt-[var(--sp-5)] border-t border-border-1 pt-[var(--sp-4)]">
+        <div class="mb-[var(--sp-3)] flex items-center justify-between gap-[var(--sp-3)]">
+          <h3 class="text-[var(--fs-base)] font-medium">{t("settings.backups.title")}</h3>
+          <Button variant="ghost" loading={backupBusy} onclick={() => void reloadBackups()}>
+            {t("settings.health.rerun")}
+          </Button>
+        </div>
+        {#if backups.length === 0}
+          <p class="text-[var(--fs-sm)] text-ink-3">
+            {backupBusy ? t("common.loading") : t("settings.backups.empty")}
+          </p>
+        {:else}
+          <ul class="flex flex-col gap-[var(--sp-3)]">
+            {#each backups as backup (backup.path)}
+              <li class="rounded-[var(--r-md)] border border-border-1 bg-surface-1 p-[var(--sp-3)]">
+                <div class="flex flex-wrap items-start justify-between gap-[var(--sp-3)]">
+                  <div class="min-w-0 flex-1">
+                    <p class="break-all text-[var(--fs-sm)] font-medium text-ink-1" dir="auto">{backup.name}</p>
+                    <p class="mt-1 text-[var(--fs-xs)] text-ink-3">
+                      {t("settings.backups.size")}: {sizeOf(backup.size_bytes)}
+                      ·
+                      {t("settings.backups.modified")}: {backupDate(backup.modified_at_ms)}
+                    </p>
+                  </div>
+                  <div class="flex flex-wrap gap-[var(--sp-2)]">
+                    <Button
+                      variant="secondary"
+                      loading={verifyingBackup === backup.path}
+                      disabled={verifyingBackup !== null || restoringBackup !== null}
+                      onclick={() => void verifySavedBackup(backup)}
+                    >
+                      {t("settings.backups.verify")}
+                    </Button>
+                    <Button
+                      variant="secondary"
+                      loading={restoringBackup === backup.path}
+                      disabled={restoringBackup !== null || verifyingBackup !== null}
+                      onclick={() => void restoreSavedBackup(backup)}
+                    >
+                      {t("settings.backups.restore")}
+                    </Button>
+                  </div>
+                </div>
+                {#if backupReports[backup.path] !== undefined}
+                  {@const report = backupReports[backup.path]}
+                  <p
+                    class="mt-[var(--sp-2)] text-[var(--fs-sm)] {report.valid ? 'text-success' : 'text-danger'}"
+                    role="status"
+                  >
+                    {report.valid ? t("settings.backups.valid") : t("settings.backups.invalid")}
+                    · {report.integrity}
+                    · {t("settings.about.schema")}: {report.schema_version ?? "—"}
+                  </p>
+                {/if}
+              </li>
+            {/each}
+          </ul>
+        {/if}
+      </div>
     {/if}
   </Card>
 

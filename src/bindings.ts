@@ -88,6 +88,20 @@ Json[] |
 	 *  [`AppErrorDto`] when the backups directory cannot be created or the backup fails.
 	 */
 	backupLibrary: () => typedError<string, AppErrorDto>(__TAURI_INVOKE("backup_library")),
+	/**  List saved SQLite backups. */
+	backupList: () => typedError<BackupInfo[], AppErrorDto>(__TAURI_INVOKE("backup_list")),
+	/**  Check SQLite integrity and schema compatibility of a saved backup. */
+	backupVerify: (path: string) => typedError<BackupVerification, AppErrorDto>(__TAURI_INVOKE("backup_verify", { path })),
+	/**  Restore a verified backup and report the automatic pre-restore safety snapshot. */
+	backupRestore: (path: string) => typedError<RestoreResult, AppErrorDto>(__TAURI_INVOKE("backup_restore", { path })),
+	/**  Export the complete library as a portable JSON file. */
+	libraryExportJson: (path: string) => typedError<string, AppErrorDto>(__TAURI_INVOKE("library_export_json", { path })),
+	/**  Export every application table as an individual CSV in a new directory. */
+	libraryExportCsv: (parent: string) => typedError<string, AppErrorDto>(__TAURI_INVOKE("library_export_csv", { parent })),
+	/**  Replace the current library with a compatible portable JSON export. */
+	libraryImportJson: (path: string) => typedError<null, AppErrorDto>(__TAURI_INVOKE("library_import_json", { path })),
+	/**  Export every note page and block as Markdown. */
+	notesExportMarkdown: (path: string) => typedError<string, AppErrorDto>(__TAURI_INVOKE("notes_export_markdown", { path })),
 	/**
 	 *  Suggest book metadata for an ISBN, straight from Open Library.
 	 * 
@@ -1000,6 +1014,34 @@ export type AuthorInput = {
 /**  Role an author plays on a book (Calibre-style multi-role credits). */
 export type AuthorRole = "author" | "translator" | "editor" | "illustrator" | "foreword" | "other";
 
+/**  A backup file found in the app's backup directory. */
+export type BackupInfo = {
+	/**  Path passed back to verify/restore. */
+	path: string,
+	/**  File name for display. */
+	name: string,
+	/**  File size in bytes. */
+	size_bytes: number,
+	/**  Modification time in epoch milliseconds. */
+	modified_at_ms: number,
+};
+
+/**  Result of checking a backup file. */
+export type BackupVerification = {
+	/**  Original path of the candidate backup. */
+	path: string,
+	/**  `PRAGMA integrity_check` result. */
+	integrity: string,
+	/**  Whether SQLite reports exactly `ok`. */
+	integrity_ok: boolean,
+	/**  Schema migration version stored in the backup, or `None` when absent. */
+	schema_version: number | null,
+	/**  Whether the schema version matches the current application. */
+	schema_compatible: boolean,
+	/**  Overall restore readiness. */
+	valid: boolean,
+};
+
 /**  A book record — the library's aggregate root. */
 export type Book = {
 	/**  UUID v7. */
@@ -1699,6 +1741,14 @@ export type QuoteWithBook = {
  *  abandoned — Hard Cover's "did not finish" maps to `Abandoned`).
  */
 export type ReadingStatus = "to_read" | "reading" | "finished" | "paused" | "abandoned";
+
+/**  Result of a successful restore. */
+export type RestoreResult = {
+	/**  Path of the automatic pre-restore safety snapshot. */
+	safety_snapshot: string,
+	/**  Schema version now active in the database. */
+	schema_version: number,
+};
 
 /**
  *  A book series (السلسلة).

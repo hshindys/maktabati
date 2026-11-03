@@ -3,8 +3,8 @@
 //! `rusqlite` is synchronous by design (ADR-0005), so **this crate never blocks an async
 //! runtime** — `src-tauri` calls it from `spawn_blocking` (ADR-0010).
 
-use std::path::Path;
-use std::sync::{Condvar, Mutex};
+use std::path::{Path, PathBuf};
+use std::sync::{Condvar, Mutex, RwLock};
 
 use rusqlite::{Connection, OpenFlags};
 
@@ -42,6 +42,9 @@ pub struct Db {
     free: Mutex<Vec<Connection>>,
     available: Condvar,
     write_gate: Mutex<()>,
+    maintenance: RwLock<()>,
+    path: Option<PathBuf>,
+    pool_size: usize,
     in_memory: bool,
 }
 
@@ -76,6 +79,9 @@ impl Db {
                 free: Mutex::new(vec![conn]),
                 available: Condvar::new(),
                 write_gate: Mutex::new(()),
+                maintenance: RwLock::new(()),
+                path: None,
+                pool_size: 1,
                 in_memory: true,
             });
         }
@@ -85,23 +91,16 @@ impl Db {
         }
 
         let size = opts.pool_size.max(1);
-        let mut conns = Vec::with_capacity(size);
-        for _ in 0..size {
-            let conn = Connection::open_with_flags(
-                path,
-                OpenFlags::SQLITE_OPEN_READ_WRITE
-                    | OpenFlags::SQLITE_OPEN_CREATE
-                    | OpenFlags::SQLITE_OPEN_FULL_MUTEX
-                    | OpenFlags::SQLITE_OPEN_URI,
-            )?;
-            apply_pragmas(&conn, false)?;
-            conns.push(conn);
-        }
+        let conns = open_connections(path, size, true)?;
+        let canonical_path = std::fs::canonicalize(path)?;
 
         Ok(Self {
             free: Mutex::new(conns),
             available: Condvar::new(),
             write_gate: Mutex::new(()),
+            maintenance: RwLock::new(()),
+            path: Some(canonical_path),
+            pool_size: size,
             in_memory: false,
         })
     }
@@ -120,6 +119,7 @@ impl Db {
     /// longer than the configured busy timeout (in practice this cannot happen, since the pool
     /// hands out connections without an internal timeout — it exists to keep call sites total).
     pub fn read<T>(&self, f: impl FnOnce(&Connection) -> Result<T>) -> Result<T> {
+        let _maintenance = self.maintenance.read().unwrap_or_else(|e| e.into_inner());
         let conn = self.take()?;
         let out = f(&conn);
         self.give(conn);
@@ -134,6 +134,7 @@ impl Db {
     ///
     /// Whatever the closure returns.
     pub fn write<T>(&self, f: impl FnOnce(&Connection) -> Result<T>) -> Result<T> {
+        let _maintenance = self.maintenance.read().unwrap_or_else(|e| e.into_inner());
         let gate = self.write_gate.lock().unwrap_or_else(|e| e.into_inner());
         let conn = self.take()?;
         let out = f(&conn);
@@ -151,6 +152,7 @@ impl Db {
     ///
     /// Whatever the closure returns, plus [`crate::StorageError::Sqlite`] on commit/rollback failure.
     pub fn transact<T>(&self, f: impl FnOnce(&Connection) -> Result<T>) -> Result<T> {
+        let _maintenance = self.maintenance.read().unwrap_or_else(|e| e.into_inner());
         let gate = self.write_gate.lock().unwrap_or_else(|e| e.into_inner());
         let conn = self.take()?;
 
@@ -184,6 +186,7 @@ impl Db {
     /// [`crate::StorageError::Sqlite`] when the destination cannot be created or the copy fails;
     /// [`crate::StorageError::Io`] when the destination's parent directory cannot be created.
     pub fn backup_to(&self, dest: &Path) -> Result<()> {
+        let _maintenance = self.maintenance.read().unwrap_or_else(|e| e.into_inner());
         if let Some(parent) = dest.parent() {
             std::fs::create_dir_all(parent)?;
         }
@@ -198,6 +201,200 @@ impl Db {
         self.give(source);
         drop(gate);
         result
+    }
+
+    /// Atomically replace this file-backed database from `source`.
+    ///
+    /// A consistent safety snapshot is created before the pool is quiesced. The replacement is
+    /// staged and integrity-checked first; then all pool connections are closed while the
+    /// maintenance lock excludes readers and writers. If swapping or reopening the new pool
+    /// fails, the original database file is restored and its connections are reopened.
+    ///
+    /// The caller is responsible for validating the source schema version before calling.
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if snapshotting, staging, swapping, or recovery fails.
+    pub fn replace_from(&self, source: &Path, safety_snapshot: &Path) -> Result<()> {
+        let Some(db_path) = self.path.as_deref() else {
+            return Err(crate::StorageError::Migration(
+                "an in-memory database cannot be replaced".to_owned(),
+            ));
+        };
+        let source_path = std::fs::canonicalize(source)?;
+        let db_path = std::fs::canonicalize(db_path)?;
+        if source_path == db_path {
+            return Err(crate::StorageError::Migration(
+                "restore source must be a separate file".to_owned(),
+            ));
+        }
+
+        let safety_parent = safety_snapshot
+            .parent()
+            .filter(|parent| !parent.as_os_str().is_empty())
+            .unwrap_or_else(|| Path::new("."));
+        std::fs::create_dir_all(safety_parent)?;
+        let safety_name = safety_snapshot.file_name().ok_or_else(|| {
+            crate::StorageError::Migration("safety snapshot path has no file name".to_owned())
+        })?;
+        let safety_path = std::fs::canonicalize(safety_parent)?.join(safety_name);
+        if safety_path == db_path || safety_path == source_path {
+            return Err(crate::StorageError::Migration(
+                "safety snapshot must be separate from the current database and restore source"
+                    .to_owned(),
+            ));
+        }
+
+        let _maintenance = self.maintenance.write().unwrap_or_else(|e| e.into_inner());
+        let _write_gate = self.write_gate.lock().unwrap_or_else(|e| e.into_inner());
+        let mut free = self.free.lock().unwrap_or_else(|e| e.into_inner());
+        if free.len() != self.pool_size {
+            return Err(crate::StorageError::Busy);
+        }
+        match std::fs::symlink_metadata(safety_snapshot) {
+            Ok(_) => {
+                return Err(crate::StorageError::Migration(format!(
+                    "safety snapshot already exists: {}",
+                    safety_snapshot.display()
+                )));
+            }
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+            Err(error) => return Err(error.into()),
+        }
+        let snapshot_result = (|| -> Result<()> {
+            let source = free.first().ok_or(crate::StorageError::Busy)?;
+            let mut destination = Connection::open(safety_snapshot)?;
+            let backup = rusqlite::backup::Backup::new(source, &mut destination)?;
+            backup.run_to_completion(100, std::time::Duration::from_millis(5), None)?;
+            Ok(())
+        })();
+        if let Err(error) = snapshot_result {
+            remove_if_exists(safety_snapshot)?;
+            return Err(error);
+        }
+
+        let name = db_path
+            .file_name()
+            .map(|name| name.to_string_lossy().into_owned())
+            .unwrap_or_else(|| "library.db".to_owned());
+        let suffix = format!("{}-{}", std::process::id(), now_ms());
+        let candidate = db_path.with_file_name(format!("{name}.restore-{suffix}.tmp"));
+        let rollback = db_path.with_file_name(format!("{name}.rollback-{suffix}.db"));
+        if candidate.exists() || rollback.exists() {
+            return Err(crate::StorageError::Migration(
+                "temporary restore path already exists".to_owned(),
+            ));
+        }
+
+        let prepare_result = (|| -> Result<()> {
+            let source = Connection::open_with_flags(
+                source,
+                OpenFlags::SQLITE_OPEN_READ_ONLY
+                    | OpenFlags::SQLITE_OPEN_FULL_MUTEX
+                    | OpenFlags::SQLITE_OPEN_URI,
+            )?;
+            let mut destination = Connection::open(&candidate)?;
+            let backup = rusqlite::backup::Backup::new(&source, &mut destination)?;
+            backup.run_to_completion(100, std::time::Duration::from_millis(5), None)?;
+            drop(backup);
+            drop(destination);
+
+            let staged = Connection::open_with_flags(
+                &candidate,
+                OpenFlags::SQLITE_OPEN_READ_ONLY
+                    | OpenFlags::SQLITE_OPEN_FULL_MUTEX
+                    | OpenFlags::SQLITE_OPEN_URI,
+            )?;
+            let integrity: String =
+                staged.query_row("PRAGMA integrity_check", [], |row| row.get(0))?;
+            if integrity != "ok" {
+                return Err(crate::StorageError::Migration(format!(
+                    "restore source failed integrity_check: {integrity}"
+                )));
+            }
+            Ok(())
+        })();
+        if let Err(error) = prepare_result {
+            remove_if_exists(&candidate)?;
+            return Err(error);
+        }
+
+        let Some(connection) = free.first() else {
+            remove_if_exists(&candidate)?;
+            return Err(crate::StorageError::Busy);
+        };
+        let checkpoint_result =
+            connection.query_row("PRAGMA wal_checkpoint(TRUNCATE)", [], |row| {
+                Ok((row.get(0)?, row.get(1)?, row.get(2)?))
+            });
+        let checkpoint: (i64, i64, i64) = match checkpoint_result {
+            Ok(checkpoint) => checkpoint,
+            Err(error) => {
+                remove_if_exists(&candidate)?;
+                return Err(error.into());
+            }
+        };
+        if checkpoint.0 != 0 {
+            remove_if_exists(&candidate)?;
+            return Err(crate::StorageError::Busy);
+        }
+
+        drop(std::mem::take(&mut *free));
+        let swap_result = (|| -> Result<Vec<Connection>> {
+            remove_if_exists(&sidecar_path(&db_path, "-wal"))?;
+            remove_if_exists(&sidecar_path(&db_path, "-shm"))?;
+            std::fs::rename(&db_path, &rollback)?;
+            if let Err(error) = std::fs::rename(&candidate, &db_path) {
+                std::fs::rename(&rollback, &db_path)?;
+                return Err(error.into());
+            }
+            open_connections(&db_path, self.pool_size, false)
+        })();
+
+        match swap_result {
+            Ok(connections) => {
+                *free = connections;
+                if let Err(error) = std::fs::remove_file(&rollback) {
+                    tracing::warn!(
+                        path = %rollback.display(),
+                        %error,
+                        "could not remove post-restore rollback file"
+                    );
+                }
+                Ok(())
+            }
+            Err(error) => {
+                free.clear();
+                let rollback_result = if rollback.exists() {
+                    remove_if_exists(&db_path)
+                        .and_then(|()| remove_if_exists(&sidecar_path(&db_path, "-wal")))
+                        .and_then(|()| remove_if_exists(&sidecar_path(&db_path, "-shm")))
+                        .and_then(|()| std::fs::rename(&rollback, &db_path).map_err(Into::into))
+                } else {
+                    Ok(())
+                };
+                let recovery_error = rollback_result.err();
+                match open_connections(&db_path, self.pool_size, false) {
+                    Ok(connections) => {
+                        *free = connections;
+                        if let Some(recovery_error) = recovery_error {
+                            Err(crate::StorageError::Migration(format!(
+                                "restore failed: {error}; rollback failed: {recovery_error}"
+                            )))
+                        } else {
+                            Err(error)
+                        }
+                    }
+                    Err(reopen_error) => Err(crate::StorageError::Migration(format!(
+                        "restore failed: {error}; database recovery failed: {}",
+                        recovery_error.map_or_else(
+                            || reopen_error.to_string(),
+                            |recovery| format!("{recovery}; {reopen_error}")
+                        )
+                    ))),
+                }
+            }
+        }
     }
 
     fn take(&self) -> Result<Connection> {
@@ -235,6 +432,38 @@ fn apply_pragmas(conn: &Connection, in_memory: bool) -> Result<()> {
         conn.pragma_update(None, "mmap_size", 268_435_456i64)?;
     }
     Ok(())
+}
+
+fn open_connections(path: &Path, pool_size: usize, create: bool) -> Result<Vec<Connection>> {
+    let mut connections = Vec::with_capacity(pool_size);
+    for _ in 0..pool_size {
+        let mut flags = OpenFlags::SQLITE_OPEN_READ_WRITE
+            | OpenFlags::SQLITE_OPEN_FULL_MUTEX
+            | OpenFlags::SQLITE_OPEN_URI;
+        if create {
+            flags |= OpenFlags::SQLITE_OPEN_CREATE;
+        }
+        let connection = Connection::open_with_flags(path, flags)?;
+        apply_pragmas(&connection, false)?;
+        connections.push(connection);
+    }
+    Ok(connections)
+}
+
+fn sidecar_path(path: &Path, suffix: &str) -> PathBuf {
+    let mut name = path
+        .file_name()
+        .map_or_else(|| std::ffi::OsString::from("library.db"), ToOwned::to_owned);
+    name.push(suffix);
+    path.with_file_name(name)
+}
+
+fn remove_if_exists(path: &Path) -> Result<()> {
+    match std::fs::remove_file(path) {
+        Ok(()) => Ok(()),
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(()),
+        Err(error) => Err(error.into()),
+    }
 }
 
 /// Current time as epoch milliseconds UTC — the single clock used by every table.
@@ -288,6 +517,72 @@ mod tests {
             Ok(())
         })
         .unwrap();
+    }
+
+    #[test]
+    fn replace_from_swaps_database_and_keeps_a_safety_snapshot() {
+        let dir = tempfile::tempdir().unwrap();
+        let target_path = dir.path().join("library.db");
+        let source_path = dir.path().join("backup.db");
+        let safety_path = dir.path().join("safety.db");
+        let db = Db::open(&target_path).unwrap();
+        db.write(|connection| {
+            connection.execute_batch("CREATE TABLE marker (value TEXT NOT NULL)")?;
+            connection.execute("INSERT INTO marker VALUES ('before')", [])?;
+            Ok(())
+        })
+        .unwrap();
+        {
+            let source = Connection::open(&source_path).unwrap();
+            source
+                .execute_batch("CREATE TABLE marker (value TEXT NOT NULL)")
+                .unwrap();
+            source
+                .execute("INSERT INTO marker VALUES ('restored')", [])
+                .unwrap();
+        }
+
+        db.replace_from(&source_path, &safety_path).unwrap();
+
+        db.read(|connection| {
+            let value: String =
+                connection.query_row("SELECT value FROM marker", [], |row| row.get(0))?;
+            assert_eq!(value, "restored");
+            Ok(())
+        })
+        .unwrap();
+        let safety = Connection::open(safety_path).unwrap();
+        let value: String = safety
+            .query_row("SELECT value FROM marker", [], |row| row.get(0))
+            .unwrap();
+        assert_eq!(value, "before");
+    }
+
+    #[test]
+    fn replace_from_invalid_database_keeps_current_database_usable() {
+        let dir = tempfile::tempdir().unwrap();
+        let target_path = dir.path().join("library.db");
+        let source_path = dir.path().join("invalid.db");
+        let safety_path = dir.path().join("safety.db");
+        let db = Db::open(&target_path).unwrap();
+        db.write(|connection| {
+            connection.execute_batch("CREATE TABLE marker (value TEXT NOT NULL)")?;
+            connection.execute("INSERT INTO marker VALUES ('before')", [])?;
+            Ok(())
+        })
+        .unwrap();
+        std::fs::write(&source_path, b"not a sqlite database").unwrap();
+
+        assert!(db.replace_from(&source_path, &safety_path).is_err());
+
+        db.read(|connection| {
+            let value: String =
+                connection.query_row("SELECT value FROM marker", [], |row| row.get(0))?;
+            assert_eq!(value, "before");
+            Ok(())
+        })
+        .unwrap();
+        assert!(safety_path.exists());
     }
 
     #[test]

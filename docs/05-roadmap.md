@@ -21,14 +21,14 @@ commits before moving on. Effort is estimated in focused engineering days for on
 | **1** | Planning & architecture docs + ADRs | 2 d | ✅ |
 | **2** | Workspace scaffold, CI, design system, app shell, i18n/RTL, DB + migrations + seed | 4 d | ✅ |
 | **3** | CRUD for books/authors/publishers/categories/tags + add-book wizard | 4 d | ✅ |
-| **4** | Metadata lookup, duplicate detection, import/export | 3 d | ⬜ |
+| **4** | Metadata lookup, duplicate detection, import/export | 3 d | 🚧 |
 | **5** | Library browser, filters, shelves, command palette, Arabic-aware search | 4 d | ⬜ |
 | **6** | Per-book page: overview, status/progress, reading sessions, related | 3 d | ⬜ |
 | **7** | Notes workspace (blocks, sub-pages, templates, backlinks, autosave, export) | 5 d | ⬜ |
 | **8** | Files, folder scanning, PDF/EPUB readers, highlights → quotes, position sync | 5 d | ⬜ |
 | **9** | Rubric ratings, reviews, quotes, aggregates per author/publisher | 3 d | ⬜ |
 | **10** | Dashboard, charts, goals, heatmap, lending tracker | 4 d | ⬜ |
-| **11** | Backups/restore, app lock, settings, accessibility + performance pass | 3 d | ⬜ |
+| **11** | Backups/restore, app lock, settings, accessibility + performance pass | 3 d | 🚧 |
 | **12** | Packaging, installers, auto-update, final docs, release candidate | 3 d | ⬜ |
 | | **Total** | **~45 d** | |
 
@@ -159,6 +159,8 @@ cover fetch), duplicate detection + **merge flow**, folder scan from embedded me
 CSV/JSON import with **column-mapping step** + preview, Goodreads + Calibre import, export.
 
 **Acceptance criteria**
+- [x] Full database export to JSON and per-table CSV; notes export to Markdown
+- [x] Compatible JSON import replaces the library atomically after a safety snapshot; export → import round-trip test
 - [ ] `metadata` unit tests pass against **wiremock** (success, 404, 429 + `Retry-After`, offline,
       malformed JSON, cache hit, negative-cache TTL)
 - [ ] Rate limiter proven by a test that fires N requests and asserts the schedule
@@ -299,6 +301,8 @@ due/overdue reminders; activity log surface.
 audit.
 
 **Acceptance criteria**
+- [x] Saved backups can be listed and checked with SQLite integrity plus migration compatibility
+- [x] Restore stages a verified database, saves a pre-restore snapshot, and rolls back on swap/reopen failure
 - [ ] Backup round-trip test: create → corrupt a byte → verify **fails** → restore refuses;
       create → restore into a clean dir → data identical (row-count + checksums)
 - [ ] Pre-migration backup fires automatically (test: migration on a populated DB creates an archive)

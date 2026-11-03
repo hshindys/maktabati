@@ -7,6 +7,7 @@
 //! also generates the TypeScript contract into `src/bindings.ts`. A CI drift gate fails the
 //! build when the Rust surface changes without the generated file being refreshed (ADR-0002).
 
+pub mod backup;
 pub mod catalogue;
 pub mod cover;
 pub mod enrich;

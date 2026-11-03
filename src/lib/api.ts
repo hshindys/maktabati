@@ -442,6 +442,21 @@ export type { NotePage, NoteBlock, NoteBlockType } from "@/bindings";
 
 /** Write a verified SQLite copy into `backups/manual-<stamp>.db`; returns the absolute path. */
 export const backupLibrary = () => run((c) => c.backupLibrary());
+/** List the application's saved SQLite backups. */
+export const listBackups = () => run((c) => c.backupList());
+/** Verify a saved backup's SQLite integrity and schema compatibility. */
+export const verifyBackup = (path: string) => run((c) => c.backupVerify(path));
+/** Restore a saved backup, returning the safety snapshot path. */
+export const restoreBackup = (path: string) => run((c) => c.backupRestore(path));
+/** Export the full database to a portable JSON file. */
+export const exportLibraryJson = (path: string) => run((c) => c.libraryExportJson(path));
+/** Export one CSV per application table beneath the chosen parent directory. */
+export const exportLibraryCsv = (parent: string) => run((c) => c.libraryExportCsv(parent));
+/** Replace the library from a portable JSON export. */
+export const importLibraryJson = (path: string) => run((c) => c.libraryImportJson(path));
+/** Export all note pages and blocks as Markdown. */
+export const exportNotesMarkdown = (path: string) => run((c) => c.notesExportMarkdown(path));
+export type { BackupInfo, BackupVerification, RestoreResult } from "@/bindings";
 
 // ── Enrichment (Open Library suggestions) ────────────────────────────────────────────────
 

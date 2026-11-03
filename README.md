@@ -8,7 +8,7 @@
 
 ## Status
 
-In active development. Milestones `M0`–`M3` are complete: research and specs, the domain/storage core, the Tauri shell, and the catalogue — 50 backend commands plus the four-step add-book wizard (live ISBN validation, duplicate warning, draft persistence). Cover ingest is not part of M3; it moves to the `files` crate in M8. The remaining screens and importers are landing milestone by milestone. See [`docs/05-roadmap.md`](docs/05-roadmap.md) for what is done and what is next.
+In active development. Milestones `M0`–`M3` are complete: research and specs, the domain/storage core, the Tauri shell, and the catalogue — 91 typed backend commands plus the four-step add-book wizard (live ISBN validation, duplicate warning, draft persistence). Manual backups can be listed, verified and safely restored; the library can be exported to JSON or per-table CSV, and notes to Markdown. Cover ingest is not part of M3; it moves to the `files` crate in M8. See [`docs/05-roadmap.md`](docs/05-roadmap.md) for what is done and what is next.
 
 ## Why
 
@@ -32,15 +32,17 @@ crates/
   ├── search/         FTS5 index + Arabic normalization              (planned — M5)
   ├── metadata/       Open Library / Google Books, rate-limited      (planned — M4)
   ├── files/          attachment import, dedupe, cover extraction    (planned — M8)
-  ├── notes/          block-based notes, backlinks, Markdown export  (planned — M7)
+  ├── notes/          Markdown export codec; notes workspace          (in progress — M7)
   ├── stats/          aggregates, heatmap, goals                     (planned — M10)
-  └── backup/         snapshot, verify, restore                      (planned — M11)
+  └── backup/         snapshot, verify, restore, JSON/CSV transfer    (in progress — M11)
 src/                  Svelte 5 + TS + Tailwind v4 (no domain logic)
 ```
 
 The crates marked **planned** are scaffolded (an empty `lib.rs` and a `Cargo.toml` so the
-workspace builds) but carry no logic yet — each lands with its milestone. `domain`, `storage`
-and the `src-tauri` command surface are the ones that are built and tested today.
+workspace builds) but carry no logic yet — each lands with its milestone. `domain`, `storage`,
+the backup/transfer core, and the `src-tauri` command surface are built and tested; the notes
+crate currently owns the Markdown export codec while the broader notes workspace remains in
+progress.
 
 Key decisions are recorded as ADRs in [`docs/adr/`](docs/adr/):
 
@@ -113,7 +115,7 @@ The library lives in the OS application-data directory for `com.maktabati.deskto
 
 Inside: `library.db` (SQLite, WAL), `covers/`, `files/`, `backups/`, `logs/`.
 
-A backup is taken automatically **before every schema migration** and the migration is aborted if that backup fails.
+A backup is taken automatically **before every schema migration** and the migration is aborted if that backup fails. Manual backups are also available in Settings → Storage; restore verifies integrity and schema compatibility, creates a safety snapshot, then swaps the database with rollback on failure. Full JSON and per-table CSV exports are available from Import / Export.
 
 ## Contributing
 

@@ -8,6 +8,17 @@ All notable changes to Maktabati are documented here. Format loosely follows
 Everything below is one working session across the OPENCODE-BRIEF phase list
 (Phases 0–5). Left uncommitted on purpose.
 
+### Task 1 — Backup restore and export
+
+- **Backups**: Settings lists saved `.db` backups and can verify SQLite integrity and
+  migration compatibility before restoring. Restore takes a safety snapshot, stages and
+  checks the replacement, atomically swaps the database, and rolls back if reopening fails.
+- **Transfer**: the Import / Export screen exports every application table to portable JSON
+  or per-table CSV, exports note pages and blocks to Markdown, and imports compatible JSON
+  with a safety snapshot and atomic transaction.
+- Added round-trip, integrity, restore-safety and Markdown-rendering tests; registered and
+  regenerated the typed Tauri command bindings.
+
 ### Phase 1 — Dead buttons fixed
 
 - **BookPage**: real **edit** (`book_update` via a new `BookEdit` modal) and **delete**

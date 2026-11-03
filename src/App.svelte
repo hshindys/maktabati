@@ -14,6 +14,7 @@
   import Placeholder from "./lib/views/Placeholder.svelte";
   import AddBook from "./lib/views/AddBook.svelte";
   import ImportView from "./lib/views/Import.svelte";
+  import TransferView from "./lib/views/Transfer.svelte";
   import QuotesView from "./lib/views/Quotes.svelte";
   import AuthorsView from "./lib/views/Authors.svelte";
   import PublishersView from "./lib/views/Publishers.svelte";
@@ -77,6 +78,8 @@
             <QuotesView />
           {:else if currentPath === "/import"}
             <ImportView />
+          {:else if currentPath === "/transfer"}
+            <TransferView />
           {:else if currentPath === "/authors"}
             <AuthorsView />
           {:else if currentPath === "/publishers"}
