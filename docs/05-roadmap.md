@@ -182,18 +182,26 @@ CSV/JSON import with **column-mapping step** + preview, Goodreads + Calibre impo
 reindex), virtualized grid/list/table, filter bar, sorting, saved static + **smart shelves**,
 command palette, global search across books/authors/publishers/notes/quotes.
 
+**Task 2 delivered:** migration 0004 and one-time Arabic-normalized backfill; transactional
+book/note/quote/author FTS indexes; a bounded server-side search command; the debounced Ctrl+K
+palette; and Hermes book queries sharing the indexed implementation. The full M5 milestone remains
+in progress because query syntax, publisher entity results, virtualization, and shelves remain.
+
 **Acceptance criteria**
-- [ ] **Property tests:** normalization idempotence; alef/hamza/ya/ta-marbuta/tashkeel/tatweel
-      variants match; mixed Arabic+English queries; 40+ Arabic fixtures
+- [x] Search tests cover diacritics, alef/yaa/taa-marbuta folding, and mixed Arabic+English
+- [ ] **Property tests:** normalization idempotence plus 40+ Arabic fixtures
 - [ ] Query parser tests: `title:`, `rating:>=3`, `tag:x`, `#custom:`, quotes, AND/OR/NOT
+- [x] 5,000 seeded books → search query below **100 ms** in the integration test
 - [ ] `search` integration: 50k seeded books → **p95 < 100 ms** benchmark asserted in CI
 - [ ] Grid scrolls at 60 fps with 50k rows (virtualized; only visible page crosses IPC)
 - [ ] Saved shelves round-trip (`query_json` v1) and re-evaluate live
-- [ ] Palette returns merged, categorized results with keyboard navigation
-- [ ] `search::reindex_all()` maintenance path tested after stemming toggle
+- [x] Palette returns mixed book/note/quote/author results with keyboard navigation
+- [x] One-time startup reindex applies normalized projections to existing records
+- [ ] `search::reindex_all()` maintenance path tested after normalization-setting changes
 - [ ] All gates pass
 
-**Risks:** FTS5 prefix-token latency while typing → only the final token is prefixed; debounce 150 ms.
+**Risks:** FTS5 prefix-token latency while typing → the palette debounces by 150 ms and caps each
+request at eight results; the 50k performance target still needs measurement.
 
 ---
 

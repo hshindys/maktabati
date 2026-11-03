@@ -2,7 +2,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { AppErrorDto } from "@/bindings";
-import { EMPTY_SUMMARY, getLibrarySummary } from "./api";
+import { EMPTY_SUMMARY, getLibrarySummary, searchLibrary } from "./api";
 
 /**
  * The read path must never lie (P0-5): a backend failure arrives as `{ status: "error" }`
@@ -11,8 +11,9 @@ import { EMPTY_SUMMARY, getLibrarySummary } from "./api";
  */
 
 const librarySummary = vi.fn();
+const search = vi.fn();
 
-vi.mock("@/bindings", () => ({ commands: { librarySummary } }));
+vi.mock("@/bindings", () => ({ commands: { librarySummary, search } }));
 vi.mock("@tauri-apps/api/window", () => ({ getCurrentWindow: () => ({}) }));
 
 const ERR: AppErrorDto = {
@@ -24,6 +25,32 @@ const ERR: AppErrorDto = {
 
 beforeEach(() => {
   librarySummary.mockReset();
+  search.mockReset();
+});
+
+describe("searchLibrary", () => {
+  it("uses the indexed search command with a bounded result count", async () => {
+    const data = [
+      {
+        kind: "book",
+        id: "book-1",
+        title: "مقدمة",
+        detail: null,
+        book_id: null,
+        status: "reading",
+      },
+    ];
+    search.mockResolvedValue({ status: "ok", data });
+    const res = await searchLibrary("مُقَدِّمَة", 8);
+
+    expect(search).toHaveBeenCalledWith("مُقَدِّمَة", 8);
+    expect(res).toEqual({ status: "ok", data });
+  });
+
+  it("preserves backend search errors", async () => {
+    search.mockResolvedValue({ status: "error", error: ERR });
+    expect(await searchLibrary("missing")).toEqual({ status: "error", error: ERR });
+  });
 });
 
 describe("getLibrarySummary", () => {

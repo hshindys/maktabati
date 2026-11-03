@@ -166,10 +166,7 @@ async fn books_list(
     Query(params): Query<HashMap<String, String>>,
 ) -> Result<Json<Vec<maktabati_domain::Book>>, (StatusCode, Json<AppErrorDto>)> {
     let query = params.get("query").cloned().unwrap_or_default();
-    let books = db_blocking(db, move |db| {
-        maktabati_storage::repo::book::search(db, &query, 50)
-    })
-    .await?;
+    let books = db_blocking(db, move |db| maktabati_search::search_books(db, &query, 50)).await?;
     Ok(Json(books))
 }
 

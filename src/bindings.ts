@@ -908,6 +908,8 @@ Json[] |
 	 */
 	fileReveal: (id: string) => typedError<null, AppErrorDto>(__TAURI_INVOKE("file_reveal", { id })),
 	goodreadsParse: (text: string) => typedError<GoodreadsRow[], AppErrorDto>(__TAURI_INVOKE("goodreads_parse", { text })),
+	/**  Search books, notes, quotes and authors through the SQLite FTS5 index. */
+	search: (query: string, limit: number | null) => typedError<SearchResult[], AppErrorDto>(__TAURI_INVOKE("search", { query, limit })),
 };
 
 /* Types */
@@ -1749,6 +1751,25 @@ export type RestoreResult = {
 	/**  Schema version now active in the database. */
 	schema_version: number,
 };
+
+/**  A compact, presentation-neutral result from one of the searchable library entities. */
+export type SearchResult = {
+	/**  Entity type. */
+	kind: SearchResultKind,
+	/**  Stable entity id (note results use the page id). */
+	id: string,
+	/**  Main display text. */
+	title: string,
+	/**  Secondary display text such as author, book title, or note excerpt. */
+	detail: string | null,
+	/**  Owning book id for notes and quotes. */
+	book_id: string | null,
+	/**  Reading status for book results. */
+	status: string | null,
+};
+
+/**  Search result kinds returned to the palette. */
+export type SearchResultKind = "book" | "note" | "quote" | "author";
 
 /**
  *  A book series (السلسلة).

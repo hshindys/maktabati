@@ -336,6 +336,9 @@ export const getBook = (id: string) => run((c) => c.bookGet(id));
 export const getBookDetail = (id: string) => run((c) => c.bookDetail(id));
 /** List every book (filtering beyond this arrives with search, M4). */
 export const listBooks = () => run((c) => c.bookList());
+/** Search all indexed library content through the server-side FTS5 index. */
+export const searchLibrary = (query: string, limit = 8) =>
+  run((c) => c.search(query, limit));
 /** Update a book and its relations from an edited form. */
 export const updateBook = (id: string, input: BookInput) =>
   run((c) => c.bookUpdate(id, input));

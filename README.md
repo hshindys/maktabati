@@ -8,7 +8,7 @@
 
 ## Status
 
-In active development. Milestones `M0`–`M3` are complete: research and specs, the domain/storage core, the Tauri shell, and the catalogue — 91 typed backend commands plus the four-step add-book wizard (live ISBN validation, duplicate warning, draft persistence). Manual backups can be listed, verified and safely restored; the library can be exported to JSON or per-table CSV, and notes to Markdown. Cover ingest is not part of M3; it moves to the `files` crate in M8. See [`docs/05-roadmap.md`](docs/05-roadmap.md) for what is done and what is next.
+In active development. Milestones `M0`–`M3` are complete: research and specs, the domain/storage core, the Tauri shell, and the catalogue — 92 typed backend commands plus the four-step add-book wizard (live ISBN validation, duplicate warning, draft persistence). Manual backups can be listed, verified and safely restored; the library can be exported to JSON or per-table CSV, and notes to Markdown. Server-side Arabic-aware FTS5 search now covers books, notes, quotes and authors, including the Ctrl+K palette and Hermes book queries. Cover ingest is not part of M3; it moves to the `files` crate in M8. See [`docs/05-roadmap.md`](docs/05-roadmap.md) for what is done and what is next.
 
 ## Why
 
@@ -28,8 +28,8 @@ src-tauri/            Tauri shell: window, tray, plugins, IPC commands
   ├── commands/       the IPC surface — registered once, exported to TypeScript
 crates/
   ├── domain/         entities, validation, ISBN, Arabic-aware text normalization
-  ├── storage/        SQLite: pool, checksummed migrations, seed, repositories
-  ├── search/         FTS5 index + Arabic normalization              (planned — M5)
+  ├── storage/        SQLite: pool, migrations, search projections, triggers, repositories
+  ├── search/         FTS5 queries and cross-entity results          (implemented — M5 in progress)
   ├── metadata/       Open Library / Google Books, rate-limited      (planned — M4)
   ├── files/          attachment import, dedupe, cover extraction    (planned — M8)
   ├── notes/          Markdown export codec; notes workspace          (in progress — M7)
@@ -40,9 +40,9 @@ src/                  Svelte 5 + TS + Tailwind v4 (no domain logic)
 
 The crates marked **planned** are scaffolded (an empty `lib.rs` and a `Cargo.toml` so the
 workspace builds) but carry no logic yet — each lands with its milestone. `domain`, `storage`,
-the backup/transfer core, and the `src-tauri` command surface are built and tested; the notes
-crate currently owns the Markdown export codec while the broader notes workspace remains in
-progress.
+`search`, the backup/transfer core, and the `src-tauri` command surface are built and tested; the
+notes crate currently owns the Markdown export codec while the broader notes workspace remains
+in progress.
 
 Key decisions are recorded as ADRs in [`docs/adr/`](docs/adr/):
 
@@ -50,7 +50,7 @@ Key decisions are recorded as ADRs in [`docs/adr/`](docs/adr/):
 |---|---|
 | [ADR-0001](docs/adr/0001-tauri-2-svelte-5-webview.md) | Tauri 2 + Svelte 5 webview over a native UI toolkit |
 | [ADR-0003](docs/adr/0003-sqlite-storage.md) | SQLite in OS app data, WAL, checksummed transactional migrations |
-| [ADR-0004](docs/adr/0004-full-text-search.md) | SQLite FTS5 with write-time Arabic normalization |
+| [ADR-0004](docs/adr/0004-search.md) | SQLite FTS5 with write-time Arabic normalization |
 | [ADR-0005](docs/adr/0005-synchronous-rusqlite.md) | `rusqlite` over `sqlx`/`SeaORM` |
 | [ADR-0009](docs/adr/0009-frontend-stack.md) | Svelte 5, Tailwind v4, bundled fonts, Western digits in storage |
 

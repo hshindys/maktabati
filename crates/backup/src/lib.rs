@@ -387,7 +387,13 @@ pub fn import_json(db: &Db, contents: &str) -> Result<()> {
                 statement.execute(rusqlite::params_from_iter(values))?;
             }
         }
-        for fts_table in ["fts_book", "fts_book_norm", "fts_note", "fts_quote"] {
+        for fts_table in [
+            "fts_book",
+            "fts_book_norm",
+            "fts_note",
+            "fts_quote",
+            "fts_author",
+        ] {
             connection.execute(
                 &format!(
                     "INSERT INTO {} ({}) VALUES ('rebuild')",

@@ -6,6 +6,7 @@
 //! projection (`fts_quote`, search milestone M5) is deliberately untouched here.
 
 use maktabati_domain::quote::{Quote, QuoteInput};
+use maktabati_domain::text::normalize;
 use serde::{Deserialize, Serialize};
 use specta::Type;
 
@@ -68,15 +69,16 @@ pub fn create(db: &Db, book_id: &str, input: QuoteInput) -> Result<Quote> {
         }
         let quote = Quote::new(book_id, input, crate::conn::now_ms())?;
         conn.execute(
-            "INSERT INTO quotes (id, book_id, text, text_norm, note, page, chapter, color, \
+            "INSERT INTO quotes (id, book_id, text, text_norm, note, note_norm, page, chapter, color, \
                                  source, created_at, updated_at)
-             VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, 'manual', ?9, ?9)",
+             VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, 'manual', ?10, ?10)",
             rusqlite::params![
                 quote.id,
                 quote.book_id,
                 quote.text,
                 quote.text_norm,
                 quote.note,
+                normalize(quote.note.as_deref().unwrap_or_default()),
                 quote.page,
                 quote.chapter,
                 quote.color.as_str(),
@@ -172,14 +174,15 @@ pub fn update(db: &Db, id: &str, input: QuoteInput) -> Result<Quote> {
         drop(stmt);
         quote.apply(input, crate::conn::now_ms())?;
         conn.execute(
-            "UPDATE quotes SET text = ?2, text_norm = ?3, note = ?4, page = ?5, chapter = ?6, \
-                               color = ?7, updated_at = ?8
+            "UPDATE quotes SET text = ?2, text_norm = ?3, note = ?4, note_norm = ?5,
+                               page = ?6, chapter = ?7, color = ?8, updated_at = ?9
              WHERE id = ?1",
             rusqlite::params![
                 quote.id,
                 quote.text,
                 quote.text_norm,
                 quote.note,
+                normalize(quote.note.as_deref().unwrap_or_default()),
                 quote.page,
                 quote.chapter,
                 quote.color.as_str(),

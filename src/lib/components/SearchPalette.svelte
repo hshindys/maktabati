@@ -1,9 +1,9 @@
 <script lang="ts">
   import { Search } from "@lucide/svelte";
 
-  import type { AppErrorDto, Book } from "@/bindings";
+  import type { AppErrorDto, SearchResult } from "@/bindings";
 
-  import { listBooks } from "../api";
+  import { searchLibrary } from "../api";
   import { locale, translatorFor } from "../i18n";
   import { go } from "../router";
   import Modal from "./Modal.svelte";
@@ -11,10 +11,8 @@
   /**
    * SearchPalette — the global search behind the title-bar field and `Ctrl/Cmd+K`.
    *
-   * Books only, filtered on the client over the list the shell already loads for the library
-   * grid, because `bookList` is the whole search surface that exists today (server-side,
-   * Arabic-normalised search is `crates/search`, still a placeholder). The list is fetched
-   * once per session and reused across openings — the palette must not re-query per keystroke.
+   * Search is debounced and runs in Rust against the local FTS5 index; the webview never loads
+   * the whole library just to filter it.
    *
    * Modal owns Escape, the backdrop and focus restoration, so this component is only the
    * input, the result rows and the keyboard cursor.
@@ -29,14 +27,14 @@
 
   let t = $derived(translatorFor($locale));
 
-  /** `null` until the first load finishes; `[]` means "loaded, nothing to show". */
-  let books = $state<Book[] | null>(null);
   /** Set when the shell has no backend (browser preview) — a designed state, not a fault. */
   let preview = $state(false);
   /** A real failure, surfaced verbatim so it is never mistaken for an empty library. */
-  let loadError = $state<AppErrorDto | null>(null);
+  let searchError = $state<AppErrorDto | null>(null);
 
   let query = $state("");
+  let results = $state<SearchResult[]>([]);
+  let pending = $state(false);
   /** Keyboard cursor into `results`; driven by ↑/↓ and by hovering a row. */
   let index = $state(0);
 
@@ -44,34 +42,62 @@
 
   $effect(() => {
     if (!open) return;
-    // Each opening starts from a clean query and cursor; the books themselves are kept.
+    // Each opening starts from a clean query and cursor.
     query = "";
     index = 0;
-    if (books === null && loadError === null) void load();
   });
 
-  async function load(): Promise<void> {
-    const res = await listBooks();
-    if (res.status === "ok") {
-      books = res.data;
-    } else if (res.error.code === "shell.unavailable") {
-      preview = true;
-      books = [];
-    } else {
-      loadError = res.error;
-    }
+  let requestId = 0;
+  $effect(() => {
+    if (!open) return;
+    const currentQuery = query;
+    const currentId = ++requestId;
+    pending = true;
+    preview = false;
+    searchError = null;
+    const timer = setTimeout(() => {
+      void searchLibrary(currentQuery, LIMIT).then((res) => {
+        if (currentId !== requestId) return;
+        if (res.status === "ok") {
+          results = res.data;
+        } else if (res.error.code === "shell.unavailable") {
+          preview = true;
+          results = [];
+        } else {
+          searchError = res.error;
+          results = [];
+        }
+        pending = false;
+      });
+    }, 150);
+    return () => {
+      clearTimeout(timer);
+      requestId += 1;
+    };
+  });
+
+  function choose(result: SearchResult): void {
+    if (result.kind === "book") go(`/book/${result.id}`);
+    else if (result.kind === "note") go(`/notes/${result.id}`);
+    else if (result.kind === "quote" && result.book_id) go(`/book/${result.book_id}`);
+    else if (result.kind === "author") go("/authors");
+    onclose();
   }
 
-  let results = $derived.by(() => {
-    const all = books ?? [];
-    const q = query.trim().toLowerCase();
-    if (q.length === 0) return all.slice(0, LIMIT);
-    return all.filter((b) => b.title.toLowerCase().includes(q)).slice(0, LIMIT);
-  });
+  function kindLabel(kind: SearchResult["kind"]): string {
+    if (kind === "book") return t("palette.kind.book");
+    if (kind === "note") return t("palette.kind.note");
+    if (kind === "quote") return t("palette.kind.quote");
+    return t("palette.kind.author");
+  }
 
-  function choose(book: Book): void {
-    go(`/book/${book.id}`);
-    onclose();
+  function statusLabel(status: string): string {
+    if (status === "to_read") return t("status.to_read");
+    if (status === "reading") return t("status.reading");
+    if (status === "finished") return t("status.finished");
+    if (status === "paused") return t("status.paused");
+    if (status === "abandoned") return t("status.abandoned");
+    return status;
   }
 
   function onKeydown(e: KeyboardEvent): void {
@@ -112,13 +138,17 @@
     />
   </div>
 
-  {#if loadError}
+  {#if searchError}
     <p class="px-[var(--sp-4)] py-[var(--sp-5)] text-[var(--fs-sm)] text-danger" role="alert">
-      {loadError.message}
+      {searchError.message}
     </p>
   {:else if preview}
     <p class="px-[var(--sp-4)] py-[var(--sp-5)] text-[var(--fs-sm)] text-ink-3">
       {t("palette.unavailable")}
+    </p>
+  {:else if pending}
+    <p class="px-[var(--sp-4)] py-[var(--sp-5)] text-[var(--fs-sm)] text-ink-3" role="status">
+      {t("palette.searching")}
     </p>
   {:else if results.length === 0}
     <p class="px-[var(--sp-4)] py-[var(--sp-5)] text-[var(--fs-sm)] text-ink-3">
@@ -126,7 +156,7 @@
     </p>
   {:else}
     <div id="palette-results" role="listbox" aria-label={t("shell.search")} class="max-h-[50vh] overflow-y-auto p-[var(--sp-2)]">
-      {#each results as book, i (book.id)}
+      {#each results as result, i (`${result.kind}-${result.id}`)}
         <button
           type="button"
           id="palette-option-{i}"
@@ -136,11 +166,22 @@
             ? 'bg-surface-2 text-ink-1'
             : 'text-ink-2 hover:bg-surface-2'}"
           onpointerenter={() => (index = i)}
-          onclick={() => choose(book)}
+          onclick={() => choose(result)}
         >
           <!-- `min-w-0` lets the title shrink so the status never gets pushed out of the row. -->
-          <span class="bidi-auto min-w-0 flex-1 truncate text-[var(--fs-base)]">{book.title}</span>
-          <span class="shrink-0 text-[var(--fs-sm)] text-ink-3">{t(`status.${book.reading_status}`)}</span>
+          <span class="bidi-auto min-w-0 flex-1 truncate text-[var(--fs-base)]">
+            {result.title}
+            {#if result.detail}
+              <span class="block truncate text-[var(--fs-sm)] text-ink-3">{result.detail}</span>
+            {/if}
+          </span>
+          <span class="shrink-0 text-[var(--fs-sm)] text-ink-3">
+            {#if result.status}
+              {statusLabel(result.status)}
+            {:else}
+              {kindLabel(result.kind)}
+            {/if}
+          </span>
         </button>
       {/each}
     </div>

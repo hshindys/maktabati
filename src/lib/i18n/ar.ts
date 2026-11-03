@@ -635,8 +635,13 @@ export const ar = {
   "toast.hermesStarted": "بدأت الخدمة المحلية",
   "toast.hermesStopped": "أُوقفت الخدمة المحلية",
 
-  "palette.noResults": "لا توجد كتب مطابقة",
+  "palette.noResults": "لا توجد نتائج مطابقة",
   "palette.unavailable": "المعاينة بلا مكتبة — افتح التطبيق للبحث",
+  "palette.searching": "جارٍ البحث…",
+  "palette.kind.book": "كتاب",
+  "palette.kind.note": "ملاحظة",
+  "palette.kind.quote": "اقتباس",
+  "palette.kind.author": "مؤلف",
 } as const;
 
 /** Every key that must exist in every locale. */

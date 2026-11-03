@@ -38,7 +38,7 @@ pub fn embedded() -> Vec<MigrationFile> {
     // The trailing flag marks migrations that must be applied with `PRAGMA foreign_keys`
     // switched OFF (a table rebuild's `DROP TABLE` runs an implicit FK-checked DELETE;
     // 0003 rebuilds `books`, parent of fifteen child tables). See the file's header.
-    let files: [(&str, i64, &str, &'static str, bool); 3] = [
+    let files: [(&str, i64, &str, &'static str, bool); 4] = [
         ("init", 1, "init", crate::migrations::M0001_INIT, false),
         (
             "book_publisher",
@@ -53,6 +53,13 @@ pub fn embedded() -> Vec<MigrationFile> {
             "cover_sources",
             crate::migrations::M0003_COVER_SOURCES,
             true,
+        ),
+        (
+            "search_index",
+            4,
+            "search_index",
+            crate::migrations::M0004_SEARCH_INDEX,
+            false,
         ),
     ];
     let mut out: Vec<MigrationFile> = files
@@ -610,7 +617,7 @@ mod tests {
         .unwrap();
 
         let version = apply(&db, || Ok(())).unwrap();
-        assert_eq!(version, 3);
+        assert_eq!(version, 4);
 
         db.read(|c| {
             // Rows survive column for column.

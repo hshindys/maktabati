@@ -14,3 +14,6 @@ pub const M0002_BOOK_PUBLISHER: &str = include_str!("../migrations/0002_book_pub
 /// file header for why (it rebuilds `books`, and `DROP TABLE` runs an implicit
 /// FK-checked DELETE).
 pub const M0003_COVER_SOURCES: &str = include_str!("../migrations/0003_cover_sources.sql");
+
+/// `0004_search_index.sql` — Arabic-normalized search projections and FTS5 synchronization.
+pub const M0004_SEARCH_INDEX: &str = include_str!("../migrations/0004_search_index.sql");

@@ -16,6 +16,7 @@ pub mod hermes;
 pub mod import;
 pub mod notes;
 pub mod quotes;
+pub mod search;
 
 use std::sync::Arc;
 

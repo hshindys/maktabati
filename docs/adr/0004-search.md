@@ -1,74 +1,79 @@
-# ADR-0004 — Search: SQLite FTS5 (not tantivy), with Arabic normalization at write time
+# ADR-0004 — Search: SQLite FTS5 with Arabic-aware projections
 
 **Status:** Accepted · **Date:** 2026-10-18
 
 ## Context
 
-Requirements: Arabic-aware full-text search over books, authors, publishers, notes and quotes;
-mixed Arabic/English queries; < 100 ms for 50,000 books; ranking with snippets; and it must be
-consistent with the data (no index drift).
-
-Two credible options: **SQLite FTS5** (in-process, same file) or **tantivy** (a separate index
-directory).
+Search must work offline over books, authors, notes, and quotes; handle Arabic and English in the
+same query; and stay transactionally consistent with the SQLite library. A separate index such
+as tantivy would add a second durable store and a synchronization/rebuild failure mode.
 
 ## Decision
 
-Use **SQLite FTS5**, with a dedicated `crates/search` crate that owns:
+Use SQLite FTS5 in the library database. The schema lives in `crates/storage/migrations`; typed
+projections are written by `crates/storage::repo::search_index`; `crates/search` owns query
+construction and cross-entity results.
 
-1. **The FTS5 schema** — external-content virtual tables over a denormalized search projection,
-   plus triggers so inserts/updates/deletes keep the index consistent *in the same transaction*.
-2. **Arabic normalization applied at write time** into stored normalized columns
-   (`title_norm`, `author_norm`, …) *and* to the query string:
-   - Unicode **NFD**, then strip combining marks → removes tashkeel (fatha/damma/kasra/sukun/
-     shadda/tanwin) and other diacritics;
-   - strip **tatweel** (U+0640) and control/format characters;
-   - fold **أ إ آ ٱ → ا**, **ى → ي**, **ة → ه** (configurable fold set), plus optional
-     `ؤ → و`, `ئ → ي`;
-   - collapse whitespace, trim, lowercase Latin;
-   - optional **light stemming** (prefix/suffix trimming à la Larkey) behind a setting, default
-     **off** for precision (research: light stemming can *reduce* precision if too aggressive).
-   - **Idempotence is a property test:** `normalize(normalize(x)) == normalize(x)`.
-3. **A query parser** supporting Calibre-style syntax (`title:…`, `author:…`, `rating:>=3`,
-   quoted multi-word, `#custom:…`, boolean AND/OR/NOT) → SQL + FTS5 MATCH.
-4. **Ranking & snippets** via FTS5 `bm25()` and `snippet()`, with a tie-break that prefers exact
-   normalized matches and ISBN matches.
-5. **Tokenizer:** FTS5 `unicode61` with `remove_diacritics 2` on the *raw* text column as a
-   second line of defense, plus our own normalized columns as the primary path.
+### Projection and consistency
 
-### Why not tantivy
+- Books use `search_document` and `fts_book` / `fts_book_norm`. `sync_book` writes normalized
+  Arabic/Latin text in the same transaction as book create/update. Relation triggers keep author,
+  publisher, series, tag, and category fields current; a status trigger updates status/timestamp.
+- Notes have one projection per page, including its title and all block text. Note-page/block
+  repository writes refresh it in the same transaction.
+- Quotes use `text_norm` and `note_norm`; quote-table triggers update their FTS index.
+- Authors are indexed from the existing normalized name mirrors.
+- FTS5 external-content triggers mirror projection inserts, updates, and deletes into the
+  virtual tables in the same SQLite transaction. Foreign-key cascades remove deleted documents.
+- Migration 0004 creates the schema. After migrations and seed data, startup performs one
+  versioned Rust backfill through `reindex_if_needed`; it applies `domain::text::normalize` to
+  legacy records and rebuilds all FTS tables before marking the backfill complete.
 
-- **Two sources of truth.** A separate index directory means a rebuild step, an async/sync bridge,
-  and the classic failure "I added a book but search doesn't see it". FTS5 lives in the same
-  transaction as the row.
-- **Operational weight:** an index to ship, to corrupt, to repair (`calibredb check_library`-style
-  maintenance is exactly the pitfall research flagged).
-- **No ranking advantage at our scale.** BM25 in FTS5 is plenty for 50k docs; tantivy's strengths
-  (analyzers, facets, distributed search) are not needed.
-- Backup/restore becomes trivial: one file.
+### Normalization and queries
 
-### Why not LIKE/`instr`
+Both stored projections and user input use `domain::text::normalize`: it removes tashkeel and
+tatweel, folds alef/yaa/taa-marbuta variants, collapses whitespace, and lowercases Latin. FTS5's
+`unicode61 remove_diacritics 2` tokenizer remains a second line of defense.
 
-Cannot rank, cannot snippet, and is O(n) per keystroke — fails the 100 ms target at 50k rows.
+The current query grammar normalizes input, quotes each token, appends the FTS5 prefix operator,
+and joins tokens with `AND`. This avoids interpreting user text as FTS operators while supporting
+incremental word-prefix matching. The global palette calls the server-side `search` command after
+a 150 ms debounce and requests at most eight results; the command caps results at 50. Empty
+queries return recent books. Hermes `GET /books?query=` shares the same book search and preserves
+its existing `Book[]` response shape.
+
+`bm25()` ranks results within each FTS table. The current palette returns books, notes, quotes,
+and authors with keyboard navigation. Advanced field syntax, boolean expressions, publisher
+entity results, snippets, and a 50k-book benchmark remain future M5 work.
+
+## Why not tantivy
+
+- **Two sources of truth.** A separate index directory needs a bridge and can drift from library
+  writes. FTS5 is in the same transaction as the rows.
+- **Operational weight.** There is no second index directory to ship, corrupt, or repair.
+- **No ranking advantage at this scale.** FTS5's BM25 is sufficient for the local library.
+- Backup/restore stays within the SQLite file.
 
 ## Consequences
 
-- ✅ Single-file durability; search correctness inherits SQLite's transactional guarantees.
-- ✅ `crates/search` is fully testable with in-memory `:memory:` databases.
-- ⚠️ FTS5 must be available in the bundled SQLite. `rusqlite` with the `bundled` feature ships
-  FTS5 enabled — verified at scaffold time by a runtime `CREATE VIRTUAL TABLE` smoke test in CI.
-- ⚠️ Our normalization is *our* contract. Because raw text is also stored, we can re-normalize
-  retroactively by re-running the projection (a maintenance command ships for this).
+- ✅ Search state is backed up and restored with the library.
+- ✅ Projection and FTS updates share the source write transaction.
+- ✅ Tests cover Arabic normalization, mixed Arabic/English, books, notes, quotes, authors, and a
+  5,000-book query below 100 ms.
+- ⚠️ FTS5 must be present in bundled SQLite; `rusqlite`'s `bundled` feature provides it.
+- ⚠️ Any normalization contract change needs a versioned projection reindex.
+- ⚠️ Advanced search syntax and query snippets are not implemented yet.
 
 ## Alternatives considered
 
 | Option | Why rejected |
 |---|---|
-| **tantivy** (0.27.0 verified) | Drift risk + extra artifact; see above. |
-| **SQLite FTS4** | No `bm25()` ranking or `snippet()` of comparable quality; FTS5 chosen. |
-| **Trigram/`LIKE`** | No ranking/snippets; slower. |
-| **External search service** | Violates local-first. |
+| **tantivy** | Extra durable index and drift risk. |
+| **SQLite FTS4** | FTS5 provides BM25 and better snippets when those are added. |
+| **Trigram/`LIKE`** | No ranking and scales linearly for each keystroke. |
+| **External search service** | Violates local-first operation. |
 
 ## References
 
-Kadri & Nie, *Effective stemming for Arabic information retrieval* (ACL 2006); Larkey's light
-stemmer; Arabic normalization pitfalls — all listed in `00-research.md` §6.
+Kadri & Nie, *Effective stemming for Arabic information retrieval* (ACL 2006); Arabic
+normalization pitfalls — listed in `00-research.md` §6.

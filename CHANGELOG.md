@@ -8,6 +8,17 @@ All notable changes to Maktabati are documented here. Format loosely follows
 Everything below is one working session across the OPENCODE-BRIEF phase list
 (Phases 0–5). Left uncommitted on purpose.
 
+### Task 2 — Real search
+
+- **Search index**: migration 0004 adds synchronized FTS5 indexes for books, notes, quotes and
+  authors. Arabic normalization is applied to stored projections and queries; existing libraries
+  are reindexed once at startup after migration and seeding.
+- **Search surfaces**: the Ctrl+K palette uses a 150 ms debounced Rust command with an eight-result
+  limit instead of loading the whole book list. Hermes `GET /books?query=` now uses the same
+  indexed book-search implementation.
+- **Coverage**: tests verify Arabic diacritics and letter folding, mixed Arabic/English, notes,
+  quotes, authors, empty queries, and a 5,000-book search below 100 ms. Bindings were regenerated.
+
 ### Task 1 — Backup restore and export
 
 - **Backups**: Settings lists saved `.db` backups and can verify SQLite integrity and
@@ -148,4 +159,5 @@ Everything below is one working session across the OPENCODE-BRIEF phase list
 - Goodreads series/description/cover and reviews remain null/unstored (data not in
   the CSV / milestone not reached).
 - `/notes`, reader, lending, goals screens keep their honest placeholders.
-- FTS `search_document` sync still pending; Hermes search uses the norm mirrors.
+- Advanced search syntax, snippets, publisher-specific results, and the 50k performance target
+  remain planned; see ADR-0004 and M5 in the roadmap.

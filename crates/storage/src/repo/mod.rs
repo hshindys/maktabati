@@ -12,6 +12,7 @@ pub mod language;
 pub mod note;
 pub mod publisher;
 pub mod quote;
+pub mod search_index;
 pub mod series;
 pub mod settings;
 pub mod summary;
@@ -39,7 +40,8 @@ mod schema_conformance {
     fn every_rust_enum_variant_exists_in_the_ddl() {
         let sql = crate::migrations::M0001_INIT.to_owned()
             + crate::migrations::M0002_BOOK_PUBLISHER
-            + crate::migrations::M0003_COVER_SOURCES;
+            + crate::migrations::M0003_COVER_SOURCES
+            + crate::migrations::M0004_SEARCH_INDEX;
 
         let check = |name: &str, values: &[&str]| {
             for v in values {

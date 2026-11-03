@@ -562,114 +562,46 @@ CREATE INDEX ix_meta_expiry ON metadata_cache(expires_at);
 
 ### 4.1 Projection tables
 
-FTS5 indexes a **denormalized projection**, never the normalized tables directly, so we control
-exactly what is searchable and can rebuild it deterministically.
+FTS5 indexes denormalized search projections rather than joining the catalogue on every query.
+Migration 0004 expands the book projection with normalized subtitle, original title, series, and
+ISBN columns. `fts_book_norm` searches all normalized book text; `fts_book` keeps the original
+text available for future snippet rendering.
 
-```sql
-CREATE TABLE search_document (
-  rowid        INTEGER PRIMARY KEY AUTOINCREMENT,
-  book_id      TEXT NOT NULL UNIQUE REFERENCES books(id) ON DELETE CASCADE,
-  title        TEXT NOT NULL,
-  title_norm   TEXT NOT NULL,
-  subtitle     TEXT,
-  original_title TEXT,
-  authors      TEXT NOT NULL DEFAULT '',    -- 'A · B · C'
-  authors_norm TEXT NOT NULL DEFAULT '',
-  publisher    TEXT,
-  series       TEXT,
-  tags         TEXT,
-  categories   TEXT,                        -- full path labels, space separated
-  isbn         TEXT,
-  description  TEXT,
-  identifiers  TEXT,                        -- custom column text values
-  year         INTEGER,
-  format       TEXT,
-  status       TEXT,
-  language     TEXT,
-  -- normalized mirrors of the columns searched by fts_book_norm (§4.1)
-  tags_norm        TEXT NOT NULL DEFAULT '',
-  publisher_norm   TEXT NOT NULL DEFAULT '',
-  categories_norm  TEXT NOT NULL DEFAULT '',
-  description_norm TEXT NOT NULL DEFAULT '',
-  identifiers_norm TEXT NOT NULL DEFAULT '',
-  updated_at   INTEGER NOT NULL
-);
+Notes use one `search_note_doc` row per page, containing its title and all block text. Quotes use
+their normalized quote text and annotation. `fts_author` indexes author display/original names
+using the normalized name mirrors stored on `authors` and also indexes biographies. All FTS
+tables use SQLite's `unicode61 remove_diacritics 2` tokenizer.
 
-CREATE VIRTUAL TABLE fts_book USING fts5(
-  title, authors, publisher, series, tags, categories,
-  isbn, description, original_title, subtitle, identifiers,
-  content='search_document', content_rowid='rowid',
-  tokenize="unicode61 remove_diacritics 2",
-  columnsize=0
-);
+### 4.2 Consistency and reindexing
 
--- book-level text, normalized for prefix/word matching
-CREATE VIRTUAL TABLE fts_book_norm USING fts5(
-  title_norm, authors_norm, tags_norm, description_norm,
-  content='search_document', content_rowid='rowid',
-  tokenize="unicode61 remove_diacritics 2",
-  columnsize=0
-);
-```
+`storage::repo::search_index::sync_book` rebuilds book projections during create/update
+transactions; note-page and block writes rebuild the affected page. Quote writes normalize both
+the quote and its annotation. SQL triggers keep FTS5 external-content indexes current and refresh
+book relation text after author, publisher, series, tag, or category changes. A trigger also
+updates search status metadata after direct reading-status writes.
 
-Notes and quotes get their own index so the command palette can merge by kind:
+Migration 0004 creates these projections, FTS tables, and triggers. After seed data is applied,
+startup calls `reindex_if_needed` once per index version. It normalizes legacy records and rebuilds
+all FTS tables transactionally; `search_index_state` prevents the backfill from running every
+launch. Foreign-key cascades remove projections for deleted books, pages, and quotes.
 
-```sql
-CREATE TABLE search_note_doc (
-  rowid      INTEGER PRIMARY KEY AUTOINCREMENT,
-  block_id   TEXT NOT NULL UNIQUE REFERENCES note_block(id) ON DELETE CASCADE,
-  page_id    TEXT NOT NULL,
-  book_id    TEXT,
-  text       TEXT NOT NULL,
-  text_norm  TEXT NOT NULL
-);
-CREATE VIRTUAL TABLE fts_note USING fts5(
-  text, content='search_note_doc', content_rowid='rowid',
-  tokenize="unicode61 remove_diacritics 2", columnsize=0
-);
+### 4.3 Query shape
 
-CREATE VIRTUAL TABLE fts_quote USING fts5(
-  text_norm, note, content='quotes', content_rowid='rowid',
-  tokenize="unicode61 remove_diacritics 2", columnsize=0
-);
-```
+`crates/search` normalizes the query, quotes each token to prevent FTS operator injection,
+appends the prefix operator for type-ahead matching, and joins tokens with `AND`. Book results
+use `bm25()` on `fts_book_norm`; notes, quotes, and authors use their corresponding FTS table.
+The global palette debounces IPC requests by 150 ms and asks for eight results; the backend caps
+all requests at 50. Empty input returns recent books. Hermes `GET /books?query=` calls the same
+book-search implementation and keeps its `Book[]` response.
 
-### 4.2 Consistency
+Advanced field syntax, boolean expressions, publisher entity results, and snippets are not yet
+implemented.
 
-Projection maintenance lives in `crates/search` and is invoked by the repositories **inside the
-same transaction** as the data write:
-
-```
-insert/update book  →  search::index_book(book_id)      (DELETE + INSERT projection + FTS)
-change relations    →  search::index_book(book_id)
-save note block     →  search::index_block(block_id)
-save quote          →  search::index_quote(quote_id)
-delete row          →  ON DELETE CASCADE prunes search_document/search_note_doc,
-                       and FTS external-content triggers remove the FTS rows
-```
-
-Because FTS5 uses `content=`, deletes/updates are driven by SQL triggers on the projection
-tables — so the invariant *"if the row exists, it is indexed"* holds transactionally, and a
-`search::reindex_all()` maintenance command can rebuild everything from scratch after a settings
-change (e.g. toggling light stemming).
-
-### 4.3 Book status denormalization
+### 4.4 Book status denormalization
 
 `books.reading_status` is authoritative and indexed; `reading_cycles` holds history. The
 repository updates both in one transaction (start cycle on → `reading`, close on → `finished`).
 This keeps `WHERE reading_status = ?` filters O(index) instead of a self-join over history.
-
-### 4.4 Query shape
-
-```
-input "تاريخ مصر 1952"
-  → domain::text::normalize each token      → "تاريخ مصر 1952"
-  → parse field prefixes (title:, author:, rating:>=3, #signed:true, tag:x)
-  → Arabic tokens → MATCH with prefix operator ("تاريخ*" AND "مصر*" AND "1952")
-  → rank: bm25 (weighted title 10, authors 5, tags 3, description 1)
-          + exact-normalized-title bonus + ISBN-exact bonus
-  → snippet() for display, page LIMIT/OFFSET
-```
 
 **Duplicate detection** reuses the same normalization but *not* stemming:
 `dedupe_key = normalize(title) + '|' + normalize(primary_author)`, plus `isbn13`/`isbn10`
@@ -683,7 +615,7 @@ equality. Merge flow keeps the union of relations and the non-empty fields of ea
 |---|---|
 | ISBN validity | `domain::Isbn` validates checksum **before** insert; DB stores normalized digits only, `CHECK` on length (10/13) |
 | Referential integrity | `PRAGMA foreign_keys=ON` (ADR-0003) + `ON DELETE CASCADE` for owned children; `ON DELETE SET NULL` for optional references (series, file) |
-| No orphan projections | FK from `search_document`/`search_note_doc` to source rows + cascade |
+| No orphan projections | `search_document` references books and `search_note_doc` references note pages, both with cascades |
 | Rating bounds | `CHECK (BETWEEN 0 AND 10)` everywhere |
 | Money exactness | integer minor units |
 | Valid JSON | `CHECK (json_valid(...))` |
@@ -693,10 +625,10 @@ equality. Merge flow keeps the union of relations and the non-empty fields of ea
 
 ---
 
-## 6. Saved filter (smart shelf) query format
+## 6. Planned saved-filter (smart shelf) query format
 
-Serialized as `shelves.query_json`, parsed by `crates/search` — the same grammar used by the
-filter bar and the command palette, so one implementation serves all three:
+The schema reserves `shelves.query_json` for this versioned shape. Search currently supports
+normalized free-text tokens; smart-shelf evaluation and structured filters are not implemented:
 
 ```jsonc
 {

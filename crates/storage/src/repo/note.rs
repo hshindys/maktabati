@@ -174,6 +174,7 @@ pub fn create_page(db: &Db, input: NotePageInput) -> Result<NotePage> {
                 page.updated_at,
             ],
         )?;
+        super::search_index::sync_note_page(conn, &page.id)?;
         Ok(page)
     })
 }
@@ -241,6 +242,7 @@ pub fn update_page(db: &Db, id: &str, input: NotePageInput) -> Result<NotePage> 
         if changed == 0 {
             return Err(crate::error::not_found("note_page", id));
         }
+        super::search_index::sync_note_page(conn, id)?;
         Ok(page)
     })
 }
@@ -364,6 +366,7 @@ pub fn insert_block(
             ],
         )?;
         touch_page(conn, page_id, now)?;
+        super::search_index::sync_note_page(conn, page_id)?;
         Ok(block)
     })
 }
@@ -395,6 +398,7 @@ pub fn update_block(db: &Db, block_id: &str, input: NoteBlockInput) -> Result<No
             return Err(crate::error::not_found("note_block", block_id));
         }
         touch_page(conn, &block.page_id, now)?;
+        super::search_index::sync_note_page(conn, &block.page_id)?;
         Ok(block)
     })
 }
@@ -466,6 +470,7 @@ pub fn move_block(db: &Db, block_id: &str, after_block_id: Option<&str>) -> Resu
             )?;
         }
         touch_page(conn, &block.page_id, now)?;
+        super::search_index::sync_note_page(conn, &block.page_id)?;
         read_block(conn, block_id)
     })
 }
@@ -485,6 +490,7 @@ pub fn delete_block(db: &Db, block_id: &str) -> Result<()> {
             return Err(crate::error::not_found("note_block", block_id));
         }
         touch_page(conn, &block.page_id, crate::conn::now_ms())?;
+        super::search_index::sync_note_page(conn, &block.page_id)?;
         Ok(())
     })
 }

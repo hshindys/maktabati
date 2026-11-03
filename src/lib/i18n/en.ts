@@ -635,6 +635,11 @@ export const en: Record<MessageKey, string> = {
   "toast.hermesStarted": "Local server started",
   "toast.hermesStopped": "Local server stopped",
 
-  "palette.noResults": "No matching books",
+  "palette.noResults": "No matching results",
   "palette.unavailable": "The preview has no library — search runs in the installed app",
+  "palette.searching": "Searching…",
+  "palette.kind.book": "Book",
+  "palette.kind.note": "Note",
+  "palette.kind.quote": "Quote",
+  "palette.kind.author": "Author",
 };

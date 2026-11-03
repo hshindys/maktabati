@@ -136,7 +136,8 @@ macro_rules! commands {
             crate::commands::files::file_open,
             crate::commands::files::file_reveal,
             // Import (Goodreads phase 1)
-            crate::commands::import::goodreads_parse
+            crate::commands::import::goodreads_parse,
+            crate::commands::search::search,
         ]
     };
 }
@@ -191,6 +192,7 @@ fn open_database(data_dir: &std::path::Path) -> maktabati_storage::Result<Db> {
     })?;
 
     db.write(seed::apply)?;
+    maktabati_storage::repo::search_index::reindex_if_needed(&db)?;
     Ok(db)
 }
 
@@ -518,6 +520,7 @@ mod tests {
             "tag_list",
             "tag_search",
             "tag_update",
+            "search",
             "file_attach",
             "file_delete",
             "file_list",

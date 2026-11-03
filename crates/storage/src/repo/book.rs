@@ -24,6 +24,14 @@ const COLUMNS: &str = "id, title, subtitle, original_title, title_norm, language
                        acquired_date, acquired_from, price_minor, price_currency, condition, \
                        cover_path, cover_thumb, cover_source, reading_status, rating, \
                        current_page, progress_pct, source, external_ids, created_at, updated_at";
+const SEARCH_COLUMNS: &str = "b.id, b.title, b.subtitle, b.original_title, b.title_norm, \
+                              b.language_code, b.isbn10, b.isbn13, b.edition, \
+                              b.publication_year, b.page_count, b.format, b.description, \
+                              b.series_id, b.series_order, b.publisher_id, b.room, b.shelf, \
+                              b.\"box\", b.acquired_date, b.acquired_from, b.price_minor, \
+                              b.price_currency, b.condition, b.cover_path, b.cover_thumb, \
+                              b.cover_source, b.reading_status, b.rating, b.current_page, \
+                              b.progress_pct, b.source, b.external_ids, b.created_at, b.updated_at";
 
 /// `INSERT` covering every column except none — kept literal (rather than built from
 /// [`COLUMNS`]) so the bound-parameter order is visible next to it in review.
@@ -378,6 +386,7 @@ pub fn create(db: &Db, input: BookInput) -> Result<Book> {
         write_credits(conn, &book.id, &credits)?;
         write_categories(conn, &book.id, &categories)?;
         write_tags(conn, &book.id, &tags)?;
+        crate::repo::search_index::sync_book(conn, &book.id)?;
         Ok(book)
     })
 }
@@ -490,6 +499,7 @@ pub fn update(db: &Db, id: &str, input: BookInput) -> Result<Book> {
         write_credits(conn, &book.id, &credits)?;
         write_categories(conn, &book.id, &categories)?;
         write_tags(conn, &book.id, &tags)?;
+        crate::repo::search_index::sync_book(conn, &book.id)?;
         Ok(book)
     })
 }
@@ -531,39 +541,40 @@ pub fn find_by_isbn(db: &Db, isbn: &str) -> Result<Vec<Book>> {
     })
 }
 
-/// Full-text-ish search used by the Hermes HTTP API (`GET /books?query=…`).
-///
-/// LIKE probes over the normalized mirrors rather than `fts_book`: the FTS index is
-/// populated by the-search milestone's sync triggers, while this must work on any
-/// database that only ever used the wizard. Digits alone match ISBNs exactly; words
-/// match titles and author names case- and diacritics-insensitively. An empty query
-/// returns the most recently added books, like the "all books" list.
+/// Search books with the normalized FTS5 projection. An empty query returns the most recently
+/// added books, matching the library's default ordering.
 ///
 /// # Errors
 ///
 /// [`crate::StorageError::Sqlite`] on query failure.
 pub fn search(db: &Db, query: &str, limit: usize) -> Result<Vec<Book>> {
-    let trimmed = query.trim();
-    if trimmed.is_empty() {
-        return list(db).map(|mut books| {
-            if books.len() > limit {
-                books.truncate(limit);
-            }
-            books
+    let normalized = normalize(query);
+    let limit = limit.min(50);
+    if normalized.is_empty() {
+        let sql = format!("SELECT {COLUMNS} FROM books ORDER BY created_at DESC, id DESC LIMIT ?1");
+        return db.read(|conn| {
+            let mut stmt = conn.prepare(&sql)?;
+            let rows = stmt.query_map([limit as i64], from_row)?;
+            rows.collect::<rusqlite::Result<Vec<_>>>()
+                .map_err(Into::into)
         });
     }
-    let needle = format!("%{}%", normalize(trimmed));
+    let match_query = normalized
+        .split_whitespace()
+        .map(|term| format!("\"{}\"*", term.replace('"', "\"\"")))
+        .collect::<Vec<_>>()
+        .join(" AND ");
     let sql = format!(
-        "SELECT {COLUMNS} FROM books b \
-         WHERE b.title_norm LIKE ?1 \
-            OR b.isbn13 = ?2 OR b.isbn10 = ?2 \
-            OR EXISTS (SELECT 1 FROM book_authors ba JOIN authors a ON a.id = ba.author_id \
-                       WHERE ba.book_id = b.id AND a.name_norm LIKE ?1) \
-         ORDER BY b.created_at DESC, b.id DESC LIMIT ?3"
+        "SELECT {SEARCH_COLUMNS} FROM fts_book_norm f
+         JOIN search_document sd ON sd.rowid = f.rowid
+         JOIN books b ON b.id = sd.book_id
+         WHERE fts_book_norm MATCH ?1
+         ORDER BY bm25(fts_book_norm), b.updated_at DESC, b.id DESC
+         LIMIT ?2"
     );
     db.read(|conn| {
         let mut stmt = conn.prepare(&sql)?;
-        let rows = stmt.query_map(rusqlite::params![needle, trimmed, limit as i64], from_row)?;
+        let rows = stmt.query_map(rusqlite::params![match_query, limit as i64], from_row)?;
         rows.collect::<rusqlite::Result<Vec<_>>>()
             .map_err(Into::into)
     })
