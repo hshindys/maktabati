@@ -33,6 +33,7 @@ import type {
   RatingCriterionInput,
   ReviewInput,
   RubricScoreInput,
+  SearchResult,
   SeriesInput,
   StorageMode,
   TagInput,
@@ -345,6 +346,12 @@ export const listBooks = () => run((c) => c.bookList());
 /** Search all indexed library content through the server-side FTS5 index. */
 export const searchLibrary = (query: string, limit = 8) =>
   run((c) => c.search(query, limit));
+/**
+ * Keep only the book hits of a search — the indexed `search` mixes books, notes, quotes
+ * and authors, and pickers that must *name* a book (the quote form) cannot offer the rest.
+ */
+export const bookHits = (results: SearchResult[]): SearchResult[] =>
+  results.filter((result) => result.kind === "book");
 /** Update a book and its relations from an edited form. */
 export const updateBook = (id: string, input: BookInput) =>
   run((c) => c.bookUpdate(id, input));

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Pencil, Quote as QuoteIcon, Trash2, TriangleAlert } from "@lucide/svelte";
+  import { Pencil, Plus, Quote as QuoteIcon, Trash2, TriangleAlert } from "@lucide/svelte";
   import { onMount } from "svelte";
   import { ask } from "@tauri-apps/plugin-dialog";
 
@@ -20,9 +20,9 @@
    * Quotes screen — every passage lifted from every book, newest first.
    *
    * `quote_list_all` does the join server-side (title + first author), so the screen never
-   * queries per row. A quote must name the book it came from — that is the id the backend
-   * stores — so creation happens on a book page, and this screen is deliberately read-only
-   * + edit/delete: an "add" button here would have to invent a book.
+   * queries per row. A quote must name the book it came from, so creation here opens the
+   * shared quote form with a book search over the FTS index (empty query = recent books);
+   * a book page still creates with its book already given.
    */
 
   let t = $derived(translatorFor($locale));
@@ -61,6 +61,12 @@
 
   function openEditor(row: Quote): void {
     editing = row;
+    editorOpen = true;
+  }
+
+  /** Creating here: `editing = null` opens the form in create mode with the book picker. */
+  function openCreate(): void {
+    editing = null;
     editorOpen = true;
   }
 
@@ -104,6 +110,14 @@
         {num(quotes.length)} {t("quotes.count")}
       </span>
     {/if}
+    <span class="ms-auto">
+      <Button variant="primary" size="sm" onclick={openCreate}>
+        {#snippet iconStart()}
+          <Plus class="size-4 no-mirror" strokeWidth={1.75} />
+        {/snippet}
+        {t("quotes.add")}
+      </Button>
+    </span>
   </header>
 
   {#if loading}
@@ -124,7 +138,7 @@
       </div>
     </Card>
   {:else if quotes.length === 0}
-    <!-- Teaching empty state: the only place a quote is born is a book page, so point there. -->
+    <!-- Empty state: the header's Add button is the primary path, and the copy names both. -->
     <Card>
       <EmptyState title={t("quotes.empty.title")} body={t("quotes.empty.body")} />
     </Card>

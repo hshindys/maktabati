@@ -220,6 +220,9 @@ export const ar = {
   // ── Quotes (الاقتباسات) ─────────────────────────────────────────────────────
   "quote.form.add": "إضافة اقتباس",
   "quote.form.edit": "تعديل الاقتباس",
+  "quote.form.book": "الكتاب",
+  "quote.form.bookSearch": "ابحث في المكتبة بالعنوان أو المؤلف…",
+  "quote.form.bookChange": "تغيير الكتاب",
   "quote.text": "نصّ الاقتباس",
   "quote.text.hint": "بحدّود ٨٠٠٠ محرف.",
   "quote.note": "ملاحظتك",
@@ -238,8 +241,9 @@ export const ar = {
 
   "quotes.title": "الاقتباسات",
   "quotes.count": "اقتباساً",
+  "quotes.add": "إضافة اقتباس",
   "quotes.empty.title": "لا اقتباسات بعد",
-  "quotes.empty.body": "أضف اقتباساً من صفحة أحد كتبك أثناء القراءة، وستُجمع هنا كلها مع أسماء كتبها.",
+  "quotes.empty.body": "أضف اقتباساً من صفحة أحد كتبك أثناء القراءة أو من هنا مباشرة، وستُجمع هنا كلها مع أسماء كتبها.",
   "quotes.loadFailed": "تعذّر فتح قائمة الاقتباسات",
   "quotes.from": "من",
   "quotes.deleteConfirm": "حذف هذا الاقتباس؟",

@@ -2,7 +2,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { AppErrorDto } from "@/bindings";
-import { EMPTY_SUMMARY, getLibrarySummary, searchLibrary } from "./api";
+import { EMPTY_SUMMARY, bookHits, getLibrarySummary, searchLibrary } from "./api";
 
 /**
  * The read path must never lie (P0-5): a backend failure arrives as `{ status: "error" }`
@@ -71,5 +71,30 @@ describe("getLibrarySummary", () => {
     const res = await getLibrarySummary(2026);
     expect(res.status).toBe("error");
     expect(res.status === "error" && res.error.code).toBe("shell.invoke_failed");
+  });
+});
+
+describe("bookHits", () => {
+  const hit = (kind: "book" | "note" | "quote" | "author", id: string) => ({
+    kind,
+    id,
+    title: `t-${id}`,
+    detail: null,
+    book_id: null,
+    status: null,
+  });
+
+  it("keeps only books — the quote form may not name a note or an author", () => {
+    const mixed = [hit("book", "1"), hit("note", "2"), hit("quote", "3"), hit("author", "4"), hit("book", "5")];
+    expect(bookHits(mixed).map((h) => h.id)).toEqual(["1", "5"]);
+  });
+
+  it("passes an all-books result through untouched", () => {
+    const books = [hit("book", "1"), hit("book", "2")];
+    expect(bookHits(books)).toEqual(books);
+  });
+
+  it("returns an empty list for an empty search", () => {
+    expect(bookHits([])).toEqual([]);
   });
 });

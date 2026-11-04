@@ -7,6 +7,15 @@ All notable changes to Maktabati are documented here. Format loosely follows
 
 Task-specific changes are committed separately; this changelog tracks completed work.
 
+### Quotes screen — add quote
+
+- The global Quotes screen gains an **Add quote** button: the shared quote form opens with
+  a book picker that searches the FTS index (debounced, eight results, recent books on an
+  empty query) and only ever offers book hits — a quote must name its book. Book pages
+  keep creating with their book already given.
+- New keys `quotes.add` and `quote.form.book*` in both catalogues; `bookHits` helper with
+  tests; empty-state copy now names both creation paths.
+
 ### Task 4 — Rubric ratings and reviews
 
 - **Domain + storage**: `RatingCriterion` / `Review` / `RubricScore` entities with validation,

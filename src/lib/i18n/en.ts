@@ -220,6 +220,9 @@ export const en: Record<MessageKey, string> = {
   // ── Quotes ─────────────────────────────────────────────────────────────────
   "quote.form.add": "Add a quote",
   "quote.form.edit": "Edit quote",
+  "quote.form.book": "Book",
+  "quote.form.bookSearch": "Search the library by title or author…",
+  "quote.form.bookChange": "Change book",
   "quote.text": "Quote text",
   "quote.text.hint": "Up to 8,000 characters.",
   "quote.note": "Your note",
@@ -238,8 +241,9 @@ export const en: Record<MessageKey, string> = {
 
   "quotes.title": "Quotes",
   "quotes.count": "quotes",
+  "quotes.add": "Add quote",
   "quotes.empty.title": "No quotes yet",
-  "quotes.empty.body": "Add a quote from any of your books' pages while reading, and they all gather here next to their books.",
+  "quotes.empty.body": "Add a quote from a book's page while reading — or right here — and they all gather here next to their books.",
   "quotes.loadFailed": "Couldn't load the quotes list",
   "quotes.from": "from",
   "quotes.deleteConfirm": "Delete this quote?",
