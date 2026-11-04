@@ -902,11 +902,40 @@ Json[] |
 	 */
 	fileReveal: (id: string) => typedError<null, AppErrorDto>(__TAURI_INVOKE("file_reveal", { id })),
 	goodreadsParse: (text: string) => typedError<GoodreadsRow[], AppErrorDto>(__TAURI_INVOKE("goodreads_parse", { text })),
+	/**  Import Goodreads rows in Rust, preserving review text and reporting every failed row. */
+	goodreadsImportCommit: (rows: GoodreadsRow[]) => typedError<GoodreadsImportReport, AppErrorDto>(__TAURI_INVOKE("goodreads_import_commit", { rows })),
+	/**  Read a book's review, active rubric axes and saved scores. */
+	evaluationGet: (bookId: string) => typedError<BookEvaluation, AppErrorDto>(__TAURI_INVOKE("evaluation_get", { bookId })),
+	/**  Save an overall review and the rubric score changes as one transaction. */
+	evaluationSave: (bookId: string, review: ReviewInput, scores: RubricScoreInput[]) => typedError<BookEvaluation, AppErrorDto>(__TAURI_INVOKE("evaluation_save", { bookId, review, scores })),
+	/**  Fetch threshold-qualified author and publisher rating aggregates. */
+	evaluationAggregates: () => typedError<EvaluationAggregates, AppErrorDto>(__TAURI_INVOKE("evaluation_aggregates")),
+	/**  List every rubric criterion, including inactive criteria used in Settings. */
+	ratingCriteriaList: () => typedError<RatingCriterion[], AppErrorDto>(__TAURI_INVOKE("rating_criteria_list")),
+	/**  Add a user-defined rubric criterion. */
+	ratingCriterionCreate: (input: RatingCriterionInput) => typedError<RatingCriterion, AppErrorDto>(__TAURI_INVOKE("rating_criterion_create", { input })),
+	/**  Edit a rubric criterion while preserving its identifier and saved scores. */
+	ratingCriterionUpdate: (id: string, input: RatingCriterionInput) => typedError<RatingCriterion, AppErrorDto>(__TAURI_INVOKE("rating_criterion_update", { id, input })),
 	/**  Search books, notes, quotes and authors through the SQLite FTS5 index. */
 	search: (query: string, limit: number | null) => typedError<SearchResult[], AppErrorDto>(__TAURI_INVOKE("search", { query, limit })),
 };
 
 /* Types */
+/**  Aggregate computed over a set of books for one author or publisher. */
+export type Aggregate = {
+	/**  Number of books that contributed at least one score. */
+	book_count: number,
+	/**
+	 *  Weighted mean over all scored criteria, in half-star units (`0..=10`), `None` when there
+	 *  is not enough data.
+	 */
+	overall: number | null,
+	/**  Per-criterion weighted means, keyed by criterion id. */
+	per_criterion: ([string, number | null])[],
+	/**  How many books contributed to each criterion, keyed by criterion id. */
+	per_criterion_counts: ([string, number])[],
+};
+
 /**
  *  The single error type every Tauri command returns.
  * 
@@ -1131,6 +1160,18 @@ export type BookDetail = {
 	categories: string[],
 	/**  Tag ids. */
 	tags: string[],
+};
+
+/**  All evaluation data needed to display and edit a book's review. */
+export type BookEvaluation = {
+	/**  Current review, if one has been written. */
+	review: Review | null,
+	/**  Active rubric criteria. */
+	criteria: RatingCriterion[],
+	/**  Saved scores belonging to active criteria. */
+	scores: RubricScoreRecord[],
+	/**  This book's weighted rubric aggregate. */
+	aggregate: Aggregate,
 };
 
 /**  An attachment belonging to a book. */
@@ -1358,8 +1399,44 @@ export type EnrichedBook = {
 	isbn13: string | null,
 };
 
+/**  One author or publisher's aggregate and the threshold-qualified star rating. */
+export type EntityRatingAggregate = {
+	/**  Author or publisher identifier. */
+	entity_id: string,
+	/**  Full aggregate, including its contributing-book count. */
+	aggregate: Aggregate,
+	/**  Aggregate rating, present only when the domain threshold is met. */
+	rating: Rating | null,
+};
+
+/**  Aggregates grouped by entity type. */
+export type EvaluationAggregates = {
+	/**  Author aggregates. */
+	authors: EntityRatingAggregate[],
+	/**  Publisher aggregates. */
+	publishers: EntityRatingAggregate[],
+};
+
 /**  Attachment file kind. */
 export type FileKind = "epub" | "pdf" | "mobi" | "azw3" | "txt" | "audio" | "other";
+
+/**  One row that could not be imported. */
+export type GoodreadsImportFailure = {
+	/**  Book title from the source row. */
+	title: string,
+	/**  Localizable error details. */
+	error: AppErrorDto,
+};
+
+/**  Summary of a Goodreads import run. */
+export type GoodreadsImportReport = {
+	/**  Rows imported successfully. */
+	imported: number,
+	/**  Rows skipped because their ISBN already exists. */
+	skipped: number,
+	/**  Rows that failed validation or persistence. */
+	failures: GoodreadsImportFailure[],
+};
 
 /**  One row from a Goodreads export, normalised for Maktabati. */
 export type GoodreadsRow = {
@@ -1371,7 +1448,7 @@ export type GoodreadsRow = {
 	isbn13: string | null,
 	/**  0..=5, `None` when unrated. */
 	rating: number | null,
-	/**  Maktabati reading status: "read" | "reading" | "to_read" | "unread". */
+	/**  Maktabati reading status: "finished" | "reading" | "to_read". */
 	status: string,
 	page_count: number | null,
 	publication_year: number | null,
@@ -1733,6 +1810,55 @@ export type QuoteWithBook = {
 	book_author: string | null,
 };
 
+/**  A rating on a 0–5 scale expressible in half-star steps, stored as `0..=10`. */
+export type Rating = number;
+
+/**  A user-editable rating axis. */
+export type RatingCriterion = {
+	/**  Stable identifier. */
+	id: string,
+	/**  Stable key used for built-in criteria. */
+	key: string,
+	/**  Arabic display name. */
+	name_ar: string,
+	/**  English display name. */
+	name_en: string,
+	/**  Arabic explanatory text. */
+	description_ar: string | null,
+	/**  English explanatory text. */
+	description_en: string | null,
+	/**  Weight used when combining scores. */
+	weight: number | null,
+	/**  Display order. */
+	position: number,
+	/**  Whether this axis is available for new scores. */
+	is_active: boolean,
+	/**  Whether this axis was included with the application. */
+	is_system: boolean,
+	/**  Creation timestamp, epoch ms UTC. */
+	created_at: number,
+	/**  Last update timestamp, epoch ms UTC. */
+	updated_at: number,
+};
+
+/**  Writable fields for a rubric criterion. */
+export type RatingCriterionInput = {
+	/**  Arabic display name. */
+	name_ar: string,
+	/**  English display name. */
+	name_en: string,
+	/**  Arabic explanatory text. */
+	description_ar: string | null,
+	/**  English explanatory text. */
+	description_en: string | null,
+	/**  Weight used when combining scores (`0..=100`). */
+	weight: number | null,
+	/**  Display order. */
+	position: number,
+	/**  Whether this axis is available for new scores. */
+	is_active: boolean,
+};
+
 /**
  *  Current reading status of a book (the brief: to-read / reading / finished / paused /
  *  abandoned — Hard Cover's "did not finish" maps to `Abandoned`).
@@ -1745,6 +1871,54 @@ export type RestoreResult = {
 	safety_snapshot: string,
 	/**  Schema version now active in the database. */
 	schema_version: number,
+};
+
+/**  One written review for a book. */
+export type Review = {
+	/**  UUID v7. */
+	id: string,
+	/**  Owning book id. */
+	book_id: string,
+	/**  Overall rating in half-star units (`0..=10`). */
+	rating: number | null,
+	/**  Review body. */
+	body: string | null,
+	/**  Creation timestamp, epoch ms UTC. */
+	created_at: number,
+	/**  Last update timestamp, epoch ms UTC. */
+	updated_at: number,
+};
+
+/**  Editable overall rating and review body. */
+export type ReviewInput = {
+	/**  Overall rating in half-star units (`0..=10`). */
+	rating: number | null,
+	/**  Review body. */
+	body: string | null,
+};
+
+/**  A per-book score update; `None` clears that criterion's score. */
+export type RubricScoreInput = {
+	/**  Criterion identifier. */
+	criterion_id: string,
+	/**  Score in half-star units (`0..=10`), or `None` to clear. */
+	score: number | null,
+	/**  Optional note for this axis. */
+	note: string | null,
+};
+
+/**  A persisted per-book rubric score. */
+export type RubricScoreRecord = {
+	/**  Owning book id. */
+	book_id: string,
+	/**  Criterion identifier. */
+	criterion_id: string,
+	/**  Score in half-star units (`0..=10`). */
+	score: number,
+	/**  Optional note for this axis. */
+	note: string | null,
+	/**  Last update timestamp, epoch ms UTC. */
+	updated_at: number,
 };
 
 /**  A compact, presentation-neutral result from one of the searchable library entities. */

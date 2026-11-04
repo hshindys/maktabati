@@ -29,6 +29,7 @@
     deleteNotePage,
     deleteQuote,
     getBookDetail,
+    getEvaluation,
     listAuthors,
     listBookQuotes,
     listCategories,
@@ -43,6 +44,7 @@
     revealFile,
     setBookStatus,
     setCover,
+    saveEvaluation,
   } from "../api";
   import Button from "../components/Button.svelte";
   import Card from "../components/Card.svelte";
@@ -67,6 +69,7 @@
     AuthorCredit,
     Book,
     BookDetail,
+    BookEvaluation,
     BookFile,
     BookFormat,
     BookSource,
@@ -77,6 +80,8 @@
     Publisher,
     Quote,
     ReadingStatus,
+    ReviewInput,
+    RubricScoreInput,
     Series,
     StorageMode,
     Tag,
@@ -120,6 +125,13 @@
   let id = $derived($route.params.id ?? "");
 
   let detail = $state<BookDetail | null>(null);
+  let evaluation = $state<BookEvaluation | null>(null);
+  let evaluationError = $state<AppErrorDto | null>(null);
+  let evaluationSaving = $state(false);
+  let reviewBody = $state("");
+  let reviewRating = $state<number | null>(null);
+  let rubricValues = $state<Record<string, string>>({});
+  let rubricNotes = $state<Record<string, string>>({});
   let loadError = $state<AppErrorDto | null>(null);
   let missing = $state(false);
   let loading = $state(true);
@@ -133,6 +145,12 @@
   let publishers = $state<Publisher[]>([]);
   let seriesList = $state<Series[]>([]);
 
+  const SCORE_VALUES = Array.from({ length: 11 }, (_, index) => index);
+  const criterionName = (criterion: BookEvaluation["criteria"][number]) =>
+    $locale === "ar" ? criterion.name_ar : criterion.name_en;
+  const criterionDescription = (criterion: BookEvaluation["criteria"][number]) =>
+    $locale === "ar" ? criterion.description_ar : criterion.description_en;
+
   async function load(): Promise<void> {
     if (id.length === 0) {
       loading = false;
@@ -144,13 +162,14 @@
     loadError = null;
     detail = null;
 
-    const [d, a, c, tg, p, s] = await Promise.all([
+    const [d, a, c, tg, p, s, ev] = await Promise.all([
       getBookDetail(id),
       listAuthors(),
       listCategories(),
       listTags(),
       listPublishers(),
       listSeries(),
+      getEvaluation(id),
     ]);
 
     if (a.status === "ok") authors = a.data;
@@ -166,10 +185,62 @@
     } else {
       loadError = d.error;
     }
+    if (d.status === "ok" && ev.status === "ok") {
+      evaluation = ev.data;
+      evaluationError = null;
+      reviewBody = ev.data.review?.body ?? "";
+      reviewRating = ev.data.review?.rating ?? d.data.book.rating;
+      rubricValues = Object.fromEntries(
+        ev.data.scores.map((score) => [score.criterion_id, String(score.score)]),
+      );
+      rubricNotes = Object.fromEntries(
+        ev.data.scores.map((score) => [score.criterion_id, score.note ?? ""]),
+      );
+    } else if (d.status === "ok" && ev.status === "error") {
+      evaluation = null;
+      if (ev.error.code !== "shell.unavailable") evaluationError = ev.error;
+    }
     loading = false;
   }
 
   onMount(() => void load());
+
+  async function saveReviewAndRubric(): Promise<void> {
+    if (evaluationSaving || evaluation === null || id.length === 0) return;
+    const review: ReviewInput = {
+      rating: reviewRating,
+      body: reviewBody.trim().length === 0 ? null : reviewBody,
+    };
+    const scores: RubricScoreInput[] = evaluation.criteria.map((criterion) => {
+      const value = rubricValues[criterion.id] ?? "";
+      const note = rubricNotes[criterion.id]?.trim() ?? "";
+      return {
+        criterion_id: criterion.id,
+        score: value.length === 0 ? null : Number(value),
+        note: note.length === 0 ? null : note,
+      };
+    });
+    evaluationSaving = true;
+    const result = await saveEvaluation(id, review, scores);
+    if (result.status === "ok") {
+      evaluation = result.data;
+      evaluationError = null;
+      reviewBody = result.data.review?.body ?? "";
+      rubricValues = Object.fromEntries(
+        result.data.scores.map((score) => [score.criterion_id, String(score.score)]),
+      );
+      rubricNotes = Object.fromEntries(
+        result.data.scores.map((score) => [score.criterion_id, score.note ?? ""]),
+      );
+      if (detail !== null) {
+        detail = { ...detail, book: { ...detail.book, rating: reviewRating } };
+      }
+      toast.success(t("toast.saved"));
+    } else {
+      toast.error(messageFor(result.error, t));
+    }
+    evaluationSaving = false;
+  }
 
   // ── Edit and delete the book itself ────────────────────────────────────────────────────
   //
@@ -962,6 +1033,110 @@
             {@render fact(t("book.source"), sourceLabel(book.source))}
             {@render fact(t("book.language"), book.language_code, true)}
           </dl>
+        </Card>
+
+        <Card>
+          {@render sectionTitle(t("evaluation.review.title"))}
+          {#if evaluationError !== null}
+            <p role="alert" class="text-[var(--fs-sm)] text-danger">
+              {messageFor(evaluationError, t)}
+            </p>
+          {:else if evaluation === null}
+            <p class="text-[var(--fs-sm)] text-ink-3">{t("evaluation.unavailable")}</p>
+          {:else}
+            {#if evaluation.aggregate.overall !== null}
+              <p class="mb-[var(--sp-3)] text-[var(--fs-sm)] text-ink-3">
+                {t("evaluation.bookAverage", { rating: num(evaluation.aggregate.overall / 2) })}
+              </p>
+            {/if}
+            <div class="grid gap-[var(--sp-3)] sm:grid-cols-2">
+              <label class="flex flex-col gap-1 text-[var(--fs-sm)] text-ink-2">
+                {t("evaluation.review.rating")}
+                <select
+                  value={reviewRating ?? ""}
+                  onchange={(event) => {
+                    const value = event.currentTarget.value;
+                    reviewRating = value === "" ? null : Number(value);
+                  }}
+                  class="h-9 rounded-[var(--r-md)] border border-border-2 bg-surface-1 px-[var(--sp-3)] text-ink-1 outline-none focus:border-accent"
+                >
+                  <option value="">{t("evaluation.score.none")}</option>
+                  {#each SCORE_VALUES as score (score)}
+                    <option value={score}>{t("evaluation.score.outOfFive", { rating: num(score / 2) })}</option>
+                  {/each}
+                </select>
+              </label>
+            </div>
+            <label class="mt-[var(--sp-3)] flex flex-col gap-1 text-[var(--fs-sm)] text-ink-2">
+              {t("evaluation.review.body")}
+              <textarea
+                bind:value={reviewBody}
+                rows="5"
+                maxlength="20000"
+                class="w-full resize-y rounded-[var(--r-md)] border border-border-2 bg-surface-1 p-[var(--sp-3)] text-[var(--fs-base)] text-ink-1 outline-none focus:border-accent"
+              ></textarea>
+            </label>
+
+            <h3 class="mb-[var(--sp-2)] mt-[var(--sp-4)] text-[var(--fs-base)] font-medium text-ink-1">
+              {t("evaluation.rubric.title")}
+            </h3>
+            {#if evaluation.criteria.length === 0}
+              <p class="text-[var(--fs-sm)] text-ink-3">{t("evaluation.rubric.noCriteria")}</p>
+            {:else}
+              <div class="grid gap-[var(--sp-3)] sm:grid-cols-2">
+                {#each evaluation.criteria as criterion (criterion.id)}
+                  <div class="flex flex-col gap-1">
+                    <label class="text-[var(--fs-sm)] font-medium text-ink-2" for="rubric-{criterion.id}">
+                      {criterionName(criterion)}
+                    </label>
+                    {#if criterionDescription(criterion) !== null}
+                      <p class="text-[var(--fs-xs)] text-ink-3">{criterionDescription(criterion)}</p>
+                    {/if}
+                    <select
+                      id="rubric-{criterion.id}"
+                      aria-label={criterionName(criterion)}
+                      value={rubricValues[criterion.id] ?? ""}
+                      onchange={(event) => {
+                        rubricValues = {
+                          ...rubricValues,
+                          [criterion.id]: event.currentTarget.value,
+                        };
+                      }}
+                      class="h-9 rounded-[var(--r-md)] border border-border-2 bg-surface-1 px-[var(--sp-3)] text-ink-1 outline-none focus:border-accent"
+                    >
+                      <option value="">{t("evaluation.score.none")}</option>
+                      {#each SCORE_VALUES as score (score)}
+                        <option value={score}>{t("evaluation.score.outOfFive", { rating: num(score / 2) })}</option>
+                      {/each}
+                    </select>
+                    <input
+                      value={rubricNotes[criterion.id] ?? ""}
+                      aria-label={t("evaluation.rubric.note", { criterion: criterionName(criterion) })}
+                      placeholder={t("evaluation.rubric.notePlaceholder")}
+                      maxlength="5000"
+                      oninput={(event) => {
+                        rubricNotes = {
+                          ...rubricNotes,
+                          [criterion.id]: event.currentTarget.value,
+                        };
+                      }}
+                      class="h-9 rounded-[var(--r-md)] border border-border-2 bg-surface-1 px-[var(--sp-3)] text-[var(--fs-sm)] text-ink-1 outline-none focus:border-accent"
+                    />
+                  </div>
+                {/each}
+              </div>
+            {/if}
+            <div class="mt-[var(--sp-4)]">
+              <Button
+                variant="primary"
+                loading={evaluationSaving}
+                disabled={evaluationSaving}
+                onclick={() => void saveReviewAndRubric()}
+              >
+                {t("common.save")}
+              </Button>
+            </div>
+          {/if}
         </Card>
 
         <Card>

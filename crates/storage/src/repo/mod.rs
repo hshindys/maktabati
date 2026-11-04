@@ -7,6 +7,7 @@
 pub mod author;
 pub mod book;
 pub mod category;
+pub mod evaluation;
 pub mod file;
 pub mod language;
 pub mod note;

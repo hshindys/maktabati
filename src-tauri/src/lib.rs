@@ -138,6 +138,14 @@ macro_rules! commands {
             crate::commands::files::file_reveal,
             // Import (Goodreads phase 1)
             crate::commands::import::goodreads_parse,
+            crate::commands::import::goodreads_import_commit,
+            // Reviews and rubric evaluations.
+            crate::commands::evaluation::evaluation_get,
+            crate::commands::evaluation::evaluation_save,
+            crate::commands::evaluation::evaluation_aggregates,
+            crate::commands::evaluation::rating_criteria_list,
+            crate::commands::evaluation::rating_criterion_create,
+            crate::commands::evaluation::rating_criterion_update,
             crate::commands::search::search,
         ]
     };
@@ -461,6 +469,13 @@ mod tests {
             "hermes_stop",
             "hermes_status",
             "hermes_token_regenerate",
+            "evaluation_get",
+            "evaluation_save",
+            "evaluation_aggregates",
+            "rating_criteria_list",
+            "rating_criterion_create",
+            "rating_criterion_update",
+            "goodreads_import_commit",
             "quote_create",
             "quote_list",
             "quote_list_all",

@@ -29,6 +29,7 @@ pub mod book;
 pub mod category;
 pub mod enums;
 pub mod error;
+pub mod evaluation;
 pub mod file;
 pub mod ids;
 pub mod isbn;
@@ -53,6 +54,10 @@ pub use book::{AuthorCredit, Book, BookInput, BookStatus};
 pub use category::{Category, CategoryInput};
 pub use enums::*;
 pub use error::DomainError;
+pub use evaluation::{
+    BookEvaluation, EntityRatingAggregate, EvaluationAggregates, RatingCriterion,
+    RatingCriterionInput, Review, ReviewInput, RubricScoreInput, RubricScoreRecord,
+};
 pub use file::{BookFile, BookFileInput};
 pub use isbn::Isbn;
 pub use json::Json;

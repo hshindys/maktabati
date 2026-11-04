@@ -19,7 +19,7 @@ pub struct GoodreadsRow {
     pub isbn13: Option<String>,
     /// 0..=5, `None` when unrated.
     pub rating: Option<u8>,
-    /// Maktabati reading status: "read" | "reading" | "to_read" | "unread".
+    /// Maktabati reading status: "finished" | "reading" | "to_read".
     pub status: String,
     pub page_count: Option<u32>,
     pub publication_year: Option<i32>,
@@ -170,11 +170,10 @@ fn parse_rating(s: &str, warnings: &mut Vec<String>) -> Option<u8> {
 
 fn map_status(shelf: &str) -> String {
     match shelf.trim().to_lowercase().as_str() {
-        "read" => "read".into(),
+        "read" => "finished".into(),
         "currently-reading" => "reading".into(),
-        "to-read" => "to_read".into(),
-        "" => "unread".into(),
-        other => other.to_string(),
+        "to-read" | "" => "to_read".into(),
+        _ => "to_read".into(),
     }
 }
 
@@ -320,7 +319,7 @@ mod tests {
         assert_eq!(r.isbn10.as_deref(), Some("020161622X"));
         assert_eq!(r.isbn13.as_deref(), Some("9780201616224"));
         assert_eq!(r.rating, Some(5));
-        assert_eq!(r.status, "read");
+        assert_eq!(r.status, "finished");
         assert_eq!(r.page_count, Some(352));
         assert_eq!(r.publication_year, Some(1999));
         assert_eq!(r.date_read.as_deref(), Some("2024/01/15"));
@@ -370,10 +369,12 @@ mod tests {
 
     #[test]
     fn status_mapping() {
-        let csv = "Title,Author,Exclusive Shelf\nA,B,currently-reading\nC,D,to-read\nE,F,\n";
+        let csv =
+            "Title,Author,Exclusive Shelf\nA,B,currently-reading\nC,D,to-read\nE,F,read\nG,H,\n";
         let rows = parse_goodreads_csv(csv).unwrap();
         assert_eq!(rows[0].status, "reading");
         assert_eq!(rows[1].status, "to_read");
-        assert_eq!(rows[2].status, "unread");
+        assert_eq!(rows[2].status, "finished");
+        assert_eq!(rows[3].status, "to_read");
     }
 }

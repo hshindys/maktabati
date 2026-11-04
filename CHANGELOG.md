@@ -7,6 +7,19 @@ All notable changes to Maktabati are documented here. Format loosely follows
 
 Task-specific changes are committed separately; this changelog tracks completed work.
 
+### Task 4 — Rubric ratings and reviews
+
+- **Domain + storage**: `RatingCriterion` / `Review` / `RubricScore` entities with validation,
+  a user-editable rubric repository, per-book review + score save as one transaction, and
+  threshold-gated author/publisher rating aggregates (`MIN_BOOKS_FOR_AGGREGATE = 3`).
+- **Commands**: `evaluation_get`, `evaluation_save`, `evaluation_aggregates`,
+  `rating_criteria_list`, `rating_criterion_create`, `rating_criterion_update` — registered
+  through `collect_commands!`, pinned by the command-surface snapshot, bindings regenerated.
+- **UI**: the book page gains a Review & rating card (overall half-star, review text, rubric
+  score + note per criterion), Settings gains a rubric editor (add/edit/deactivate axes with
+  weights), and the Authors/Publishers screens show threshold-qualified aggregates.
+- **Goodreads import** now stores `My Review` text as the book's review instead of dropping it.
+
 ### Task 3 — Secure Hermes HTTP API
 
 - **Authentication**: Hermes now generates and persists a cryptographically random bearer

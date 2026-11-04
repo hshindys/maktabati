@@ -19,6 +19,7 @@
   import Card from "../components/Card.svelte";
   import Button from "../components/Button.svelte";
   import Mark from "../components/Mark.svelte";
+  import RatingCriteriaEditor from "../components/RatingCriteriaEditor.svelte";
   import {
     backupLibrary,
     getAppInfo,
@@ -395,6 +396,8 @@
       </span>
     </p>
   </Card>
+
+  <RatingCriteriaEditor />
 
   <!-- Storage: backup now + live health numbers. -->
   <Card>

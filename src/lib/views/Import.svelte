@@ -4,47 +4,20 @@
   import Button from "../components/Button.svelte";
   import Card from "../components/Card.svelte";
   import EmptyState from "../components/EmptyState.svelte";
-  import { locale, translatorFor } from "../i18n";
+  import { locale, translatorFor, type MessageKey } from "../i18n";
   import { messageFor } from "../errors";
   import { formatNumber } from "../format";
   import { preferences } from "../settings";
   import { toast } from "../toast";
-  import {
-    type GoodreadsRow,
-    createAuthor,
-    createBook,
-    createPublisher,
-    createTag,
-    findBooksByIsbn,
-    parseGoodreads,
-    searchAuthors,
-    searchPublishers,
-    searchTags,
-  } from "../api";
-  import * as goodreads from "../goodreads";
-  import type { AuthorInput, BookInput, PublisherInput, TagInput } from "@/bindings";
+  import { commitGoodreads, parseGoodreads, type GoodreadsRow } from "../api";
+  import type { AppErrorDto, GoodreadsImportFailure } from "@/bindings";
 
   /**
    * Goodreads import — CSV in, catalogue rows out (docs/04 §4.6).
    *
-   * Parsing is one pure backend call (`goodreads_parse`); the commit loop is where the
-   * mapping decisions live:
-   *
-   * - author / publisher / tags are **find-or-create**, so a re-import never duplicates
-   *   them (lookups are cached per run — one search per new name);
-   * - Goodreads' 0..5 rating doubles into Maktabati's half-star units (0..10); `0` is
-   *   Goodreads' "unrated", not a zero-star opinion, so it stores `null`;
-   * - `read`→finished, `reading`→reading, `to_read`/`unread`→to_read;
-   * - the `Binding` column maps onto a book format (`binding_to_format` semantics);
-   * - **series, description and cover image are null** — not columns in the export, so
-   *   nothing is guessed on their behalf;
-   * - the review text is visible in the preview but dropped: the reviews record
-   *   (`reviews` tables) is a later milestone and staging it on books would be a lie;
-   * - rows whose ISBN already sits in the library are skipped, counted separately from
-   *   failures — an import you re-run must not invent second copies.
+   * Both parsing and import decisions run in Rust. This view only previews parsed rows,
+   * sends them to the importer, and renders its explicit per-row outcomes.
    */
-
-  type CommitFailure = { title: string; message: string };
 
   let csvText = $state("");
   let fileName = $state("");
@@ -57,7 +30,8 @@
 
   let done = $state(0);
   let skipped = $state(0);
-  let failures = $state<CommitFailure[]>([]);
+  let failures = $state<GoodreadsImportFailure[]>([]);
+  let commitError = $state<AppErrorDto | null>(null);
 
   let t = $derived(translatorFor($locale));
   let digits = $derived($preferences.digits);
@@ -77,8 +51,12 @@
 
   async function parse(): Promise<void> {
     parseError = null;
+    commitError = null;
     rows = [];
     warnings = [];
+    failures = [];
+    done = 0;
+    skipped = 0;
     if (csvText.trim().length === 0) return;
     parsing = true;
     try {
@@ -94,206 +72,26 @@
     }
   }
 
-  // The mapping decisions come from `lib/goodreads.ts` — shared, tested, and the
-  // documented mirror of `metadata::goodreads::binding_to_format`.
-  const {
-    STATUS_MAP,
-    DEFAULT_STATUS,
-    bindingToFormat,
-    ratingToHalfStars,
-    cleanIsbn,
-  } = goodreads;
-
-  // ── Find-or-create ────────────────────────────────────────────────────────
-  //
-  // Lookups are cached for the run: a Goodreads library repeats authors and
-  // publishers heavily, and one search per distinct name beats one per row.
-
-  function createCached(
-    search: (name: string) => Promise<{ status: string; data?: unknown }>,
-    list: (data: unknown) => Array<{ id: string; name: string }>,
-    create: (name: string) => Promise<{ status: string; data?: unknown }>,
-  ): (name: string) => Promise<string | null> {
-    const cache = new Map<string, string | null>();
-    const pending = new Map<string, Promise<string | null>>();
-    return (name: string) => {
-      const cached = cache.get(name);
-      if (cached !== undefined) return Promise.resolve(cached);
-      let running = pending.get(name);
-      if (running === undefined) {
-        running = (async () => {
-          try {
-            const found = await search(name);
-            if (found.status === "ok") {
-              const match = list(found.data).find((x) => x.name === name);
-              if (match) {
-                cache.set(name, match.id);
-                return match.id;
-              }
-            }
-            const created = await create(name);
-            if (created.status === "ok" && created.data !== undefined) {
-              const id = list([created.data])[0]?.id;
-              if (id) {
-                cache.set(name, id);
-                return id;
-              }
-            }
-          } catch {
-            // Network/backend failure: the row imports without this relation, the
-            // next run can fill it in.
-          }
-          cache.set(name, null);
-          return null;
-        })();
-        pending.set(name, running);
-      }
-      return running;
-    };
-  }
-
-  type Named = { id: string; name: string };
-  const asList = (data: unknown): Named[] => (Array.isArray(data) ? (data as Named[]) : []);
-
-  const authorNamed = (name: string): AuthorInput => ({
-    name,
-    name_original: null,
-    bio: null,
-    nationality: null,
-    birth_year: null,
-    death_year: null,
-    photo_path: null,
-  });
-  const publisherNamed = (name: string): PublisherInput => ({
-    name,
-    country: null,
-    city: null,
-    website: null,
-    notes: null,
-    cover_path: null,
-  });
-  const tagNamed = (name: string): TagInput => ({ name, color: null });
-
-  const authorIdFor = createCached(
-    (n) => searchAuthors(n, 20),
-    asList,
-    (n) => createAuthor(authorNamed(n)),
-  );
-  const publisherIdFor = createCached(
-    (n) => searchPublishers(n, 20),
-    asList,
-    (n) => createPublisher(publisherNamed(n)),
-  );
-
-  let tagIds = new Map<string, string>();
-
-  async function tagIdsFor(names: string[]): Promise<string[]> {
-    const ids: string[] = [];
-    for (const name of names) {
-      const known = tagIds.get(name);
-      if (known !== undefined) {
-        ids.push(known);
-        continue;
-      }
-      let id: string | null = null;
-      try {
-        const found = await searchTags(name, 20);
-        if (found.status === "ok") {
-          const match = asList(found.data).find((x) => x.name === name);
-          if (match) id = match.id;
-        }
-        if (id === null) {
-          const created = await createTag(tagNamed(name));
-          if (created.status === "ok") id = asList([created.data])[0]?.id ?? null;
-        }
-      } catch {
-        // Skip an unreachable tag; the book still keeps its shelves in the title of nothing.
-      }
-      if (id !== null) {
-        tagIds.set(name, id);
-        ids.push(id);
-      }
-    }
-    return ids;
-  }
-
   async function commit(): Promise<void> {
     if (committing || rows.length === 0) return;
     committing = true;
     done = 0;
     skipped = 0;
     failures = [];
-
-    for (const row of rows) {
-      // A blank title still imports under its Goodreads id, so the failure list can name it.
-      const title = row.title || `#${row.goodreads_id}`;
-      try {
-        // An ISBN already in the library means the same copy — skip, don't duplicate.
-        const known13 = cleanIsbn(row.isbn13);
-        const known10 = cleanIsbn(row.isbn10);
-        if (known13 !== null || known10 !== null) {
-          const matches = await findBooksByIsbn(known13 ?? known10 ?? "");
-          if (matches.status === "ok" && matches.data.length > 0) {
-            skipped += 1;
-            continue;
-          }
-        }
-
-        const authorId = row.author.length > 0 ? await authorIdFor(row.author) : null;
-        const publisherId = row.publisher !== null ? await publisherIdFor(row.publisher) : null;
-        const tags = await tagIdsFor(row.tags);
-
-        const input: BookInput = {
-          title: row.title,
-          subtitle: null,
-          original_title: null,
-          language_code: null, // the backend defaults to `ar`
-          isbn10: known10,
-          isbn13: known13,
-          edition: null,
-          publication_year: row.publication_year,
-          page_count: row.page_count,
-          format: bindingToFormat(row.binding),
-          description: null,
-          series_id: null,
-          series_order: null,
-          room: null,
-          shelf: null,
-          box_name: null,
-          acquired_date: null,
-          acquired_from: null,
-          price_minor: null,
-          price_currency: null,
-          condition: null,
-          cover_path: null,
-          cover_source: null,
-          source: "goodreads",
-          external_ids: null,
-          authors: authorId === null ? [] : [{ author_id: authorId, role: "author" }],
-          publisher_id: publisherId,
-          categories: [],
-          tags,
-          reading_status: STATUS_MAP[row.status] ?? DEFAULT_STATUS,
-          rating: ratingToHalfStars(row.rating),
-          current_page: null,
-        };
-        const res = await createBook(input);
-        if (res.status === "ok") {
-          done += 1;
-        } else {
-          failures = [...failures, { title, message: messageFor(res.error, t) }];
-        }
-      } catch (cause) {
-        failures = [
-          ...failures,
-          { title, message: cause instanceof Error ? cause.message : String(cause) },
-        ];
+    commitError = null;
+    try {
+      const res = await commitGoodreads(rows);
+      if (res.status === "ok") {
+        done = res.data.imported;
+        skipped = res.data.skipped;
+        failures = res.data.failures;
+        if (failures.length === 0) toast.success(t("toast.imported"));
+      } else {
+        commitError = res.error;
+        toast.error(messageFor(res.error, t));
       }
-    }
-
-    committing = false;
-    if (failures.length === 0) {
-      toast.success(t("toast.imported"));
+    } finally {
+      committing = false;
     }
   }
 </script>
@@ -339,16 +137,14 @@
           {t("import.commit")} — {t("import.previewCount", { n: num(rows.length) })}
         </Button>
       {:else if committing}
-        <span class="tnum text-[var(--fs-sm)] text-ink-2">
-          {t("import.progress", { done: num(done), total: num(rows.length) })}
-        </span>
+        <span role="status" class="text-[var(--fs-sm)] text-ink-2">{t("import.committing")}</span>
       {/if}
     </div>
 
     <p class="mt-[var(--sp-3)] text-[var(--fs-sm)] text-ink-3">{t("import.mappingHint")}</p>
 
     {#if rows.length > 0}
-      <p class="mt-[var(--sp-2)] text-[var(--fs-sm)] text-ink-3">{t("import.reviewDropped")}</p>
+      <p class="mt-[var(--sp-2)] text-[var(--fs-sm)] text-ink-3">{t("import.reviewImported")}</p>
     {/if}
   </Card>
 
@@ -361,6 +157,14 @@
           <p class="mt-0.5 text-[var(--fs-base)] text-ink-2" dir="auto">{parseError}</p>
         </div>
       </div>
+    </Card>
+  {/if}
+
+  {#if commitError !== null}
+    <Card>
+      <p role="alert" class="bidi-auto text-[var(--fs-sm)] text-danger" dir="auto">
+        {messageFor(commitError, t)}
+      </p>
     </Card>
   {/if}
 
@@ -381,8 +185,8 @@
             })}
           </div>
           <ul class="flex flex-col gap-1 text-[var(--fs-sm)] text-ink-2">
-            {#each failures.slice(0, 10) as failure (failure.title + failure.message)}
-              <li class="break-all" dir="auto">• {failure.title}: {failure.message}</li>
+            {#each failures.slice(0, 10) as failure (failure.title + failure.error.code)}
+              <li class="break-all" dir="auto">• {failure.title}: {messageFor(failure.error, t)}</li>
             {/each}
             {#if failures.length > 10}
               <li>{t("import.moreRows", { m: num(failures.length - 10) })}</li>
@@ -440,9 +244,9 @@
                 <td class="bidi-auto max-w-[14rem] truncate px-[var(--sp-3)] py-[var(--sp-2)] text-ink-1" dir="auto">{row.title}</td>
                 <td class="bidi-auto max-w-[10rem] truncate px-[var(--sp-3)] py-[var(--sp-2)] text-ink-2" dir="auto">{row.author}</td>
                 <td class="bidi-ltr tnum px-[var(--sp-3)] py-[var(--sp-2)] text-ink-2">
-                  {cleanIsbn(row.isbn13) ?? cleanIsbn(row.isbn10) ?? "—"}
+                  {row.isbn13 ?? row.isbn10 ?? "—"}
                 </td>
-                <td class="px-[var(--sp-3)] py-[var(--sp-2)] text-ink-2">{t(`status.${STATUS_MAP[row.status] ?? DEFAULT_STATUS}`)}</td>
+                <td class="px-[var(--sp-3)] py-[var(--sp-2)] text-ink-2">{t(`status.${row.status}` as MessageKey)}</td>
                 <td class="tnum bidi-ltr px-[var(--sp-3)] py-[var(--sp-2)] text-ink-2">
                   {row.rating === null || row.rating <= 0 ? "—" : `${num(row.rating)}/5`}
                 </td>

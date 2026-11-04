@@ -11,6 +11,7 @@
   import {
     createAuthor,
     deleteAuthor,
+    getEvaluationAggregates,
     listAuthors,
     mergeAuthor,
     updateAuthor,
@@ -47,6 +48,8 @@
   let loading = $state(true);
   let working = $state(false);
   let query = $state("");
+  let authorRatings = $state<Record<string, { stars: number; books: number }>>({});
+  let ratingError = $state<AppErrorDto | null>(null);
 
   /** Case-insensitive display-name filter; `name` is the name the user wrote. */
   let filtered = $derived(
@@ -57,7 +60,7 @@
 
   async function load(): Promise<void> {
     loading = true;
-    const res = await listAuthors();
+    const [res, ratings] = await Promise.all([listAuthors(), getEvaluationAggregates()]);
     if (res.status === "ok") {
       authors = res.data;
       loadError = null;
@@ -68,6 +71,22 @@
     } else {
       authors = [];
       loadError = res.error;
+    }
+    if (ratings.status === "ok") {
+      const byAuthor: Record<string, { stars: number; books: number }> = {};
+      for (const aggregate of ratings.data.authors) {
+        if (aggregate.rating !== null) {
+          byAuthor[aggregate.entity_id] = {
+            stars: aggregate.rating / 2,
+            books: aggregate.aggregate.book_count,
+          };
+        }
+      }
+      authorRatings = byAuthor;
+      ratingError = null;
+    } else {
+      authorRatings = {};
+      ratingError = ratings.error.code === "shell.unavailable" ? null : ratings.error;
     }
     loading = false;
   }
@@ -249,6 +268,10 @@
     </span>
   </header>
 
+  {#if ratingError !== null}
+    <p role="alert" class="text-[var(--fs-sm)] text-danger">{messageFor(ratingError, t)}</p>
+  {/if}
+
   {#if loading}
     <div class="flex flex-col gap-[var(--sp-3)]">
       {#each [0, 1, 2] as i (i)}
@@ -297,6 +320,14 @@
                     <span class="bidi-ltr tnum" dir="ltr">{num(row.birth_year)}{row.death_year === null ? "" : `–${num(row.death_year)}`}</span>
                   {/if}
                 </span>
+                {#if authorRatings[row.id] !== undefined}
+                  <span class="text-[var(--fs-sm)] text-ink-3">
+                    {t("evaluation.aggregate.summary", {
+                      rating: num(authorRatings[row.id].stars),
+                      books: num(authorRatings[row.id].books),
+                    })}
+                  </span>
+                {/if}
               </span>
               <span class="flex shrink-0 items-center gap-1">
                 <button

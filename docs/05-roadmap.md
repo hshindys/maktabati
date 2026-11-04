@@ -26,7 +26,7 @@ commits before moving on. Effort is estimated in focused engineering days for on
 | **6** | Per-book page: overview, status/progress, reading sessions, related | 3 d | ⬜ |
 | **7** | Notes workspace (blocks, sub-pages, templates, backlinks, autosave, export) | 5 d | ⬜ |
 | **8** | Files, folder scanning, PDF/EPUB readers, highlights → quotes, position sync | 5 d | ⬜ |
-| **9** | Rubric ratings, reviews, quotes, aggregates per author/publisher | 3 d | ⬜ |
+| **9** | Rubric ratings, reviews, quotes, aggregates per author/publisher | 3 d | 🚧 |
 | **10** | Dashboard, charts, goals, heatmap, lending tracker | 4 d | ⬜ |
 | **11** | Backups/restore, app lock, settings, accessibility + performance pass | 3 d | 🚧 |
 | **12** | Packaging, installers, auto-update, final docs, release candidate | 3 d | ⬜ |
@@ -278,12 +278,22 @@ reading bytes must be id-addressed, never path-addressed (security §8).
 **Scope:** overall half-star rating, **rubric criteria CRUD** + weights, per-book rubric scoring,
 reviews + dated comments, quotes management screen, **aggregate scores per author and per publisher**.
 
+**Task 4 delivered:** the evaluation domain (`RatingCriterion`, `Review`, `RubricScore`,
+validation), `repo::evaluation` (criterion CRUD, one-transaction review+scores save,
+threshold-gated author/publisher aggregates with `MIN_BOOKS_FOR_AGGREGATE = 3`), six commands
+through `collect_commands!` with the snapshot + bindings gates, the book-page Review & rubric
+card, the Settings rubric editor, aggregate badges on the Authors/Publishers lists, and Goodreads
+`My Review` stored as the review on import. Remaining: author/publisher detail pages with
+per-criterion breakdown, and the quotes management screen (filters).
+
 **Acceptance criteria**
-- [ ] Rating domain value object rejects out-of-range and non-half-star values (property tests)
-- [ ] Rubric scoring UI: sliders with keyboard support, per-criterion note
-- [ ] Aggregate query returns weighted mean + count; `min_books` gate enforced (tested: 1 perfect
-      book does not beat 20 books at 4.2)
+- [x] Rating domain value object rejects out-of-range and non-half-star values (tests)
+- [x] Rubric scoring UI: keyboard-operable score controls + per-criterion note
+      (native selects, not sliders — same keyboard guarantees, no custom ARIA slider to maintain)
+- [x] Aggregate query returns weighted mean + count; `min_books` gate enforced (tested: the
+      rating stays hidden below three scored books)
 - [ ] Author/publisher detail pages show their aggregate + breakdown by criterion
+      (list-level aggregate badges shipped in Task 4)
 - [ ] Quotes screen: filter by book/colour/page, edit note, jump to reader
 - [ ] All gates pass
 

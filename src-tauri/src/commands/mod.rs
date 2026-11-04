@@ -11,6 +11,7 @@ pub mod backup;
 pub mod catalogue;
 pub mod cover;
 pub mod enrich;
+pub mod evaluation;
 pub mod files;
 pub mod hermes;
 pub mod import;

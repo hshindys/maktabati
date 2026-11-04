@@ -16,9 +16,11 @@ import type {
   AppErrorDto,
   AppInfo,
   AuthorInput,
+  BookEvaluation,
   BookFile,
   BookInput,
   CategoryInput,
+  EvaluationAggregates,
   FileKind,
   LanguageInput,
   LibraryHealth,
@@ -27,6 +29,10 @@ import type {
   Quote,
   QuoteInput,
   QuoteWithBook,
+  RatingCriterion,
+  RatingCriterionInput,
+  ReviewInput,
+  RubricScoreInput,
   SeriesInput,
   StorageMode,
   TagInput,
@@ -353,6 +359,36 @@ export const findBooksByIsbn = (isbn: string) => run((c) => c.bookFindByIsbn(isb
 export const findDuplicateBooks = (input: BookInput, excludeId?: string | null) =>
   run((c) => c.bookFindDuplicates(input, excludeId ?? null));
 
+// ── Reviews and rubric ratings ────────────────────────────────────────────────────────────
+
+/** Read the review and rubric scores for one book. */
+export const getEvaluation = (bookId: string) => run((c) => c.evaluationGet(bookId));
+/** Save a review and rubric scores atomically. */
+export const saveEvaluation = (
+  bookId: string,
+  review: ReviewInput,
+  scores: RubricScoreInput[],
+) => run((c) => c.evaluationSave(bookId, review, scores));
+/** List all rating axes, including inactive ones. */
+export const listRatingCriteria = () => run((c) => c.ratingCriteriaList());
+/** Add a user-defined rating axis. */
+export const createRatingCriterion = (input: RatingCriterionInput) =>
+  run((c) => c.ratingCriterionCreate(input));
+/** Edit a rating axis without discarding its existing scores. */
+export const updateRatingCriterion = (id: string, input: RatingCriterionInput) =>
+  run((c) => c.ratingCriterionUpdate(id, input));
+/** Read threshold-qualified aggregates for authors and publishers. */
+export const getEvaluationAggregates = () => run((c) => c.evaluationAggregates());
+
+export type {
+  BookEvaluation,
+  EvaluationAggregates,
+  RatingCriterion,
+  RatingCriterionInput,
+  ReviewInput,
+  RubricScoreInput,
+};
+
 // ── Files (attachments) ──────────────────────────────────────────────────────────────────
 
 /**
@@ -527,6 +563,9 @@ export const setBookStatus = (bookId: string, status: ReadingStatus) =>
 
 /** Parse a Goodreads "Export Library" CSV into rows, entirely offline. */
 export const parseGoodreads = (text: string) => run((c) => c.goodreadsParse(text));
+/** Commit parsed rows through the Rust importer, saving reviews and reporting row failures. */
+export const commitGoodreads = (rows: GoodreadsRow[]) =>
+  run((c) => c.goodreadsImportCommit(rows));
 
 /** Shape of one parsed Goodreads row. */
 export type GoodreadsRow = import("@/bindings").GoodreadsRow;

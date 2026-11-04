@@ -89,9 +89,10 @@ pub fn weighted_mean(scores: &[RubricScore]) -> Option<f64> {
 
 /// Compute the aggregate for one author/publisher.
 ///
-/// `books` maps a book id to its rubric scores. `overall` is the weighted mean across every
-/// scored criterion of every book (each criterion's mean first, then averaged across criteria,
-/// so a criterion the user scores on every book does not dominate one they score rarely).
+/// `books` maps a book id to its rubric scores. Each criterion is averaged across only the
+/// books that have a score for it; the composite is the weighted mean of those criterion
+/// averages, so a criterion the user scores on every book does not dominate one they score
+/// rarely.
 #[must_use]
 pub fn aggregate(books: &[(String, Vec<RubricScore>)]) -> Aggregate {
     let book_count = books.iter().filter(|(_, s)| !s.is_empty()).count();
@@ -110,6 +111,8 @@ pub fn aggregate(books: &[(String, Vec<RubricScore>)]) -> Aggregate {
     }
     criterion_ids.sort();
 
+    let mut composite_sum = 0.0;
+    let mut composite_weight = 0.0;
     for cid in &criterion_ids {
         let mut values: Vec<RubricScore> = Vec::new();
         for (_, scores) in books {
@@ -119,19 +122,24 @@ pub fn aggregate(books: &[(String, Vec<RubricScore>)]) -> Aggregate {
         }
         let n = values.len();
         per_criterion_counts.push((cid.clone(), n));
-        if let Some(mean) = weighted_mean(&values) {
+        let weight = values.first().map_or(0.0, |score| score.weight);
+        if !values.is_empty() {
+            let mean = values
+                .iter()
+                .map(|score| f64::from(score.score))
+                .sum::<f64>()
+                / values.len() as f64;
             per_criterion.push((cid.clone(), round_half_unit(mean)));
+            if weight > 0.0 {
+                composite_sum += mean * weight;
+                composite_weight += weight;
+            }
         }
     }
 
-    // Overall = mean of the criterion means (equal weight per criterion), rounded to the
-    // nearest half-unit so it stays on the same scale as a user-entered rating.
-    let overall = if per_criterion.is_empty() {
-        None
-    } else {
-        let sum: f64 = per_criterion.iter().map(|(_, v)| v).sum();
-        Some(round_half_unit(sum / per_criterion.len() as f64))
-    };
+    // Round the weighted composite to the same half-unit scale as a user-entered rating.
+    let overall =
+        (composite_weight > 0.0).then(|| round_half_unit(composite_sum / composite_weight));
 
     Aggregate {
         book_count,
@@ -407,6 +415,41 @@ mod tests {
         assert_eq!(agg.book_count, 1);
         assert_eq!(agg.per_criterion.len(), 2);
         assert_eq!(agg.overall, Some(10.0));
+    }
+
+    #[test]
+    fn aggregate_uses_criterion_weights_for_the_composite() {
+        let books = vec![(
+            "b1".to_owned(),
+            vec![
+                RubricScore {
+                    criterion_id: "story".into(),
+                    score: 10,
+                    weight: 3.0,
+                },
+                RubricScore {
+                    criterion_id: "print".into(),
+                    score: 2,
+                    weight: 1.0,
+                },
+            ],
+        )];
+        let agg = aggregate(&books);
+        assert_eq!(
+            agg.per_criterion,
+            vec![("print".into(), 2.0), ("story".into(), 10.0)]
+        );
+        assert_eq!(agg.overall, Some(8.0));
+
+        let zero_weight = vec![(
+            "b1".to_owned(),
+            vec![RubricScore {
+                criterion_id: "story".into(),
+                score: 10,
+                weight: 0.0,
+            }],
+        )];
+        assert_eq!(aggregate(&zero_weight).overall, None);
     }
 
     #[test]
