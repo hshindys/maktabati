@@ -8,6 +8,7 @@
 //! Endpoints (per the desktop-integration brief):
 //! | `GET /health`        | liveness + version                                  |
 //! | `GET /books?query=`  | search the catalogue (empty query = recent books)   |
+//! | `GET /reading`       | the most recently updated book marked as reading    |
 //! | `POST /books`        | create from a `BookInput` (201)                     |
 //! | `GET /books/:id`     | one book (404 when unknown)                         |
 //! | `PATCH /books/:id`   | **replace the input in full**, like `book_update`   |
@@ -228,6 +229,13 @@ async fn books_list(
     Ok(Json(books))
 }
 
+async fn current_reading(
+    AxumState(db): DbState,
+) -> Result<Json<Option<maktabati_domain::Book>>, (StatusCode, Json<AppErrorDto>)> {
+    let book = db_blocking(db, maktabati_storage::repo::book::current_reading).await?;
+    Ok(Json(book))
+}
+
 async fn book_get(
     AxumState(db): DbState,
     Path(id): Path<String>,
@@ -286,6 +294,7 @@ pub fn build_router(
 ) -> axum::Router {
     axum::Router::new()
         .route("/health", get(health))
+        .route("/reading", get(current_reading))
         .route("/books", get(books_list).post(book_create))
         .route("/books/{id}", get(book_get).patch(book_patch))
         .route("/enrich", post(enrich_endpoint))
@@ -671,6 +680,67 @@ mod tests {
         assert_eq!(missing.status().as_u16(), 404);
         let body: serde_json::Value = missing.json().await.unwrap();
         assert_eq!(body["code"], "storage.not_found");
+        drop(dir);
+        server.abort();
+    }
+
+    #[tokio::test]
+    async fn reading_returns_the_current_book_or_null() {
+        let (dir, base, _, client, server) = serve_test_router().await;
+
+        let empty: serde_json::Value = client
+            .get(format!("{base}/reading"))
+            .send()
+            .await
+            .unwrap()
+            .json()
+            .await
+            .unwrap();
+        assert!(empty.is_null());
+
+        let mut input = BookInput {
+            title: "A book in progress".into(),
+            language_code: Some("ar".into()),
+            page_count: Some(200),
+            current_page: Some(40),
+            reading_status: Some(maktabati_domain::BookStatus::Reading),
+            ..Default::default()
+        };
+        let created: maktabati_domain::Book = client
+            .post(format!("{base}/books"))
+            .json(&input)
+            .send()
+            .await
+            .unwrap()
+            .error_for_status()
+            .unwrap()
+            .json()
+            .await
+            .unwrap();
+        input.reading_status = Some(maktabati_domain::BookStatus::Paused);
+        input.title = "A paused book".into();
+        client
+            .post(format!("{base}/books"))
+            .json(&input)
+            .send()
+            .await
+            .unwrap()
+            .error_for_status()
+            .unwrap();
+
+        let current: maktabati_domain::Book = client
+            .get(format!("{base}/reading"))
+            .send()
+            .await
+            .unwrap()
+            .error_for_status()
+            .unwrap()
+            .json()
+            .await
+            .unwrap();
+        assert_eq!(current.id, created.id);
+        assert_eq!(current.current_page, Some(40));
+
         drop(dir);
         server.abort();
     }

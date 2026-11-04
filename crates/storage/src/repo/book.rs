@@ -434,6 +434,24 @@ pub fn list(db: &Db) -> Result<Vec<Book>> {
     })
 }
 
+/// The most recently updated book currently being read.
+///
+/// # Errors
+///
+/// [`crate::StorageError::Sqlite`] on query failure.
+pub fn current_reading(db: &Db) -> Result<Option<Book>> {
+    db.read(|conn| {
+        let sql = format!(
+            "SELECT {COLUMNS} FROM books \
+             WHERE reading_status = 'reading' \
+             ORDER BY updated_at DESC, id DESC LIMIT 1"
+        );
+        conn.query_row(&sql, [], from_row)
+            .optional()
+            .map_err(Into::into)
+    })
+}
+
 /// Books with **no cover**, oldest-added first — the bulk cover-fetch queue.
 ///
 /// Oldest first is what makes a batched pass resumable: the head of the queue is always
