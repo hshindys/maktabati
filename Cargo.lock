@@ -2608,7 +2608,7 @@ checksum = "4050469837a6ff301cd14c1f8f24f88549e6d548f24f64e2148eb0f72cebc51f"
 
 [[package]]
 name = "maktabati-app"
-version = "0.1.0"
+version = "0.1.0-beta.2"
 dependencies = [
  "anyhow",
  "axum",
@@ -2652,7 +2652,7 @@ dependencies = [
 
 [[package]]
 name = "maktabati-backup"
-version = "0.1.0"
+version = "0.1.0-beta.2"
 dependencies = [
  "hex",
  "maktabati-storage",
@@ -2666,7 +2666,7 @@ dependencies = [
 
 [[package]]
 name = "maktabati-domain"
-version = "0.1.0"
+version = "0.1.0-beta.2"
 dependencies = [
  "chrono",
  "insta",
@@ -2683,7 +2683,7 @@ dependencies = [
 
 [[package]]
 name = "maktabati-files"
-version = "0.1.0"
+version = "0.1.0-beta.2"
 dependencies = [
  "maktabati-domain",
  "serde",
@@ -2696,7 +2696,7 @@ dependencies = [
 
 [[package]]
 name = "maktabati-metadata"
-version = "0.1.0"
+version = "0.1.0-beta.2"
 dependencies = [
  "maktabati-domain",
  "serde",
@@ -2709,7 +2709,7 @@ dependencies = [
 
 [[package]]
 name = "maktabati-notes"
-version = "0.1.0"
+version = "0.1.0-beta.2"
 dependencies = [
  "maktabati-storage",
  "rusqlite",
@@ -2719,7 +2719,7 @@ dependencies = [
 
 [[package]]
 name = "maktabati-search"
-version = "0.1.0"
+version = "0.1.0-beta.2"
 dependencies = [
  "maktabati-domain",
  "maktabati-storage",
@@ -2734,7 +2734,7 @@ dependencies = [
 
 [[package]]
 name = "maktabati-stats"
-version = "0.1.0"
+version = "0.1.0-beta.2"
 dependencies = [
  "maktabati-domain",
  "serde",
@@ -2746,7 +2746,7 @@ dependencies = [
 
 [[package]]
 name = "maktabati-storage"
-version = "0.1.0"
+version = "0.1.0-beta.2"
 dependencies = [
  "chrono",
  "maktabati-domain",

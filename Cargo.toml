@@ -13,7 +13,7 @@ members = [
 ]
 
 [workspace.package]
-version = "0.1.0"
+version = "0.1.0-beta.2"
 edition = "2021"
 rust-version = "1.80"
 license = "MIT OR Apache-2.0"
@@ -25,14 +25,14 @@ description = "Maktabati / مكتبتي — a local-first personal library manag
 # --- internal crates ---
 # `version` alongside `path` keeps cargo-deny's `wildcards = "deny"` happy (a path dep with no
 # version requirement resolves as an unbounded wildcard) and is what publishing would require.
-maktabati-domain = { path = "crates/domain", version = "0.1.0" }
-maktabati-storage = { path = "crates/storage", version = "0.1.0" }
-maktabati-search = { path = "crates/search", version = "0.1.0" }
-maktabati-metadata = { path = "crates/metadata", version = "0.1.0" }
-maktabati-files = { path = "crates/files", version = "0.1.0" }
-maktabati-notes = { path = "crates/notes", version = "0.1.0" }
-maktabati-stats = { path = "crates/stats", version = "0.1.0" }
-maktabati-backup = { path = "crates/backup", version = "0.1.0" }
+maktabati-domain = { path = "crates/domain", version = "0.1.0-beta.2" }
+maktabati-storage = { path = "crates/storage", version = "0.1.0-beta.2" }
+maktabati-search = { path = "crates/search", version = "0.1.0-beta.2" }
+maktabati-metadata = { path = "crates/metadata", version = "0.1.0-beta.2" }
+maktabati-files = { path = "crates/files", version = "0.1.0-beta.2" }
+maktabati-notes = { path = "crates/notes", version = "0.1.0-beta.2" }
+maktabati-stats = { path = "crates/stats", version = "0.1.0-beta.2" }
+maktabati-backup = { path = "crates/backup", version = "0.1.0-beta.2" }
 
 # --- serialization ---
 serde = { version = "1", features = ["derive"] }
