@@ -24,7 +24,7 @@ from __future__ import annotations
 import json
 import sys
 
-from gen_design import ACCENTS, AR, LIGHT, SEMANTIC, Script, UI
+from gen_design import ACCENTS, AR, DARK, LIGHT, SEPIA, SEMANTIC, Script, UI
 from icons import paths
 
 # name → (foreground, soft background), e.g. SEM["danger"].
@@ -953,6 +953,320 @@ def wizard(frame_name: str, x: int, step: int) -> None:
     {1: wiz_step1, 2: wiz_step2, 3: wiz_step3, 4: wiz_step4}[step](body)
 
 
+# ── Shared list-screen chrome (Screens 8 · Notes, 9 · Quotes) ────────────────
+
+def icon_stroke(size: float, weight: float = 1.75) -> float:
+    """The stroke that lands on screen for `strokeWidth={weight}` at `size` px:
+    Lucide draws on a 24px grid, so the ratio is weight × size ÷ 24."""
+    return round(weight * size / 24, 2)
+
+
+def icon_btn(parent, glyph: str, *, accent: bool = False) -> int:
+    """The per-row edge action button — `p-1.5 · rounded-r-md · border-2` from
+    the Notes and Quotes rows (`src/lib/views/*.svelte`)."""
+    b = h(parent, padding=6, radius=10, fill=LIGHT["surface-1"],
+          stroke=LIGHT["border-2"], sizing_h="hug", sizing_v="hug",
+          main_align="center", cross_align="center")
+    icon(b, glyph, size=14, color=GREEN[0] if accent else LIGHT["text-2"],
+         stroke=icon_stroke(14))
+    return b
+
+
+def count_chip(parent, text: str) -> int:
+    """The `tnum bidi-ltr` pill beside a page heading — px-2 py-0.5."""
+    c = h(parent, padding=[2, 8, 2, 8], radius=999, fill=LIGHT["surface-2"],
+          sizing_h="hug", sizing_v="hug", cross_align="center")
+    t(text, c, size=13.5, color=LIGHT["text-2"], font=AR)
+    return c
+
+
+def screen_header(parent, title: str, count: str, action: str) -> int:
+    """h1 + count hugging the right, primary action at the left — the DOM
+    reads [h1, chip, ms-auto button], which RTL mirrors into this order."""
+    head = h(parent, sizing_h="fill", sizing_v="hug", main_align="spaceBetween",
+             cross_align="center")
+    button(head, action, variant="primary", size="sm", ico="plus")
+    right = h(head, gap=12, sizing_h="hug", sizing_v="hug", cross_align="center")
+    count_chip(right, count)
+    # `h1 { line-height: var(--lh-tight) }` — FigCraft's auto line box for Cairo
+    # is ~1.9×, which would push the list down by a dozen pixels per screen.
+    t(title, right, size=24, style="SemiBold", color=LIGHT["text-1"], font=AR,
+      line_height="125%")
+    return head
+
+
+# ── Screen 8 · Notes ─────────────────────────────────────────────────────────
+# `src/lib/views/Notes.svelte` — the pages list: search box, then one card per
+# page carrying its identity (title, book anchor, pin) and three edge actions.
+# A pinned page shows the accent pin *inside* the identity and swaps its pin
+# action for `pin-off`.
+
+def note_row(parent, title: str, *, pinned: bool = False,
+             anchored: bool = False) -> int:
+    card = v(parent, padding=SP_CARD, radius=14, fill=LIGHT["surface-1"],
+              stroke=LIGHT["border-1"], sizing_h="fill", sizing_v="hug")
+    row = h(card, gap=12, sizing_h="fill", sizing_v="hug", cross_align="center")
+    # Visual L→R: the edge actions (they follow the identity in the DOM, so
+    # RTL throws them to the left) …
+    acts = h(row, gap=4, sizing_h="hug", sizing_v="hug", cross_align="center")
+    icon_btn(acts, "trash")
+    icon_btn(acts, "pencil")
+    icon_btn(acts, "pin-off" if pinned else "pin", accent=pinned)
+    # … then the identity: DOM [sticky glyph, title, pin] mirrors to
+    # [pin, title, glyph], the glyph leading at the row's right edge.
+    ident = h(row, gap=12, sizing_h="fill", sizing_v="hug", cross_align="center")
+    if pinned:
+        icon(ident, "pin", size=16, color=GREEN[0], stroke=icon_stroke(16))
+    textcol = v(ident, gap=3, sizing_h="fill", sizing_v="hug",
+                cross_align="max")
+    t(title, textcol, size=15, style="Medium", color=LIGHT["text-1"], font=AR)
+    if anchored:
+        t("مرتبطة بكتاب", textcol, size=13.5, color=LIGHT["text-3"], font=AR)
+    icon(ident, "sticky-note", size=20, color=LIGHT["text-3"],
+         stroke=icon_stroke(20, 1.5))
+    return card
+
+
+def notes(main: int) -> None:
+    # `mx-auto max-w-5xl … px-6 py-5`: 1024px centred in the 1080px main, so
+    # the page padding is the 28px gutter plus the 32px of px-6.
+    root = v(main, name="content", gap=16, padding=[20, 60, 20, 60],
+             sizing_h="fill", sizing_v="hug", cross_align="max")
+    screen_header(root, "الملاحظات", "٤٨ صفحة", "صفحة جديدة")
+    # `w-full sm:max-w-sm` → a 384px field hugging the right edge.
+    search = h(root, width=384, height=36, padding=[0, 12, 0, 12], radius=10,
+               fill=LIGHT["surface-1"], stroke=LIGHT["border-2"],
+               sizing_h="fixed", sizing_v="fixed", cross_align="center")
+    fill_text(search, "ابحث في الملاحظات…", size=15, color=LIGHT["text-3"],
+              font=AR)
+    lst = v(root, gap=8, sizing_h="fill", sizing_v="hug", cross_align="max")
+    note_row(lst, "خلاصة قراءة — مقدمة في الحضارة الإسلامية",
+             pinned=True, anchored=True)
+    note_row(lst, "خطة مشروع المكتبة لعام ٢٠٢٦")
+    note_row(lst, "ملاحظات على حديث الصباح والمساء", anchored=True)
+    note_row(lst, "بدون عنوان")
+    note_row(lst, "فهرس الكتب المقترحة للشراء")
+    note_row(lst, "أفكار لحلقة عن تاريخ الطباعة العربية", anchored=True)
+    note_row(lst, "مراجعة: عصير الكتب")
+
+
+# ── Screen 9 · Quotes ────────────────────────────────────────────────────────
+# `src/lib/views/Quotes.svelte` — one card per passage: the reader highlight
+# colour as a dot, the quote (and its optional note), then a meta line with
+# page/chapter, the owning book as a link, the date, and the row actions.
+
+# The six `--quote-*` values from src/app.css — the palette the backend
+# validates against `domain::QuoteColor`.
+QUOTE_COLORS = {
+    "yellow": "#d9a517", "green": "#3d8f57", "blue": "#2a5f8f",
+    "pink": "#c05f8d", "red": "#b03a2e", "purple": "#7a4a9f",
+}
+
+
+def quote_row(parent, *, color: str, text: str, book: str, date: str,
+              note: str | None = None, page: str | None = None,
+              chapter: str | None = None, ltr: bool = False) -> int:
+    card = v(parent, padding=SP_CARD, radius=14, fill=LIGHT["surface-1"],
+              stroke=LIGHT["border-1"], sizing_h="fill", sizing_v="hug")
+    row = h(card, gap=12, sizing_h="fill", sizing_v="hug", cross_align="min")
+    # DOM [dot, column] → the dot leads at the right edge, riding 6px down
+    # (mt-1.5) to sit level with the quote's first line.
+    col = v(row, gap=8, sizing_h="fill", sizing_v="hug", cross_align="max")
+    # `dir="auto"`: each passage sets its own edge, so the English quote runs
+    # left-to-right while the Arabic ones hug the right.
+    t(text, col, size=15, color=LIGHT["text-1"], font=UI if ltr else AR,
+      width=888, line_height="162%", align="left" if ltr else "right")
+    if note is not None:
+        t(note, col, size=13.5, color=LIGHT["text-2"], font=AR, width=888,
+          align="right")
+    # Meta: the actions ride `ms-auto` to the left edge, everything factual
+    # packs right — the visual L→R below is the reverse of the DOM's
+    # [page, chapter, ·, quote glyph, book, ·, date, actions].
+    meta = h(col, sizing_h="fill", sizing_v="hug", main_align="spaceBetween",
+             cross_align="center")
+    acts = h(meta, gap=4, sizing_h="hug", sizing_v="hug", cross_align="center")
+    icon_btn(acts, "pencil")
+    icon_btn(acts, "trash")
+    facts = h(meta, gap=8, sizing_h="hug", sizing_v="hug", cross_align="center")
+    t(date, facts, size=13.5, color=LIGHT["text-3"], font=AR)
+    t("·", facts, size=13.5, color=LIGHT["text-3"], font=AR)
+    t(book, facts, size=13.5, color=LIGHT["text-2"], font=AR)
+    icon(facts, "quote", size=14, color=LIGHT["text-3"], stroke=icon_stroke(14))
+    if page is not None or chapter is not None:
+        t("·", facts, size=13.5, color=LIGHT["text-3"], font=AR)
+    if chapter is not None:
+        t(chapter, facts, size=13.5, color=LIGHT["text-3"], font=AR)
+    if page is not None:
+        t(page, facts, size=13.5, color=LIGHT["text-3"], font=AR)
+    # …and the dot itself, last in the visual order (rightmost).
+    dot = v(row, padding=[6, 0, 0, 0], sizing_h="hug", sizing_v="hug")
+    s.rect(dot, width=12, height=12, radius=999, fill=QUOTE_COLORS[color])
+    return card
+
+
+def quotes(main: int) -> None:
+    root = v(main, name="content", gap=16, padding=[20, 60, 20, 60],
+             sizing_h="fill", sizing_v="hug", cross_align="max")
+    screen_header(root, "الاقتباسات", "٣١٢ اقتباساً", "إضافة اقتباس")
+    lst = v(root, gap=12, sizing_h="fill", sizing_v="hug", cross_align="max")
+    # Newest first, like `quote_list_all`. Dates are `formatDate`'s
+    # `hijri · gregorian` pair under the default `both` calendar.
+    quote_row(lst, color="yellow",
+              text="اقرأ ما شئت، لكن اجعل لكل شيء حدّاً؛ فالكثرة تُنسي القليل "
+                   "وتشتّت الذهن، ومن لم يضبط وقته بالقراءة ضاع في الترفّه.",
+              note="هذه الجملة رجعت إليها ثلاث مرّات هذا العام.",
+              page="٨٧", book="عصير الكتب — عبد الوهاب عيسى",
+              date="٢٢ ربيع الآخر ١٤٤٨ · ٢٥ أكتوبر ٢٠٢٦")
+    quote_row(lst, color="blue", text="خيرُ جليسٍ في الزمانِ كتابُ",
+              page="١٢", chapter="المقدمة",
+              book="تاريخ الطبري — محمد بن جرير الطبري",
+              date="١٨ ربيع الآخر ١٤٤٨ · ٢١ أكتوبر ٢٠٢٦")
+    quote_row(lst, color="green", ltr=True,
+              text="Any fool can write code that a computer can understand. "
+                   "Good programmers write code that humans can understand.",
+              note="قاعدة أتّبعها في كل مشروع.",
+              page="٢٤", book="Clean Code — Robert C. Martin",
+              date="١١ ربيع الآخر ١٤٤٨ · ١٤ أكتوبر ٢٠٢٦")
+    quote_row(lst, color="pink",
+              text="الكتابُ صديقٌ لا يُملُّ، ورفيقٌ لا يُخونُ، ونورٌ لا يُطفَأ.",
+              page="٢١٥", book="مقدمة في الحضارة الإسلامية — أحمد فكري",
+              date="٢٥ ربيع الأول ١٤٤٨ · ٢٨ سبتمبر ٢٠٢٦")
+    quote_row(lst, color="purple",
+              text="العلمُ نورٌ يُبصرُ به الدربُ، والقراءةُ طريقُه الأوّل.",
+              page="٥٦", book="مقدمات في علوم الحديث — الشاطبي",
+              date="١٧ ربيع الأول ١٤٤٨ · ٢٠ سبتمبر ٢٠٢٦")
+
+
+# ── Screen 10 · Settings ─────────────────────────────────────────────────────
+# `src/lib/views/Settings.svelte` — the top of the page: language, appearance
+# (theme grid + accent presets) and storage. The shipped order continues with
+# the numerals/calendar card, the rubric editor, Hermes and About; this frame
+# draws the three cards the screen leads with.
+
+# `--swatch` per accent preset (the scoped block at the bottom of
+# Settings.svelte) — the dot colour, which is deliberately not always the live
+# `--accent` (terracotta and gold differ from it).
+SWATCH = {"green": "#2f6b4f", "indigo": "#3b4cca", "plum": "#7a3b69",
+          "terracotta": "#b4552f", "ocean": "#1f6a8a", "gold": "#8a6a1f"}
+
+# Theme-grid arithmetic: max-w-3xl (768) centred in the 1080px main plus px-6
+# either side → 704 of content, four 167px cells with 12px gaps, each holding
+# a 151px swatch once the tile's p-2 is taken off.
+SET_CONTENT = 704
+SET_CELL = (SET_CONTENT - 3 * 12) // 4          # 167
+SET_SWATCH = SET_CELL - 16                      # 151
+
+
+def radio_btn(parent, label: str, *, on: bool, font=AR) -> int:
+    """The px-4 py-2 radio pill (locale, digit and calendar choices)."""
+    b = h(parent, padding=[8, 16, 8, 16], radius=10,
+          fill=GREEN[1] if on else LIGHT["surface-1"],
+          stroke=GREEN[0] if on else LIGHT["border-2"],
+          sizing_h="hug", sizing_v="hug", cross_align="center")
+    t(label, b, size=15, font=font, color=GREEN[2] if on else LIGHT["text-2"],
+      style="Medium" if on else "Regular")
+    return b
+
+
+def theme_tile(parent, label: str, tokens: dict, accent: str, *,
+               on: bool) -> int:
+    """One theme radio: a 48px swatch painted with *that* theme's surface-0
+    and border-1, plus the accent bar 12px in from its right edge (`ms-3` in
+    RTL). Drawing each theme's own tokens is what makes the row a preview —
+    four tiles showing the live theme would say nothing about the choice."""
+    tile = v(parent, gap=8, padding=8, radius=10,
+             stroke=GREEN[0] if on else LIGHT["border-2"],
+             sizing_h="fill", sizing_v="hug", cross_align="center")
+    sw = plain(tile, width=SET_SWATCH, height=48, fill=tokens["surface-0"],
+               radius=6, stroke=tokens["border-1"], clip=True,
+               sizing_h="fixed", sizing_v="fixed")
+    s.rect(sw, x=SET_SWATCH - 12 - 32, y=12, width=32, height=8, radius=999,
+           fill=accent)
+    t(label, tile, size=13.5, color=LIGHT["text-2"], font=AR)
+    return tile
+
+
+def accent_swatch(parent, name: str, *, on: bool) -> int:
+    """A preset dot: 36px, or 40px with the 2px ink ring when selected —
+    `size-9 border-2 border-ink-1 scale-110` in the shell."""
+    size = 40 if on else 36
+    return h(parent, width=size, height=size, radius=999, fill=SWATCH[name],
+             stroke=LIGHT["text-1"] if on else None, stroke_weight=2,
+             sizing_h="fixed", sizing_v="fixed")
+
+
+def settings(main: int) -> None:
+    # `mx-auto max-w-3xl … px-6 py-6` → SET_CONTENT of content.
+    root = v(main, name="content", gap=32, padding=[32, 188, 32, 188],
+             sizing_h="fill", sizing_v="hug", cross_align="max")
+    t("الإعدادات", root, size=30, style="SemiBold", color=LIGHT["text-1"],
+      font=AR, line_height="125%")
+
+    # ── Language & direction ──
+    lang = v(root, gap=16, padding=SP_CARD, radius=14, fill=LIGHT["surface-1"],
+             stroke=LIGHT["border-1"], sizing_h="fill", sizing_v="hug",
+             cross_align="max")
+    t("اللغة والاتجاه", lang, size=17, style="SemiBold", color=LIGHT["text-1"],
+      font=AR, line_height="125%")
+    locales = h(lang, gap=8, sizing_h="hug", sizing_v="hug",
+                cross_align="center")
+    # DOM [ar, en] → English leads on the left, العربية · RTL selected.
+    radio_btn(locales, "English · LTR", on=False, font=UI)
+    radio_btn(locales, "العربية · RTL", on=True)
+
+    # ── Appearance ──
+    look = v(root, gap=16, padding=SP_CARD, radius=14, fill=LIGHT["surface-1"],
+             stroke=LIGHT["border-1"], sizing_h="fill", sizing_v="hug",
+             cross_align="max")
+    t("المظهر", look, size=17, style="SemiBold", color=LIGHT["text-1"], font=AR,
+      line_height="125%")
+    grid = h(look, gap=12, sizing_h="fill", sizing_v="hug", cross_align="min")
+    # DOM [light, dark, sepia, system] → RTL: system leftmost, فاتح selected
+    # and leading at the right. `system` resolves to light.
+    theme_tile(grid, "حسب النظام", LIGHT, "#2f6b4f", on=False)
+    theme_tile(grid, "سيبيا", SEPIA, "#29664a", on=False)
+    theme_tile(grid, "داكن", DARK, "#639f80", on=False)
+    theme_tile(grid, "فاتح", LIGHT, "#2f6b4f", on=True)
+    accents = v(look, gap=12, sizing_h="fill", sizing_v="hug",
+                cross_align="max")
+    t("اللون المميّز", accents, size=15, style="Medium", color=LIGHT["text-1"],
+      font=AR, line_height="125%")
+    dots = h(accents, gap=8, sizing_h="hug", sizing_v="hug",
+             cross_align="center")
+    # DOM [green … gold] → RTL reverses it; green is this session's accent,
+    # so the ring sits on the rightmost dot and the rail stays green.
+    for name in ("gold", "ocean", "terracotta", "plum", "indigo", "green"):
+        accent_swatch(dots, name, on=name == "green")
+
+    # ── Storage ──
+    store = v(root, gap=12, padding=SP_CARD, radius=14, fill=LIGHT["surface-1"],
+              stroke=LIGHT["border-1"], sizing_h="fill", sizing_v="hug",
+              cross_align="max")
+    head = h(store, sizing_h="fill", sizing_v="hug", main_align="spaceBetween",
+             cross_align="center")
+    button(head, "إنشاء نسخة احتياطية الآن", variant="secondary")
+    h2 = h(head, gap=8, sizing_h="hug", sizing_v="hug", cross_align="center")
+    t("التخزين", h2, size=17, style="SemiBold", color=LIGHT["text-1"], font=AR,
+      line_height="125%")
+    icon(h2, "database-backup", size=20, color=LIGHT["text-3"],
+         stroke=icon_stroke(20))
+    body = v(store, gap=8, sizing_h="fill", sizing_v="hug", cross_align="max")
+    dl = h(body, gap=12, sizing_h="fill", sizing_v="hug", cross_align="min")
+    # DOM [dbSize, dataDir, integrity] → RTL mirrors it. Both figures run
+    # through `formatNumber`, so the default arabic-indic digits show.
+    for label, value in (
+        ("سلامة قاعدة البيانات", "سليم"),
+        ("مجلد البيانات", "٣٬٨٩١ MB"),
+        ("حجم قاعدة البيانات", "١٥ MB"),
+    ):
+        cell = v(dl, gap=2, sizing_h="fill", sizing_v="hug", cross_align="max")
+        t(label, cell, size=13.5, color=LIGHT["text-3"], font=AR)
+        t(value, cell, size=15, color=LIGHT["text-1"], font=AR)
+    t("أُنشئت النسخة الاحتياطية في مجلد backups داخل مجلد البيانات.", body,
+      size=13.5, color=LIGHT["text-3"], font=AR, width=SET_CONTENT - 48,
+      align="right")
+
+
 # ── Build ────────────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
@@ -968,6 +1282,12 @@ if __name__ == "__main__":
         wizard("5 · إضافة كتاب — البيانات · Wizard", 7200, 2)
         wizard("6 · إضافة كتاب — التصنيفات · Wizard", 8600, 3)
         wizard("7 · إضافة كتاب — المراجعة · Wizard", 10000, 4)
+    if want in ("all", "notes"):
+        notes(shell("8 · الملاحظات · Notes", "sticky-note", x=11400))
+    if want in ("all", "quotes"):
+        quotes(shell("9 · الاقتباسات · Quotes", "quote", x=12800))
+    if want in ("all", "settings"):
+        settings(shell("10 · الإعدادات · Settings", "settings", x=14200))
 
     json.dump(s.steps, sys.stdout, ensure_ascii=False, indent=1)
     print()

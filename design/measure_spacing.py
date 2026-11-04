@@ -80,7 +80,7 @@ def report(path: Path, expected: int, rows: Bands) -> None:
 # Card bands: the rail occupies x >= 1060, so the content area is x 40..1024,
 # and each row's cards split it with 16px gaps (RTL: first card at the right).
 if __name__ == "__main__":
-    dash = EXPORT / "1 _ لوحة التحكم _ Dashboard.png"
+    dash = EXPORT / "1 · لوحة التحكم · Dashboard.png"
     report(
         dash,
         KPI_ROW_H,

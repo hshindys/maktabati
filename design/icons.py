@@ -28,6 +28,11 @@ WANTED = [
     # Add-book wizard (M3): step-done mark, duplicate warning, cover drop-zone,
     # removable tag chips, validation summary.
     "check", "triangle-alert", "upload", "tag", "circle-alert",
+    # Notes / Quotes / Settings frames (8–10): row actions, pin state, the
+    # storage card's heading. `trash` rather than `trash-2`: in this Lucide
+    # version `Trash2` is an alias that re-exports `trash.svelte`, so that file
+    # is literally what the shipped `<Trash2>` draws.
+    "pin", "pin-off", "pencil", "trash", "database-backup",
 ]
 
 

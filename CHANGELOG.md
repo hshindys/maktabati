@@ -7,6 +7,21 @@ All notable changes to Maktabati are documented here. Format loosely follows
 
 Task-specific changes are committed separately; this changelog tracks completed work.
 
+### Design mockups — Notes, Quotes, Settings frames
+
+- `design/export/` gains three FigCraft frames mirroring the shipped screens: Notes
+  (pinned-first row list with per-row pin/edit/delete), Quotes (colour-coded quote
+  cards with page + book attribution), and Settings (language, appearance with theme
+  tiles that preview each theme's own light/dark/sepia tokens — a refinement over the
+  shipped CSS, which previews every theme on the current surface — and storage).
+- `gen_design.Script.text` now emits `lineHeight`/`textAlign` inside `props`, where
+  `node.create` requires them; the old top-level form was rejected by the current CLI
+  and had left frame 3's `h1` wrongly left-aligned. Headings are pinned to the app's
+  `--lh-tight: 1.25`, since FigCraft's auto line box for Cairo is far looser than the
+  browser's and pushed Settings past its bottom padding.
+- Exports are renamed to the CLI's current `·`-separated form; the stale `_`-named
+  copies are removed and `measure_spacing.py` points at the new file.
+
 ### Quotes screen — add quote
 
 - The global Quotes screen gains an **Add quote** button: the shared quote form opens with

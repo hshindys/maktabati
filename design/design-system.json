@@ -49,12 +49,12 @@
     "fills": [
      "#2a2621"
     ],
-    "textAutoResize": "widthAndHeight"
+    "textAutoResize": "widthAndHeight",
+    "lineHeight": "125%"
    },
    "parent": {
     "$step": 1
-   },
-   "lineHeight": "125%"
+   }
   }
  },
  {
@@ -8061,13 +8061,13 @@
     "fills": [
      "#6e6554"
     ],
-    "textAutoResize": "height"
+    "textAutoResize": "height",
+    "textAlign": "center"
    },
    "parent": {
     "$step": 381
    },
-   "width": 250,
-   "textAlign": "center"
+   "width": 250
   }
  },
  {
@@ -8163,13 +8163,13 @@
     "fills": [
      "#6e6554"
     ],
-    "textAutoResize": "height"
+    "textAutoResize": "height",
+    "textAlign": "center"
    },
    "parent": {
     "$step": 385
    },
-   "width": 250,
-   "textAlign": "center"
+   "width": 250
   }
  },
  {
@@ -8265,13 +8265,13 @@
     "fills": [
      "#6e6554"
     ],
-    "textAutoResize": "height"
+    "textAutoResize": "height",
+    "textAlign": "center"
    },
    "parent": {
     "$step": 389
    },
-   "width": 250,
-   "textAlign": "center"
+   "width": 250
   }
  },
  {
@@ -8367,13 +8367,13 @@
     "fills": [
      "#6e6554"
     ],
-    "textAutoResize": "height"
+    "textAutoResize": "height",
+    "textAlign": "center"
    },
    "parent": {
     "$step": 393
    },
-   "width": 250,
-   "textAlign": "center"
+   "width": 250
   }
  },
  {
@@ -8535,13 +8535,13 @@
     "fills": [
      "#979081"
     ],
-    "textAutoResize": "height"
+    "textAutoResize": "height",
+    "textAlign": "center"
    },
    "parent": {
     "$step": 400
    },
-   "width": 250,
-   "textAlign": "center"
+   "width": 250
   }
  },
  {
@@ -8637,13 +8637,13 @@
     "fills": [
      "#979081"
     ],
-    "textAutoResize": "height"
+    "textAutoResize": "height",
+    "textAlign": "center"
    },
    "parent": {
     "$step": 404
    },
-   "width": 250,
-   "textAlign": "center"
+   "width": 250
   }
  },
  {
@@ -8739,13 +8739,13 @@
     "fills": [
      "#979081"
     ],
-    "textAutoResize": "height"
+    "textAutoResize": "height",
+    "textAlign": "center"
    },
    "parent": {
     "$step": 408
    },
-   "width": 250,
-   "textAlign": "center"
+   "width": 250
   }
  },
  {
@@ -8841,13 +8841,13 @@
     "fills": [
      "#979081"
     ],
-    "textAutoResize": "height"
+    "textAutoResize": "height",
+    "textAlign": "center"
    },
    "parent": {
     "$step": 412
    },
-   "width": 250,
-   "textAlign": "center"
+   "width": 250
   }
  },
  {
@@ -8981,12 +8981,12 @@
     "fills": [
      "#2a2621"
     ],
-    "textAutoResize": "widthAndHeight"
+    "textAutoResize": "widthAndHeight",
+    "lineHeight": "150%"
    },
    "parent": {
     "$step": 419
-   },
-   "lineHeight": "150%"
+   }
   }
  },
  {
@@ -9068,12 +9068,12 @@
     "fills": [
      "#2a2621"
     ],
-    "textAutoResize": "widthAndHeight"
+    "textAutoResize": "widthAndHeight",
+    "lineHeight": "150%"
    },
    "parent": {
     "$step": 423
-   },
-   "lineHeight": "150%"
+   }
   }
  },
  {
@@ -9155,12 +9155,12 @@
     "fills": [
      "#2a2621"
     ],
-    "textAutoResize": "widthAndHeight"
+    "textAutoResize": "widthAndHeight",
+    "lineHeight": "150%"
    },
    "parent": {
     "$step": 427
-   },
-   "lineHeight": "150%"
+   }
   }
  },
  {
@@ -9242,12 +9242,12 @@
     "fills": [
      "#2a2621"
     ],
-    "textAutoResize": "widthAndHeight"
+    "textAutoResize": "widthAndHeight",
+    "lineHeight": "150%"
    },
    "parent": {
     "$step": 431
-   },
-   "lineHeight": "150%"
+   }
   }
  },
  {
@@ -9329,12 +9329,12 @@
     "fills": [
      "#2a2621"
     ],
-    "textAutoResize": "widthAndHeight"
+    "textAutoResize": "widthAndHeight",
+    "lineHeight": "150%"
    },
    "parent": {
     "$step": 435
-   },
-   "lineHeight": "150%"
+   }
   }
  },
  {
@@ -9416,12 +9416,12 @@
     "fills": [
      "#2a2621"
     ],
-    "textAutoResize": "widthAndHeight"
+    "textAutoResize": "widthAndHeight",
+    "lineHeight": "150%"
    },
    "parent": {
     "$step": 439
-   },
-   "lineHeight": "150%"
+   }
   }
  },
  {
@@ -9503,12 +9503,12 @@
     "fills": [
      "#2a2621"
     ],
-    "textAutoResize": "widthAndHeight"
+    "textAutoResize": "widthAndHeight",
+    "lineHeight": "150%"
    },
    "parent": {
     "$step": 443
-   },
-   "lineHeight": "150%"
+   }
   }
  },
  {
@@ -9590,12 +9590,12 @@
     "fills": [
      "#2a2621"
     ],
-    "textAutoResize": "widthAndHeight"
+    "textAutoResize": "widthAndHeight",
+    "lineHeight": "150%"
    },
    "parent": {
     "$step": 447
-   },
-   "lineHeight": "150%"
+   }
   }
  },
  {

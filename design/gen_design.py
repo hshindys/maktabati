@@ -418,10 +418,12 @@ class Script:
             params["parent"] = {"$step": parent}
         if width is not None:
             params["width"] = width
+        # Both are text *properties*, not node parameters — `node.create`
+        # rejects them at the top level (cover() already drew them this way).
         if align is not None:
-            params["textAlign"] = align
+            params["props"]["textAlign"] = align
         if line_height is not None:
-            params["lineHeight"] = line_height
+            params["props"]["lineHeight"] = line_height
         return self.add("node.create", params)
 
 

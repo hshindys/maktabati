@@ -116,6 +116,10 @@ flowchart TD
 
 ## 4. Wireframes
 
+Rendered mockups of every screen live in [`design/export/`](../design/export/) —
+generated from `src/lib/i18n` copy and `src/app.css` tokens by `design/gen_frames.py`
+(the pipeline is documented in its docstring), so they move with the app.
+
 ### 4.1 Shell + Dashboard
 
 ```
