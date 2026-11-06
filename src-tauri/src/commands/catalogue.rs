@@ -676,6 +676,27 @@ pub async fn book_status_set(
     blocking(db, move |db| repo::book::set_status(db, &id, status)).await
 }
 
+/// Quick page update ("I'm on page N"), touching only `current_page` (and the
+/// `progress_pct` the domain derives from it).
+///
+/// The edit modal never exposes the page, and a reader mid-chapter must not have to
+/// round-trip a full `BookInput` — least of all with the risk of clobbering whatever
+/// another open form believes the rest of the book is.
+///
+/// # Errors
+///
+/// [`AppErrorDto`] when the book does not exist, or the page is out of `0..=page_count`.
+#[specta::specta]
+#[tauri::command]
+pub async fn book_page_set(
+    state: State<'_, AppState>,
+    id: String,
+    page: Option<i32>,
+) -> CmdResult<Book> {
+    let db = Arc::clone(&state.db);
+    blocking(db, move |db| repo::book::set_current_page(db, &id, page)).await
+}
+
 /// Delete a book with its cycles, links, notes, files and search row.
 ///
 /// # Errors

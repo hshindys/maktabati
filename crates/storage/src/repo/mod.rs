@@ -18,6 +18,7 @@ pub mod series;
 pub mod settings;
 pub mod summary;
 pub mod tag;
+pub mod tracking;
 
 /// Tests that the SQL `CHECK` constraints and the Rust enums describe the same vocabulary.
 ///

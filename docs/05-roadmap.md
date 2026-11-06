@@ -218,7 +218,8 @@ rating, activity); status/progress + **reading cycles** + **reading sessions** +
 **Acceptance criteria**
 - [ ] Tab routing is deep-linkable; `1..7` shortcuts work
 - [ ] Status transitions create/close reading cycles correctly (domain rule tests)
-- [ ] Progress % computed from page count and current page; capped/validated
+- [x] Progress % computed from page count and current page; capped/validated
+      (written from the book page itself via the narrow `book_page_set`)
 - [ ] Sessions CRUD + a per-book mini chart (SVG, token-themed)
 - [ ] Related queries return correct sets; "similar books" uses local co-category/co-tag overlap
       (documented scoring in `domain`)

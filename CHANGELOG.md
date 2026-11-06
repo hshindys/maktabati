@@ -7,6 +7,24 @@ All notable changes to Maktabati are documented here. Format loosely follows
 
 Task-specific changes are committed separately; this changelog tracks completed work.
 
+### Reading — record the page you are on
+
+- The book page gains an editable **Current page** field, in the Overview progress card
+  and again in the Reading tab: type the page, press Save (or Enter), and the progress
+  bar and the "page X of Y" line follow. An empty field clears the page back to "not
+  started", and the field is capped by the book's page count.
+- New narrow command `book_page_set` → `repo::book::set_current_page`, mirroring
+  `book_status_set`: it writes only `current_page` plus the `progress_pct` the domain
+  derives from it, so a mid-reading save can never round-trip (and clobber) a full
+  `BookInput`. `Book::set_current_page` existed with no caller; it now also rejects a
+  **negative** page, which its doc already promised but its code did not check.
+- New keys `book.page.hint`, `book.page.invalid` and `toast.pageUpdated` in both
+  catalogues; `setBookPage` wrapper with forwarding/clear/error tests; repo tests for
+  recompute-and-persist, clear, and the out-of-range rejection; domain test for the
+  negative case.
+- `Cargo.lock`: `async-executor` 1.14.0 → 1.14.1 — the former was yanked and failed
+  `cargo deny check advisories`.
+
 ### Design mockups — Notes, Quotes, Settings frames
 
 - `design/export/` gains three FigCraft frames mirroring the shipped screens: Notes

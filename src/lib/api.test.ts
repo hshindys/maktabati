@@ -2,7 +2,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { AppErrorDto } from "@/bindings";
-import { EMPTY_SUMMARY, bookHits, getLibrarySummary, searchLibrary } from "./api";
+import { EMPTY_SUMMARY, bookHits, getLibrarySummary, searchLibrary, setBookPage } from "./api";
 
 /**
  * The read path must never lie (P0-5): a backend failure arrives as `{ status: "error" }`
@@ -12,8 +12,9 @@ import { EMPTY_SUMMARY, bookHits, getLibrarySummary, searchLibrary } from "./api
 
 const librarySummary = vi.fn();
 const search = vi.fn();
+const bookPageSet = vi.fn();
 
-vi.mock("@/bindings", () => ({ commands: { librarySummary, search } }));
+vi.mock("@/bindings", () => ({ commands: { librarySummary, search, bookPageSet } }));
 vi.mock("@tauri-apps/api/window", () => ({ getCurrentWindow: () => ({}) }));
 
 const ERR: AppErrorDto = {
@@ -26,6 +27,7 @@ const ERR: AppErrorDto = {
 beforeEach(() => {
   librarySummary.mockReset();
   search.mockReset();
+  bookPageSet.mockReset();
 });
 
 describe("searchLibrary", () => {
@@ -96,5 +98,31 @@ describe("bookHits", () => {
 
   it("returns an empty list for an empty search", () => {
     expect(bookHits([])).toEqual([]);
+  });
+});
+
+describe("setBookPage", () => {
+  it("sends the page alone — a mid-reading save never round-trips a whole BookInput", async () => {
+    bookPageSet.mockResolvedValue({ status: "ok", data: { id: "b1", current_page: 120 } });
+    const res = await setBookPage("b1", 120);
+
+    expect(bookPageSet).toHaveBeenCalledWith("b1", 120);
+    expect(res).toEqual({ status: "ok", data: { id: "b1", current_page: 120 } });
+  });
+
+  it("forwards null as an explicit clear", async () => {
+    bookPageSet.mockResolvedValue({ status: "ok", data: { id: "b1", current_page: null } });
+    const res = await setBookPage("b1", null);
+
+    expect(bookPageSet).toHaveBeenCalledWith("b1", null);
+    expect(res.status === "ok" && res.data.current_page).toBeNull();
+  });
+
+  it("keeps a range rejection intact so the form can show the real reason", async () => {
+    bookPageSet.mockResolvedValue({ status: "error", error: { ...ERR, code: "validation.out_of_range" } });
+    const res = await setBookPage("b1", 9999);
+
+    expect(res.status).toBe("error");
+    expect(res.status === "error" && res.error.code).toBe("validation.out_of_range");
   });
 });

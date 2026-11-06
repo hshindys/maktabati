@@ -43,6 +43,7 @@
     fetchCover,
     revealFile,
     setBookStatus,
+    setBookPage,
     setCover,
     saveEvaluation,
   } from "../api";
@@ -298,6 +299,53 @@
       toast.success(t("toast.statusUpdated"));
     } else {
       toast.error(messageFor(res.error, t));
+    }
+  }
+
+  // ── Quick page entry — "I'm on page N" while reading ──────────────────────────────────
+  //
+  // The edit modal never exposes `current_page`, so before this the only way to record
+  // where you are was not to: `book_page_set` takes the page alone (never a full
+  // `BookInput`) and the domain derives `progress_pct` from it, so a mid-chapter save
+  // cannot clobber a form open elsewhere. The draft is a *string* because an empty
+  // field has to mean "clear it", not a premature 0, and it re-syncs from storage only
+  // when storage itself changed — typing is never overwritten by a refetch.
+
+  let pageDraft = $state("");
+  let pageBusy = $state(false);
+  let lastSyncedPage: number | null | undefined = undefined;
+
+  $effect(() => {
+    const stored = detail?.book.current_page;
+    if (stored !== lastSyncedPage) {
+      lastSyncedPage = stored;
+      pageDraft = stored === null || stored === undefined ? "" : String(stored);
+    }
+  });
+
+  async function savePage(): Promise<void> {
+    if (detail === null || pageBusy) return;
+    const raw = pageDraft.trim();
+    let page: number | null = null;
+    if (raw.length > 0) {
+      const parsed = Number(raw);
+      if (!Number.isInteger(parsed) || parsed < 0) {
+        toast.error(t("book.page.invalid"));
+        return;
+      }
+      page = parsed;
+    }
+    pageBusy = true;
+    try {
+      const res = await setBookPage(id, page);
+      if (res.status === "ok") {
+        applyBook(res.data);
+        toast.success(t("toast.pageUpdated"));
+      } else {
+        toast.error(messageFor(res.error, t));
+      }
+    } finally {
+      pageBusy = false;
     }
   }
 
@@ -745,6 +793,52 @@
   <h2 class="mb-[var(--sp-3)] text-[var(--fs-md)] font-semibold text-ink-1">{text}</h2>
 {/snippet}
 
+{#snippet pageEntry(book: Book)}
+  <!-- "I'm on page N" — the one control the whole page is missing for a reader who
+       wants to record where they are. It is rendered in both places progress is
+       discussed (overview card and reading tab), submits on Enter as well as on the
+       button, accepts an empty field as "clear it", and leaves the acceptable range
+       to the store: a page past the end comes back as `validation.out_of_range`
+       instead of being silently clamped to a page the reader is not on. -->
+  <form
+    class="flex flex-wrap items-end gap-[var(--sp-3)]"
+    onsubmit={(event) => {
+      event.preventDefault();
+      void savePage();
+    }}
+  >
+    <label class="flex flex-col gap-1 text-[var(--fs-sm)] text-ink-2">
+      {t("book.currentPage")}
+      <input
+        type="text"
+        inputmode="numeric"
+        bind:value={pageDraft}
+        dir="ltr"
+        aria-describedby="page-entry-hint"
+        class="tnum h-9 w-24 rounded-[var(--r-md)] border border-border-2 bg-surface-0 px-[var(--sp-3)] text-ink-1 outline-none focus:border-accent"
+      />
+    </label>
+    {#if book.page_count !== null}
+      <span class="pb-2 text-[var(--fs-sm)] text-ink-3">
+        {t("book.pageOf", { total: num(book.page_count) })}
+      </span>
+    {/if}
+    <Button
+      type="button"
+      variant="primary"
+      size="sm"
+      loading={pageBusy}
+      class="mb-0.5"
+      onclick={() => void savePage()}
+    >
+      {t("common.save")}
+    </Button>
+  </form>
+  <p id="page-entry-hint" class="mt-[var(--sp-2)] text-[var(--fs-sm)] text-ink-3">
+    {t("book.page.hint")}
+  </p>
+{/snippet}
+
 <div class="mx-auto flex max-w-5xl flex-col gap-[var(--sp-5)] px-[var(--sp-6)] py-[var(--sp-5)]">
   <!-- Breadcrumb back to the browser. A real link, so Back in the rail and Back in the
        keyboard both work without a handler. -->
@@ -999,16 +1093,14 @@
           {@render sectionTitle(t("book.progress"))}
           {#if book.progress_pct > 0 || book.current_page !== null}
             <ProgressBar value={book.progress_pct} label={t("book.progress")} showValue />
-            {#if book.current_page !== null && book.page_count !== null}
-              <p class="mt-[var(--sp-2)] bidi-auto text-[var(--fs-sm)] text-ink-3">
-                {t("book.currentPage")}
-                <span class="bidi-ltr text-ink-1">{num(book.current_page)}</span>
-                {t("book.pageOf", { total: num(book.page_count) })}
-              </p>
-            {/if}
           {:else}
             <p class="text-[var(--fs-base)] text-ink-3">{t("book.progress.none")}</p>
           {/if}
+          <!-- The page is a field the reader writes here, not a value only the edit
+               form could ever have set — the bar above follows it. -->
+          <div class="mt-[var(--sp-3)]">
+            {@render pageEntry(book)}
+          </div>
         </Card>
 
         <Card>
@@ -1161,6 +1253,11 @@
           </dl>
           <div class="mt-[var(--sp-4)]">
             <ProgressBar value={book.progress_pct} label={t("book.progress")} showValue />
+          </div>
+          <!-- The tab a reader opens while reading: this is where the page they are on
+               gets written, without leaving the book or opening the edit modal. -->
+          <div class="mt-[var(--sp-4)]">
+            {@render pageEntry(book)}
           </div>
         </Card>
       {:else if tab === "organize"}

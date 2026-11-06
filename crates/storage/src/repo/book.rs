@@ -741,8 +741,69 @@ pub fn remove_cover(db: &Db, data_dir: &std::path::Path, book_id: &str) -> Resul
 pub fn set_status(db: &Db, id: &str, status: BookStatus) -> Result<Book> {
     db.transact(|conn| {
         let mut book = read_row(conn, id)?;
-        book.reading_status = status;
-        book.updated_at = now_ms();
+        let previous = book.reading_status;
+        if previous == status {
+            return Ok(book);
+        }
+        let now = now_ms();
+        book.set_status(status, now)?;
+        update_row(conn, &book)?;
+
+        if status == BookStatus::Reading {
+            let open_cycle: bool = conn.query_row(
+                "SELECT EXISTS(SELECT 1 FROM reading_cycles WHERE book_id = ?1 AND finished_at IS NULL)",
+                [&book.id],
+                |row| row.get(0),
+            )?;
+            if !open_cycle {
+                conn.execute(
+                    "INSERT INTO reading_cycles (id, book_id, started_at, start_page, source, created_at)
+                     VALUES (?1, ?2, ?3, ?4, 'manual', ?3)",
+                    rusqlite::params![maktabati_domain::ids::new_id(), book.id, now, book.current_page],
+                )?;
+            }
+        } else if status == BookStatus::Finished {
+            let open_cycle: Option<String> = conn
+                .query_row(
+                    "SELECT id FROM reading_cycles
+                     WHERE book_id = ?1 AND finished_at IS NULL
+                     ORDER BY started_at DESC, created_at DESC LIMIT 1",
+                    [&book.id],
+                    |row| row.get(0),
+                )
+                .optional()?;
+            if let Some(cycle_id) = open_cycle {
+                conn.execute(
+                    "UPDATE reading_cycles SET finished_at = ?2, end_page = ?3 WHERE id = ?1",
+                    rusqlite::params![cycle_id, now, book.current_page],
+                )?;
+            } else {
+                conn.execute(
+                    "INSERT INTO reading_cycles (id, book_id, finished_at, end_page, source, created_at)
+                     VALUES (?1, ?2, ?3, ?4, 'manual', ?3)",
+                    rusqlite::params![maktabati_domain::ids::new_id(), book.id, now, book.current_page],
+                )?;
+            }
+        }
+        Ok(book)
+    })
+}
+
+/// Change only the page the reader is currently on ("I'm on page N"), letting the
+/// domain recompute `progress_pct` from it — same narrow-command intent as
+/// [`set_status`]: a one-field save from the book page, never a full `BookInput`
+/// round-trip that could clobber an edit form open elsewhere.
+///
+/// # Errors
+///
+/// * [`crate::StorageError::NotFound`] when the id is unknown.
+/// * [`maktabati_domain::DomainError::OutOfRange`] when the page is negative or
+///   past the page count.
+/// * [`crate::StorageError::Sqlite`] on statement failure.
+pub fn set_current_page(db: &Db, id: &str, page: Option<i32>) -> Result<Book> {
+    db.transact(|conn| {
+        let mut book = read_row(conn, id)?;
+        book.set_current_page(page, now_ms())?;
         update_row(conn, &book)?;
         Ok(book)
     })
@@ -1578,5 +1639,51 @@ mod tests {
         assert_eq!(reread.title, created.title);
         assert_eq!(reread.rating, created.rating);
         assert_eq!(reread.language_code, created.language_code);
+    }
+
+    #[test]
+    fn page_quick_update_recomputes_progress_and_persists() {
+        let db = seeded_db();
+        let mut input = full_input();
+        input.page_count = Some(400);
+        input.current_page = None;
+        let created = create(&db, input).unwrap();
+        assert_eq!(created.progress_pct, 0);
+
+        let updated = set_current_page(&db, &created.id, Some(100)).unwrap();
+        assert_eq!(updated.current_page, Some(100));
+        assert_eq!(updated.progress_pct, 25);
+
+        // The value survives a re-read, not just the returned row.
+        let reread = get(&db, &created.id).unwrap();
+        assert_eq!(reread.current_page, Some(100));
+        assert_eq!(reread.progress_pct, 25);
+        // Still the same narrow update: nothing else moved.
+        assert_eq!(reread.title, created.title);
+        assert_eq!(reread.reading_status, created.reading_status);
+
+        // Clearing the page back to "not started" resets progress too.
+        let cleared = set_current_page(&db, &created.id, None).unwrap();
+        assert_eq!(cleared.current_page, None);
+        assert_eq!(cleared.progress_pct, 0);
+    }
+
+    #[test]
+    fn page_quick_update_rejects_a_page_past_the_end() {
+        let db = seeded_db();
+        let mut input = full_input();
+        input.page_count = Some(400);
+        let created = create(&db, input).unwrap();
+
+        let err = set_current_page(&db, &created.id, Some(401)).unwrap_err();
+        assert_eq!(err.code(), "validation.out_of_range");
+        // The failed write left the stored row untouched.
+        let reread = get(&db, &created.id).unwrap();
+        assert_eq!(reread.current_page, created.current_page);
+
+        assert!(matches!(
+            set_current_page(&db, "no-such-book", Some(1)).unwrap_err(),
+            StorageError::NotFound { .. }
+        ));
     }
 }

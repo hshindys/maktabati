@@ -39,6 +39,9 @@ import type {
   TagInput,
   NoteBlockInput,
   NotePageInput,
+  LoanInput,
+  ReadingGoalInput,
+  ReadingSessionInput,
 } from "@/bindings";
 
 /** Reading status, mirroring `domain::enums::ReadingStatus`. */
@@ -565,6 +568,25 @@ export const coverUrl = (bookId: string) => run((c) => c.coverUrl(bookId));
 /** Change only the reading status — the "mark as read" tap on the book page. */
 export const setBookStatus = (bookId: string, status: ReadingStatus) =>
   run((c) => c.bookStatusSet(bookId, status));
+
+/** Set the page the reader is on (`null` clears it); progress is derived in Rust. */
+export const setBookPage = (bookId: string, page: number | null) =>
+  run((c) => c.bookPageSet(bookId, page));
+
+// ── Goals, reading sessions and lending ──────────────────────────────────────────────────
+
+export const listReadingGoals = () => run((c) => c.readingGoalList());
+export const saveReadingGoal = (input: ReadingGoalInput) =>
+  run((c) => c.readingGoalSave(input));
+export const deleteReadingGoal = (id: string) => run((c) => c.readingGoalDelete(id));
+export const listReadingSessions = () => run((c) => c.readingSessionList());
+export const createReadingSession = (input: ReadingSessionInput) =>
+  run((c) => c.readingSessionCreate(input));
+export const listLoans = () => run((c) => c.loanList());
+export const createLoan = (input: LoanInput) => run((c) => c.loanCreate(input));
+export const returnLoan = (id: string, returnedAt: string) =>
+  run((c) => c.loanReturn(id, returnedAt));
+export const deleteLoan = (id: string) => run((c) => c.loanDelete(id));
 
 // ── Goodreads import ─────────────────────────────────────────────────────────────────────
 

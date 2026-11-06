@@ -580,6 +580,19 @@ Json[] |
 	 */
 	bookList: () => typedError<Book[], AppErrorDto>(__TAURI_INVOKE("book_list")),
 	/**
+	 *  Quick page update ("I'm on page N"), touching only `current_page` (and the
+	 *  `progress_pct` the domain derives from it).
+	 * 
+	 *  The edit modal never exposes the page, and a reader mid-chapter must not have to
+	 *  round-trip a full `BookInput` — least of all with the risk of clobbering whatever
+	 *  another open form believes the rest of the book is.
+	 * 
+	 *  # Errors
+	 * 
+	 *  [`AppErrorDto`] when the book does not exist, or the page is out of `0..=page_count`.
+	 */
+	bookPageSet: (id: string, page: number | null) => typedError<Book, AppErrorDto>(__TAURI_INVOKE("book_page_set", { id, page })),
+	/**
 	 *  Quick status change ("mark as read"), touching only `reading_status`.
 	 * 
 	 *  The edit modal covers a status change too, but a one-tap control on the book page must
@@ -918,6 +931,15 @@ Json[] |
 	ratingCriterionUpdate: (id: string, input: RatingCriterionInput) => typedError<RatingCriterion, AppErrorDto>(__TAURI_INVOKE("rating_criterion_update", { id, input })),
 	/**  Search books, notes, quotes and authors through the SQLite FTS5 index. */
 	search: (query: string, limit: number | null) => typedError<SearchResult[], AppErrorDto>(__TAURI_INVOKE("search", { query, limit })),
+	readingGoalList: () => typedError<ReadingGoal[], AppErrorDto>(__TAURI_INVOKE("reading_goal_list")),
+	readingGoalSave: (input: ReadingGoalInput) => typedError<ReadingGoal, AppErrorDto>(__TAURI_INVOKE("reading_goal_save", { input })),
+	readingGoalDelete: (id: string) => typedError<null, AppErrorDto>(__TAURI_INVOKE("reading_goal_delete", { id })),
+	readingSessionList: () => typedError<ReadingSession[], AppErrorDto>(__TAURI_INVOKE("reading_session_list")),
+	readingSessionCreate: (input: ReadingSessionInput) => typedError<ReadingSession, AppErrorDto>(__TAURI_INVOKE("reading_session_create", { input })),
+	loanList: () => typedError<Loan[], AppErrorDto>(__TAURI_INVOKE("loan_list")),
+	loanCreate: (input: LoanInput) => typedError<Loan, AppErrorDto>(__TAURI_INVOKE("loan_create", { input })),
+	loanReturn: (id: string, returnedAt: string) => typedError<null, AppErrorDto>(__TAURI_INVOKE("loan_return", { id, returnedAt })),
+	loanDelete: (id: string) => typedError<null, AppErrorDto>(__TAURI_INVOKE("loan_delete", { id })),
 };
 
 /* Types */
@@ -1611,6 +1633,27 @@ export type LibrarySummary = {
 	schema_version: number,
 };
 
+export type Loan = {
+	id: string,
+	book_id: string,
+	book_title: string,
+	borrower: string,
+	phone: string | null,
+	borrowed_at: string,
+	due_date: string | null,
+	returned_at: string | null,
+	notes: string | null,
+};
+
+export type LoanInput = {
+	book_id: string,
+	borrower: string,
+	phone: string | null,
+	borrowed_at: string,
+	due_date: string | null,
+	notes: string | null,
+};
+
 /**  A note block: one typed piece of content in a [`NotePage`]. */
 export type NoteBlock = {
 	/**  UUID v7. */
@@ -1857,6 +1900,43 @@ export type RatingCriterionInput = {
 	position: number,
 	/**  Whether this axis is available for new scores. */
 	is_active: boolean,
+};
+
+export type ReadingGoal = {
+	id: string,
+	scope: string,
+	year: number,
+	month: number | null,
+	target_books: number | null,
+	target_pages: number | null,
+	books_completed: number,
+	pages_read: number,
+};
+
+export type ReadingGoalInput = {
+	scope: string,
+	year: number,
+	month: number | null,
+	target_books: number | null,
+	target_pages: number | null,
+};
+
+export type ReadingSession = {
+	id: string,
+	book_id: string,
+	book_title: string,
+	session_date: string,
+	pages_read: number | null,
+	minutes: number | null,
+	note: string | null,
+};
+
+export type ReadingSessionInput = {
+	book_id: string,
+	session_date: string,
+	pages_read: number | null,
+	minutes: number | null,
+	note: string | null,
 };
 
 /**

@@ -18,6 +18,7 @@ pub mod import;
 pub mod notes;
 pub mod quotes;
 pub mod search;
+pub mod tracking;
 
 use std::sync::Arc;
 

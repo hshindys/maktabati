@@ -365,13 +365,22 @@ impl Book {
     ///
     /// * [`crate::DomainError::OutOfRange`] when the page is negative or beyond the page count.
     pub fn set_current_page(&mut self, page: Option<i32>, now_ms: i64) -> Result<()> {
-        if let (Some(p), Some(total)) = (page, self.page_count) {
-            if p > total {
+        if let Some(p) = page {
+            if p < 0 {
                 return Err(crate::DomainError::OutOfRange {
                     field: "current_page".into(),
                     got: p.to_string(),
-                    expected: format!("0..={total}"),
+                    expected: "0".into(),
                 });
+            }
+            if let Some(total) = self.page_count {
+                if p > total {
+                    return Err(crate::DomainError::OutOfRange {
+                        field: "current_page".into(),
+                        got: p.to_string(),
+                        expected: format!("0..={total}"),
+                    });
+                }
             }
         }
         self.current_page = page;
@@ -593,6 +602,21 @@ mod tests {
         b.set_current_page(Some(200), 2).unwrap();
         assert_eq!(b.progress_pct, 50);
         assert!(b.set_current_page(Some(500), 3).is_err());
+        // Negative is just as out of range, with or without a page count to check against.
+        let err = b.set_current_page(Some(-1), 4).unwrap_err();
+        assert_eq!(err.code(), "validation.out_of_range");
+        let mut no_count = Book::new(
+            BookInput {
+                title: "x".into(),
+                ..Default::default()
+            },
+            1,
+        )
+        .unwrap();
+        assert!(no_count.set_current_page(Some(-5), 2).is_err());
+        // Clearing back to "not started" is a valid write.
+        no_count.set_current_page(None, 3).unwrap();
+        assert_eq!(no_count.current_page, None);
     }
 
     #[test]

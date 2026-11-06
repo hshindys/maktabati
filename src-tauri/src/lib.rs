@@ -97,6 +97,7 @@ macro_rules! commands {
             crate::commands::catalogue::book_find_duplicates,
             crate::commands::catalogue::book_get,
             crate::commands::catalogue::book_list,
+            crate::commands::catalogue::book_page_set,
             crate::commands::catalogue::book_status_set,
             crate::commands::catalogue::book_update,
             crate::commands::catalogue::category_children,
@@ -147,6 +148,15 @@ macro_rules! commands {
             crate::commands::evaluation::rating_criterion_create,
             crate::commands::evaluation::rating_criterion_update,
             crate::commands::search::search,
+            crate::commands::tracking::reading_goal_list,
+            crate::commands::tracking::reading_goal_save,
+            crate::commands::tracking::reading_goal_delete,
+            crate::commands::tracking::reading_session_list,
+            crate::commands::tracking::reading_session_create,
+            crate::commands::tracking::loan_list,
+            crate::commands::tracking::loan_create,
+            crate::commands::tracking::loan_return,
+            crate::commands::tracking::loan_delete,
         ]
     };
 }
@@ -505,6 +515,7 @@ mod tests {
             "book_find_duplicates",
             "book_get",
             "book_list",
+            "book_page_set",
             "book_status_set",
             "book_update",
             "category_children",

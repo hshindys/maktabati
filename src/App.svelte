@@ -22,6 +22,9 @@
   import TaxonomyView from "./lib/views/Taxonomy.svelte";
   import NotesView from "./lib/views/Notes.svelte";
   import NoteEditor from "./lib/views/NoteEditor.svelte";
+  import Reading from "./lib/views/Reading.svelte";
+  import Goals from "./lib/views/Goals.svelte";
+  import Lending from "./lib/views/Lending.svelte";
 
   /**
    * App shell — title bar, sidebar, routed main region, toasts.
@@ -70,6 +73,12 @@
             <Dashboard />
           {:else if currentPath === "/library"}
             <LibraryView />
+          {:else if currentPath === "/reading"}
+            <Reading />
+          {:else if currentPath === "/goals"}
+            <Goals />
+          {:else if currentPath === "/lending"}
+            <Lending />
           {:else if currentPath === "/settings"}
             <SettingsView />
           {:else if currentPath === "/dev/gallery"}
